@@ -552,7 +552,7 @@ select {
   font-size: 11px;
   display: inline-block;
   margin-left: 6px;
-  color: #6b765f;
+  color: #59695d;
   background: #edf1e5;
   padding: 2px 5px;
   border-radius: 4px;
@@ -856,4 +856,140 @@ progress {
     transition: none !important;
     scroll-behavior: auto !important;
   }
+}
+/* Kitchen preferences and always-available timer */
+.category-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 18px 0;
+}
+.category-tabs button {
+  flex: 1;
+}
+.category-tabs button[aria-pressed="true"] {
+  background: var(--green);
+  color: white;
+  border-color: var(--green);
+}
+.settings h2 {
+  margin-top: 32px;
+}
+.settings .chips {
+  margin: 16px 0;
+}
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 24px 0;
+}
+.settings .warning a {
+  display: block;
+}
+.floating-timer {
+  position: fixed;
+  bottom: calc(85px + env(safe-area-inset-bottom));
+  right: max(16px, calc((100vw - 1040px) / 2));
+  z-index: 6;
+  display: flex;
+  max-width: calc(100vw - 32px);
+  border: 1px solid #91a48a;
+  background: #edf1e5;
+  border-radius: 14px;
+  box-shadow: 0 3px 15px #24372e20;
+}
+.floating-timer button {
+  border: 0;
+  background: transparent;
+  min-height: 44px;
+  text-align: left;
+}
+.floating-timer.expired {
+  background: #f2df9c;
+}
+.floating-timer span {
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+.timer-dialog {
+  width: min(440px, calc(100vw - 32px));
+  max-height: 85dvh;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px;
+  color: var(--green);
+  background: var(--paper);
+}
+.timer-dialog::backdrop {
+  background: #13271db0;
+}
+.timer-dialog label {
+  display: block;
+  margin: 16px 0 8px;
+}
+.timer-dialog .chips {
+  margin: 20px 0;
+}
+.timer-digits {
+  font-size: 48px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--green);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+main {
+  padding-bottom: 180px;
+}
+nav {
+  gap: 40px;
+}
+nav a {
+  min-width: 64px;
+}
+button,
+input,
+select,
+summary {
+  scroll-margin-bottom: 155px;
+}
+@media (max-width: 800px) {
+  nav {
+    gap: 0;
+  }
+  .floating-timer {
+    bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+  .setting-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+.optional-reason {
+  display: block;
+  font-size: 12px;
+  font-style: normal;
+  color: #59695d;
+  line-height: 1.6;
+  margin-top: 4px;
+}
+.ingredients li > span,
+.ingredients label > span {
+  flex: 1;
+  min-width: 0;
+}
+.ingredients b {
+  max-width: 48%;
 }

@@ -18,6 +18,7 @@ import {
   Timer,
   X,
   ChefHat,
+  Settings as SettingsIcon,
 } from "lucide-react";
 import { recipes, catalog, seasonings } from "./recipes";
 import {
@@ -31,6 +32,14 @@ import {
   KEY,
 } from "./logic";
 import "./style.css";
+import Settings from "./Settings";
+import TimerWidget from "./TimerWidget";
+import {
+  allowedRecipe,
+  dietaryWarnings,
+  categoryOf,
+  categories,
+} from "./preferences";
 const load = () => {
   try {
     return cleanState(localStorage.getItem(KEY), recipes);
@@ -103,8 +112,24 @@ function Card({ r, state, go, fav }) {
           <span className={miss.length ? "missing" : "ready"}>
             {miss.length
               ? `还缺 ${miss.length} 样：${miss.join("、")}`
-              : "食材种类齐全，记得核对用量"}
+              : "可以做，必需食材齐全"}
           </span>
+          {r.ingredients.some(
+            (i) => i.optional && !state.pantry.includes(i.name),
+          ) && (
+            <span className="meta">
+              可省：
+              {r.ingredients
+                .filter((i) => i.optional && !state.pantry.includes(i.name))
+                .map((i) => i.name)
+                .join("、")}
+            </span>
+          )}
+          {dietaryWarnings(r, state.preferences).length > 0 && (
+            <span className="missing">
+              {dietaryWarnings(r, state.preferences).join("；")}
+            </span>
+          )}
         </span>
       </button>
       <button
@@ -125,6 +150,7 @@ function App() {
     [input, setInput] = useState(""),
     [message, setMessage] = useState(""),
     [query, setQuery] = useState(""),
+    [category, setCategory] = useState("dish"),
     [max, setMax] = useState("all"),
     [level, setLevel] = useState("0"),
     [now, setNow] = useState(Date.now());
@@ -144,7 +170,7 @@ function App() {
   }, [state.timer]);
   useEffect(() => {
     try {
-      localStorage.setItem(KEY, JSON.stringify({ ...state, version: 1 }));
+      localStorage.setItem(KEY, JSON.stringify({ ...state, version: 2 }));
       setStorageError(false);
     } catch {
       setStorageError(true);
@@ -182,7 +208,13 @@ function App() {
         ? s.favorites.filter((x) => x !== id)
         : [...s.favorites, id],
     }));
-  const rec = recommend(recipes, state.pantry);
+  const visibleRecipes = recipes.filter((r) =>
+    allowedRecipe(r, state.preferences),
+  );
+  const selectedRecipes = visibleRecipes.filter(
+    (r) => categoryOf(r) === category,
+  );
+  const rec = recommend(selectedRecipes, state.pantry);
   const [page, id] = hash.replace("#", "").split("/");
   const recipe = recipes.find((r) => r.id === id);
   const cooking = state.cooking;
@@ -231,36 +263,6 @@ function App() {
           <p role="alert" className="warning">
             浏览器未允许保存。当前仍可使用，但关闭页面后可能丢失清单。
           </p>
-        )}
-        {state.timer && (
-          <div className="timer-banner" role="status">
-            <Timer size={20} />
-            <button
-              onClick={() => {
-                const t = state.timer;
-                setState((s) => ({
-                  ...s,
-                  cooking: {
-                    id: t.id,
-                    step: t.step,
-                    checked: s.cooking?.id === t.id ? s.cooking.checked : [],
-                  },
-                }));
-                go(`cook/${t.id}`);
-              }}
-            >
-              {recipes.find((r) => r.id === state.timer.id)?.name} ·{" "}
-              {remaining(state.timer.deadline, now)
-                ? `剩余 ${Math.floor(remaining(state.timer.deadline, now) / 60)}:${String(remaining(state.timer.deadline, now) % 60).padStart(2, "0")}`
-                : "时间到了，请检查锅里状态"}
-            </button>
-            <button
-              aria-label="关闭计时器"
-              onClick={() => setState((s) => ({ ...s, timer: null }))}
-            >
-              <X size={18} />
-            </button>
-          </div>
         )}
         {page === "pantry" && (
           <>
@@ -396,10 +398,28 @@ function App() {
                   </div>
                 </details>
                 <div className="seasoning-title">
-                  <h2>调料也确认一下</h2>
-                  <p>只勾选你已有的，油盐也算哦。</p>
+                  <h2>常备调料 · 自动记住</h2>
+                  <p>选一次，下次直接用；用完或补货时再修改。</p>
                 </div>
-                <div className="chips">{seasonings.map(chip)}</div>
+                <details>
+                  <summary>
+                    管理常备调料（已记住{" "}
+                    {state.pantry.filter((n) => seasonings.includes(n)).length}{" "}
+                    样）
+                  </summary>
+                  <div className="chips">{seasonings.map(chip)}</div>
+                </details>
+                <button
+                  className="text-button"
+                  onClick={() =>
+                    setState((s) => ({
+                      ...s,
+                      pantry: s.pantry.filter((n) => seasonings.includes(n)),
+                    }))
+                  }
+                >
+                  清空本次食材，保留调料
+                </button>
                 <button
                   className="primary find-button"
                   onClick={() =>
@@ -416,7 +436,14 @@ function App() {
                   <h2>今晚可以做</h2>
                   <span>按简单、快捷排序</span>
                 </div>
-                <p className="hint">只核对种类，不代表库存重量足够。</p>
+                <CategoryTabs category={category} setCategory={setCategory} />
+                <p className="hint">
+                  可省的增香配料不影响“可以做”，必需缺料仍会列出。请核对用量。
+                </p>
+                <p className="hint">
+                  饮食设置已隐藏 {recipes.length - visibleRecipes.length} 道菜。
+                  <a href="#settings">管理偏好</a>
+                </p>
                 {!state.pantry.length ? (
                   empty(
                     "先打开你的食材清单",
@@ -426,7 +453,7 @@ function App() {
                   <>
                     <h3 className="group-title">
                       <span className="dot" />
-                      食材种类齐全 <span>{rec.ready.length}</span>
+                      现在可以做 <span>{rec.ready.length}</span>
                     </h3>
                     {rec.ready.length ? (
                       rec.ready.map((r) => (
@@ -489,6 +516,11 @@ function App() {
                 ? `${recipes.length} 道家常菜，从熟悉的味道开始。`
                 : "喜欢的味道，留着下次再做。"}
             </p>
+            <CategoryTabs category={category} setCategory={setCategory} />
+            <p className="hint">
+              当前只看{categories[category]}。饮食设置已隐藏{" "}
+              {recipes.length - visibleRecipes.length} 道菜。
+            </p>
             <label className="searchbox">
               <Search size={20} />
               <input
@@ -531,7 +563,7 @@ function App() {
             </div>
             {(() => {
               const list = searchRecipes(
-                recipes,
+                selectedRecipes,
                 query,
                 max === "all" ? Infinity : Number(max),
                 Number(level),
@@ -569,271 +601,301 @@ function App() {
             })()}
           </section>
         )}
-        {page === "recipe" && recipe && (
-          <section className="detail">
-            <button className="text-button" onClick={() => go("search")}>
-              <ArrowLeft size={18} /> 返回菜谱
-            </button>
-            <div className="dish-heading">
-              <div>
-                <p className="eyebrow">家常的一道，认真做好</p>
-                <h1 tabIndex="-1">{recipe.name}</h1>
-                <p>{recipe.description}</p>
-              </div>
-              <Bowl type={recipe.id} large />
-            </div>
-            <div className="facts">
-              <span>
-                <Clock size={18} />
-                {recipe.minutes} 分钟
-              </span>
-              <span>
-                <Users size={18} />
-                {recipe.servings} 人份
-              </span>
-              <span>
-                <Flame size={18} />
-                {recipe.level === 1 ? "简单" : "需练习"}
-              </span>
-            </div>
-            <p className="hint">
-              用时含原作者备料估计；新手可能更久。标准份数保持原配方。
-            </p>
-            <div className="detail-actions">
-              <button className="primary" onClick={() => start(recipe)}>
-                准备食材，开始做 <ArrowRight size={18} />
-              </button>
-              <button
-                aria-pressed={state.favorites.includes(recipe.id)}
-                onClick={() => fav(recipe.id)}
-              >
-                <Heart size={18} />
-                {state.favorites.includes(recipe.id) ? "已收藏" : "收藏"}
-              </button>
-            </div>
-            <h2>先看看用量</h2>
-            <p className="warning">
-              {missing(recipe, state.pantry).length
-                ? `清单还缺：${missing(recipe, state.pantry).join("、")}。备齐后再开火。`
-                : "食材种类齐全。请再核对实际重量是否够用。"}
-            </p>
-            <IngredientList r={recipe} />
-            <p className="hint">
-              1 茶匙 = 5 毫升，1 汤匙 = 15 毫升。杯量按约 240
-              毫升；少量盐按口味酌加。
-            </p>
-            <h2>需要的厨具</h2>
-            <p>{recipe.tools}</p>
-            <h2>怎么做</h2>
-            <ol className="step-preview">
-              {recipe.steps.map((st) => (
-                <li key={st.title}>
-                  <strong>{st.title}</strong>
-                  <p>{st.text}</p>
-                </li>
-              ))}
-            </ol>
-            <h2>每份营养参考</h2>
-            {recipe.nutrition ? (
-              <>
-                <div className="nutrition">
-                  {["热量", "蛋白质", "碳水", "脂肪"].map((n, index) => (
-                    <div key={n}>
-                      <strong>
-                        {recipe.nutrition[index]}
-                        <small>{index === 0 ? " kcal" : " g"}</small>
-                      </strong>
-                      <span>{n}</span>
-                    </div>
-                  ))}
-                </div>
-                <p className="hint">
-                  原作者按上述 {recipe.servings}{" "}
-                  份配方估算，非实测。品牌、实际用量及可选配料会造成差异；不含另外搭配的米饭或配菜。
-                </p>
-              </>
-            ) : (
-              <p className="hint">
-                暂无可靠估算。当前来源数据未完成一致性核对，不以猜测数字代替。
-              </p>
-            )}
-            <aside className="note">
-              <Leaf size={20} />
-              <p>
-                {recipe.vegetable
-                  ? "这道菜包含蔬菜。再看看这一餐是否搭配了主食和蛋白质食物。"
-                  : "这道菜的主要用料不是蔬菜，可以再搭配一盘蔬菜。"}
-                <small>依据菜谱食材分类的搭配提醒。</small>
-              </p>
-            </aside>
-            <Source r={recipe} />
-          </section>
+        {page === "settings" && (
+          <Settings state={state} setState={setState} seasonings={seasonings} />
         )}
-        {page === "cook" && recipe && (
-          <section className="cook">
-            <button
-              className="text-button"
-              onClick={() => go(`recipe/${recipe.id}`)}
-            >
-              <ArrowLeft size={18} /> 返回详情（进度保留）
-            </button>
-            {cooking?.id !== recipe.id ? (
-              <>
-                <h1 tabIndex="-1">开始做 {recipe.name}</h1>
+        {["recipe", "cook"].includes(page) &&
+          recipe &&
+          !allowedRecipe(recipe, state.preferences) && (
+            <section className="browse">
+              <h1 tabIndex="-1">这道菜已被饮食设置排除</h1>
+              <p className="warning">
+                {dietaryWarnings(recipe, state.preferences).join("；")}
+              </p>
+              <button onClick={() => go("search")}>找其他菜谱</button>
+              <button onClick={() => go("settings")}>查看饮食设置</button>
+            </section>
+          )}
+        {page === "recipe" &&
+          recipe &&
+          allowedRecipe(recipe, state.preferences) && (
+            <section className="detail">
+              <button className="text-button" onClick={() => go("search")}>
+                <ArrowLeft size={18} /> 返回菜谱
+              </button>
+              <div className="dish-heading">
+                <div>
+                  <p className="eyebrow">家常的一道，认真做好</p>
+                  <h1 tabIndex="-1">{recipe.name}</h1>
+                  <p>{recipe.description}</p>
+                </div>
+                <Bowl type={recipe.id} large />
+              </div>
+              <div className="facts">
+                <span>
+                  <Clock size={18} />
+                  {recipe.minutes} 分钟
+                </span>
+                <span>
+                  <Users size={18} />
+                  {recipe.servings} 人份
+                </span>
+                <span>
+                  <Flame size={18} />
+                  {recipe.level === 1 ? "简单" : "需练习"}
+                </span>
+              </div>
+              <p className="hint">
+                {recipe.timeNote || "用时含原作者备料估计；新手可能更久。"}{" "}
+                {recipe.servingsNote || "标准份数保持原配方。"}
+              </p>
+              <div className="detail-actions">
                 <button className="primary" onClick={() => start(recipe)}>
-                  进入备料
-                </button>
-              </>
-            ) : cooking.step === -1 ? (
-              <>
-                <p className="eyebrow">开火前的准备</p>
-                <h1 tabIndex="-1">先备齐，再从容开火。</h1>
-                <p>
-                  {recipe.name} · {recipe.servings} 人份
-                </p>
-                <p className="warning">
-                  勾选表示你已核对并备好用量；不会自动改变厨房清单。
-                </p>
-                <IngredientList
-                  r={recipe}
-                  checked={cooking.checked}
-                  onCheck={(index) =>
-                    setState((s) => ({
-                      ...s,
-                      cooking: {
-                        ...s.cooking,
-                        checked: s.cooking.checked.includes(index)
-                          ? s.cooking.checked.filter((i) => i !== index)
-                          : [...s.cooking.checked, index],
-                      },
-                    }))
-                  }
-                />
-                <p>厨具：{recipe.tools}</p>
-                <p className="hint">
-                  可选配料可以跳过，必需食材及用水备齐后开始。
-                </p>
-                <button
-                  className="primary wide"
-                  disabled={recipe.ingredients.some(
-                    (i, index) =>
-                      !i.optional && !cooking.checked.includes(index),
-                  )}
-                  onClick={() => stepTo(0)}
-                >
-                  我准备好了，开始跟做 <ArrowRight size={18} />
-                </button>
-              </>
-            ) : cooking.step >= recipe.steps.length ? (
-              <div className="finished">
-                <CookingPot size={58} />
-                <p className="eyebrow">今天又会了一道菜</p>
-                <h1 tabIndex="-1">辛苦啦，开饭吧。</h1>
-                <p>
-                  {recipe.name} 已完成跟做。
-                  <br />
-                  上桌前，再确认食物已熟透。
-                </p>
-                <button onClick={() => fav(recipe.id)}>
-                  <Heart size={20} />
-                  {state.favorites.includes(recipe.id)
-                    ? "已收藏，下次再做"
-                    : "收藏这道菜"}
+                  准备食材，开始做 <ArrowRight size={18} />
                 </button>
                 <button
-                  className="primary"
-                  onClick={() => {
-                    setState((s) => ({
-                      ...s,
-                      cooking: null,
-                      timer: s.timer?.id === recipe.id ? null : s.timer,
-                    }));
-                    go("pantry");
-                  }}
+                  aria-pressed={state.favorites.includes(recipe.id)}
+                  onClick={() => fav(recipe.id)}
                 >
-                  回到我的厨房
-                </button>
-                <button className="text-button" onClick={() => stepTo(-1)}>
-                  重新备料
+                  <Heart size={18} />
+                  {state.favorites.includes(recipe.id) ? "已收藏" : "收藏"}
                 </button>
               </div>
-            ) : (
-              <>
-                <div className="cook-title">
-                  <span>{recipe.name}</span>
-                  <span>
-                    {cooking.step + 1} / {recipe.steps.length}
-                  </span>
-                </div>
-                <progress value={cooking.step + 1} max={recipe.steps.length} />
-                <p className="eyebrow">第 {cooking.step + 1} 步</p>
-                <h1 tabIndex="-1">{recipe.steps[cooking.step].title}</h1>
-                <p className="instruction">{recipe.steps[cooking.step].text}</p>
-                {recipe.steps[cooking.step].seconds > 0 && (
-                  <div className="timer-box">
-                    <Timer size={28} />
-                    <div>
-                      <strong>
-                        {recipe.steps[cooking.step].seconds < 60
-                          ? `${recipe.steps[cooking.step].seconds} 秒`
-                          : `${recipe.steps[cooking.step].seconds / 60} 分钟`}
-                        参考计时
-                      </strong>
-                      <p>以锅里的状态为准，计时结束不代表已熟。</p>
-                    </div>
-                    <button
-                      disabled={!!state.timer}
-                      onClick={() =>
-                        setState((s) => ({
-                          ...s,
-                          timer: {
-                            id: recipe.id,
-                            step: s.cooking.step,
-                            deadline:
-                              Date.now() +
-                              recipe.steps[s.cooking.step].seconds * 1000,
-                          },
-                        }))
-                      }
-                    >
-                      {state.timer ? "已有计时进行中" : "启动计时"}
-                    </button>
-                  </div>
-                )}
-                <p className="hint">
-                  计时切换步骤、刷新后保留。锁屏后不保证声音或通知；回来后会校正剩余时间。
+              {dietaryWarnings(recipe, state.preferences).length > 0 && (
+                <p className="warning">
+                  {dietaryWarnings(recipe, state.preferences).join("；")}
                 </p>
-                <details>
-                  <summary>查看标准用量</summary>
-                  <IngredientList r={recipe} />
-                </details>
-                <div className="step-actions">
-                  <button onClick={() => stepTo(cooking.step - 1)}>
-                    <ArrowLeft size={18} />
-                    {cooking.step === 0 ? "回到备料" : "上一步"}
+              )}
+              <h2>先看看用量</h2>
+              <p className="warning">
+                {missing(recipe, state.pantry).length
+                  ? `清单还缺：${missing(recipe, state.pantry).join("、")}。备齐后再开火。`
+                  : "食材种类齐全。请再核对实际重量是否够用。"}
+              </p>
+              <IngredientList r={recipe} />
+              <p className="hint">
+                1 茶匙 = 5 毫升，1 汤匙 = 15 毫升。杯量按约 240
+                毫升；少量盐按口味酌加。
+              </p>
+              <h2>需要的厨具</h2>
+              <p>{recipe.tools}</p>
+              <h2>怎么做</h2>
+              <ol className="step-preview">
+                {recipe.steps.map((st) => (
+                  <li key={st.title}>
+                    <strong>{st.title}</strong>
+                    <p>{st.text}</p>
+                  </li>
+                ))}
+              </ol>
+              <h2>每份营养参考</h2>
+              {recipe.nutrition ? (
+                <>
+                  <div className="nutrition">
+                    {["热量", "蛋白质", "碳水", "脂肪"].map((n, index) => (
+                      <div key={n}>
+                        <strong>
+                          {recipe.nutrition[index]}
+                          <small>{index === 0 ? " kcal" : " g"}</small>
+                        </strong>
+                        <span>{n}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="hint">
+                    原作者按上述 {recipe.servings}{" "}
+                    份配方估算，非实测。品牌、实际用量及可选配料会造成差异；不含另外搭配的米饭或配菜。
+                  </p>
+                </>
+              ) : (
+                <p className="hint">
+                  暂无可靠估算。当前来源数据未完成一致性核对，不以猜测数字代替。
+                </p>
+              )}
+              <aside className="note">
+                <Leaf size={20} />
+                <p>
+                  {recipe.vegetable
+                    ? "这道菜包含蔬菜。再看看这一餐是否搭配了主食和蛋白质食物。"
+                    : "这道菜的主要用料不是蔬菜，可以再搭配一盘蔬菜。"}
+                  <small>依据菜谱食材分类的搭配提醒。</small>
+                </p>
+              </aside>
+              <Source r={recipe} />
+            </section>
+          )}
+        {page === "cook" &&
+          recipe &&
+          allowedRecipe(recipe, state.preferences) && (
+            <section className="cook">
+              <button
+                className="text-button"
+                onClick={() => go(`recipe/${recipe.id}`)}
+              >
+                <ArrowLeft size={18} /> 返回详情（进度保留）
+              </button>
+              {cooking?.id !== recipe.id ? (
+                <>
+                  <h1 tabIndex="-1">开始做 {recipe.name}</h1>
+                  <button className="primary" onClick={() => start(recipe)}>
+                    进入备料
+                  </button>
+                </>
+              ) : cooking.step === -1 ? (
+                <>
+                  <p className="eyebrow">开火前的准备</p>
+                  <h1 tabIndex="-1">先备齐，再从容开火。</h1>
+                  <p>
+                    {recipe.name} · {recipe.servings} 人份
+                  </p>
+                  <p className="warning">
+                    勾选表示你已核对并备好用量；不会自动改变厨房清单。
+                  </p>
+                  <IngredientList
+                    r={recipe}
+                    checked={cooking.checked}
+                    onCheck={(index) =>
+                      setState((s) => ({
+                        ...s,
+                        cooking: {
+                          ...s.cooking,
+                          checked: s.cooking.checked.includes(index)
+                            ? s.cooking.checked.filter((i) => i !== index)
+                            : [...s.cooking.checked, index],
+                        },
+                      }))
+                    }
+                  />
+                  <p>厨具：{recipe.tools}</p>
+                  <p className="hint">
+                    可选配料可以跳过，必需食材及用水备齐后开始。
+                  </p>
+                  <button
+                    className="primary wide"
+                    disabled={recipe.ingredients.some(
+                      (i, index) =>
+                        !i.optional && !cooking.checked.includes(index),
+                    )}
+                    onClick={() => stepTo(0)}
+                  >
+                    我准备好了，开始跟做 <ArrowRight size={18} />
+                  </button>
+                </>
+              ) : cooking.step >= recipe.steps.length ? (
+                <div className="finished">
+                  <CookingPot size={58} />
+                  <p className="eyebrow">今天又会了一道菜</p>
+                  <h1 tabIndex="-1">辛苦啦，开饭吧。</h1>
+                  <p>
+                    {recipe.name} 已完成跟做。
+                    <br />
+                    上桌前，再确认食物已熟透。
+                  </p>
+                  <button onClick={() => fav(recipe.id)}>
+                    <Heart size={20} />
+                    {state.favorites.includes(recipe.id)
+                      ? "已收藏，下次再做"
+                      : "收藏这道菜"}
                   </button>
                   <button
                     className="primary"
                     onClick={() => {
-                      if (cooking.step === recipe.steps.length - 1)
-                        setState((s) => ({
-                          ...s,
-                          cooking: { ...s.cooking, step: s.cooking.step + 1 },
-                          timer: s.timer?.id === recipe.id ? null : s.timer,
-                        }));
-                      else stepTo(cooking.step + 1);
+                      setState((s) => ({
+                        ...s,
+                        cooking: null,
+                        timer: s.timer?.id === recipe.id ? null : s.timer,
+                      }));
+                      go("pantry");
                     }}
                   >
-                    {cooking.step === recipe.steps.length - 1
-                      ? "完成这道菜"
-                      : "下一步"}
-                    <ArrowRight size={18} />
+                    回到我的厨房
+                  </button>
+                  <button className="text-button" onClick={() => stepTo(-1)}>
+                    重新备料
                   </button>
                 </div>
-              </>
-            )}
-          </section>
-        )}
+              ) : (
+                <>
+                  <div className="cook-title">
+                    <span>{recipe.name}</span>
+                    <span>
+                      {cooking.step + 1} / {recipe.steps.length}
+                    </span>
+                  </div>
+                  <progress
+                    value={cooking.step + 1}
+                    max={recipe.steps.length}
+                  />
+                  <p className="eyebrow">第 {cooking.step + 1} 步</p>
+                  <h1 tabIndex="-1">{recipe.steps[cooking.step].title}</h1>
+                  <p className="instruction">
+                    {recipe.steps[cooking.step].text}
+                  </p>
+                  {recipe.steps[cooking.step].seconds > 0 && (
+                    <div className="timer-box">
+                      <Timer size={28} />
+                      <div>
+                        <strong>
+                          {recipe.steps[cooking.step].seconds < 60
+                            ? `${recipe.steps[cooking.step].seconds} 秒`
+                            : `${recipe.steps[cooking.step].seconds / 60} 分钟`}
+                          参考计时
+                        </strong>
+                        <p>以锅里的状态为准，计时结束不代表已熟。</p>
+                      </div>
+                      <button
+                        disabled={!!state.timer}
+                        onClick={() =>
+                          setState((s) => ({
+                            ...s,
+                            timer: {
+                              id: recipe.id,
+                              step: s.cooking.step,
+                              deadline:
+                                Date.now() +
+                                recipe.steps[s.cooking.step].seconds * 1000,
+                            },
+                          }))
+                        }
+                      >
+                        {state.timer ? "已有计时进行中" : "启动计时"}
+                      </button>
+                    </div>
+                  )}
+                  <p className="hint">
+                    计时切换步骤、刷新后保留。锁屏后不保证声音或通知；回来后会校正剩余时间。
+                  </p>
+                  <details>
+                    <summary>查看标准用量</summary>
+                    <IngredientList r={recipe} />
+                  </details>
+                  <div className="step-actions">
+                    <button onClick={() => stepTo(cooking.step - 1)}>
+                      <ArrowLeft size={18} />
+                      {cooking.step === 0 ? "回到备料" : "上一步"}
+                    </button>
+                    <button
+                      className="primary"
+                      onClick={() => {
+                        if (cooking.step === recipe.steps.length - 1)
+                          setState((s) => ({
+                            ...s,
+                            cooking: { ...s.cooking, step: s.cooking.step + 1 },
+                            timer: s.timer?.id === recipe.id ? null : s.timer,
+                          }));
+                        else stepTo(cooking.step + 1);
+                      }}
+                    >
+                      {cooking.step === recipe.steps.length - 1
+                        ? "完成这道菜"
+                        : "下一步"}
+                      <ArrowRight size={18} />
+                    </button>
+                  </div>
+                </>
+              )}
+            </section>
+          )}
         {![
           "pantry",
           "search",
@@ -841,6 +903,7 @@ function App() {
           "recipe",
           "cook",
           "recommendations",
+          "settings",
         ].includes(page) ||
         (["recipe", "cook"].includes(page) && !recipe)
           ? empty("没有找到这个页面", "回到找菜谱，重新选一道菜吧。")
@@ -858,11 +921,18 @@ function App() {
           />
         )}
       </main>
+      <TimerWidget
+        timer={state.timer}
+        now={now}
+        recipes={recipes}
+        setTimer={(timer) => setState((s) => ({ ...s, timer }))}
+      />
       <nav aria-label="主要导航">
         {[
           ["pantry", Carrot, "我的食材"],
           ["search", BookOpen, "找菜谱"],
           ["favorites", Heart, "收藏"],
+          ["settings", SettingsIcon, "设置"],
         ].map(([p, Icon, label]) => (
           <a
             key={p}
@@ -876,6 +946,21 @@ function App() {
         ))}
       </nav>
     </>
+  );
+}
+function CategoryTabs({ category, setCategory }) {
+  return (
+    <div className="category-tabs" aria-label="菜谱分类">
+      {Object.entries(categories).map(([id, label]) => (
+        <button
+          key={id}
+          aria-pressed={category === id}
+          onClick={() => setCategory(id)}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
   );
 }
 function Redirect({ go }) {
@@ -896,7 +981,10 @@ function IngredientList({ r, checked, onCheck }) {
               />
               <span>
                 {i.name}
-                {i.optional && <small>可选</small>}
+                {i.optional && <small>可省</small>}
+                {i.optionalReason && (
+                  <em className="optional-reason">{i.optionalReason}</em>
+                )}
               </span>
               <b>{i.amount}</b>
             </label>
@@ -904,7 +992,10 @@ function IngredientList({ r, checked, onCheck }) {
             <>
               <span>
                 {i.name}
-                {i.optional && <small>可选</small>}
+                {i.optional && <small>可省</small>}
+                {i.optionalReason && (
+                  <em className="optional-reason">{i.optionalReason}</em>
+                )}
               </span>
               <b>{i.amount}</b>
             </>
@@ -924,17 +1015,30 @@ function Source({ r }) {
       <a href={r.source.url} target="_blank" rel="noreferrer">
         查看原作者菜谱 <ExternalLink size={14} />
       </a>
-      <p className="hint">
-        {r.source.checked}{" "}
-        核对用量与做法，中文步骤为简要整理。网页核对不等于项目试做，本项目尚未实际试做。页面有作者做法和评分，未逐条独立核验读者试做。未取得转载图片许可，本页使用自绘示意图。
-      </p>
-      {["tomato-eggs", "bok-choy", "tomato-soup", "scallion-noodles"].includes(
-        r.id,
-      ) && (
+      {r.additionalSources?.map((source) => (
+        <p key={source.url}>
+          <a href={source.url} target="_blank" rel="noreferrer">
+            补充做法来源：{source.site}
+          </a>
+        </p>
+      ))}
+      {r.timeNote && (
         <p className="hint">
-          原文明确提及重新测试；这是作者陈述，不是本项目验证。
+          {r.timeNote} {r.servingsNote}
         </p>
       )}
+      <p className="hint">
+        {r.source.checked}{" "}
+        核对用量与做法，中文步骤为简要整理。网页核对不等于项目试做，本项目尚未实际试做。不以评分或评论数量作为本项目试做证据。未取得转载图片许可，本页使用自绘示意图。
+      </p>
+      {r.source.site === "The Woks of Life" &&
+        ["tomato-eggs", "bok-choy", "tomato-soup", "scallion-noodles"].includes(
+          r.id,
+        ) && (
+          <p className="hint">
+            原文明确提及重新测试；这是作者陈述，不是本项目验证。
+          </p>
+        )}
       {[
         "honey-chicken",
         "beef-noodles",

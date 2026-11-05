@@ -1,4 +1,5 @@
 import { expand } from "./extra.js";
+import { chineseRecipes, recipeRefinements } from "./chinese-recipes.js";
 const i = (name, amount, optional = false) => ({
   name,
   amount,
@@ -453,7 +454,12 @@ export const recipes = [
   },
 
   ...expand(r, i, s),
-];
+  ...chineseRecipes(r, i, s),
+].map((recipe) =>
+  recipeRefinements[recipe.id]
+    ? { ...recipe, ...recipeRefinements[recipe.id], stateVersion: 2 }
+    : recipe,
+);
 export const seasonings = [
   "食用油",
   "盐",
@@ -479,6 +485,15 @@ export const seasonings = [
   "陈醋",
   "辣椒碎",
   "姜黄粉",
+  "花生油",
+  "鸡精",
+  "花椒粉",
+  "淀粉",
+  "醋",
+  "红烧酱油",
+  "蒸鱼豉油",
+  "芝麻",
+  "芥末",
 ];
 export const catalog = [
   ...new Set(

@@ -23,12 +23,51 @@ const notes = {
     "原文 seasoning 明确为少量盐与黑胡椒的项目解释；补充 74°C 熟度提醒。",
   "soy-eggs": "选用原文允许的全熟煎蛋；用时不含煮饭。",
 };
-let text =
-  "# 菜谱来源与内容核对记录\n\n核对日期：2026-11-05（Asia/Hong_Kong）。共 " +
-  recipes.length +
-  " 道，首批 10 道打通流程后扩充。\n\n所有收录条目已通过网页检索/阅读工具核对作者、用量、份数、时间和方法。此状态仅表示文献核对，不等于现场试做，也不保证原链接永远可用。部分工具读取的是搜索服务缓存；直接脚本访问 The Woks of Life 返回 403，未绕过该访问限制。\n\n## 逐项记录\n\n| 菜谱 | 原作者与来源 | 标准份数 / 分钟 | 营养 | 验证与差异 |\n|---|---|---|---|---|\n";
-for (const r of recipes)
-  text += `| ${r.name} | [${r.source.author} · ${r.source.site}](${r.source.url}) | ${r.servings} / ${r.minutes} | ${r.nutrition ? "原作者每份估算 kcal / 蛋白质g / 碳水g / 脂肪g：" + r.nutrition.join(" / ") : "暂无可靠估算"} | 用量与步骤已核对；${retested.includes(r.id) ? "原文明确称重新测试。" : "有作者做法，未单独认定重新试做。"}${notes[r.id] || "中文简要整理；英制重量/体积作近似换算。"} |\n`;
-text +=
-  "\n## 验证层级与使用条件\n\n- 本项目实际试做：全部为未试做。浏览器流程测试不算做饭试做。\n- 读者反馈：来源页面显示评分/评论数量，未逐条核验读者是否实际试做，不将评分计数当作试做证据。\n- 难度：本项目根据刀工、快炒或热油操作作编辑分级，并非所有来源都提供难度字段。\n- 保留原版 1–6 人份，暂不自动缩放用量和时间。多数为 4 人份，尚未满足 1–2 人份优先覆盖；避免未经验证的缩份影响加热结果。\n- 营养是作者估算，未自行编造或重新计算。缺失/一致性存疑/采用无肉变体时显示暂无估算。\n- 当前未建替代食材匹配：例如原文允许蔬菜高汤，本版库存匹配仍以具体录入的鸡高汤为准。\n- 图片全部为项目自绘 SVG 示意，未下载或复制原站图片。中文文字为简要方法笔记，保留事实性用量及原文链接，不复制故事与完整原文。\n- The Woks of Life 页脚标注 All Rights Reserved，未发现开放转载许可；[隐私政策](https://thewoksoflife.com/privacy-policy/)不构成转载授权。未取得额外商业或图片授权。\n- [Immediate 使用条款](https://www.immediate.co.uk/terms-and-conditions/)对内容再利用有个人非商业用途限制。本轮仅本地开发演示，不声明取得公开发布授权。未来公开发行前需重新确认内容授权或用项目自行试做原创内容替换。\n\n## 未收录的扩充候选\n\n- [香菇黄花蒸鸡](https://thewoksoflife.com/steamed-chicken-mushrooms-dried-lily-flowers/)：原版总时长 4 小时 15 分钟，且室温腌制说明不适合作为新手默认路径，未收录。\n- [蔬菜炒饭](https://thewoksoflife.com/vegetable-fried-rice/)：总时长 45 分钟、用料与现有炒饭重叠较多，暂不以重复内容凑数。\n- 蒸豆腐、煎豆腐、毛豆等尝试链接未成功读取，未加入任何未经核实的配方。当前 27 道属于约 30 道的首轮规模。\n\n## 额外熟度依据\n\n[FoodSafety.gov 安全最低中心温度表](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures)：禽肉 74°C，牛肉末 71°C，鸡蛋熟至蛋白蛋黄凝固，虾肉呈珠白/白色且不透明。本项目补充这些提醒并标注链接；计时不代替熟度判断。\n";
+let text = `# 菜谱来源与内容核对记录
+
+核对日期：2026-11-05（Asia/Hong_Kong）。共 ${recipes.length} 道；本轮新增 26 道中文家常菜，并重整 4 道原有菜谱。
+
+网页资料核对不等于现场试做。部分平台使用搜索工具返回的内容核对；未绕过访问限制。新增中文菜的份数、耗时与配料简化有编辑判断，逐项区别见 [中文菜谱研究](CHINESE_RECIPE_RESEARCH.md)。用量不明确的项目保留“适量”，不编造精确克数。
+
+| 菜谱 | 原作者与来源 | 份数 / 参考分钟 | 营养 | 验证与差异 |
+|---|---|---|---|---|
+`;
+for (const r of recipes) {
+  const chinese =
+    r.source.site !== "The Woks of Life" && r.source.site !== "Good Food";
+  const verification = chinese
+    ? "中文做法事实简要重述；可省项分别标明原文依据或编辑简化；见中文研究记录。"
+    : (retested.includes(r.id)
+        ? "原文明确称重新测试。"
+        : "有作者做法，未单独认定重新试做。") +
+      (notes[r.id] || "中文简要整理；英制重量/体积作近似换算。");
+  const extra = (r.additionalSources || [])
+    .map((source) => `；[补充方法](${source.url})`)
+    .join("");
+  text += `| ${r.name} | [${r.source.author} · ${r.source.site}](${r.source.url})${extra} | ${r.servings} / ${r.minutes} | ${r.nutrition ? "原作者每份估算 kcal / 蛋白质g / 碳水g / 脂肪g：" + r.nutrition.join(" / ") : "暂无可靠估算"} | ${verification} |\n`;
+}
+text += `
+## 内容边界
+
+- 全部未经过本项目下厨试做。浏览器操作通过、原文评分或评论数量均不等于试做验证。
+- 新增内容以 1–2 人份为主，原有部分菜仍为 4–6 人份。暂不自动缩放用量和时间；新增份数与卡片时间有编辑估计，详情明确说明。
+- 难度由本项目按刀工、火力转换、热油和熟度判断分级。
+- 营养仅保留已核对的原作者估算。新增及改写的中文菜全部留空。
+- 基础调味与关键风味仍参与匹配；辅助增香可按具体菜谱省略。可省不代表不会引起过敏。
+- 当前不自动把所有醋、油、淀粉或豆腐视作可互换材料，具体品种仍须核对。
+- 使用自绘 SVG 示意，不下载或复制作者照片。菜谱文字为简短的方法笔记和事实性用量，不复制故事或整篇表达。
+
+## 来源使用条件
+
+- HowToCook 使用 [Unlicense](https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE)，保留固定版本的具体菜谱链接与社区署名。
+- 美食天下等公开页面不视作已获转载授权；本项目保留来源、重新组织简短笔记，未获取图片授权。
+- The Woks of Life 标注 All Rights Reserved；[隐私政策](https://thewoksoflife.com/privacy-policy/)不构成转载许可。
+- [Immediate 使用条款](https://www.immediate.co.uk/terms-and-conditions/)含内容再利用限制。当前为本地开发演示；公开发行前需确认内容授权或以自行试做的原创内容替换。
+
+## 熟度与饮食设置依据
+
+- [FoodSafety.gov 温度表](https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures)：用于原有鸡肉、牛肉末与虾等熟度提醒；计时不代替检查食物状态。
+- [食安中心致敏物说明](https://www.cfs.gov.hk/sc_chi/multimedia/multimedia_pub/multimedia_pub_fsf_123_02.html)：可选配料也参与过敏排除，实际品牌配方和交叉接触仍须查看包装。未被排除不是无过敏风险保证。
+- [太太乐鸡精配料实例](https://www.totole.com.cn/index.php?id=1217&r=node%2Flboxmob)含蛋；[另一鸡味调味料配方](https://www.totole.com.cn/index.php?id=1215&r=node%2Flboxmob)含大豆。应用按可能含蛋/大豆处理未指定品牌的鸡精，不声称所有品牌配方相同。
+`;
 writeFileSync("docs/RECIPE_SOURCES.md", text);

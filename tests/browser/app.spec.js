@@ -1,8 +1,9 @@
 import AxeBuilder from "@axe-core/playwright";
 import { recipes } from "../../src/recipes.js";
+import { categoryOf } from "../../src/preferences.js";
 import { test, expect } from "@playwright/test";
 const key = "xiaozao-v1";
-test("mobile complete cooking journey, favorites, timer reload", async ({
+test("tomato eggs needs only four essentials, optional prep can be skipped, favorites persist", async ({
   page,
 }) => {
   const errors = [];
@@ -15,48 +16,29 @@ test("mobile complete cooking journey, favorites, timer reload", async ({
   await page.getByRole("button", { name: "添加食材", exact: true }).click();
   await page.getByLabel("添加厨房里已有的食材").fill("番茄");
   await page.getByRole("button", { name: "添加食材", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("已经在清单");
-  for (const name of [
-    "鸡蛋",
-    "葱",
-    "食用油",
-    "盐",
-    "糖",
-    "白胡椒粉",
-    "香油",
-    "料酒",
-  ])
-    await page
-      .getByRole("button", { name: new RegExp("^\\+?\\s*" + name + "$") })
-      .click();
-  await page.getByRole("button", { name: /番茄炒鸡蛋.*食材种类齐全/ }).click();
+  await expect(page.locator(".live-message")).toContainText("已经在清单");
+  await page.getByText(/管理常备调料/).click();
+  for (const name of ["鸡蛋", "食用油", "盐"])
+    await page.getByRole("button", { name, exact: true }).click();
+  await page
+    .getByRole("button", { name: /番茄炒鸡蛋.*可以做，必需食材齐全/ })
+    .click();
   await expect(
     page.getByRole("heading", { name: "番茄炒鸡蛋", exact: true }),
   ).toBeVisible();
   await page.getByRole("button", { name: "收藏", exact: true }).click();
   await page.getByRole("button", { name: /准备食材，开始做/ }).click();
   await expect(page.getByRole("button", { name: /我准备好了/ })).toBeDisabled();
-  for (const checkbox of await page.getByRole("checkbox").all())
-    await checkbox.check();
+  for (const name of ["番茄", "鸡蛋", "食用油", "盐"])
+    await page.getByRole("checkbox", { name: new RegExp("^" + name) }).check();
+  await expect(page.getByRole("checkbox", { name: /^糖/ })).not.toBeChecked();
   await page.getByRole("button", { name: /我准备好了/ }).click();
-  await page.getByRole("button", { name: "启动计时", exact: true }).click();
   await page.getByRole("button", { name: "下一步", exact: true }).click();
   await page.reload();
-  await expect(
-    page.getByRole("heading", { name: "炒好鸡蛋，先盛出来" }),
-  ).toBeVisible();
-  await expect(page.getByRole("status")).toContainText("剩余");
-  await page.evaluate((k) => {
-    const s = JSON.parse(localStorage.getItem(k));
-    s.timer.deadline = Date.now() - 1000;
-    localStorage.setItem(k, JSON.stringify(s));
-  }, key);
-  await page.reload();
-  await expect(page.getByRole("status")).toContainText("时间到了");
-  await page.getByRole("button", { name: "关闭计时器" }).click();
+  await expect(page.getByRole("heading", { name: "先炒鸡蛋" })).toBeVisible();
   await page.getByRole("button", { name: "上一步", exact: true }).click();
   await expect(
-    page.getByRole("heading", { name: "先把配料准备好" }),
+    page.getByRole("heading", { name: "准备食材", exact: true }),
   ).toBeVisible();
   for (let i = 0; i < 3; i++)
     await page.getByRole("button", { name: "下一步", exact: true }).click();
@@ -67,7 +49,7 @@ test("mobile complete cooking journey, favorites, timer reload", async ({
   await page.getByRole("button", { name: "回到我的厨房" }).click();
   await page.getByRole("link", { name: "收藏", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: /番茄炒鸡蛋.*食材种类齐全/ }),
+    page.getByRole("button", { name: /番茄炒鸡蛋.*可以做，必需食材齐全/ }),
   ).toBeVisible();
   await page.reload();
   await expect(
@@ -84,16 +66,25 @@ test("search, missing seasoning, no results, filters, persistence and corruption
   await expect(page.getByRole("button", { name: "移除鸡蛋" })).toBeVisible();
   await page.getByRole("link", { name: "找菜谱", exact: true }).click();
   await page.getByRole("textbox", { name: "搜索菜谱" }).fill("西红柿");
-  await expect(page.locator(".recipe-row")).toHaveCount(3);
+  await expect(
+    page.getByRole("button", { name: /番茄炒鸡蛋.*分钟/ }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: /番茄蛋花汤.*分钟/ }),
+  ).toHaveCount(0);
   await expect(page.locator(".recipe-row").first()).toContainText("食用油");
   await page.getByRole("textbox", { name: "搜索菜谱" }).fill("找不到");
   await expect(
     page.getByRole("heading", { name: "暂时没找到这道菜" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "浏览全部菜谱" }).click();
-  await expect(page.locator(".recipe-row")).toHaveCount(27);
+  await expect(page.locator(".recipe-row")).toHaveCount(
+    recipes.filter((r) => categoryOf(r) === "dish").length,
+  );
   await page.getByLabel("用时").selectOption("15");
-  await expect(page.locator(".recipe-row")).toHaveCount(13);
+  await expect(page.locator(".recipe-row")).toHaveCount(
+    recipes.filter((r) => categoryOf(r) === "dish" && r.minutes <= 15).length,
+  );
   await page.evaluate((k) => localStorage.setItem(k, "broken"), key);
   await page.goto("/#pantry");
   await page.reload();

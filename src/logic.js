@@ -1,3 +1,4 @@
+import { cleanPreferences, defaultPreferences } from "./preferences.js";
 export const aliases = {
   西红柿: "番茄",
   蕃茄: "番茄",
@@ -41,7 +42,13 @@ export function missing(recipe, pantry) {
 }
 export function recommend(recipes, pantry) {
   if (!pantry.length) return { ready: [], near: [] };
+  const available = new Set(unique(pantry));
   const rows = recipes
+    .filter((r) =>
+      r.ingredients.some(
+        (i) => !i.optional && !i.water && available.has(i.name),
+      ),
+    )
     .map((r) => ({ ...r, missing: missing(r, pantry) }))
     .sort(
       (a, b) =>
@@ -68,10 +75,16 @@ export const remaining = (deadline, now = Date.now()) =>
   Math.max(0, Math.ceil((deadline - now) / 1000));
 export const KEY = "xiaoz ao-v1".replace(" ", "");
 export function cleanState(raw, recipes) {
-  const empty = { pantry: [], favorites: [], cooking: null, timer: null };
+  const empty = {
+    pantry: [],
+    favorites: [],
+    cooking: null,
+    timer: null,
+    preferences: defaultPreferences(),
+  };
   try {
     const s = JSON.parse(raw);
-    if (!s || s.version !== 1) return empty;
+    if (!s || ![1, 2].includes(s.version)) return empty;
     const ids = new Set(recipes.map((r) => r.id));
     const pantry = unique(Array.isArray(s.pantry) ? s.pantry : [])
       .filter((x) => x.length <= 30)
@@ -84,6 +97,7 @@ export function cleanState(raw, recipes) {
       r = recipes.find((r) => r.id === c?.id);
     if (
       r &&
+      s.version >= (r.stateVersion || 1) &&
       Number.isInteger(c.step) &&
       c.step >= -1 &&
       c.step <= r.steps.length
@@ -100,15 +114,34 @@ export function cleanState(raw, recipes) {
     const t = s.timer;
     const tr = recipes.find((r) => r.id === t?.id);
     const timer =
-      tr &&
-      Number.isInteger(t.step) &&
-      tr.steps[t.step]?.seconds &&
+      t &&
+      (t.id === null ||
+        (tr &&
+          s.version >= (tr.stateVersion || 1) &&
+          Number.isInteger(t.step) &&
+          tr.steps[t.step]?.seconds)) &&
       Number.isFinite(t.deadline) &&
       t.deadline > 0 &&
       t.deadline < Date.now() + 86400000
-        ? { id: t.id, step: t.step, deadline: t.deadline }
+        ? {
+            id: t.id,
+            step: t.step,
+            deadline: t.deadline,
+            ...(typeof t.label === "string"
+              ? { label: t.label.slice(0, 30) }
+              : {}),
+            ...(Number.isFinite(t.paused) && t.paused >= 0 && t.paused <= 86400
+              ? { paused: t.paused }
+              : {}),
+          }
         : null;
-    return { pantry, favorites, cooking, timer };
+    return {
+      pantry,
+      favorites,
+      cooking,
+      timer,
+      preferences: cleanPreferences(s.preferences),
+    };
   } catch {
     return empty;
   }

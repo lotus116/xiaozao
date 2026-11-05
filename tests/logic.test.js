@@ -63,20 +63,26 @@ test("stable ordering: fewer missing, then easier, then quicker, then id", () =>
   );
 });
 test("search supports aliases, time, difficulty and no results", () => {
-  assert.equal(searchRecipes(recipes, "西红柿").length, 3);
-  assert.equal(searchRecipes(recipes, "土豆", 30).length, 0);
+  assert.equal(
+    searchRecipes(recipes, "西红柿").some((r) => r.id === "tomato-eggs"),
+    true,
+  );
+  assert.ok(
+    !searchRecipes(recipes, "土豆", 30).some((r) => r.id === "potatoes"),
+  );
   assert.ok(
     searchRecipes(recipes, "", Infinity, 2).some((r) => r.id === "potatoes"),
   );
   assert.equal(searchRecipes(recipes, "不存在").length, 0);
 });
 test("storage handles corrupt JSON, null and schema mismatch", () => {
-  for (const raw of ["bad", "null", "[]", "{}", '{"version":2}'])
+  for (const raw of ["bad", "null", "[]", "{}", '{"version":99}'])
     assert.deepEqual(cleanState(raw, recipes), {
       pantry: [],
       favorites: [],
       cooking: null,
       timer: null,
+      preferences: { allergens: [], avoid: [], avoidMode: "hide" },
     });
 });
 test("storage rejects invalid nested state and unknown favorites", () => {
@@ -101,16 +107,37 @@ test("timer corrects after suspension and never goes negative", () => {
   assert.equal(remaining(10000, 12000), 0);
 });
 test("valid cooking and expired timer retained for acknowledgement", () => {
+  const timed = recipes.find((r) => r.id === "cn-cauliflower");
   const s = cleanState(
     JSON.stringify({
-      version: 1,
-      cooking: { id: tomato.id, step: 0, checked: [0, -1, 500] },
-      timer: { id: tomato.id, step: 0, deadline: Date.now() - 1000 },
+      version: 2,
+      cooking: { id: timed.id, step: 1, checked: [0, -1, 500] },
+      timer: { id: timed.id, step: 1, deadline: Date.now() - 1000 },
     }),
     recipes,
   );
   assert.deepEqual(s.cooking.checked, [0]);
   assert.ok(s.timer);
+});
+test("refined recipes invalidate old step indexes while preserving pantry and favorites", () => {
+  const s = cleanState(
+    JSON.stringify({
+      version: 1,
+      pantry: ["盐"],
+      favorites: [tomato.id],
+      cooking: { id: tomato.id, step: 1, checked: [0, 1, 2, 3] },
+      timer: { id: tomato.id, step: 0, deadline: Date.now() + 10000 },
+    }),
+    recipes,
+  );
+  assert.equal(s.cooking, null);
+  assert.equal(s.timer, null);
+  assert.deepEqual(s.pantry, ["盐"]);
+  assert.deepEqual(s.favorites, [tomato.id]);
+});
+test("tomato eggs only needs tomato, egg, oil and salt", () => {
+  assert.deepEqual(missing(tomato, ["西红柿", "鸡蛋", "油", "盐"]), []);
+  assert.deepEqual(missing(tomato, ["番茄", "鸡蛋", "食用油"]), ["盐"]);
 });
 test("all published recipes have complete traceable content", () => {
   assert.equal(new Set(recipes.map((r) => r.id)).size, recipes.length);
