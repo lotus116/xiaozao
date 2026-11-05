@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { defaultFrequentIngredients } from "../src/ingredient-groups.js";
 import { recipes } from "../src/recipes.js";
 import {
   normalize,
@@ -79,6 +80,7 @@ test("storage handles corrupt JSON, null and schema mismatch", () => {
   for (const raw of ["bad", "null", "[]", "{}", '{"version":99}'])
     assert.deepEqual(cleanState(raw, recipes), {
       pantry: [],
+      frequentIngredients: [...defaultFrequentIngredients],
       favorites: [],
       cooking: null,
       timer: null,

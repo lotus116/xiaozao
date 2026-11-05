@@ -156,7 +156,10 @@ export default function TimerWidget({
           }
           style={{
             left: "clamp(12px, " + point.x + "px, calc(100vw - 68px))",
-            top: "clamp(12px, " + point.y + "px, calc(100dvh - 142px))",
+            top:
+              "clamp(calc(12px + var(--app-safe-top)), " +
+              point.y +
+              "px, calc(100dvh - 142px - var(--app-safe-bottom)))",
           }}
         >
           <button

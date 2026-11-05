@@ -35,6 +35,8 @@ import {
 import "./style.css";
 import "./kitchen.css";
 import Settings from "./Settings";
+import IngredientPicker from "./IngredientPicker";
+import { setupNative } from "./native";
 import TimerWidget from "./TimerWidget";
 import Ingredients from "./Ingredients";
 import Basket from "./Basket";
@@ -52,6 +54,9 @@ const load = () => {
     return cleanState(null, recipes);
   }
 };
+setupNative().catch((error) =>
+  console.error("Android navigation setup failed", error),
+);
 function Bowl({ type = "tomato-eggs", large = false }) {
   return (
     <svg
@@ -379,48 +384,14 @@ function App() {
                       ))}
                   </div>
                 )}
-                <p className="label">常用食材 · 点一下就加入</p>
-                <div className="chips">
-                  {[
-                    "番茄",
-                    "鸡蛋",
-                    "土豆",
-                    "嫩豆腐",
-                    "鸡胸肉",
-                    "小白菜",
-                    "黄瓜",
-                    "葱",
-                    "蒜",
-                    "姜",
-                    "大米",
-                    "面条",
-                  ].map(chip)}
-                </div>
-                <details>
-                  <summary>更多食材</summary>
-                  <div className="chips">
-                    {catalog
-                      .filter(
-                        (n) =>
-                          !seasonings.includes(n) &&
-                          ![
-                            "番茄",
-                            "鸡蛋",
-                            "土豆",
-                            "嫩豆腐",
-                            "鸡胸肉",
-                            "小白菜",
-                            "黄瓜",
-                            "葱",
-                            "蒜",
-                            "姜",
-                            "大米",
-                            "面条",
-                          ].includes(n),
-                      )
-                      .map(chip)}
-                  </div>
-                </details>
+                <IngredientPicker
+                  frequent={state.frequentIngredients}
+                  pantry={state.pantry}
+                  toggle={toggle}
+                  onChange={(names) =>
+                    setState((s) => ({ ...s, frequentIngredients: names }))
+                  }
+                />
                 <div className="seasoning-title">
                   <h2>常备调料 · 自动记住</h2>
                   <p>选一次，下次直接用；用完或补货时再修改。</p>

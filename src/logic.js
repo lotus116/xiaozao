@@ -1,4 +1,5 @@
 import { cleanPreferences, defaultPreferences } from "./preferences.js";
+import { defaultFrequentIngredients } from "./ingredient-groups.js";
 export const aliases = {
   西红柿: "番茄",
   蕃茄: "番茄",
@@ -79,6 +80,7 @@ export const KEY = "xiaoz ao-v1".replace(" ", "");
 export function cleanState(raw, recipes) {
   const empty = {
     pantry: [],
+    frequentIngredients: [...defaultFrequentIngredients],
     favorites: [],
     cooking: null,
     timer: null,
@@ -156,6 +158,11 @@ export function cleanState(raw, recipes) {
     const position = s.timerDock?.position;
     return {
       pantry,
+      frequentIngredients: Array.isArray(s.frequentIngredients)
+        ? unique(s.frequentIngredients)
+            .filter((name) => name.length <= 30)
+            .slice(0, 200)
+        : [...defaultFrequentIngredients],
       favorites,
       cooking,
       timer,

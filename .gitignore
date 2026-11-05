@@ -5,3 +5,6 @@ dist/
 test-results/
 playwright-report/
 .DS_Store
+releases/*.apk
+releases/*.sha256
+.local-build/
