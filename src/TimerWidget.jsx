@@ -147,7 +147,7 @@ export default function TimerWidget({
   };
   return (
     <>
-      {!dock.hidden && (
+      {!dock.hidden && (!timer || left > 0) && (
         <div
           className={
             "floating-timer icon-timer " +
@@ -201,6 +201,15 @@ export default function TimerWidget({
             {timer && <i className="timer-dot" aria-hidden="true" />}
           </button>
         </div>
+      )}
+      {timer && left === 0 && (
+        <aside className="timer-complete" aria-label="计时到点提醒">
+          <div role="status"><strong>时间到了</strong><span>{title} · 看一眼锅里的状态</span></div>
+          <div className="chips">
+            <button aria-label={"查看计时，打开厨房计时器：" + title + "，时间到了 " + display} onClick={() => dialog.current.showModal()}>查看计时</button>
+            <button onClick={stop}>知道了，结束计时</button>
+          </div>
+        </aside>
       )}
       <span className="sr-only" role="status">
         {timer ? title + "，" + status : ""}

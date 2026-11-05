@@ -5,6 +5,7 @@ import {
   basketRecipes,
   canStartMeal,
   mealIngredients,
+  mealShoppingText,
   nextMealRecipe,
 } from "../src/meal.js";
 import { cleanState } from "../src/logic.js";
@@ -98,4 +99,79 @@ test("meal progress, icon position and view preference survive validation", () =
   );
   assert.equal(corrupt.meal, null);
   assert.equal(corrupt.timerDock.position, null);
+});
+
+test("shopping text keeps separate recipe amounts and excludes pantry, optional and water items", () => {
+  const rows = [
+    {
+      name: "甲",
+      ingredients: [
+        { name: "番茄", amount: "2 个" },
+        { name: "盐", amount: "1 克" },
+        { name: "水", amount: "500 毫升", water: true },
+        { name: "葱", amount: "1 根", optional: true },
+      ],
+    },
+    {
+      name: "乙",
+      ingredients: [
+        { name: "盐", amount: "少许" },
+        { name: "食用油", amount: "10 毫升" },
+      ],
+    },
+  ];
+  assert.equal(
+    mealShoppingText(rows, ["西红柿", "植物油"], defaultPreferences()),
+    [
+      "小灶 · 采购清单",
+      "清单未记的必需食材，请先核对家中用量。",
+      "",
+      "盐",
+      "  甲：1 克",
+      "  乙：少许",
+    ].join("\n"),
+  );
+  const ingredients = mealIngredients(rows, ["西红柿", "植物油"]);
+  assert.deepEqual(ingredients.filter((i) => i.missing).map((i) => i.name), ["盐"]);
+  assert.equal(ingredients.find((i) => i.name === "水").missing, false);
+});
+test("shopping text is empty when the basket or missing list is empty", () => {
+  const preferences = defaultPreferences();
+  assert.equal(mealShoppingText([], [], preferences), "");
+  const rows = basketRecipes(["tomato-eggs", "steamed-eggs"], recipes);
+  assert.equal(
+    mealShoppingText(rows, ["番茄", "鸡蛋", "食用油", "盐"], preferences),
+    "",
+  );
+});
+test("shopping text cannot export a basket excluded by allergies or hidden dislikes", () => {
+  const rows = basketRecipes(["steamed-eggs", "cn-steamed-pumpkin"], recipes);
+  // Sesame only appears in optional sesame oil, but still blocks the recipe.
+  assert.equal(
+    mealShoppingText(rows, [], { ...defaultPreferences(), allergens: ["芝麻"] }),
+    "",
+  );
+  assert.equal(
+    mealShoppingText(rows, [], { ...defaultPreferences(), avoid: ["南瓜"] }),
+    "",
+  );
+  assert.match(
+    mealShoppingText(rows, [], {
+      ...defaultPreferences(),
+      avoid: ["南瓜"],
+      avoidMode: "warn",
+    }),
+    /南瓜\n  清蒸南瓜：300 克/,
+  );
+});
+test("shopping quantities follow basket order after a dish is removed or reordered", () => {
+  const preferences = defaultPreferences();
+  const pantry = ["番茄", "食用油", "盐"];
+  assert.match(
+    mealShoppingText(basketRecipes(["steamed-eggs", "tomato-eggs"], recipes), pantry, preferences),
+    /鸡蛋\n  家常蒸蛋：2 个\n  番茄炒鸡蛋：3 个/,
+  );
+  const updated = mealShoppingText(basketRecipes(["steamed-eggs"], recipes), pantry, preferences);
+  assert.match(updated, /鸡蛋\n  家常蒸蛋：2 个/);
+  assert.doesNotMatch(updated, /番茄炒鸡蛋/);
 });

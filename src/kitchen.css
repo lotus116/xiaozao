@@ -362,3 +362,28 @@ nav a {
     padding: 12px;
   }
 }
+
+/* A hidden timer must still offer a quiet, visible completion cue. */
+.timer-complete {
+  position: fixed;
+  z-index: 40;
+  bottom: calc(86px + var(--app-safe-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(440px, calc(100vw - 24px));
+  background: #fff9e4;
+  border: 1px solid #d8c887;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 6px 24px #24372e20;
+}
+.timer-complete strong, .timer-complete span { display: block; }
+.timer-complete span { font-size: 14px; line-height: 1.6; margin: 4px 0 10px; }
+.timer-complete .chips { margin: 0; }
+.focused-step { scroll-margin-top: calc(16px + var(--app-safe-top)); }
+.focused-step:focus { outline: none; }
+
+/* Room for one-handed taps while following a recipe. */
+.cook .primary, .step-actions button, .step-timer, .cook-view button {
+  min-height: 52px;
+}

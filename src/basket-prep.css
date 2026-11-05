@@ -1,0 +1,97 @@
+/* Keep shopping preparation quiet and optional beside the existing meal flow. */
+.basket-prep-summary {
+  margin: 24px 0 12px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #edf1e5;
+  overflow-wrap: anywhere;
+}
+.basket-prep-summary .eyebrow {
+  margin-bottom: 8px;
+}
+.basket-prep-summary h2 {
+  color: var(--green);
+  margin-bottom: 8px;
+}
+.basket-prep-names {
+  color: var(--green);
+  margin-bottom: 8px;
+}
+.basket-prep-summary .hint {
+  color: #475c50;
+  margin-bottom: 12px;
+}
+.basket-prep-summary .hint:last-child {
+  margin-bottom: 0;
+}
+.basket-copy-button {
+  color: var(--green);
+  font-size: 14px;
+}
+.basket-copy-button svg {
+  flex-shrink: 0;
+}
+.basket-copy-status {
+  font-size: 13px;
+  margin: 10px 0 0;
+  color: var(--green);
+}
+.basket-copy-status:empty {
+  margin: 0;
+}
+.basket-copy-fallback {
+  margin-top: 12px;
+}
+.basket-copy-fallback label {
+  display: block;
+  margin-bottom: 8px;
+}
+.basket-copy-fallback textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid #adb9ad;
+  border-radius: 10px;
+  padding: 12px;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.7;
+  color: inherit;
+  background: var(--paper);
+  resize: vertical;
+  outline-offset: 4px;
+}
+.basket-prep-switch {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin: 20px 0 16px;
+}
+.basket-prep-switch button {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  padding: 10px 8px;
+  font-size: 14px;
+}
+.basket-prep-switch button[aria-pressed="true"] {
+  color: white;
+  background: var(--green);
+}
+.basket-prep-empty {
+  color: #475c50;
+  padding: 16px;
+  background: #edf1e5;
+  border-radius: 12px;
+  font-size: 14px;
+}
+@media (max-width: 380px) {
+  .basket-prep-summary {
+    padding: 16px;
+  }
+}

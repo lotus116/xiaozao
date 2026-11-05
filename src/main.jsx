@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import {
   CookingPot,
@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import { recipes, catalog, seasonings } from "./recipes";
 import {
-  normalize,
   unique,
   missing,
   requiredCount,
@@ -37,6 +36,8 @@ import "./kitchen.css";
 import Settings from "./Settings";
 import IngredientPicker from "./IngredientPicker";
 import { setupNative } from "./native";
+import { addPantryInput } from "./pantry-input";
+import { useKitchenNavigation, initialBrowseState } from "./navigation";
 import TimerWidget from "./TimerWidget";
 import Ingredients from "./Ingredients";
 import Basket from "./Basket";
@@ -168,25 +169,26 @@ function Card({ r, state, go, fav, addToBasket }) {
   );
 }
 function App() {
+  const [browse, setBrowse] = useState(initialBrowseState);
+  const { query, category, max, level, fewIngredients } = browse;
+  const setFilter = (key, value) => setBrowse((s) => ({ ...s, [key]: typeof value === "function" ? value(s[key]) : value }));
+  const setQuery = (value) => setFilter("query", value);
+  const setCategory = (value) => setFilter("category", value);
+  const setMax = (value) => setFilter("max", value);
+  const setLevel = (value) => setFilter("level", value);
+  const setFewIngredients = (value) => setFilter("fewIngredients", value);
+  const { hash, go, backToList } = useKitchenNavigation(browse, setBrowse);
+  const switchDialog = useRef(null);
+  const [pendingRecipe, setPendingRecipe] = useState(null);
+  useEffect(() => {
+    if (pendingRecipe) switchDialog.current?.showModal();
+  }, [pendingRecipe]);
   const [state, setState] = useState(load),
     [storageError, setStorageError] = useState(false),
-    [hash, setHash] = useState(location.hash || "#pantry"),
     [input, setInput] = useState(""),
     [message, setMessage] = useState(""),
-    [query, setQuery] = useState(""),
-    [category, setCategory] = useState("dish"),
-    [max, setMax] = useState("all"),
-    [level, setLevel] = useState("0"),
-    [fewIngredients, setFewIngredients] = useState(false),
+    [clearedIngredients, setClearedIngredients] = useState([]),
     [now, setNow] = useState(Date.now());
-  useEffect(() => {
-    const h = () => {
-      setHash(location.hash || "#pantry");
-      window.scrollTo(0, 0);
-    };
-    window.addEventListener("hashchange", h);
-    return () => window.removeEventListener("hashchange", h);
-  }, []);
   useEffect(() => {
     if (!state.timer) return;
     setNow(Date.now());
@@ -201,12 +203,6 @@ function App() {
       setStorageError(true);
     }
   }, [state]);
-  useEffect(() => {
-    document.querySelector("h1")?.focus();
-  }, [hash]);
-  const go = (path) => {
-    location.hash = path;
-  };
   const toggle = (name) =>
     setState((s) => ({
       ...s,
@@ -216,15 +212,18 @@ function App() {
     }));
   const add = (e) => {
     e.preventDefault();
-    const name = normalize(input);
-    if (!name) return;
-    setMessage(
-      state.pantry.includes(name)
-        ? `${name}已经在清单里了`
-        : `已添加${name}${!catalog.includes(name) ? "，当前菜谱库可能暂未收录相关菜" : ""}`,
-    );
-    setState((s) => ({ ...s, pantry: unique([...s.pantry, name]) }));
-    setInput("");
+    const result = addPantryInput(state.pantry, input);
+    if (!result.added.length && !result.duplicate.length && !result.rejected.length) return;
+    const unknown = result.added.filter((name) => !catalog.includes(name));
+    const feedback = [
+      result.added.length ? `已添加${result.added.join("、")}` : "",
+      result.duplicate.length ? `${result.duplicate.join("、")}已经在清单里了` : "",
+      unknown.length ? "部分食材在当前菜谱库可能暂未收录相关菜" : "",
+      result.rejected.length ? "部分内容未添加：每样最多 30 字，清单最多 200 样" : "",
+    ].filter(Boolean).join("；");
+    setMessage(feedback);
+    setState((s) => ({ ...s, pantry: result.pantry }));
+    setInput(result.rejected.join("、"));
   };
   const fav = (id) =>
     setState((s) => ({
@@ -251,10 +250,27 @@ function App() {
   const recipe = recipes.find((r) => r.id === id);
   const cooking = state.cooking;
   const active = recipes.find((r) => r.id === cooking?.id);
-  const start = (r) => {
-    if (cooking?.id !== r.id)
-      setState((s) => ({ ...s, meal: null, cooking: { id: r.id, step: -1 } }));
+  const beginRecipe = (r, replace = false) => {
+    setState((s) => {
+      if (s.cooking?.id === r.id) return s;
+      const inMeal = !replace && s.meal?.ids.includes(r.id);
+      return {
+        ...s,
+        meal: inMeal ? s.meal : null,
+        cooking: { id: r.id, step: inMeal && s.meal.done.includes(r.id) ? r.steps.length : -1 },
+        timer: replace && s.timer?.id ? null : s.timer,
+      };
+    });
     go(`cook/${r.id}`);
+  };
+  const start = (r) => {
+    const different = cooking && cooking.id !== r.id;
+    const ongoing = state.meal || (active && cooking.step < active.steps.length);
+    if (different && ongoing && !state.meal?.ids.includes(r.id)) {
+      setPendingRecipe(r);
+      return;
+    }
+    beginRecipe(r);
   };
   const empty = (title, text) => (
     <div className="empty">
@@ -345,8 +361,15 @@ function App() {
                       id="ingredient"
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
-                      maxLength={30}
-                      placeholder="试试西红柿、鸡蛋"
+                      onPaste={(e) => {
+                        const text = e.clipboardData.getData("text");
+                        if (!/[\r\n]/.test(text)) return;
+                        e.preventDefault();
+                        const field = e.currentTarget;
+                        setInput((input.slice(0, field.selectionStart) + text.replace(/[\r\n]+/g, "、") + input.slice(field.selectionEnd)).slice(0, 500));
+                      }}
+                      maxLength={500}
+                      placeholder="番茄、鸡蛋、土豆，可以一起添加"
                       list="ingredients"
                     />
                     <button
@@ -364,7 +387,7 @@ function App() {
                   </datalist>
                 </form>
                 <p className="live-message" role="status">
-                  {message || "支持常用别名，重复添加会自动合并。"}
+                  {message || "多样食材用顿号、逗号或空格隔开；支持别名，自动去重。"}
                 </p>
                 {state.pantry.filter((n) => !seasonings.includes(n)).length >
                   0 && (
@@ -406,15 +429,25 @@ function App() {
                 </details>
                 <button
                   className="text-button"
-                  onClick={() =>
-                    setState((s) => ({
-                      ...s,
-                      pantry: s.pantry.filter((n) => seasonings.includes(n)),
-                    }))
-                  }
+                  disabled={!state.pantry.some((n) => !seasonings.includes(n))}
+                  onClick={() => {
+                    setClearedIngredients(state.pantry.filter((n) => !seasonings.includes(n)));
+                    setState((s) => ({ ...s, pantry: s.pantry.filter((n) => seasonings.includes(n)) }));
+                    setMessage("本次食材已清空，常备调料保留。可撤销。 ");
+                  }}
                 >
                   清空本次食材，保留调料
                 </button>
+                {clearedIngredients.length > 0 && (
+                  <button className="text-button" onClick={() => {
+                    const restored = addPantryInput(state.pantry, clearedIngredients.join("、"));
+                    setState((s) => ({ ...s, pantry: restored.pantry }));
+                    setClearedIngredients(restored.rejected);
+                    setMessage(restored.rejected.length
+                      ? `已恢复 ${restored.added.length} 样；清单已满，还有 ${restored.rejected.length} 样未恢复。移除部分食材后可再撤销。`
+                      : "已恢复刚才清空的食材。");
+                  }}>撤销清空</button>
+                )}
                 <button
                   className="primary find-button"
                   onClick={() =>
@@ -638,7 +671,7 @@ function App() {
           recipe &&
           allowedRecipe(recipe, state.preferences) && (
             <section className="detail">
-              <button className="text-button" onClick={() => go("search")}>
+              <button className="text-button" onClick={backToList}>
                 <ArrowLeft size={18} /> 返回菜谱
               </button>
               <div className="dish-heading">
@@ -789,6 +822,19 @@ function App() {
           />
         )}
       </main>
+      <dialog ref={switchDialog} className="timer-dialog" aria-labelledby="switch-title"
+        onClose={() => setPendingRecipe(null)}>
+        <h2 id="switch-title">换一道菜开始？</h2>
+        <p>正在跟做的{state.meal ? "这一餐" : active?.name}会结束，当前跟做进度和菜谱步骤计时会清除。菜篮、收藏和独立厨房计时保留。</p>
+        <div className="chips">
+          <button autoFocus onClick={() => switchDialog.current.close()}>保留当前进度</button>
+          <button className="primary" onClick={() => {
+            const next = pendingRecipe;
+            switchDialog.current.close();
+            if (next) beginRecipe(next, true);
+          }}>确认，开始{pendingRecipe?.name}</button>
+        </div>
+      </dialog>
       <TimerWidget
         timer={state.timer}
         dock={state.timerDock}

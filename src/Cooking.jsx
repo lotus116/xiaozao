@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -19,6 +19,13 @@ export default function Cooking({
 }) {
   const c = state.cooking,
     inMeal = state.meal?.ids.includes(r.id);
+  useLayoutEffect(() => {
+    const stepHeading = document.querySelector(".focused-step");
+    const heading = stepHeading || document.querySelector(".cook h1");
+    heading?.focus({ preventScroll: true });
+    if (stepHeading) stepHeading.scrollIntoView({ block: "start" });
+    else window.scrollTo(0, 0);
+  }, [c?.id, c?.step, state.cookView, r.id]);
   const stepTo = (step) =>
     setState((s) => ({ ...s, cooking: { id: r.id, step } }));
   const finish = () =>
@@ -209,7 +216,7 @@ export default function Cooking({
           <p className="eyebrow">
             第 {c.step + 1} / {r.steps.length} 步
           </p>
-          <h2 className="focused-step">{r.steps[c.step].title}</h2>
+          <h2 className="focused-step" tabIndex="-1">{r.steps[c.step].title}</h2>
           <p className="instruction">{r.steps[c.step].text}</p>
           {timerButton(c.step)}
           <div className="step-actions">

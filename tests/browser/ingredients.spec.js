@@ -52,11 +52,17 @@ test("drag sorting commits on release, cancellation preserves order", async ({
   await page.goto("/");
   await page.getByRole("button", { name: "管理常用", exact: true }).click();
   const first = page.getByRole("button", { name: "拖动排序番茄", exact: true });
-  await first.scrollIntoViewIfNeeded();
+  // Keep both the source and destination above the fixed mobile navigation.
+  await page.locator(".frequent-editor").evaluate((list) => {
+    list.scrollIntoView({ block: "start" });
+    window.scrollBy(0, -120); // Keep pointer movement out of the auto-scroll edge bands.
+  });
   const start = await first.boundingBox();
   const target = await page
     .getByRole("button", { name: "拖动排序土豆", exact: true })
     .boundingBox();
+  const navigation = await page.getByRole("navigation", { name: "主要导航" }).boundingBox();
+  expect(target.y + target.height).toBeLessThan(navigation.y);
   await page.mouse.move(start.x + 22, start.y + 22);
   await page.mouse.down();
   await page.mouse.move(target.x + 22, target.y + 22, { steps: 8 });
