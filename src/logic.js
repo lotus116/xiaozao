@@ -40,6 +40,8 @@ export function missing(recipe, pantry) {
     .filter((i) => !i.optional && !i.water && !have.has(i.name))
     .map((i) => i.name);
 }
+export const requiredCount = (recipe) =>
+  recipe.ingredients.filter((i) => !i.optional && !i.water).length;
 export function recommend(recipes, pantry) {
   if (!pantry.length) return { ready: [], near: [] };
   const available = new Set(unique(pantry));
@@ -80,11 +82,15 @@ export function cleanState(raw, recipes) {
     favorites: [],
     cooking: null,
     timer: null,
+    basket: [],
+    meal: null,
+    cookView: "overview",
+    timerDock: { hidden: false, position: null },
     preferences: defaultPreferences(),
   };
   try {
     const s = JSON.parse(raw);
-    if (!s || ![1, 2].includes(s.version)) return empty;
+    if (!s || ![1, 2, 3].includes(s.version)) return empty;
     const ids = new Set(recipes.map((r) => r.id));
     const pantry = unique(Array.isArray(s.pantry) ? s.pantry : [])
       .filter((x) => x.length <= 30)
@@ -105,11 +111,6 @@ export function cleanState(raw, recipes) {
       cooking = {
         id: c.id,
         step: c.step,
-        checked: Array.isArray(c.checked)
-          ? c.checked.filter(
-              (x) => Number.isInteger(x) && x >= 0 && x < r.ingredients.length,
-            )
-          : [],
       };
     const t = s.timer;
     const tr = recipes.find((r) => r.id === t?.id);
@@ -135,11 +136,42 @@ export function cleanState(raw, recipes) {
               : {}),
           }
         : null;
+    const knownIds = (value) =>
+      [
+        ...new Set(
+          Array.isArray(value)
+            ? value.filter((id) => typeof id === "string" && ids.has(id))
+            : [],
+        ),
+      ].slice(0, 99);
+    const basket = knownIds(s.basket);
+    const mealIds = knownIds(s.meal?.ids);
+    const meal =
+      s.version === 3 && cooking && mealIds.includes(cooking.id)
+        ? {
+            ids: mealIds,
+            done: knownIds(s.meal?.done).filter((id) => mealIds.includes(id)),
+          }
+        : null;
+    const position = s.timerDock?.position;
     return {
       pantry,
       favorites,
       cooking,
       timer,
+      basket,
+      meal,
+      cookView: s.cookView === "step" ? "step" : "overview",
+      timerDock: {
+        hidden: s.timerDock?.hidden === true,
+        position:
+          position && Number.isFinite(position.x) && Number.isFinite(position.y)
+            ? {
+                x: Math.min(1, Math.max(0, position.x)),
+                y: Math.min(1, Math.max(0, position.y)),
+              }
+            : null,
+      },
       preferences: cleanPreferences(s.preferences),
     };
   } catch {

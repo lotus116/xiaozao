@@ -3,7 +3,7 @@ import { recipes } from "../../src/recipes.js";
 import { categoryOf } from "../../src/preferences.js";
 import { test, expect } from "@playwright/test";
 const key = "xiaozao-v1";
-test("tomato eggs needs only four essentials, optional prep can be skipped, favorites persist", async ({
+test("tomato eggs uses reminder tiles without checkboxes and cooking progress persists", async ({
   page,
 }) => {
   const errors = [];
@@ -27,12 +27,13 @@ test("tomato eggs needs only four essentials, optional prep can be skipped, favo
     page.getByRole("heading", { name: "番茄炒鸡蛋", exact: true }),
   ).toBeVisible();
   await page.getByRole("button", { name: "收藏", exact: true }).click();
-  await page.getByRole("button", { name: /准备食材，开始做/ }).click();
-  await expect(page.getByRole("button", { name: /我准备好了/ })).toBeDisabled();
-  for (const name of ["番茄", "鸡蛋", "食用油", "盐"])
-    await page.getByRole("checkbox", { name: new RegExp("^" + name) }).check();
-  await expect(page.getByRole("checkbox", { name: /^糖/ })).not.toBeChecked();
-  await page.getByRole("button", { name: /我准备好了/ }).click();
+  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await expect(page.getByRole("checkbox")).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "开始做这道菜", exact: true }),
+  ).toBeEnabled();
+  await page.getByRole("button", { name: "开始做这道菜", exact: true }).click();
+  await page.getByRole("button", { name: "分步看", exact: true }).click();
   await page.getByRole("button", { name: "下一步", exact: true }).click();
   await page.reload();
   await expect(page.getByRole("heading", { name: "先炒鸡蛋" })).toBeVisible();
@@ -137,17 +138,21 @@ for (const r of recipes)
     await expect(
       page.getByRole("heading", { name: r.name, exact: true }),
     ).toBeVisible();
-    await expect(page.locator(".ingredients li")).toHaveCount(
+    await expect(page.locator(".ingredient-tile")).toHaveCount(
       r.ingredients.length,
     );
     await page.getByText("菜谱来源与验证说明", { exact: true }).click();
     await expect(
       page.getByRole("link", { name: "查看原作者菜谱" }),
     ).toHaveAttribute("href", r.source.url);
-    await page.getByRole("button", { name: /准备食材，开始做/ }).click();
-    await expect(page.getByRole("checkbox")).toHaveCount(r.ingredients.length);
-    for (const cb of await page.getByRole("checkbox").all()) await cb.check();
-    await page.getByRole("button", { name: /我准备好了/ }).click();
+    await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+    await expect(page.locator(".ingredient-tile")).toHaveCount(
+      r.ingredients.length,
+    );
+    await expect(page.getByRole("checkbox")).toHaveCount(0);
+    await page
+      .getByRole("button", { name: "开始做这道菜", exact: true })
+      .click();
     await expect(
       page.getByRole("heading", { name: r.steps[0].title, exact: true }),
     ).toBeVisible();

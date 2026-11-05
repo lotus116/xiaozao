@@ -1,5 +1,6 @@
 import { expand } from "./extra.js";
 import { chineseRecipes, recipeRefinements } from "./chinese-recipes.js";
+import { easyRecipes, easyRefinements } from "./easy-recipes.js";
 const i = (name, amount, optional = false) => ({
   name,
   amount,
@@ -455,11 +456,16 @@ export const recipes = [
 
   ...expand(r, i, s),
   ...chineseRecipes(r, i, s),
-].map((recipe) =>
-  recipeRefinements[recipe.id]
-    ? { ...recipe, ...recipeRefinements[recipe.id], stateVersion: 2 }
-    : recipe,
-);
+  ...easyRecipes(r, i, s),
+].map((recipe) => ({
+  ...recipe,
+  ...(recipeRefinements[recipe.id]
+    ? { ...recipeRefinements[recipe.id], stateVersion: 2 }
+    : {}),
+  ...(easyRefinements[recipe.id]
+    ? { ...easyRefinements[recipe.id], stateVersion: 3 }
+    : {}),
+}));
 export const seasonings = [
   "食用油",
   "盐",
@@ -494,6 +500,8 @@ export const seasonings = [
   "蒸鱼豉油",
   "芝麻",
   "芥末",
+  "豆豉",
+  "番茄酱",
 ];
 export const catalog = [
   ...new Set(

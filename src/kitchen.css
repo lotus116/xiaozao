@@ -1,0 +1,364 @@
+/* Kitchen workflow: use the established green/cream palette; ingredients are
+   readable objects, steps are an ordered continuous page, and actions stay large. */
+.ingredient-group {
+  margin: 22px 0;
+}
+.ingredient-group h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+.ingredient-tiles {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.ingredient-tile {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  overflow-wrap: anywhere;
+}
+.ingredient-tile > svg {
+  color: #52794c;
+}
+.ingredient-tile strong {
+  font-size: 16px;
+  color: var(--green);
+}
+.ingredient-amount {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #475c50;
+}
+.ingredient-tile.optional {
+  background: #f2f4ee;
+  border-style: dashed;
+}
+.ingredient-tile small {
+  font-size: 12px;
+  color: #49613f;
+}
+.optional-notes {
+  margin-top: 8px;
+}
+.optional-notes p {
+  font-size: 13px;
+}
+.recipe-actions {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.recipe-actions button {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 10px;
+  border: 0;
+  background: transparent;
+}
+.recipe-actions .basket-add.selected {
+  color: var(--green);
+  background: #e6eedf;
+  border-radius: 10px;
+}
+.detail-actions {
+  flex-wrap: wrap;
+}
+.basket-count {
+  display: inline-grid;
+  place-items: center;
+  background: var(--green);
+  color: white;
+  font-size: 11px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 10px;
+  margin-left: 3px;
+  padding: 0 3px;
+}
+.basket-dishes {
+  padding: 0;
+  list-style: none;
+  margin: 25px 0 35px;
+}
+.basket-dishes > li {
+  border-bottom: 1px solid var(--line);
+  padding: 16px 0;
+}
+.basket-dish-heading {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.basket-dish-heading > .text-button {
+  flex: 1;
+  text-align: left;
+  justify-content: flex-start;
+  font-size: 20px;
+  font-weight: 700;
+}
+.basket-dish-heading > button:last-child {
+  border: 0;
+  background: transparent;
+}
+.basket-dish-heading .ready {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.basket-order {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.basket-order > span {
+  margin-right: auto;
+  font-size: 13px;
+  color: var(--muted);
+}
+.basket-order button {
+  padding: 8px 12px;
+  font-size: 13px;
+}
+.meal-progress {
+  border-left: 3px solid #52794c;
+  background: #edf1e5;
+  padding: 16px;
+  margin: 24px 0;
+}
+.meal-progress button {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.meal-ingredients {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  padding: 0;
+  gap: 10px;
+}
+.meal-ingredients > li {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  background: #fff;
+  min-width: 0;
+}
+.meal-ingredients > li > div {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.meal-ingredients small {
+  font-size: 12px;
+}
+.meal-ingredients ul {
+  padding: 0;
+  list-style: none;
+}
+.meal-ingredients ul li {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.meal-ingredients ul span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.meal-ingredients ul b {
+  font-size: 14px;
+  font-weight: 500;
+}
+.meal-start {
+  margin: 24px 0 8px;
+}
+.meal-position {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.cook-view {
+  display: flex;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  gap: 4px;
+  margin: 22px 0;
+}
+.cook-view button {
+  flex: 1;
+  border: 0;
+  background: transparent;
+}
+.cook-view button[aria-pressed="true"] {
+  background: var(--green);
+  color: white;
+}
+.cook-ingredients {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+}
+.cooking-overview {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0;
+}
+.cooking-overview > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+.step-number {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  background: #e8eddf;
+  color: var(--green);
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.cooking-overview h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+}
+.cooking-overview p {
+  font-size: 19px;
+  line-height: 1.9;
+  margin: 0 0 12px;
+  color: #344d3e;
+}
+.focused-step {
+  font-size: 28px;
+}
+.step-timer {
+  margin: 8px 0;
+  font-size: 14px;
+}
+.floating-timer.icon-timer {
+  right: auto;
+  bottom: auto;
+  width: 56px;
+  height: 56px;
+  max-width: none;
+  border-radius: 50%;
+  display: block;
+  background: #edf1e5;
+}
+.icon-timer .timer-handle {
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+.icon-timer .timer-handle:active {
+  cursor: grabbing;
+}
+.icon-timer.running {
+  border: 2px solid #52794c;
+}
+.icon-timer.expired {
+  background: #f2df9c;
+  border-color: #805b24;
+}
+.timer-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: absolute;
+  top: 6px;
+  right: 7px;
+  background: var(--green);
+}
+.timer-notice {
+  position: fixed;
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  left: 16px;
+  right: 16px;
+  max-width: 500px;
+  margin: auto;
+  background: var(--green);
+  color: white;
+  z-index: 8;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+.timer-notice a {
+  color: white;
+  display: inline-block;
+  padding: 10px;
+}
+.timer-placement {
+  border-top: 1px solid var(--line);
+  margin-top: 16px;
+  padding-top: 12px;
+}
+nav {
+  gap: 24px;
+}
+nav a {
+  min-width: 64px;
+}
+@media (max-width: 800px) {
+  nav {
+    gap: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  nav a {
+    min-width: 0;
+    flex: 1;
+    max-width: 90px;
+  }
+}
+@media (max-width: 380px) {
+  .ingredient-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ingredient-tile {
+    padding: 12px;
+  }
+  .cooking-overview > li {
+    gap: 10px;
+  }
+  .cooking-overview p {
+    font-size: 18px;
+  }
+  .basket-dish-heading > .text-button {
+    font-size: 18px;
+  }
+  .meal-ingredients > li {
+    padding: 12px;
+  }
+}

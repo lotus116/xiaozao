@@ -11,6 +11,31 @@ export default function Settings({ state, setState, seasonings }) {
       <p className="eyebrow">把习惯留在自己的厨房</p>
       <h1 tabIndex="-1">厨房设置</h1>
       <p>自动保存在当前浏览器，下次打开继续使用。</p>
+      <h2>计时器图标</h2>
+      <p className="hint">图标可拖动、长按隐藏。隐藏不会停止正在运行的计时。</p>
+      <div className="chips">
+        <button
+          aria-pressed={!state.timerDock.hidden}
+          onClick={() =>
+            setState((s) => ({
+              ...s,
+              timerDock: { ...s.timerDock, hidden: !s.timerDock.hidden },
+            }))
+          }
+        >
+          {state.timerDock.hidden ? "显示计时器图标" : "隐藏计时器图标"}
+        </button>
+        <button
+          onClick={() =>
+            setState((s) => ({
+              ...s,
+              timerDock: { hidden: false, position: null },
+            }))
+          }
+        >
+          恢复图标默认位置
+        </button>
+      </div>
       <h2>常备调料</h2>
       <p className="hint">
         选一次就记住。清空本次食材、完成做菜，都不会清掉调料。

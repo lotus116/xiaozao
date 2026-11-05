@@ -28,11 +28,11 @@ test("remember pantry seasonings independently of fresh ingredients", async ({
 test("category tabs separate dishes staples and soup", async ({ page }) => {
   await page.goto("/#search");
   await expect(
-    page.getByRole("button", { name: /葱香蛋炒饭.*分钟/ }),
+    page.getByRole("button", { name: /家常蛋炒饭.*分钟/ }),
   ).toHaveCount(0);
   await page.getByRole("button", { name: "主食", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: /葱香蛋炒饭.*分钟/ }),
+    page.getByRole("button", { name: /家常蛋炒饭.*分钟/ }),
   ).toBeVisible();
   await expect(
     page.getByRole("button", { name: /番茄炒鸡蛋.*分钟/ }),
@@ -42,7 +42,7 @@ test("category tabs separate dishes staples and soup", async ({ page }) => {
     page.getByRole("button", { name: /番茄蛋花汤.*分钟/ }),
   ).toBeVisible();
   await expect(
-    page.getByRole("button", { name: /葱香蛋炒饭.*分钟/ }),
+    page.getByRole("button", { name: /家常蛋炒饭.*分钟/ }),
   ).toHaveCount(0);
 });
 test("allergy filter persists and blocks direct cooking links; ordinary dislikes warn", async ({
@@ -75,7 +75,7 @@ test("allergy filter persists and blocks direct cooking links; ordinary dislikes
   await expect(
     page.locator(".warning").filter({ hasText: "忌口：番茄" }),
   ).toBeVisible();
-  await expect(page.getByRole("button", { name: /准备食材/ })).toBeEnabled();
+  await expect(page.getByRole("button", { name: /看看备料/ })).toBeEnabled();
 });
 test("custom timer can pause resume extend expire and survive refresh", async ({
   page,
@@ -85,13 +85,19 @@ test("custom timer can pause resume extend expire and survive refresh", async ({
   await page.getByLabel("计时名称").fill("煮面");
   await page.getByLabel("时长（分钟，最多 180）").fill("2");
   await page.getByRole("button", { name: "开始计时", exact: true }).click();
-  await expect(page.locator(".floating-timer")).toContainText("煮面");
+  await expect(
+    page.getByRole("button", { name: /打开厨房计时器.*煮面/ }),
+  ).toBeVisible();
   await page.getByRole("link", { name: "找菜谱", exact: true }).click();
   await page.reload();
-  await expect(page.locator(".floating-timer")).toContainText("煮面");
+  await expect(
+    page.getByRole("button", { name: /打开厨房计时器.*煮面/ }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "打开厨房计时器" }).click();
   await page.getByRole("button", { name: "暂停计时" }).click();
-  await expect(page.locator(".floating-timer")).toContainText("已暂停");
+  await expect(
+    page.getByRole("button", { name: /打开厨房计时器.*已暂停/ }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "加 1 分钟" }).click();
   await page.reload();
   await page.getByRole("button", { name: "打开厨房计时器" }).click();
@@ -104,9 +110,15 @@ test("custom timer can pause resume extend expire and survive refresh", async ({
     localStorage.setItem(k, JSON.stringify(s));
   }, KEY);
   await page.reload();
-  await expect(page.locator(".floating-timer")).toContainText("时间到了");
-  await page.getByRole("button", { name: "关闭计时器" }).click();
-  await expect(page.locator(".floating-timer")).toContainText("随手计时");
+  await expect(
+    page.getByRole("button", { name: /打开厨房计时器.*时间到了/ }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: /打开厨房计时器/ }).click();
+  await page.getByRole("button", { name: "结束当前计时" }).click();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "打开厨房计时器", exact: true }),
+  ).toBeVisible();
 });
 test("settings and timer modal remain accessible and mobile sized", async ({
   page,
@@ -148,23 +160,23 @@ test("settings and timer modal remain accessible and mobile sized", async ({
 
 test("recipe step timer survives step changes and reload", async ({ page }) => {
   await page.goto("/#recipe/cn-cauliflower");
-  await page.getByRole("button", { name: /准备食材，开始做/ }).click();
-  await expect(page.getByRole("checkbox")).toHaveCount(5);
-  for (const cb of await page.getByRole("checkbox").all()) await cb.check();
-  await page.getByRole("button", { name: /我准备好了/ }).click();
+  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await page.getByRole("button", { name: "开始做这道菜", exact: true }).click();
+  await page.getByRole("button", { name: "分步看", exact: true }).click();
   await page.getByRole("button", { name: "下一步", exact: true }).click();
-  await page.getByRole("button", { name: "启动计时", exact: true }).click();
+  await page.getByRole("button", { name: /^启动计时：/ }).click();
   await page.getByRole("button", { name: "下一步", exact: true }).click();
   await page.reload();
   await expect(
     page.getByRole("heading", { name: "炒香", exact: true }),
   ).toBeVisible();
-  await expect(page.locator(".floating-timer")).toContainText("清炒花菜");
   await expect(
-    page.getByRole("button", { name: "已有计时进行中" }),
+    page.getByRole("button", { name: /打开厨房计时器.*清炒花菜/ }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: /^启动计时：/ }),
   ).toBeDisabled();
-  await page.getByRole("button", { name: "关闭计时器" }).click();
-  await expect(
-    page.getByRole("button", { name: "启动计时", exact: true }),
-  ).toBeEnabled();
+  await page.getByRole("button", { name: /打开厨房计时器/ }).click();
+  await page.getByRole("button", { name: "结束当前计时" }).click();
+  await expect(page.getByRole("button", { name: /^启动计时：/ })).toBeEnabled();
 });

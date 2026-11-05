@@ -25,9 +25,11 @@ const notes = {
 };
 let text = `# 菜谱来源与内容核对记录
 
-核对日期：2026-11-05（Asia/Hong_Kong）。共 ${recipes.length} 道；本轮新增 26 道中文家常菜，并重整 4 道原有菜谱。
+核对日期：2026-11-05 至 2026-11-06（Asia/Hong_Kong）。共 ${recipes.length} 道；本轮从 53 道增至 99 道，新增 46 道、简化 43 道原有菜谱。
 
 网页资料核对不等于现场试做。部分平台使用搜索工具返回的内容核对；未绕过访问限制。新增中文菜的份数、耗时与配料简化有编辑判断，逐项区别见 [中文菜谱研究](CHINESE_RECIPE_RESEARCH.md)。用量不明确的项目保留“适量”，不编造精确克数。
+
+本轮简化依据、46 道新增来源及 43 道修改清单见 [99 道精选研究](EASY_99_RESEARCH.md)。97 道的必需用料不超过 5 项（包括油盐，不计水）；不是将全部调料统一忽略。
 
 | 菜谱 | 原作者与来源 | 份数 / 参考分钟 | 营养 | 验证与差异 |
 |---|---|---|---|---|
@@ -35,12 +37,14 @@ let text = `# 菜谱来源与内容核对记录
 for (const r of recipes) {
   const chinese =
     r.source.site !== "The Woks of Life" && r.source.site !== "Good Food";
-  const verification = chinese
-    ? "中文做法事实简要重述；可省项分别标明原文依据或编辑简化；见中文研究记录。"
-    : (retested.includes(r.id)
-        ? "原文明确称重新测试。"
-        : "有作者做法，未单独认定重新试做。") +
-      (notes[r.id] || "中文简要整理；英制重量/体积作近似换算。");
+  const verification = r.editorNote
+    ? "本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。"
+    : chinese
+      ? "中文做法事实简要重述；可省项分别标明原文依据或编辑简化；见中文研究记录。"
+      : (retested.includes(r.id)
+          ? "原文明确称重新测试。"
+          : "有作者做法，未单独认定重新试做。") +
+        (notes[r.id] || "中文简要整理；英制重量/体积作近似换算。");
   const extra = (r.additionalSources || [])
     .map((source) => `；[补充方法](${source.url})`)
     .join("");

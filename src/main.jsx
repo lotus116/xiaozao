@@ -19,21 +19,26 @@ import {
   X,
   ChefHat,
   Settings as SettingsIcon,
+  ShoppingBasket,
 } from "lucide-react";
 import { recipes, catalog, seasonings } from "./recipes";
 import {
   normalize,
   unique,
   missing,
+  requiredCount,
   recommend,
   searchRecipes,
-  remaining,
   cleanState,
   KEY,
 } from "./logic";
 import "./style.css";
+import "./kitchen.css";
 import Settings from "./Settings";
 import TimerWidget from "./TimerWidget";
+import Ingredients from "./Ingredients";
+import Basket from "./Basket";
+import Cooking from "./Cooking";
 import {
   allowedRecipe,
   dietaryWarnings,
@@ -97,7 +102,7 @@ function Bowl({ type = "tomato-eggs", large = false }) {
     </svg>
   );
 }
-function Card({ r, state, go, fav }) {
+function Card({ r, state, go, fav, addToBasket }) {
   const miss = missing(r, state.pantry);
   return (
     <article className="recipe-row">
@@ -107,7 +112,7 @@ function Card({ r, state, go, fav }) {
           <strong>{r.name}</strong>
           <span className="meta">
             {r.minutes} 分钟 · {r.level === 1 ? "简单" : "需练习"} ·{" "}
-            {r.servings} 人份
+            {r.servings} 人份 · 必需 {requiredCount(r)} 样
           </span>
           <span className={miss.length ? "missing" : "ready"}>
             {miss.length
@@ -132,14 +137,28 @@ function Card({ r, state, go, fav }) {
           )}
         </span>
       </button>
-      <button
-        className={`favorite ${state.favorites.includes(r.id) ? "saved" : ""}`}
-        aria-label={`${state.favorites.includes(r.id) ? "取消收藏" : "收藏"}${r.name}`}
-        aria-pressed={state.favorites.includes(r.id)}
-        onClick={() => fav(r.id)}
-      >
-        <Heart size={20} />
-      </button>
+      <div className="recipe-actions">
+        <button
+          className={`favorite ${state.favorites.includes(r.id) ? "saved" : ""}`}
+          aria-label={`${state.favorites.includes(r.id) ? "取消收藏" : "收藏"}${r.name}`}
+          aria-pressed={state.favorites.includes(r.id)}
+          onClick={() => fav(r.id)}
+        >
+          <Heart size={20} />
+        </button>
+        <button
+          className={
+            "basket-add " + (state.basket.includes(r.id) ? "selected" : "")
+          }
+          aria-label={
+            (state.basket.includes(r.id) ? "移出菜篮" : "加入菜篮") + r.name
+          }
+          aria-pressed={state.basket.includes(r.id)}
+          onClick={() => addToBasket(r.id)}
+        >
+          <ShoppingBasket size={21} />
+        </button>
+      </div>
     </article>
   );
 }
@@ -153,6 +172,7 @@ function App() {
     [category, setCategory] = useState("dish"),
     [max, setMax] = useState("all"),
     [level, setLevel] = useState("0"),
+    [fewIngredients, setFewIngredients] = useState(false),
     [now, setNow] = useState(Date.now());
   useEffect(() => {
     const h = () => {
@@ -170,7 +190,7 @@ function App() {
   }, [state.timer]);
   useEffect(() => {
     try {
-      localStorage.setItem(KEY, JSON.stringify({ ...state, version: 2 }));
+      localStorage.setItem(KEY, JSON.stringify({ ...state, version: 3 }));
       setStorageError(false);
     } catch {
       setStorageError(true);
@@ -208,6 +228,13 @@ function App() {
         ? s.favorites.filter((x) => x !== id)
         : [...s.favorites, id],
     }));
+  const addToBasket = (id) =>
+    setState((s) => ({
+      ...s,
+      basket: s.basket.includes(id)
+        ? s.basket.filter((x) => x !== id)
+        : [...s.basket, id],
+    }));
   const visibleRecipes = recipes.filter((r) =>
     allowedRecipe(r, state.preferences),
   );
@@ -221,12 +248,9 @@ function App() {
   const active = recipes.find((r) => r.id === cooking?.id);
   const start = (r) => {
     if (cooking?.id !== r.id)
-      setState((s) => ({ ...s, cooking: { id: r.id, step: -1, checked: [] } }));
+      setState((s) => ({ ...s, meal: null, cooking: { id: r.id, step: -1 } }));
     go(`cook/${r.id}`);
   };
-  const stepTo = (step) =>
-    setState((s) => ({ ...s, cooking: { ...s.cooking, step } }));
-
   const empty = (title, text) => (
     <div className="empty">
       <CookingPot size={34} />
@@ -463,6 +487,7 @@ function App() {
                           state={state}
                           go={go}
                           fav={fav}
+                          addToBasket={addToBasket}
                         />
                       ))
                     ) : (
@@ -481,6 +506,7 @@ function App() {
                             state={state}
                             go={go}
                             fav={fav}
+                            addToBasket={addToBasket}
                           />
                         ))
                       : empty(
@@ -531,6 +557,13 @@ function App() {
               />
             </label>
             <div className="filters">
+              <button
+                aria-pressed={fewIngredients}
+                onClick={() => setFewIngredients((v) => !v)}
+                className={fewIngredients ? "chip selected" : "chip"}
+              >
+                少配料 · 5 样以内
+              </button>
               <label>
                 用时
                 <select value={max} onChange={(e) => setMax(e.target.value)}>
@@ -556,6 +589,7 @@ function App() {
                   setQuery("");
                   setMax("all");
                   setLevel("0");
+                  setFewIngredients(false);
                 }}
               >
                 重置筛选
@@ -568,13 +602,22 @@ function App() {
                 max === "all" ? Infinity : Number(max),
                 Number(level),
               ).filter(
-                (r) => page !== "favorites" || state.favorites.includes(r.id),
+                (r) =>
+                  (page !== "favorites" || state.favorites.includes(r.id)) &&
+                  (!fewIngredients || requiredCount(r) <= 5),
               );
               return list.length ? (
                 <>
                   <p className="hint">找到 {list.length} 道菜</p>
                   {list.map((r) => (
-                    <Card key={r.id} r={r} state={state} go={go} fav={fav} />
+                    <Card
+                      key={r.id}
+                      r={r}
+                      state={state}
+                      go={go}
+                      fav={fav}
+                      addToBasket={addToBasket}
+                    />
                   ))}
                 </>
               ) : (
@@ -591,6 +634,7 @@ function App() {
                       setQuery("");
                       setMax("all");
                       setLevel("0");
+                      setFewIngredients(false);
                       go("search");
                     }}
                   >
@@ -600,6 +644,9 @@ function App() {
               );
             })()}
           </section>
+        )}
+        {page === "basket" && (
+          <Basket state={state} setState={setState} recipes={recipes} go={go} />
         )}
         {page === "settings" && (
           <Settings state={state} setState={setState} seasonings={seasonings} />
@@ -650,8 +697,17 @@ function App() {
                 {recipe.servingsNote || "标准份数保持原配方。"}
               </p>
               <div className="detail-actions">
+                <button
+                  aria-pressed={state.basket.includes(recipe.id)}
+                  onClick={() => addToBasket(recipe.id)}
+                >
+                  <ShoppingBasket size={20} />
+                  {state.basket.includes(recipe.id)
+                    ? "已加入菜篮"
+                    : "加入今天的菜篮"}
+                </button>
                 <button className="primary" onClick={() => start(recipe)}>
-                  准备食材，开始做 <ArrowRight size={18} />
+                  看看备料，开始做 <ArrowRight size={18} />
                 </button>
                 <button
                   aria-pressed={state.favorites.includes(recipe.id)}
@@ -672,7 +728,7 @@ function App() {
                   ? `清单还缺：${missing(recipe, state.pantry).join("、")}。备齐后再开火。`
                   : "食材种类齐全。请再核对实际重量是否够用。"}
               </p>
-              <IngredientList r={recipe} />
+              <Ingredients r={recipe} />
               <p className="hint">
                 1 茶匙 = 5 毫升，1 汤匙 = 15 毫升。杯量按约 240
                 毫升；少量盐按口味酌加。
@@ -727,174 +783,14 @@ function App() {
         {page === "cook" &&
           recipe &&
           allowedRecipe(recipe, state.preferences) && (
-            <section className="cook">
-              <button
-                className="text-button"
-                onClick={() => go(`recipe/${recipe.id}`)}
-              >
-                <ArrowLeft size={18} /> 返回详情（进度保留）
-              </button>
-              {cooking?.id !== recipe.id ? (
-                <>
-                  <h1 tabIndex="-1">开始做 {recipe.name}</h1>
-                  <button className="primary" onClick={() => start(recipe)}>
-                    进入备料
-                  </button>
-                </>
-              ) : cooking.step === -1 ? (
-                <>
-                  <p className="eyebrow">开火前的准备</p>
-                  <h1 tabIndex="-1">先备齐，再从容开火。</h1>
-                  <p>
-                    {recipe.name} · {recipe.servings} 人份
-                  </p>
-                  <p className="warning">
-                    勾选表示你已核对并备好用量；不会自动改变厨房清单。
-                  </p>
-                  <IngredientList
-                    r={recipe}
-                    checked={cooking.checked}
-                    onCheck={(index) =>
-                      setState((s) => ({
-                        ...s,
-                        cooking: {
-                          ...s.cooking,
-                          checked: s.cooking.checked.includes(index)
-                            ? s.cooking.checked.filter((i) => i !== index)
-                            : [...s.cooking.checked, index],
-                        },
-                      }))
-                    }
-                  />
-                  <p>厨具：{recipe.tools}</p>
-                  <p className="hint">
-                    可选配料可以跳过，必需食材及用水备齐后开始。
-                  </p>
-                  <button
-                    className="primary wide"
-                    disabled={recipe.ingredients.some(
-                      (i, index) =>
-                        !i.optional && !cooking.checked.includes(index),
-                    )}
-                    onClick={() => stepTo(0)}
-                  >
-                    我准备好了，开始跟做 <ArrowRight size={18} />
-                  </button>
-                </>
-              ) : cooking.step >= recipe.steps.length ? (
-                <div className="finished">
-                  <CookingPot size={58} />
-                  <p className="eyebrow">今天又会了一道菜</p>
-                  <h1 tabIndex="-1">辛苦啦，开饭吧。</h1>
-                  <p>
-                    {recipe.name} 已完成跟做。
-                    <br />
-                    上桌前，再确认食物已熟透。
-                  </p>
-                  <button onClick={() => fav(recipe.id)}>
-                    <Heart size={20} />
-                    {state.favorites.includes(recipe.id)
-                      ? "已收藏，下次再做"
-                      : "收藏这道菜"}
-                  </button>
-                  <button
-                    className="primary"
-                    onClick={() => {
-                      setState((s) => ({
-                        ...s,
-                        cooking: null,
-                        timer: s.timer?.id === recipe.id ? null : s.timer,
-                      }));
-                      go("pantry");
-                    }}
-                  >
-                    回到我的厨房
-                  </button>
-                  <button className="text-button" onClick={() => stepTo(-1)}>
-                    重新备料
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <div className="cook-title">
-                    <span>{recipe.name}</span>
-                    <span>
-                      {cooking.step + 1} / {recipe.steps.length}
-                    </span>
-                  </div>
-                  <progress
-                    value={cooking.step + 1}
-                    max={recipe.steps.length}
-                  />
-                  <p className="eyebrow">第 {cooking.step + 1} 步</p>
-                  <h1 tabIndex="-1">{recipe.steps[cooking.step].title}</h1>
-                  <p className="instruction">
-                    {recipe.steps[cooking.step].text}
-                  </p>
-                  {recipe.steps[cooking.step].seconds > 0 && (
-                    <div className="timer-box">
-                      <Timer size={28} />
-                      <div>
-                        <strong>
-                          {recipe.steps[cooking.step].seconds < 60
-                            ? `${recipe.steps[cooking.step].seconds} 秒`
-                            : `${recipe.steps[cooking.step].seconds / 60} 分钟`}
-                          参考计时
-                        </strong>
-                        <p>以锅里的状态为准，计时结束不代表已熟。</p>
-                      </div>
-                      <button
-                        disabled={!!state.timer}
-                        onClick={() =>
-                          setState((s) => ({
-                            ...s,
-                            timer: {
-                              id: recipe.id,
-                              step: s.cooking.step,
-                              deadline:
-                                Date.now() +
-                                recipe.steps[s.cooking.step].seconds * 1000,
-                            },
-                          }))
-                        }
-                      >
-                        {state.timer ? "已有计时进行中" : "启动计时"}
-                      </button>
-                    </div>
-                  )}
-                  <p className="hint">
-                    计时切换步骤、刷新后保留。锁屏后不保证声音或通知；回来后会校正剩余时间。
-                  </p>
-                  <details>
-                    <summary>查看标准用量</summary>
-                    <IngredientList r={recipe} />
-                  </details>
-                  <div className="step-actions">
-                    <button onClick={() => stepTo(cooking.step - 1)}>
-                      <ArrowLeft size={18} />
-                      {cooking.step === 0 ? "回到备料" : "上一步"}
-                    </button>
-                    <button
-                      className="primary"
-                      onClick={() => {
-                        if (cooking.step === recipe.steps.length - 1)
-                          setState((s) => ({
-                            ...s,
-                            cooking: { ...s.cooking, step: s.cooking.step + 1 },
-                            timer: s.timer?.id === recipe.id ? null : s.timer,
-                          }));
-                        else stepTo(cooking.step + 1);
-                      }}
-                    >
-                      {cooking.step === recipe.steps.length - 1
-                        ? "完成这道菜"
-                        : "下一步"}
-                      <ArrowRight size={18} />
-                    </button>
-                  </div>
-                </>
-              )}
-            </section>
+            <Cooking
+              recipe={recipe}
+              state={state}
+              setState={setState}
+              recipes={recipes}
+              go={go}
+              start={start}
+            />
           )}
         {![
           "pantry",
@@ -904,6 +800,7 @@ function App() {
           "cook",
           "recommendations",
           "settings",
+          "basket",
         ].includes(page) ||
         (["recipe", "cook"].includes(page) && !recipe)
           ? empty("没有找到这个页面", "回到找菜谱，重新选一道菜吧。")
@@ -923,6 +820,8 @@ function App() {
       </main>
       <TimerWidget
         timer={state.timer}
+        dock={state.timerDock}
+        setDock={(dock) => setState((s) => ({ ...s, timerDock: dock }))}
         now={now}
         recipes={recipes}
         setTimer={(timer) => setState((s) => ({ ...s, timer }))}
@@ -932,6 +831,7 @@ function App() {
           ["pantry", Carrot, "我的食材"],
           ["search", BookOpen, "找菜谱"],
           ["favorites", Heart, "收藏"],
+          ["basket", ShoppingBasket, "菜篮"],
           ["settings", SettingsIcon, "设置"],
         ].map(([p, Icon, label]) => (
           <a
@@ -941,7 +841,12 @@ function App() {
             className={page === p ? "active" : ""}
           >
             <Icon size={22} />
-            <span>{label}</span>
+            <span>
+              {label}
+              {p === "basket" && state.basket.length > 0 && (
+                <b className="basket-count">{state.basket.length}</b>
+              )}
+            </span>
           </a>
         ))}
       </nav>
@@ -966,44 +871,6 @@ function CategoryTabs({ category, setCategory }) {
 function Redirect({ go }) {
   useEffect(go, []);
   return null;
-}
-function IngredientList({ r, checked, onCheck }) {
-  return (
-    <ul className="ingredients">
-      {r.ingredients.map((i, index) => (
-        <li key={i.name}>
-          {onCheck ? (
-            <label>
-              <input
-                type="checkbox"
-                checked={checked.includes(index)}
-                onChange={() => onCheck(index)}
-              />
-              <span>
-                {i.name}
-                {i.optional && <small>可省</small>}
-                {i.optionalReason && (
-                  <em className="optional-reason">{i.optionalReason}</em>
-                )}
-              </span>
-              <b>{i.amount}</b>
-            </label>
-          ) : (
-            <>
-              <span>
-                {i.name}
-                {i.optional && <small>可省</small>}
-                {i.optionalReason && (
-                  <em className="optional-reason">{i.optionalReason}</em>
-                )}
-              </span>
-              <b>{i.amount}</b>
-            </>
-          )}
-        </li>
-      ))}
-    </ul>
-  );
 }
 function Source({ r }) {
   return (
@@ -1031,6 +898,7 @@ function Source({ r }) {
         {r.source.checked}{" "}
         核对用量与做法，中文步骤为简要整理。网页核对不等于项目试做，本项目尚未实际试做。不以评分或评论数量作为本项目试做证据。未取得转载图片许可，本页使用自绘示意图。
       </p>
+      {r.editorNote && <p className="hint">{r.editorNote}</p>}
       {r.source.site === "The Woks of Life" &&
         ["tomato-eggs", "bok-choy", "tomato-soup", "scallion-noodles"].includes(
           r.id,

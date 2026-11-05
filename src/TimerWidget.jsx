@@ -1,22 +1,140 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Timer, X } from "lucide-react";
+import { Timer, X, EyeOff } from "lucide-react";
 import { remaining } from "./logic";
-export default function TimerWidget({ timer, setTimer, now, recipes }) {
-  const dialog = useRef();
-  const [minutes, setMinutes] = useState("5");
-  const [label, setLabel] = useState("厨房计时");
+export default function TimerWidget({
+  timer,
+  setTimer,
+  now,
+  recipes,
+  dock,
+  setDock,
+}) {
+  const dialog = useRef(),
+    gesture = useRef(null),
+    hold = useRef(null),
+    blockedUntil = useRef(0),
+    previous = useRef(timer);
+  const [minutes, setMinutes] = useState("5"),
+    [label, setLabel] = useState("厨房计时");
+  const [dragPoint, setDragPoint] = useState(null),
+    [notice, setNotice] = useState("");
+  const [viewport, setViewport] = useState({
+    w: window.innerWidth,
+    h: window.innerHeight,
+  });
+  const maxX = Math.max(12, viewport.w - 68),
+    maxY = Math.max(12, viewport.h - 142);
+  const bounded = (x, y) => ({
+    x: Math.min(maxX, Math.max(12, x)),
+    y: Math.min(maxY, Math.max(12, y)),
+  });
+  const position = dock.position || { x: 1, y: 1 };
+  const point = dragPoint || {
+    x: 12 + (maxX - 12) * position.x,
+    y: 12 + (maxY - 12) * position.y,
+  };
+  const savePosition = (p) =>
+    setDock({
+      ...dock,
+      position: {
+        x: (p.x - 12) / Math.max(1, maxX - 12),
+        y: (p.y - 12) / Math.max(1, maxY - 12),
+      },
+    });
   const left = timer?.paused ?? (timer ? remaining(timer.deadline, now) : 0);
   const recipe = recipes.find((r) => r.id === timer?.id);
   const title =
     timer?.label ||
     (recipe
-      ? `${recipe.name} · ${recipe.steps[timer.step]?.title || "步骤计时"}`
+      ? recipe.name + " · " + (recipe.steps[timer.step]?.title || "步骤计时")
       : "厨房计时");
-  const display = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
-  const caption = timer
-    ? `${title} · ${timer.paused != null ? "已暂停 " : ""}${left ? display : "时间到了"}`
-    : "随手计时";
-  useEffect(() => () => dialog.current?.close(), []);
+  const display =
+    Math.floor(left / 60) + ":" + String(left % 60).padStart(2, "0");
+  const status = timer
+    ? left
+      ? timer.paused != null
+        ? "已暂停"
+        : "计时中"
+      : "时间到了"
+    : "";
+  useEffect(() => {
+    const resize = () => {
+      clearTimeout(hold.current);
+      gesture.current = null;
+      setDragPoint(null);
+      setViewport({ w: innerWidth, h: innerHeight });
+    };
+    window.addEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("resize", resize);
+      clearTimeout(hold.current);
+    };
+  }, []);
+  useEffect(() => {
+    if (previous.current && !timer) dialog.current?.close();
+    previous.current = timer;
+  }, [timer]);
+  useEffect(() => {
+    if (!notice) return;
+    const t = setTimeout(() => setNotice(""), 5000);
+    return () => clearTimeout(t);
+  }, [notice]);
+  const stop = () => {
+    dialog.current?.close();
+    setTimer(null);
+  };
+  const hide = () => {
+    clearTimeout(hold.current);
+    dialog.current?.close();
+    blockedUntil.current = Date.now() + 500;
+    gesture.current = null;
+    setDragPoint(null);
+    setDock({ ...dock, hidden: true });
+    setNotice("计时图标已隐藏，可在设置中恢复。正在运行的计时会继续。");
+  };
+  const down = (e) => {
+    if (e.button !== 0 || !e.isPrimary) return;
+    gesture.current = {
+      x: e.clientX,
+      y: e.clientY,
+      origin: point,
+      moved: false,
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
+    hold.current = setTimeout(hide, 650);
+  };
+  const move = (e) => {
+    const g = gesture.current;
+    if (!g) return;
+    const dx = e.clientX - g.x,
+      dy = e.clientY - g.y;
+    if (Math.hypot(dx, dy) > 8) {
+      g.moved = true;
+      clearTimeout(hold.current);
+    }
+    if (g.moved) {
+      e.preventDefault();
+      setDragPoint(bounded(g.origin.x + dx, g.origin.y + dy));
+    }
+  };
+  const up = (e) => {
+    clearTimeout(hold.current);
+    const g = gesture.current;
+    gesture.current = null;
+    if (g?.moved) {
+      savePosition(
+        bounded(g.origin.x + e.clientX - g.x, g.origin.y + e.clientY - g.y),
+      );
+      blockedUntil.current = Date.now() + 400;
+    }
+    setDragPoint(null);
+  };
+  const cancel = () => {
+    clearTimeout(hold.current);
+    gesture.current = null;
+    setDragPoint(null);
+    blockedUntil.current = Date.now() + 400;
+  };
   const start = (seconds) => {
     if (timer) return;
     setTimer({
@@ -29,29 +147,67 @@ export default function TimerWidget({ timer, setTimer, now, recipes }) {
   };
   return (
     <>
-      <div
-        className={"floating-timer " + (timer && left === 0 ? "expired" : "")}
-      >
-        <button
-          onClick={() => dialog.current.showModal()}
-          aria-label={`打开厨房计时器：${caption}`}
+      {!dock.hidden && (
+        <div
+          className={
+            "floating-timer icon-timer " +
+            (timer ? "running " : "") +
+            (timer && left === 0 ? "expired" : "")
+          }
+          style={{
+            left: "clamp(12px, " + point.x + "px, calc(100vw - 68px))",
+            top: "clamp(12px, " + point.y + "px, calc(100dvh - 142px))",
+          }}
         >
-          <Timer size={21} />
-          <span>{caption}</span>
-        </button>
-        {timer && (
-          <button aria-label="关闭计时器" onClick={() => setTimer(null)}>
-            <X size={18} />
+          <button
+            className="timer-handle"
+            aria-label={
+              "打开厨房计时器" +
+              (timer ? "：" + title + "，" + status + " " + display : "")
+            }
+            title="点击计时，拖动换位置，长按隐藏"
+            onPointerDown={down}
+            onPointerMove={move}
+            onPointerUp={up}
+            onPointerCancel={cancel}
+            onContextMenu={(e) => e.preventDefault()}
+            onClick={() => {
+              if (Date.now() >= blockedUntil.current)
+                dialog.current.showModal();
+            }}
+            onKeyDown={(e) => {
+              const dirs = {
+                ArrowLeft: [-20, 0],
+                ArrowRight: [20, 0],
+                ArrowUp: [0, -20],
+                ArrowDown: [0, 20],
+              };
+              if (dirs[e.key]) {
+                e.preventDefault();
+                savePosition(
+                  bounded(point.x + dirs[e.key][0], point.y + dirs[e.key][1]),
+                );
+              }
+              if (e.key === "Home") {
+                e.preventDefault();
+                setDock({ ...dock, position: null });
+              }
+            }}
+          >
+            <Timer size={26} aria-hidden="true" />
+            {timer && <i className="timer-dot" aria-hidden="true" />}
           </button>
-        )}
-        <span className="sr-only" role="status">
-          {timer
-            ? left
-              ? `${title}，${timer.paused != null ? "已暂停" : "计时中"}`
-              : "时间到了，请检查锅里状态"
-            : ""}
-        </span>
-      </div>
+        </div>
+      )}
+      <span className="sr-only" role="status">
+        {timer ? title + "，" + status : ""}
+      </span>
+      {notice && (
+        <div className="timer-notice" role="status">
+          {notice}
+          <a href="#settings">去设置</a>
+        </div>
+      )}
       <dialog
         ref={dialog}
         className="timer-dialog"
@@ -70,6 +226,7 @@ export default function TimerWidget({ timer, setTimer, now, recipes }) {
           <>
             <p>{title}</p>
             <p className="timer-digits">{display}</p>
+            <p role="status">{status}</p>
             <div className="chips">
               {left > 0 && (
                 <button
@@ -92,18 +249,20 @@ export default function TimerWidget({ timer, setTimer, now, recipes }) {
                 onClick={() =>
                   setTimer(
                     timer.paused != null
-                      ? { ...timer, paused: Math.min(timer.paused + 60, 86400) }
+                      ? { ...timer, paused: Math.min(timer.paused + 60, 10800) }
                       : {
                           ...timer,
-                          deadline:
+                          deadline: Math.min(
                             Math.max(timer.deadline, Date.now()) + 60000,
+                            Date.now() + 10800000,
+                          ),
                         },
                   )
                 }
               >
                 加 1 分钟
               </button>
-              <button onClick={() => setTimer(null)}>结束当前计时</button>
+              <button onClick={stop}>结束当前计时</button>
             </div>
           </>
         ) : (
@@ -151,8 +310,38 @@ export default function TimerWidget({ timer, setTimer, now, recipes }) {
           </form>
         )}
         <p className="hint">
-          一次保留一个计时；切换页面、刷新后可恢复。锁屏或后台不保证声音和通知，回到页面会校正时间。
+          一次一个计时，刷新会保留。后台和锁屏不保证响铃；回来会校正时间。
         </p>
+        <details className="timer-placement">
+          <summary>图标位置与隐藏</summary>
+          <p className="hint">
+            拖动可移动，长按可隐藏。键盘方向键移动，Home
+            复位；隐藏后在设置恢复。
+          </p>
+          <div className="chips">
+            <button
+              onClick={() =>
+                setDock({ ...dock, position: { ...position, x: 0 } })
+              }
+            >
+              放在左侧
+            </button>
+            <button
+              onClick={() =>
+                setDock({ ...dock, position: { ...position, x: 1 } })
+              }
+            >
+              放在右侧
+            </button>
+            <button onClick={() => setDock({ ...dock, position: null })}>
+              恢复默认位置
+            </button>
+            <button onClick={hide}>
+              <EyeOff size={16} />
+              隐藏悬浮图标
+            </button>
+          </div>
+        </details>
       </dialog>
     </>
   );

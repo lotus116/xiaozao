@@ -68,7 +68,7 @@ test("search supports aliases, time, difficulty and no results", () => {
     true,
   );
   assert.ok(
-    !searchRecipes(recipes, "土豆", 30).some((r) => r.id === "potatoes"),
+    !searchRecipes(recipes, "土豆", 15).some((r) => r.id === "potatoes"),
   );
   assert.ok(
     searchRecipes(recipes, "", Infinity, 2).some((r) => r.id === "potatoes"),
@@ -82,6 +82,10 @@ test("storage handles corrupt JSON, null and schema mismatch", () => {
       favorites: [],
       cooking: null,
       timer: null,
+      basket: [],
+      meal: null,
+      cookView: "overview",
+      timerDock: { hidden: false, position: null },
       preferences: { allergens: [], avoid: [], avoidMode: "hide" },
     });
 });
@@ -116,7 +120,7 @@ test("valid cooking and expired timer retained for acknowledgement", () => {
     }),
     recipes,
   );
-  assert.deepEqual(s.cooking.checked, [0]);
+  assert.deepEqual(s.cooking, { id: timed.id, step: 1 });
   assert.ok(s.timer);
 });
 test("refined recipes invalidate old step indexes while preserving pantry and favorites", () => {
