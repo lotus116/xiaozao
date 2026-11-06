@@ -66,9 +66,8 @@ function Card({ r, state, go, fav, addToBasket }) {
   const miss = missing(r, state.pantry);
   return (
     <article className="recipe-row">
-      <div className="recipe-card-main">
       <button className="recipe-open" onClick={() => go(`recipe/${r.id}`)}>
-        <DishThumbnail recipe={r} />
+        <DishThumbnail recipe={r} tile />
         <span className="recipe-copy">
           <strong>{r.name}</strong>
           <span className="meta">
@@ -98,8 +97,6 @@ function Card({ r, state, go, fav, addToBasket }) {
           )}
         </span>
       </button>
-      <PhotoCredit recipe={r} />
-      </div>
       <div className="recipe-actions">
         <button
           className={`favorite ${state.favorites.includes(r.id) ? "saved" : ""}`}
@@ -316,7 +313,7 @@ function App() {
               </div>
               {heroRecipe && <div className="hero-photo-block"><button className="hero-photo" onClick={() => go("recipe/" + heroRecipe.id)}>
                 <DishThumbnail recipe={heroRecipe} eager /><span>{heroRecipe.name} ›</span>
-              </button><PhotoCredit recipe={heroRecipe} /></div>}
+              </button></div>}
             </div>
             {active && (
               <button
@@ -736,6 +733,7 @@ function App() {
                 </p>
               </aside>
               <Source r={recipe} />
+              <PhotoCredit recipe={recipe} />
             </section>
           )}
         {page === "cook" &&

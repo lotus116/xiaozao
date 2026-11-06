@@ -10,12 +10,21 @@
 .hero-photo {display:grid;gap:3px;justify-items:center;background:none;border:0;color:inherit;flex:none;}
 .hero-photo img {width:clamp(80px,22vw,160px);}
 .hero-photo span {font-size:.85rem;}
-.dish-reference {flex:none;max-width:9em;font-size:.88rem;line-height:1.4;padding:.5em 0;text-underline-offset:.2em;}
-.recipe-card-main {flex:1; min-width:0;}
-.recipe-card-main .recipe-open {width:100%;}
 .dish-thumbnail.full-frame {object-fit:contain;border-radius:0;}
-.dish-credit {display:inline-block;max-width:100%;margin:4px 0 0;font-size:.77rem;line-height:1.45;overflow-wrap:anywhere;color:var(--ink,#263d32);text-underline-offset:2px;}
 .detail-photo {flex:none;max-width:clamp(100px,27vw,168px);}
 .detail-photo:has(.full-frame) .dish-preview {border-radius:0;overflow:visible;}
 .detail-photo:has(.full-frame) .dish-preview span {position:static;justify-content:center;border-radius:0;}
 .hero-photo-block {max-width:35%;}
+
+/* A shared square frame aligns the list. Full-frame photos retain the author's composition. */
+.dish-tile {
+  position: relative; isolation: isolate; display: grid; place-items: center;
+  flex: none; width: clamp(72px, 19vw, 92px); aspect-ratio: 1;
+  overflow: hidden; border-radius: 12px; background: #e8e7df;
+}
+.dish-tile img { grid-area: 1 / 1; width: 100%; height: 100%; min-width: 0; min-height: 0; }
+.dish-tile .dish-thumbnail { position: absolute; inset: 0; border-radius: 0; }
+.dish-tile-backdrop { position: absolute; inset: 0; object-fit: cover; filter: blur(9px); transform: scale(1.25); opacity: .6; }
+.photo-credit-footer { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+.photo-credit-footer h2 { margin: 0 0 6px; font: inherit; font-weight: 650; }
+.photo-credit-footer p { margin: 0; font-size: .88rem; line-height: 1.6; }

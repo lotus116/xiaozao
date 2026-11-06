@@ -1,6 +1,6 @@
 # 小灶安卓安装与构建
 
-本轮交付 `releases/xiaozao-1.3.0-debug.apk`，应用名“小灶”，包名 `com.xiaozao.kitchen`，版本 1.3.0（versionCode 4）。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。这是供本机安装体验的测试签名包，尚未提交应用商店。
+本轮交付 `releases/xiaozao-1.3.1-debug.apk`，应用名“小灶”，包名 `com.xiaozao.kitchen`，版本 1.3.1（versionCode 5）。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。这是供本机安装体验的测试签名包，尚未提交应用商店。
 
 ## 安装
 
