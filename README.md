@@ -4,11 +4,11 @@
 
 ## 最新 Web 迭代
 
-首批新手教学改写已覆盖番茄炒鸡蛋、家常蒸蛋、家常蛋炒饭：参考多个受欢迎的公开教程，把“什么时候做下一步”写成能看懂的状态，补充可调整用量、常见问题补救与关键食安。保留现有步骤顺序、跟做进度和计时，增加默认折叠的做菜小提示。范围为 **3/99 道**，其余 96 道尚未按这个标准逐菜重写，也未下厨试做。见 [研究与证据边界](docs/BEGINNER_RECIPE_RESEARCH.md)。
+**99/99 道已完成新手教学改写**：把“什么时候做下一步”写成可观察的状态，每道有重点、灵活用量和具体补救，共 201 条补救建议。综合公开教程与食安指引，优先采用能核实的读者反馈；部分原链接本轮不可读或只核对到相近技法，均明确记录，不声称 99 道都是实时高赞榜单。保留步骤顺序、跟做进度和计时，调整/补救默认折叠。全部尚未下厨试做。见 [批量范围与证据边界](docs/RECIPE_TEACHING_BATCH.md)。
 
 最新交互调整：把设置里的“今天重新选食材”移到菜篮，保留调料、已选菜和跟做进度；与首页清空入口共用撤销。食材输入框只通过右侧箭头展开建议，输入和聚焦不再自动弹出；支持键盘、别名和批量输入。详见 [测试记录](docs/TEST_REPORT.md)。
 
-源码已保存到 [lotus116/xiaozao](https://github.com/lotus116/xiaozao)。本轮面向真实灶台使用，修正 11 道菜的清水量、备料顺序、火力和食安细节，新增非强制开火前提醒、整页步骤位置记忆、可选屏幕常亮、当前计时就地查看和折叠厨房小抄。保留整页看、少操作、99 道菜及米白/锅绿风格。
+历史源码仓库：[lotus116/xiaozao](https://github.com/lotus116/xiaozao)。本次教学改写目前仅保存在本机，尚未推送。此前面向真实灶台使用，修正 11 道菜的清水量、备料顺序、火力和食安细节，新增非强制开火前提醒、整页步骤位置记忆、可选屏幕常亮、当前计时就地查看和折叠厨房小抄。保留整页看、少操作、99 道菜及米白/锅绿风格。
 
 见 [本轮研究与设计取舍](docs/REAL_COOKING_ITERATION.md)、[菜谱内容审计](docs/COOKING_CONTENT_AUDIT.md) 和 [测试记录](docs/TEST_REPORT.md)。本轮没有重新生成安卓 APK，也没有发布公开网站。
 
@@ -34,7 +34,7 @@ npm run build
 npm run preview
 ```
 
-默认 http://localhost:4173 。构建产物位于 `dist/`，可部署到普通静态站点；源码已推送 GitHub；尚未公开部署网站。
+默认 http://localhost:4173 。构建产物位于 `dist/`，可部署到普通静态站点；历史版本已推送 GitHub，本次教学改写尚未推送；尚未公开部署网站。
 
 ## 已实现
 
@@ -45,7 +45,7 @@ npm run preview
 - 99 道精选家常/懒人菜：70 道菜肴、18 道主食、11 道汤羹，分开浏览和推荐；支持菜名/食材、时间、难度、5 项以内必需用料筛选。
 - 本轮新增 46 道、简化 43 道旧菜。97 道不超过 5 项必需用料（计油盐，不计水）。番茄蛋花汤只需番茄、鸡蛋、油、水、盐；可省配料有用途说明，步骤同步调整。
 - 厨房设置：10 类常见过敏筛选，自定义普通忌口可选隐藏或提醒；过敏限制也应用于直接链接。
-- 标准份数、用量、厨具、营养参考、来源与未试做声明。
+- 标准份数、用量、厨具、营养参考、来源与未试做声明；99 道均有具体教学重点、可调整范围及折叠补救，关键食安同时保留在主步骤中。
 - 备料是图标、名称、用量组成的提醒卡片，分主料/基础调味/可选配料，无需逐项打勾。开火前提示洗切、分装和生熟分开；跟做默认整页看，也可切换分步看，点击步骤序号可记住当前位置。
 - 底部菜篮：选菜、移除、调整顺序、集中备料、缺料速览及本机复制采购文本、一键开始一餐，完成一道后接着下一道。过敏限制也应用于菜篮；开做后菜单顺序保留为当前一餐，修改菜篮不打乱进行中的一餐。
 - 本机食材、收藏、偏好、菜篮、当前一餐和跟做进度保存。纯图标计时入口可拖动、长按隐藏，位置与隐藏状态保存，设置中可恢复。键盘方向键移动，Home 复位，也提供点击位置按钮。
@@ -91,8 +91,8 @@ PLAYWRIGHT_BROWSERS_PATH=/tmp/little-kitchen-browsers npm run test:e2e
 
 ## 文件结构
 
-`src/recipes.js` / `src/extra.js` / `src/chinese-recipes.js` / `src/easy-recipes.js`：菜谱与来源；`src/preferences.js` / `src/Settings.jsx`：偏好；`src/TimerWidget.jsx`：悬浮计时器；`src/Ingredients.jsx`：备料卡片；`src/Basket.jsx` / `src/meal.js`：菜篮与整餐；`src/Cooking.jsx`：跟做；`src/logic.js`：匹配与存储；`tests/`：规则与浏览器验收。
+`src/recipes.js` / `src/extra.js` / `src/chinese-recipes.js` / `src/easy-recipes.js`：基础菜谱与来源；`src/beginner-recipes.js` / `src/teaching-*.js`：兼容旧进度的新手教学；`src/preferences.js` / `src/Settings.jsx`：偏好；`src/TimerWidget.jsx`：悬浮计时器；`src/Ingredients.jsx`：备料卡片；`src/Basket.jsx` / `src/meal.js`：菜篮与整餐；`src/Cooking.jsx`：跟做；`src/logic.js`：匹配与存储；`tests/`：规则与浏览器验收。
 
 内容更新后运行 `node scripts/source-ledger.mjs` 重建来源清单，并核实新增来源，不要用脚本生成的记录代替真实核对。
 
-本轮来源与逐菜变化见 [99 道研究报告](docs/EASY_99_RESEARCH.md)；[上一轮研究](docs/CHINESE_RECIPE_RESEARCH.md)作为历史记录。实现流程与边界见 [本轮设计记录](docs/KITCHEN_WORKFLOW.md)。
+本轮教学来源与逐菜取舍见 [99 道教学改写](docs/RECIPE_TEACHING_BATCH.md)；此前扩充与简化见 [99 道研究报告](docs/EASY_99_RESEARCH.md)；[上一轮研究](docs/CHINESE_RECIPE_RESEARCH.md)作为历史记录。实现流程与边界见 [本轮设计记录](docs/KITCHEN_WORKFLOW.md)。

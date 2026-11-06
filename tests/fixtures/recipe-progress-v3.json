@@ -1,0 +1,1804 @@
+[
+  {
+    "id": "tomato-eggs",
+    "stateVersion": 2,
+    "steps": [
+      {
+        "title": "准备食材",
+        "seconds": 0
+      },
+      {
+        "title": "先炒鸡蛋",
+        "seconds": 0
+      },
+      {
+        "title": "炒软番茄",
+        "seconds": 0
+      },
+      {
+        "title": "合炒调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "steamed-eggs",
+    "stateVersion": 2,
+    "steps": [
+      {
+        "title": "调蛋液",
+        "seconds": 0
+      },
+      {
+        "title": "盖盘蒸蛋",
+        "seconds": 600
+      },
+      {
+        "title": "关火焖与检查",
+        "seconds": 300
+      }
+    ]
+  },
+  {
+    "id": "bok-choy",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "洗净青菜",
+        "seconds": 0
+      },
+      {
+        "title": "大火炒菜",
+        "seconds": 0
+      },
+      {
+        "title": "炒熟调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "tomato-soup",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "准备番茄和蛋",
+        "seconds": 0
+      },
+      {
+        "title": "煮软番茄",
+        "seconds": 0
+      },
+      {
+        "title": "淋蛋花",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "scallion-noodles",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "煮面",
+        "seconds": 0
+      },
+      {
+        "title": "煸葱油",
+        "seconds": 0
+      },
+      {
+        "title": "拌面",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cucumber",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "拍黄瓜",
+        "seconds": 0
+      },
+      {
+        "title": "调汁",
+        "seconds": 0
+      },
+      {
+        "title": "拌匀",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "potatoes",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切丝冲洗",
+        "seconds": 0
+      },
+      {
+        "title": "小火炒香",
+        "seconds": 0
+      },
+      {
+        "title": "大火炒熟",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cold-tofu",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "煮豆腐",
+        "seconds": 0
+      },
+      {
+        "title": "调汁",
+        "seconds": 0
+      },
+      {
+        "title": "淋汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "fried-rice",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "准备米饭",
+        "seconds": 0
+      },
+      {
+        "title": "炒蛋和饭",
+        "seconds": 0
+      },
+      {
+        "title": "炒热调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "honey-chicken",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切鸡肉",
+        "seconds": 0
+      },
+      {
+        "title": "炒鸡丁",
+        "seconds": 0
+      },
+      {
+        "title": "蜜汁煮透",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "garlic-bok",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "洗菜切蒜",
+        "seconds": 0
+      },
+      {
+        "title": "炒蒜下菜",
+        "seconds": 0
+      },
+      {
+        "title": "炒熟",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "mushroom",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切杏鲍菇",
+        "seconds": 0
+      },
+      {
+        "title": "煎熟",
+        "seconds": 0
+      },
+      {
+        "title": "酱香裹汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "soy-eggs",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "准备米饭",
+        "seconds": 0
+      },
+      {
+        "title": "煎熟鸡蛋",
+        "seconds": 0
+      },
+      {
+        "title": "淋酱汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "egg-soup",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "打散鸡蛋",
+        "seconds": 0
+      },
+      {
+        "title": "煮水调底味",
+        "seconds": 0
+      },
+      {
+        "title": "淋蛋与出锅",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "tomato-noodles",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "准备",
+        "seconds": 0
+      },
+      {
+        "title": "煮番茄面",
+        "seconds": 0
+      },
+      {
+        "title": "淋蛋调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "crispy-noodles",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "准备面条",
+        "seconds": 0
+      },
+      {
+        "title": "煎两面",
+        "seconds": 0
+      },
+      {
+        "title": "调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "soy-rice",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "准备米饭",
+        "seconds": 0
+      },
+      {
+        "title": "炒蛋炒饭",
+        "seconds": 0
+      },
+      {
+        "title": "酱油调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "garlic-broccoli",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "焯熟",
+        "seconds": 0
+      },
+      {
+        "title": "蒜汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "shrimp-eggs",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "备料",
+        "seconds": 0
+      },
+      {
+        "title": "炒虾",
+        "seconds": 0
+      },
+      {
+        "title": "加蛋",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "bacon-rice",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "备料",
+        "seconds": 0
+      },
+      {
+        "title": "炒培根鸡蛋",
+        "seconds": 0
+      },
+      {
+        "title": "炒热饭",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "broccoli-tofu",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "准备",
+        "seconds": 0
+      },
+      {
+        "title": "煎豆腐煮菜",
+        "seconds": 0
+      },
+      {
+        "title": "调味收汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cabbage",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "撕包菜",
+        "seconds": 0
+      },
+      {
+        "title": "大火炒",
+        "seconds": 0
+      },
+      {
+        "title": "调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cabbage-noodles",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "泡粉丝",
+        "seconds": 0
+      },
+      {
+        "title": "炒包菜",
+        "seconds": 0
+      },
+      {
+        "title": "煮粉丝",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "beef-noodles",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "煮面",
+        "seconds": 0
+      },
+      {
+        "title": "炒肉末",
+        "seconds": 0
+      },
+      {
+        "title": "拌面",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "hot-noodles",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "煮面烫菜",
+        "seconds": 0
+      },
+      {
+        "title": "放调味",
+        "seconds": 0
+      },
+      {
+        "title": "热油拌匀",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "ginger-shrimp",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "准备虾仁",
+        "seconds": 0
+      },
+      {
+        "title": "炒姜葱虾",
+        "seconds": 0
+      },
+      {
+        "title": "调味出锅",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "chive-eggs",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切韭菜打蛋",
+        "seconds": 0
+      },
+      {
+        "title": "炒鸡蛋",
+        "seconds": 0
+      },
+      {
+        "title": "合炒",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-pepper-eggs",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "炒蛋",
+        "seconds": 0
+      },
+      {
+        "title": "合炒",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-cucumber-eggs",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "准备",
+        "seconds": 0
+      },
+      {
+        "title": "炒鸡蛋",
+        "seconds": 0
+      },
+      {
+        "title": "炒黄瓜",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-seaweed-egg-soup",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "备料",
+        "seconds": 0
+      },
+      {
+        "title": "煮紫菜",
+        "seconds": 0
+      },
+      {
+        "title": "淋蛋液",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-celery-tofu",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "炒熟",
+        "seconds": 0
+      },
+      {
+        "title": "调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-celery-mince",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "炒肉末",
+        "seconds": 0
+      },
+      {
+        "title": "炒蔬菜",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-vinegar-cabbage",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切白菜",
+        "seconds": 0
+      },
+      {
+        "title": "炒白菜",
+        "seconds": 0
+      },
+      {
+        "title": "醋汁调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-braised-wintermelon",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "烧冬瓜",
+        "seconds": 0
+      },
+      {
+        "title": "收汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-garlic-lettuce",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "备菜",
+        "seconds": 0
+      },
+      {
+        "title": "炒蒜菜",
+        "seconds": 0
+      },
+      {
+        "title": "调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-tiger-peppers",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "准备青椒",
+        "seconds": 0
+      },
+      {
+        "title": "煎青椒",
+        "seconds": 0
+      },
+      {
+        "title": "裹汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-mushroom-rapeseed",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "炒菜炒菇",
+        "seconds": 0
+      },
+      {
+        "title": "合炒调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-garlic-shoot-pork",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切配腌肉",
+        "seconds": 0
+      },
+      {
+        "title": "炒肉",
+        "seconds": 0
+      },
+      {
+        "title": "合炒",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-steamed-pumpkin",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切南瓜",
+        "seconds": 0
+      },
+      {
+        "title": "水开后蒸",
+        "seconds": 900
+      },
+      {
+        "title": "检查软度",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-cauliflower",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "焯花菜",
+        "seconds": 150
+      },
+      {
+        "title": "炒香",
+        "seconds": 120
+      },
+      {
+        "title": "短焖",
+        "seconds": 60
+      }
+    ]
+  },
+  {
+    "id": "cn-blanched-choysum",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "备菜",
+        "seconds": 0
+      },
+      {
+        "title": "白灼",
+        "seconds": 0
+      },
+      {
+        "title": "浇汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-cola-wings",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "焯鸡翅",
+        "seconds": 0
+      },
+      {
+        "title": "煎香",
+        "seconds": 0
+      },
+      {
+        "title": "煮熟收汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-onion-shrimp",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "垫锅摆虾",
+        "seconds": 0
+      },
+      {
+        "title": "中火起蒸汽",
+        "seconds": 60
+      },
+      {
+        "title": "转小火",
+        "seconds": 300
+      },
+      {
+        "title": "关火焖",
+        "seconds": 300
+      },
+      {
+        "title": "检查与蘸料",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-radish-soup",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切萝卜",
+        "seconds": 0
+      },
+      {
+        "title": "煮萝卜",
+        "seconds": 0
+      },
+      {
+        "title": "调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-tomato-tofu-soup",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "煮番茄豆腐",
+        "seconds": 0
+      },
+      {
+        "title": "淋蛋勾薄芡",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-wood-ear-salad",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "处理木耳",
+        "seconds": 0
+      },
+      {
+        "title": "煮熟",
+        "seconds": 0
+      },
+      {
+        "title": "拌汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-zucchini-eggs",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "先炒蛋",
+        "seconds": 0
+      },
+      {
+        "title": "炒西葫芦",
+        "seconds": 240
+      },
+      {
+        "title": "合锅",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-onion-eggs",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "拌蛋",
+        "seconds": 0
+      },
+      {
+        "title": "煎炒",
+        "seconds": 0
+      },
+      {
+        "title": "出锅",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-water-spinach",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "备菜",
+        "seconds": 0
+      },
+      {
+        "title": "炒蒜下菜",
+        "seconds": 0
+      },
+      {
+        "title": "炒熟调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-scallion-tofu",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "煎豆腐",
+        "seconds": 0
+      },
+      {
+        "title": "调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-millet-congee",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "轻淘小米",
+        "seconds": 0
+      },
+      {
+        "title": "沸水下米",
+        "seconds": 480
+      },
+      {
+        "title": "慢熬",
+        "seconds": 1200
+      }
+    ]
+  },
+  {
+    "id": "cn-boiled-corn",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "处理玉米",
+        "seconds": 0
+      },
+      {
+        "title": "煮玉米",
+        "seconds": 0
+      },
+      {
+        "title": "检查熟度",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "cn-steamed-perch",
+    "stateVersion": 3,
+    "steps": [
+      {
+        "title": "准备鱼",
+        "seconds": 0
+      },
+      {
+        "title": "蒸鱼",
+        "seconds": 0
+      },
+      {
+        "title": "淋汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-oyster-lettuce",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "洗生菜",
+        "seconds": 0
+      },
+      {
+        "title": "焯熟",
+        "seconds": 0
+      },
+      {
+        "title": "烧蚝油汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-spinach-eggs",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "焯菠菜",
+        "seconds": 0
+      },
+      {
+        "title": "炒鸡蛋",
+        "seconds": 0
+      },
+      {
+        "title": "合炒",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-bittermelon-eggs",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "处理苦瓜",
+        "seconds": 0
+      },
+      {
+        "title": "先炒蛋",
+        "seconds": 0
+      },
+      {
+        "title": "合炒",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-celtuce",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "去皮切片",
+        "seconds": 0
+      },
+      {
+        "title": "少盐短腌",
+        "seconds": 300
+      },
+      {
+        "title": "快炒",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-lotus-slices",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切藕",
+        "seconds": 0
+      },
+      {
+        "title": "翻炒",
+        "seconds": 0
+      },
+      {
+        "title": "焖熟",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-mung-sprouts",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "洗豆芽",
+        "seconds": 0
+      },
+      {
+        "title": "炒熟",
+        "seconds": 0
+      },
+      {
+        "title": "调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-chive-sprouts",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "备菜",
+        "seconds": 0
+      },
+      {
+        "title": "炒蔬菜",
+        "seconds": 0
+      },
+      {
+        "title": "熟透调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-cabbage-tofu",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "先炖豆腐",
+        "seconds": 600
+      },
+      {
+        "title": "再炖白菜",
+        "seconds": 300
+      }
+    ]
+  },
+  {
+    "id": "easy-mapo-tofu",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "处理豆腐",
+        "seconds": 120
+      },
+      {
+        "title": "炒底料",
+        "seconds": 0
+      },
+      {
+        "title": "烧入味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-century-tofu",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "准备豆腐",
+        "seconds": 0
+      },
+      {
+        "title": "切皮蛋",
+        "seconds": 0
+      },
+      {
+        "title": "调汁淋上",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-enoki-salad",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "处理菌菇",
+        "seconds": 0
+      },
+      {
+        "title": "煮熟",
+        "seconds": 120
+      },
+      {
+        "title": "拌汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-steamed-eggplant",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切茄子",
+        "seconds": 0
+      },
+      {
+        "title": "蒸软",
+        "seconds": 0
+      },
+      {
+        "title": "拌味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-eggplant-potato",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切块",
+        "seconds": 0
+      },
+      {
+        "title": "翻炒",
+        "seconds": 0
+      },
+      {
+        "title": "炖软",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-luffa",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "削皮切块",
+        "seconds": 0
+      },
+      {
+        "title": "翻炒",
+        "seconds": 180
+      },
+      {
+        "title": "加水煮软",
+        "seconds": 240
+      }
+    ]
+  },
+  {
+    "id": "easy-luffa-eggs",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "先炒蛋",
+        "seconds": 0
+      },
+      {
+        "title": "合炒",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-steamed-enoki",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "摆盘",
+        "seconds": 0
+      },
+      {
+        "title": "炒蒜蓉",
+        "seconds": 0
+      },
+      {
+        "title": "蒸熟",
+        "seconds": 600
+      }
+    ]
+  },
+  {
+    "id": "easy-dace-lettuce",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "备菜去刺",
+        "seconds": 0
+      },
+      {
+        "title": "炒油麦菜",
+        "seconds": 0
+      },
+      {
+        "title": "炒罐头合锅",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-potato-pork",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 600
+      },
+      {
+        "title": "焯土豆",
+        "seconds": 0
+      },
+      {
+        "title": "炒熟合锅",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-cucumber-pork",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配腌肉",
+        "seconds": 600
+      },
+      {
+        "title": "炒肉",
+        "seconds": 0
+      },
+      {
+        "title": "炒黄瓜",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-onion-pork",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切片",
+        "seconds": 0
+      },
+      {
+        "title": "先炒肉",
+        "seconds": 0
+      },
+      {
+        "title": "炒洋葱合锅",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-pepper-pork",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配腌肉",
+        "seconds": 600
+      },
+      {
+        "title": "先煸青椒",
+        "seconds": 0
+      },
+      {
+        "title": "炒肉合锅",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-shiitake-steamed-chicken",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配腌制",
+        "seconds": 1800
+      },
+      {
+        "title": "铺盘蒸",
+        "seconds": 900
+      },
+      {
+        "title": "检查熟度",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-mince-steamed-egg",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "拌肉末",
+        "seconds": 0
+      },
+      {
+        "title": "铺成薄饼",
+        "seconds": 0
+      },
+      {
+        "title": "蒸熟",
+        "seconds": 900
+      }
+    ]
+  },
+  {
+    "id": "easy-snowpeas-sausage",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "备料",
+        "seconds": 0
+      },
+      {
+        "title": "焯荷兰豆",
+        "seconds": 0
+      },
+      {
+        "title": "炒匀",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-wintermelon-driedshrimp-soup",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "处理冬瓜",
+        "seconds": 0
+      },
+      {
+        "title": "炒后加水",
+        "seconds": 0
+      },
+      {
+        "title": "煮软",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-cucumber-century-soup",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切片切块",
+        "seconds": 0
+      },
+      {
+        "title": "煎香煮汤",
+        "seconds": 0
+      },
+      {
+        "title": "加黄瓜",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-enoki-soup",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "处理金针菇",
+        "seconds": 0
+      },
+      {
+        "title": "煮熟菌菇",
+        "seconds": 180
+      },
+      {
+        "title": "调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-corn-rib-soup",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "焯排骨",
+        "seconds": 0
+      },
+      {
+        "title": "慢炖",
+        "seconds": 1200
+      },
+      {
+        "title": "炖至软烂",
+        "seconds": 2400
+      }
+    ]
+  },
+  {
+    "id": "easy-kelp-tofu-soup",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "炒海带",
+        "seconds": 0
+      },
+      {
+        "title": "煮豆腐",
+        "seconds": 600
+      }
+    ]
+  },
+  {
+    "id": "easy-catfish-tofu-soup",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "处理鱼豆腐",
+        "seconds": 0
+      },
+      {
+        "title": "煎后煮汤",
+        "seconds": 600
+      },
+      {
+        "title": "加豆腐煮熟",
+        "seconds": 300
+      }
+    ]
+  },
+  {
+    "id": "easy-tomato-shrimp",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "准备",
+        "seconds": 0
+      },
+      {
+        "title": "炒虾",
+        "seconds": 0
+      },
+      {
+        "title": "炒番茄合锅",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-vermicelli-babycabbage",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "泡粉丝",
+        "seconds": 0
+      },
+      {
+        "title": "摆盘",
+        "seconds": 0
+      },
+      {
+        "title": "蒸熟",
+        "seconds": 600
+      }
+    ]
+  },
+  {
+    "id": "easy-steamed-sweetpotato",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "洗红薯",
+        "seconds": 0
+      },
+      {
+        "title": "蒸红薯",
+        "seconds": 1800
+      },
+      {
+        "title": "检查软度",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-chicken-mushroom-rice",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "准备主料",
+        "seconds": 0
+      },
+      {
+        "title": "炒香配料",
+        "seconds": 0
+      },
+      {
+        "title": "煮饭检查",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-potato-rice",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "准备米和土豆",
+        "seconds": 0
+      },
+      {
+        "title": "煎炒土豆",
+        "seconds": 0
+      },
+      {
+        "title": "焖饭",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-pumpkin-congee",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "准备谷物",
+        "seconds": 0
+      },
+      {
+        "title": "煮开下南瓜",
+        "seconds": 0
+      },
+      {
+        "title": "慢煮",
+        "seconds": 1800
+      }
+    ]
+  },
+  {
+    "id": "easy-egg-pancake",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "调面糊",
+        "seconds": 1200
+      },
+      {
+        "title": "摊薄饼",
+        "seconds": 0
+      },
+      {
+        "title": "煎熟",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-panfried-dumplings",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "摆饺子",
+        "seconds": 0
+      },
+      {
+        "title": "加水焖熟",
+        "seconds": 600
+      },
+      {
+        "title": "煎脆底",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-century-pork-congee",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配入锅",
+        "seconds": 0
+      },
+      {
+        "title": "启动煮粥",
+        "seconds": 0
+      },
+      {
+        "title": "检查调味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-kelp-salad",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "处理海带",
+        "seconds": 0
+      },
+      {
+        "title": "煮海带",
+        "seconds": 300
+      },
+      {
+        "title": "拌味",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-steamed-yam",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "处理山药",
+        "seconds": 0
+      },
+      {
+        "title": "蒸熟",
+        "seconds": 1800
+      },
+      {
+        "title": "检查出锅",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-steamed-luffa",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切配",
+        "seconds": 0
+      },
+      {
+        "title": "摆盘调味",
+        "seconds": 0
+      },
+      {
+        "title": "蒸熟",
+        "seconds": 420
+      }
+    ]
+  },
+  {
+    "id": "easy-chicken-breast",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "切薄片腌味",
+        "seconds": 0
+      },
+      {
+        "title": "小火煎",
+        "seconds": 0
+      },
+      {
+        "title": "检查熟透",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-blackbean-ribs",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "准备腌料",
+        "seconds": 1200
+      },
+      {
+        "title": "铺盘蒸",
+        "seconds": 1200
+      },
+      {
+        "title": "检查出锅",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-oyster-mushroom",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "撕洗菌菇",
+        "seconds": 0
+      },
+      {
+        "title": "炒熟",
+        "seconds": 0
+      },
+      {
+        "title": "调味收汁",
+        "seconds": 0
+      }
+    ]
+  },
+  {
+    "id": "easy-tofu-skin-salad",
+    "stateVersion": 1,
+    "steps": [
+      {
+        "title": "煮豆腐皮",
+        "seconds": 180
+      },
+      {
+        "title": "准备配菜",
+        "seconds": 0
+      },
+      {
+        "title": "拌匀",
+        "seconds": 0
+      }
+    ]
+  }
+]

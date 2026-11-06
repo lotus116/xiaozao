@@ -5,9 +5,9 @@ import { cleanState, missing } from '../src/logic.js';
 const ids = ['tomato-eggs', 'steamed-eggs', 'fried-rice'];
 const get = (id) => recipes.find((r) => r.id === id);
 
-test('teaching pass is explicitly limited to three existing dishes', () => {
+test('the original three teaching recipes retain their reviewed guidance', () => {
   assert.equal(recipes.length, 99);
-  assert.deepEqual(recipes.filter((r) => r.teaching).map((r) => r.id).sort(), [...ids].sort());
+  assert.deepEqual(recipes.filter((r) => ids.includes(r.id)).map((r) => r.id).sort(), [...ids].sort());
   for (const id of ids) {
     const r = get(id);
     assert.ok(r.teaching.focus && r.teaching.flexibility);

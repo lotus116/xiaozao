@@ -13,13 +13,13 @@ test('optional stock has a quantified water alternative in the final recipe', ()
     assert.ok(water.amount.includes(amount), id);
     assert.ok(text(id).includes(amount), id);
     assert.equal(r.ingredients.find((i) => i.name === '鸡高汤').optional, true);
-    assert.match(text(id), /替换等量清水/);
+    assert.match(text(id), /替换等量(?:清)?水|清水与高汤二选一/);
   }
 });
 
 test('fast stir fry prepares aromatics before the heated steps', () => {
   const r = recipe('easy-pepper-pork');
-  assert.match(r.steps[0].text, /姜蒜有则先切好/);
+  assert.match(r.steps[0].text, /姜蒜有则先切好|有姜蒜切好/);
   assert.doesNotMatch(r.steps[1].text, /再切好/);
   assert.match(r.steps[0].text, /冷藏腌/);
   const tomato = recipe('tomato-eggs');
@@ -29,7 +29,7 @@ test('fast stir fry prepares aromatics before the heated steps', () => {
 
 test('starch slurry is stirred again before using and not made mandatory', () => {
   for (const id of ['bok-choy', 'broccoli-tofu', 'cn-tomato-tofu-soup', 'easy-mapo-tofu'])
-    assert.match(text(id), /重新搅匀/, id);
+    assert.match(text(id), /(?:重新|再)搅匀|搅起沉底淀粉/, id);
   assert.equal(recipe('easy-mapo-tofu').ingredients.find((i) => i.name === '玉米淀粉').optional, true);
 });
 
@@ -42,7 +42,7 @@ test('optional ground meat still needs its own safe temperature check', () => {
 test('marinated meats are refrigerated and meat rice is not delayed at room temperature', () => {
   for (const id of ['easy-potato-pork', 'easy-cucumber-pork', 'easy-pepper-pork', 'easy-shiitake-steamed-chicken'])
     assert.match(recipe(id).steps[0].text, /冷藏腌/, id);
-  assert.match(text('easy-chicken-mushroom-rice'), /说明书允许做带肉焖饭/);
-  assert.match(text('easy-chicken-mushroom-rice'), /不用常温预约/);
+  assert.match(text('easy-chicken-mushroom-rice'), /说明书允许(?:做)?带肉焖饭/);
+  assert.match(text('easy-chicken-mushroom-rice'), /不用(?:含生肉的)?常温预约/);
   assert.match(text('easy-chicken-mushroom-rice'), /74°C/);
 });
