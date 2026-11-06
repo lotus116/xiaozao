@@ -313,14 +313,14 @@ Object.assign(easyRefinements, {
       },
       {
         name: "盐",
-        amount: "1 茶匙",
+        amount: "先不放；尝后确需再补一小撮",
         optional: true,
         water: false,
         optionalReason: "只调和味道，缺少仍可做（编辑简化）",
       },
       {
         name: "糖",
-        amount: "2.5 茶匙",
+        amount: "喜欢甜味再放一点，尝味后调整",
         optional: true,
         water: false,
         optionalReason: "只调和味道，缺少仍可做（编辑简化）",

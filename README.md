@@ -4,6 +4,10 @@
 
 ## 最新 Web 迭代
 
+新增 **11 道国内原站教程复核**：优先呈现下厨房作者的具体教程、采用技法和小灶的改写差异，另给凉拌木耳补香港食安中心泡发依据。不是把海外链接换个名字，也不把站内热度冒充本项目验证；原有出处保留。同步细化拍黄瓜的少盐与安全轻拍、包菜提前备调味、香菇蒸鸡单层铺盘、木耳泡好尽快煮、麻婆豆腐酱料切细。只有这 11 道完成本轮国内原页复核，不声称 99 道全量国内验证。见 [国内来源复核与取舍](docs/DOMESTIC_RECIPE_REVIEW.md)。
+
+跟做页先看实际步骤：将较长的做菜要点、补救和厨房小抄放到步骤之后，备料页仍保留完整提醒；用量、常亮、当前计时依然可用。保留整页模式、已有步骤位置和计时，不强制新增操作。
+
 菜篮新增「帮我排个顺序」：先看开火前准备、逐菜理由和粗略用时，点采用才改变菜篮，也能撤销和手动调整。当前一餐与计时不受影响，仍做完一道再做下一道，不安排跨菜穿插。排序只用已核对的菜谱步骤依据；10 道有明确先后建议，19 道有准备提醒（合计覆盖 25 道），其余保留相对顺序，不靠菜名猜标签。见 [顺序建议说明](docs/MEAL_ORDER_PLANNING.md)。
 
 **99/99 道已完成新手教学改写**：把“什么时候做下一步”写成可观察的状态，每道有重点、灵活用量和具体补救，共 201 条补救建议。综合公开教程与食安指引，优先采用能核实的读者反馈；部分原链接本轮不可读或只核对到相近技法，均明确记录，不声称 99 道都是实时高赞榜单。保留步骤顺序、跟做进度和计时，调整/补救默认折叠。全部尚未下厨试做。见 [批量范围与证据边界](docs/RECIPE_TEACHING_BATCH.md)。
@@ -36,7 +40,7 @@ npm run build
 npm run preview
 ```
 
-默认 http://localhost:4173 。构建产物位于 `dist/`，可部署到普通静态站点；历史版本已推送 GitHub，本次教学改写尚未推送；尚未公开部署网站。
+默认 http://localhost:4173 。构建产物位于 `dist/`，可部署到普通静态站点；已完成的版本可在 GitHub 查看；当前国内来源迭代的验证与发布状态见测试记录，尚未公开部署网站。
 
 ## 已实现
 
@@ -93,7 +97,7 @@ PLAYWRIGHT_BROWSERS_PATH=/tmp/little-kitchen-browsers npm run test:e2e
 
 ## 文件结构
 
-`src/recipes.js` / `src/extra.js` / `src/chinese-recipes.js` / `src/easy-recipes.js`：基础菜谱与来源；`src/beginner-recipes.js` / `src/teaching-*.js`：兼容旧进度的新手教学；`src/preferences.js` / `src/Settings.jsx`：偏好；`src/TimerWidget.jsx`：悬浮计时器；`src/Ingredients.jsx`：备料卡片；`src/Basket.jsx` / `src/meal.js`：菜篮与整餐；`src/MealPlanner.jsx` / `src/meal-planning.js` / `src/meal-planning-data.js`：顺序预览、证据验证与准备提醒；`src/Cooking.jsx`：跟做；`src/logic.js`：匹配与存储；`tests/`：规则与浏览器验收。
+`src/recipes.js` / `src/extra.js` / `src/chinese-recipes.js` / `src/easy-recipes.js`：基础菜谱与来源；`src/beginner-recipes.js` / `src/teaching-*.js`：兼容旧进度的新手教学；`src/preferences.js` / `src/Settings.jsx`：偏好；`src/TimerWidget.jsx`：悬浮计时器；`src/Ingredients.jsx`：备料卡片；`src/Basket.jsx` / `src/meal.js`：菜篮与整餐；`src/MealPlanner.jsx` / `src/meal-planning.js` / `src/meal-planning-data.js`：顺序预览、证据验证与准备提醒；`src/Cooking.jsx`：跟做；`src/domestic-sources.js` / `src/RecipeSources.jsx`：国内原站参考与逐菜取舍；`src/logic.js`：匹配与存储；`tests/`：规则与浏览器验收。
 
 内容更新后运行 `node scripts/source-ledger.mjs` 重建来源清单，并核实新增来源，不要用脚本生成的记录代替真实核对。
 

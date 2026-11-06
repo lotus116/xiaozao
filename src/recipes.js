@@ -1,3 +1,4 @@
+import { domesticSourcesById } from "./domestic-sources.js";
 import { expand } from "./extra.js";
 import { chineseRecipes, recipeRefinements } from "./chinese-recipes.js";
 import { easyRecipes, easyRefinements } from "./easy-recipes.js";
@@ -473,6 +474,7 @@ export const recipes = [
     : {}),
   ...(beginnerRefinements[recipe.id] || {}),
   ...(teachingRefinements[recipe.id] || {}),
+  ...(domesticSourcesById[recipe.id] ? { domesticSources: domesticSourcesById[recipe.id] } : {}),
 }));
 export const seasonings = [
   "食用油",

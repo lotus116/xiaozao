@@ -204,10 +204,8 @@ export default function Cooking({
         <summary>用量放手边 · {r.servings} 人份</summary>
         <Ingredients r={r} />
       </details>
-      <ChefNotes recipe={r} />
-      <CookingNotes recipe={r} />
       <p className="hint">
-        计时从步骤指定的下锅、水开或盖盖时点开始。到点仍要看锅；可省调料没有就跳过。
+        下锅或水开后再按步骤计时，到点仍需检查熟度。
       </p>
       {state.timer && (
         <button className="cooking-timer-status" onClick={openTimer} aria-label={`查看当前厨房计时：${timerLabel(state.timer, recipes)}，${timerStatus} · ${formatTimer(timerSeconds)}`}>
@@ -217,7 +215,7 @@ export default function Cooking({
       )}
       {state.cookView === "overview" ? (
         <>
-          <p className="hint">可以一直往下看。想留个位置时，点步骤序号即可，不用逐项打勾。</p>
+          <p className="hint">点步骤序号记住位置，整页往下看即可。</p>
           <ol className="cooking-overview">
             {r.steps.map((st, index) => (
               <li key={index} aria-current={c.step === index ? "step" : undefined}>
@@ -268,6 +266,8 @@ export default function Cooking({
           </div>
         </>
       )}
+      <ChefNotes recipe={r} />
+      <CookingNotes recipe={r} />
     </section>
   );
 }

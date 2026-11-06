@@ -635,6 +635,33 @@ summary {
 .source p {
   margin: 10px 0;
 }
+.domestic-sources {
+  margin: 16px 0 24px;
+  padding: 16px;
+  background: #f2f5ed;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.domestic-sources h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+.domestic-sources ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.domestic-sources li + li {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.domestic-sources a {
+  overflow-wrap: anywhere;
+}
+.domestic-sources a svg {
+  flex-shrink: 0;
+}
 .resume {
   width: 100%;
   margin-bottom: 26px;

@@ -25,7 +25,7 @@ const notes = {
 };
 let text = `# 菜谱来源与内容核对记录
 
-来源记录日期：2026-11-05 至 2026-11-06（Asia/Hong_Kong）。共 ${recipes.length} 道；此前从 53 道增至 99 道，最新一轮为全部 99 道补充新手教学。原链接本轮是否可读及独立资料的采用范围见分组研究，不把旧 checked 日期当成重新核验成功。
+来源记录日期：2026-11-05 至 2026-11-06（Asia/Hong_Kong）。共 ${recipes.length} 道；此前从 53 道增至 99 道，此前一轮为全部 99 道补充新手教学。最新补充 ${recipes.filter((r) => r.domesticSources?.length).length} 道国内原站教程与逐菜取舍，见 [国内来源复核](DOMESTIC_RECIPE_REVIEW.md)。原链接本轮是否可读及独立资料的采用范围见分组研究，不把旧 checked 日期当成重新核验成功。
 
 网页资料核对不等于现场试做。部分平台使用搜索工具返回的内容核对；未绕过访问限制。新增中文菜的份数、耗时与配料简化有编辑判断，逐项区别见 [中文菜谱研究](CHINESE_RECIPE_RESEARCH.md)。用量不明确的项目保留“适量”，不编造精确克数。
 
@@ -47,10 +47,11 @@ for (const r of recipes) {
           ? "原文明确称重新测试。"
           : "有作者做法，未单独认定重新试做。") +
         (notes[r.id] || "中文简要整理；英制重量/体积作近似换算。");
+  const domestic = (r.domesticSources || []).map((source) => `；[国内复核：${source.site} · ${source.title}](${source.url})`).join("");
   const extra = (r.additionalSources || [])
     .map((source) => `；[补充方法](${source.url})`)
     .join("");
-  text += `| ${r.name} | [${r.source.author} · ${r.source.site}](${r.source.url})${extra} | ${r.servings} / ${r.minutes} | ${r.nutrition ? "原作者每份估算 kcal / 蛋白质g / 碳水g / 脂肪g：" + r.nutrition.join(" / ") : "暂无可靠估算"} | ${verification} |\n`;
+  text += `| ${r.name} | [${r.source.author} · ${r.source.site}](${r.source.url})${domestic}${extra} | ${r.servings} / ${r.minutes} | ${r.nutrition ? "原作者每份估算 kcal / 蛋白质g / 碳水g / 脂肪g：" + r.nutrition.join(" / ") : "暂无可靠估算"} | ${verification} |\n`;
 }
 text += `
 ## 内容边界
@@ -68,7 +69,7 @@ text += `
 ## 来源使用条件
 
 - HowToCook 使用 [Unlicense](https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE)，保留固定版本的具体菜谱链接与社区署名。
-- 美食天下等公开页面不视作已获转载授权；本项目保留来源、重新组织简短笔记，未获取图片授权。
+- 下厨房、美食天下等公开页面不视作已获转载授权；本项目保留来源、重新组织简短笔记，未获取图片授权。
 - The Woks of Life 标注 All Rights Reserved；[隐私政策](https://thewoksoflife.com/privacy-policy/)不构成转载许可。
 - [Immediate 使用条款](https://www.immediate.co.uk/terms-and-conditions/)含内容再利用限制。当前为本地开发演示；公开发行前需确认内容授权或以自行试做的原创内容替换。
 

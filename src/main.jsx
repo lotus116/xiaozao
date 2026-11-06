@@ -1,3 +1,4 @@
+import Source from "./RecipeSources";
 import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -14,7 +15,6 @@ import {
   Flame,
   Users,
   Leaf,
-  ExternalLink,
   Timer,
   X,
   ChefHat,
@@ -516,7 +516,7 @@ function App() {
                 </aside>
                 <p className="catalog-note">
                   目前收录 {recipes.length}{" "}
-                  道来源已核对的菜谱。先把一顿饭做好，再慢慢丰富菜单。
+                  道家常菜笔记。各菜来源与核对范围见详情，尚未下厨试做。
                 </p>
               </section>
             </div>
@@ -880,62 +880,5 @@ function CategoryTabs({ category, setCategory }) {
 function Redirect({ go }) {
   useEffect(go, []);
   return null;
-}
-function Source({ r }) {
-  return (
-    <details className="source">
-      <summary>菜谱来源与验证说明</summary>
-      <p>
-        {r.source.site} · {r.source.author}
-      </p>
-      <a href={r.source.url} target="_blank" rel="noreferrer">
-        查看原作者菜谱 <ExternalLink size={14} />
-      </a>
-      {r.additionalSources?.map((source) => (
-        <p key={source.url}>
-          <a href={source.url} target="_blank" rel="noreferrer">
-            补充做法来源：{source.site}
-          </a>
-        </p>
-      ))}
-      {r.safetySources?.map((source) => (
-        <p key={source.url}>
-          <a href={source.url} target="_blank" rel="noreferrer">食品安全依据：{source.site}</a>
-        </p>
-      ))}
-      {r.timeNote && (
-        <p className="hint">
-          {r.timeNote} {r.servingsNote}
-        </p>
-      )}
-      <p className="hint">
-        来源记录日期：{r.source.checked}。中文步骤为资料整理与编辑建议，不是对原作者配方的完整复刻。各来源的核对范围不同，见下方说明。网页核对不等于项目试做，本项目尚未实际试做。不以评分或评论数量作为本项目试做证据。未取得转载图片许可，本页使用自绘示意图。
-      </p>
-      {r.editorNote && <p className="hint">{r.editorNote}</p>}
-      {r.source.site === "The Woks of Life" &&
-        ["tomato-eggs", "bok-choy", "tomato-soup", "scallion-noodles"].includes(
-          r.id,
-        ) && (
-          <p className="hint">
-            原文明确提及重新测试；这是作者陈述，不是本项目验证。
-          </p>
-        )}
-      {[
-        "honey-chicken",
-        "beef-noodles",
-        "shrimp-eggs",
-        "ginger-shrimp",
-        "soy-eggs",
-      ].includes(r.id) && (
-        <a
-          href="https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures"
-          target="_blank"
-          rel="noreferrer"
-        >
-          食物熟度依据：FoodSafety.gov
-        </a>
-      )}
-    </details>
-  );
 }
 createRoot(document.getElementById("root")).render(<App />);
