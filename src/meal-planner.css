@@ -1,0 +1,35 @@
+.meal-planner {
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid #aaba9e;
+  border-radius: 16px;
+  background: #f1f3e9;
+  overflow-wrap: anywhere;
+}
+.meal-planner-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 12px; }
+.meal-planner-heading h2 { flex: 1 1 190px; margin: 0; }
+.meal-planner .hint { color: #4b5d4f; font-size: 13px; }
+.meal-planner .text-button { text-align: left; justify-content: flex-start; }
+.meal-planner summary { min-height: 44px; padding: 11px 0; cursor: pointer; font-size: 14px; font-weight: 600; }
+.meal-order-preview { border-top: 1px solid #c2cdb9; margin-top: 20px; padding-top: 20px; }
+.meal-order-preview h3 { margin-top: 20px; }
+.meal-order-preview h3:first-child { margin-top: 0; }
+.meal-time-estimate { padding: 16px; border-radius: 12px; background: #fffdf6; margin: 16px 0 20px; }
+.meal-time-estimate p { margin: 8px 0 0; }
+.meal-advance-list, .meal-plan-dishes { list-style: none; padding: 0; margin: 0; }
+.meal-advance-list > li, .meal-plan-dishes > li { padding: 14px 0; border-bottom: 1px solid #cbd4c5; }
+.meal-advance-list p { margin-bottom: 6px; font-size: 14px; }
+.meal-plan-dish-title { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.meal-plan-dish-title strong { flex: 1 1 120px; }
+.meal-plan-number { width: 28px; height: 28px; background: #dce6d4; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 28px; }
+.meal-plan-tag { font-size: 12px; color: #3c553e; background: #e1e8d9; border-radius: 6px; padding: 3px 6px; display: inline-block; }
+.meal-plan-evidence p { font-size: 14px; margin: 8px 0; }
+.meal-plan-evidence .text-button { font-size: 14px; }
+.meal-plan-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.meal-plan-actions button { flex: 1 1 120px; }
+.meal-plan-status { color: #365a3a; font-size: 14px; margin: 12px 0; }
+.meal-plan-status:empty { margin: 0; }
+@media (max-width: 380px) {
+  .meal-planner { padding: 16px; }
+  .meal-planner-heading > button { width: 100%; }
+}

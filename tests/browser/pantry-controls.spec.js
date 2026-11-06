@@ -181,10 +181,10 @@ test("ingredient controls and basket reset fit phones through desktop and pass a
 });
 
 
-test("suggestions stay above bottom navigation on short screens and support touch selection", async ({ browser }) => {
-  const context = await browser.newContext({ viewport: { width: 320, height: 600 }, isMobile: true, hasTouch: true });
+test("suggestions stay above bottom navigation on short screens and support touch selection", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, viewport: { width: 320, height: 600 }, isMobile: true, hasTouch: true });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:5187/");
+  await page.goto("/");
   await input(page).fill("西红");
   await page.getByRole("button", { name: "展开食材建议", exact: true }).tap();
   const panel = await page.locator(".ingredient-suggestions-panel").boundingBox();

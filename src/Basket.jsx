@@ -18,6 +18,7 @@ import {
 import { allowedRecipe, dietaryWarnings } from "./preferences";
 import { FoodIcon } from "./Ingredients";
 import "./basket-prep.css";
+import MealPlanner from "./MealPlanner";
 export default function Basket({ state, setState, recipes, go, resetControls }) {
   const [prepView, setPrepView] = useState("all");
   const [copyResult, setCopyResult] = useState(null);
@@ -111,7 +112,7 @@ export default function Basket({ state, setState, recipes, go, resetControls }) 
         <summary>一锅做几道，先做哪道？</summary>
         <p>先看是否需要提前煮饭、泡发或腌制，再按自己的锅具安排顺序。一般先做等待较久的菜，临上桌再炒青菜；下面仍按你排好的顺序，一道接着一道。</p>
         <p>先把各道菜的材料分开放好，生肉鱼虾不要与凉拌菜、熟食共用未清洗的刀板。正在加热的锅不要无人照看。</p>
-        <p className="hint">这里不自动安排多锅并行，也不把各道菜用时相加当成整餐时间。</p>
+        <p className="hint">这里不自动安排多锅并行。顺序建议里的用时只是菜谱标注的合计，不是整餐上桌时间。</p>
       </details>
       {active && (
         <aside className="meal-progress">
@@ -175,6 +176,7 @@ export default function Basket({ state, setState, recipes, go, resetControls }) 
         </div>
       ) : (
         <>
+          <MealPlanner rows={rows} state={state} setState={setState} go={go} canBegin={canBegin} />
           <section
             className="basket-prep-summary"
             aria-labelledby="basket-prep-title"
