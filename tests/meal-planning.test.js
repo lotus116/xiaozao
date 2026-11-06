@@ -98,3 +98,25 @@ test("stale and invalid adoption/undo cannot add, drop or resurrect dishes", () 
   const manual = { basket: ["c", "b", "a"] };
   assert.equal(applyBasketOrder(manual, ["b", "a", "c"], ["a", "b", "c"]), manual);
 });
+
+test("final 99 recipe integration keeps the complete menu and all published evidence current", () => {
+  const plan = planMeal(recipes);
+  assert.equal(plan.items.length, 99);
+  assert.deepEqual(new Set(plan.ids), new Set(recipes.map((r) => r.id)));
+  assert.equal(plan.reviewed, 10);
+  assert.equal(plan.prep.length, 19);
+  assert.equal(Object.keys(planningById).length, 25);
+  // These explicit limits describe reviewed metadata, not all-99 scheduling coverage.
+  const unknown = recipes.filter((r) => !recipePlan(r).reviewed).map((r) => r.id);
+  assert.deepEqual(plan.items.filter((item) => !item.reviewed).map((item) => item.recipe.id), unknown);
+});
+
+test("dry/prepared ingredients and optional marination never gain unconditional waiting", () => {
+  const prepFor = (id) => recipePlan(recipes.find((r) => r.id === id)).prep[0];
+  assert.match(prepFor("cn-wood-ear-salad").text, /若从干货开始/);
+  assert.match(prepFor("cn-wood-ear-salad").text, /已泡好的不用重复等待/);
+  assert.match(prepFor("easy-kelp-salad").text, /已经处理好的不用再泡/);
+  assert.match(prepFor("cn-steamed-perch").text, /盐腌可省/);
+  assert.match(prepFor("easy-egg-pancake").text, /20 分钟/);
+  assert.equal(planMeal([recipes.find((r) => r.id === "easy-egg-pancake")]).estimate.minutes, 35);
+});

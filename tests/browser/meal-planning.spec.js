@@ -24,7 +24,7 @@ test("preview explains each dish, prep and honest time but does not mutate anyth
   await expect(page.locator(".meal-time-estimate")).toContainText("不是上桌倒计时");
   await expect(page.locator(".meal-advance-list")).toContainText("第 1–2 步");
   await page.getByText("为什么这样排 · 蒜香拍黄瓜", { exact: true }).click();
-  await expect(page.locator(".meal-plan-dishes")).toContainText("现拌现吃");
+  await expect(page.locator(".meal-plan-dishes")).toContainText("准备吃时再拌黄瓜");
   await page.getByText("为什么这样排 · 番茄炒鸡蛋", { exact: true }).click();
   await expect(page.locator(".meal-plan-dishes")).toContainText("没有足够明确的先后依据");
   expect(await saved(page)).toEqual(before);
@@ -169,4 +169,25 @@ test("preview and reasoning fit mobile/desktop with keyboard controls and no acc
     await page.getByRole("button", { name: "先不采用", exact: true }).click();
     await expect(previewButton(page)).toBeFocused();
   }
+});
+
+test("final recipe preparation preserves optional/conditional work and the adopted order works by touch", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const page = await context.newPage();
+  const ids = ["tomato-noodles", "cn-steamed-perch", "cn-wood-ear-salad", "easy-egg-pancake"];
+  await openBasket(page, { basket: ids });
+  await previewButton(page).tap();
+  await expect(page.locator(".meal-advance-list")).toContainText("盐腌可省");
+  await expect(page.locator(".meal-advance-list")).toContainText("已泡好的不用重复等待");
+  await expect(page.locator(".meal-advance-list")).toContainText("静置约 20 分钟");
+  await expect(page.locator(".meal-plan-dish-title strong")).toHaveText(["清蒸鲈鱼", "鸡蛋面糊饼", "番茄蛋花汤面", "凉拌木耳"]);
+  expect((await saved(page)).basket).toEqual(ids);
+  await adoptButton(page).tap();
+  await page.getByRole("button", { name: "提前做鸡蛋面糊饼", exact: true }).tap();
+  await page.reload();
+  expect((await saved(page)).basket).toEqual(["easy-egg-pancake", "cn-steamed-perch", "tomato-noodles", "cn-wood-ear-salad"]);
+  await page.getByRole("button", { name: /一键开始做饭/ }).tap();
+  await expect(page).toHaveURL(/#cook\/easy-egg-pancake$/);
+  await expect(page.getByRole("heading", { name: "调面糊", exact: true })).toBeVisible();
+  await context.close();
 });
