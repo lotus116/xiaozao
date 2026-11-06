@@ -1,5 +1,6 @@
 import { writeFileSync } from "node:fs";
 import { recipes } from "../src/recipes.js";
+import photoPages from "../src/domestic-photo-pages.json" with { type: "json" };
 const retested = [
   "tomato-eggs",
   "bok-choy",
@@ -48,10 +49,12 @@ for (const r of recipes) {
           : "有作者做法，未单独认定重新试做。") +
         (notes[r.id] || "中文简要整理；英制重量/体积作近似换算。");
   const domestic = (r.domesticSources || []).map((source) => `；[国内复核：${source.site} · ${source.title}](${source.url})`).join("");
+  const photoPage = photoPages[r.id];
+  const photoReference = photoPage ? `；[国内图文：${photoPage.author} · ${photoPage.title}](${photoPage.url})` : "";
   const extra = (r.additionalSources || [])
     .map((source) => `；[补充方法](${source.url})`)
     .join("");
-  text += `| ${r.name} | [${r.source.author} · ${r.source.site}](${r.source.url})${domestic}${extra} | ${r.servings} / ${r.minutes} | ${r.nutrition ? "原作者每份估算 kcal / 蛋白质g / 碳水g / 脂肪g：" + r.nutrition.join(" / ") : "暂无可靠估算"} | ${verification} |\n`;
+  text += `| ${r.name} | [${r.source.author} · ${r.source.site}](${r.source.url})${domestic}${photoReference}${extra} | ${r.servings} / ${r.minutes} | ${r.nutrition ? "原作者每份估算 kcal / 蛋白质g / 碳水g / 脂肪g：" + r.nutrition.join(" / ") : "暂无可靠估算"} | ${verification} |\n`;
 }
 text += `
 ## 内容边界
@@ -62,7 +65,7 @@ text += `
 - 营养仅保留已核对的原作者估算。新增及改写的中文菜全部留空。
 - 基础调味与关键风味仍参与匹配；辅助增香可按具体菜谱省略。可省不代表不会引起过敏。
 - 当前不自动把所有醋、油、淀粉或豆腐视作可互换材料，具体品种仍须核对。
-- 使用自绘 SVG 示意，不下载或复制作者照片。菜谱文字为简短的方法笔记和事实性用量，不复制故事或整篇表达。
+- 成品参考照片的逐张署名、固定出处和许可见 [照片登记表](../src/dish-photos.json)。国内图文入口指向作者原页。菜谱文字为简短的方法笔记和事实性用量，不复制故事或整篇表达。
 
 首批番茄炒蛋、蒸蛋、蛋炒饭的热门教程选择、读者反馈证据和逐菜取舍见 [新手菜谱研究](BEGINNER_RECIPE_RESEARCH.md)。后续另外 96 道也已逐菜完成教学改写，见 [99 道批量范围与分组资料](RECIPE_TEACHING_BATCH.md)。部分补充来源只支持相关技法或食安事项，不等于全部原配方完成多源验证；未读到的原页和未核验的热度均不作保证。
 

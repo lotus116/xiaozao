@@ -148,18 +148,6 @@ main {
 .hero p:last-child {
   margin-bottom: 0;
 }
-.bowl {
-  width: 96px;
-  flex: none;
-}
-.bowl.large {
-  width: 235px;
-  max-width: 35vw;
-}
-.hero .bowl {
-  transform: rotate(-6deg);
-  margin-right: 36px;
-}
 .workspace {
   display: grid;
   grid-template-columns: 390px 1fr;
@@ -499,9 +487,6 @@ select {
 .dish-heading p:last-child {
   font-size: 14px;
 }
-.dish-heading .bowl {
-  width: 180px;
-}
 .facts {
   display: flex;
   gap: 28px;
@@ -778,9 +763,6 @@ progress {
   .hero {
     padding-top: 32px;
   }
-  .hero .bowl {
-    margin-right: 0;
-  }
   main {
     max-width: 600px;
     padding: 0 20px 115px;
@@ -800,13 +782,6 @@ progress {
   .hero p:last-child {
     font-size: 14px;
   }
-  .bowl.large {
-    width: 150px;
-  }
-  .hero .bowl {
-    margin-left: -22px;
-    max-width: 32vw;
-  }
   .hero {
     padding-left: 0;
     padding-right: 0;
@@ -825,10 +800,6 @@ progress {
   .recommendations {
     padding: 0 4px;
   }
-  .dish-heading .bowl {
-    width: 110px;
-    max-width: 26vw;
-  }
   .dish-heading h1 {
     font-size: 28px;
   }
@@ -845,9 +816,6 @@ progress {
   }
   .nutrition strong {
     font-size: 21px;
-  }
-  .recipe-row .bowl {
-    width: 76px;
   }
   .recipe-copy strong {
     font-size: 17px;

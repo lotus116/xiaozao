@@ -1,3 +1,4 @@
+import { DishThumbnail, DishPreview, hasDishPhoto } from "./DishPhoto";
 import Source from "./RecipeSources";
 import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
@@ -61,62 +62,12 @@ const load = () => {
 setupNative().catch((error) =>
   console.error("Android navigation setup failed", error),
 );
-function Bowl({ type = "tomato-eggs", large = false }) {
-  return (
-    <svg
-      className={`bowl ${large ? "large" : ""} ${type}`}
-      viewBox="0 0 160 140"
-      aria-hidden="true"
-    >
-      <ellipse cx="80" cy="117" rx="52" ry="8" fill="#233d3010" />
-      <path
-        d="M23 66 Q27 116 80 118 Q133 116 137 66"
-        fill="#f7f6ee"
-        stroke="#254c3b"
-        strokeWidth="2"
-      />
-      <ellipse
-        cx="80"
-        cy="65"
-        rx="57"
-        ry="30"
-        fill="#dfe7d5"
-        stroke="#254c3b"
-        strokeWidth="2"
-      />
-      <ellipse cx="80" cy="64" rx="48" ry="23" fill="#f3e5b4" />
-      <path
-        d="M43 59q10-25 25-8t-7 28q-22 2-18-20M82 49q22-18 32 5t-17 21q-17-7-15-26"
-        fill={
-          ["bok-choy", "cucumber"].includes(type)
-            ? "#6b934c"
-            : type === "cold-tofu"
-              ? "#fffdf2"
-              : "#ce684c"
-        }
-      />
-      <path d="M65 58q11-14 21-2t-2 23q-24 4-19-21" fill="#edc75c" />
-      <path
-        d="m48 47 12 5m38 16 12-8m-35 16 9-10"
-        stroke="#52794c"
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-      <path
-        d="m120 28 30-18m-26 25 30-17"
-        stroke="#8e6945"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
 function Card({ r, state, go, fav, addToBasket }) {
   const miss = missing(r, state.pantry);
   return (
     <article className="recipe-row">
       <button className="recipe-open" onClick={() => go(`recipe/${r.id}`)}>
-        <Bowl type={r.id} />
+        <DishThumbnail recipe={r} />
         <span className="recipe-copy">
           <strong>{r.name}</strong>
           <span className="meta">
@@ -173,7 +124,7 @@ function Card({ r, state, go, fav, addToBasket }) {
 }
 function App() {
   const [browse, setBrowse] = useState(initialBrowseState);
-  const { query, category, max, level, fewIngredients } = browse;
+  const { query, category, max, level, fewIngredients, photosOnly } = browse;
   const setFilter = (key, value) => setBrowse((s) => ({ ...s, [key]: typeof value === "function" ? value(s[key]) : value }));
   const setQuery = (value) => setFilter("query", value);
   const setCategory = (value) => setFilter("category", value);
@@ -277,6 +228,7 @@ function App() {
   const visibleRecipes = recipes.filter((r) =>
     allowedRecipe(r, state.preferences),
   );
+  const heroRecipe = visibleRecipes.find((r) => hasDishPhoto(r.id));
   const selectedRecipes = visibleRecipes.filter(
     (r) => categoryOf(r) === category,
   );
@@ -359,7 +311,9 @@ function App() {
                   <br className="mobile-break" /> 找一道会做、想吃的家常菜。
                 </p>
               </div>
-              <Bowl large />
+              {heroRecipe && <button className="hero-photo" onClick={() => go("recipe/" + heroRecipe.id)}>
+                <DishThumbnail recipe={heroRecipe} eager /><span>{heroRecipe.name} ›</span>
+              </button>}
             </div>
             {active && (
               <button
@@ -555,6 +509,8 @@ function App() {
               >
                 少配料 · 5 样以内
               </button>
+              <button className={photosOnly ? "chip selected" : "chip"} aria-pressed={photosOnly}
+                onClick={() => setFilter("photosOnly", !photosOnly)}>有成品实拍</button>
               <label>
                 用时
                 <select value={max} onChange={(e) => setMax(e.target.value)}>
@@ -581,22 +537,27 @@ function App() {
                   setMax("all");
                   setLevel("0");
                   setFewIngredients(false);
+                  setFilter("photosOnly", false);
                 }}
               >
                 重置筛选
               </button>
             </div>
             {(() => {
-              const list = searchRecipes(
-                selectedRecipes,
+              const matches = searchRecipes(
+                visibleRecipes,
                 query,
                 max === "all" ? Infinity : Number(max),
                 Number(level),
               ).filter(
                 (r) =>
                   (page !== "favorites" || state.favorites.includes(r.id)) &&
-                  (!fewIngredients || requiredCount(r) <= 5),
+                  (!fewIngredients || requiredCount(r) <= 5) && (!photosOnly || hasDishPhoto(r.id)),
               );
+              const list = matches.filter((r) => categoryOf(r) === category);
+              const otherCategories = !list.length && query.trim()
+                ? [...new Set(matches.map(categoryOf))]
+                : [];
               return list.length ? (
                 <>
                   <p className="hint">找到 {list.length} 道菜</p>
@@ -619,13 +580,18 @@ function App() {
                       ? "这里还没有符合条件的收藏"
                       : "暂时没找到这道菜"}
                   </h3>
-                  <p>试试“鸡蛋”或清除筛选；菜谱旁的爱心可以收藏。</p>
+                  {otherCategories.length ? <div className="chips">
+                    {otherCategories.map((key) => <button key={key} onClick={() => setCategory(key)}>
+                      在{categories[key]}中查看（{matches.filter((r) => categoryOf(r) === key).length}）
+                    </button>)}
+                  </div> : <p>试试“鸡蛋”或清除筛选。</p>}
                   <button
                     onClick={() => {
                       setQuery("");
                       setMax("all");
                       setLevel("0");
                       setFewIngredients(false);
+                      setFilter("photosOnly", false);
                       go("search");
                     }}
                   >
@@ -667,7 +633,7 @@ function App() {
                   <h1 tabIndex="-1">{recipe.name}</h1>
                   <p>{recipe.description}</p>
                 </div>
-                <Bowl type={recipe.id} large />
+                <DishPreview key={recipe.id} recipe={recipe} />
               </div>
               <div className="facts">
                 <span>

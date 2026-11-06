@@ -1,3 +1,4 @@
+import photoPages from "./domestic-photo-pages.json";
 import React from "react";
 import { ExternalLink } from "lucide-react";
 
@@ -23,6 +24,11 @@ export default function Source({ r }) {
           </ul>
         </section>
       )}
+      {photoPages[r.id] && <p><strong>国内图文参考</strong><br/>
+        <a href={photoPages[r.id].url} target="_blank" rel="noreferrer">
+          下厨房 · {photoPages[r.id].title}（{photoPages[r.id].author}）<ExternalLink size={14} />
+        </a>
+      </p>}
       <p><strong>原有资料来源</strong></p>
       <p>
         {r.source.site} · {r.source.author}
@@ -48,7 +54,7 @@ export default function Source({ r }) {
         </p>
       )}
       <p className="hint">
-        原有资料记录日期：{r.source.checked}。中文步骤为资料整理与编辑建议，不是对原作者配方的完整复刻。各来源的核对范围不同，见下方说明。网页核对不等于项目试做，本项目尚未实际试做。不以评分或评论数量作为本项目试做证据。未取得转载图片许可，本页使用自绘示意图。
+        原有资料记录日期：{r.source.checked}。中文步骤为资料整理与编辑建议，不是对原作者配方的完整复刻。各来源的核对范围不同，见下方说明。网页核对不等于项目试做，本项目尚未实际试做。不以评分或评论数量作为本项目试做证据。
       </p>
       {r.editorNote && <p className="hint">{r.editorNote}</p>}
       {r.source.site === "The Woks of Life" &&

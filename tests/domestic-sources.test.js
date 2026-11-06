@@ -3,12 +3,12 @@ import assert from 'node:assert/strict';
 import { recipes } from '../src/recipes.js';
 import { domesticSourcesById } from '../src/domestic-sources.js';
 
-const expected = ['tomato-eggs', 'steamed-eggs', 'potatoes', 'cucumber', 'cn-pepper-eggs', 'cn-cola-wings', 'easy-shiitake-steamed-chicken', 'cabbage', 'cn-wood-ear-salad', 'easy-mapo-tofu', 'easy-oyster-lettuce'];
+const expected = ['tomato-eggs', 'steamed-eggs', 'potatoes', 'cucumber', 'cn-pepper-eggs', 'cn-cola-wings', 'easy-shiitake-steamed-chicken', 'cabbage', 'cn-wood-ear-salad', 'easy-mapo-tofu', 'easy-oyster-lettuce', 'cn-steamed-perch', 'scallion-noodles', 'cn-zucchini-eggs', 'cn-braised-wintermelon', 'cn-tiger-peppers', 'cn-blanched-choysum', 'cn-onion-eggs'];
 const byId = (id) => recipes.find((recipe) => recipe.id === id);
 
-test('only the eleven fully read domestic recipe references are marked reviewed', () => {
+test('only the reviewed domestic recipe references are marked reviewed', () => {
   assert.deepEqual(Object.keys(domesticSourcesById).sort(), [...expected].sort());
-  assert.equal(recipes.filter((r) => r.domesticSources?.length).length, 11);
+  assert.equal(recipes.filter((r) => r.domesticSources?.length).length, expected.length);
   for (const id of expected) {
     const recipe = byId(id);
     assert.deepEqual(recipe.domesticSources, domesticSourcesById[id]);
@@ -16,14 +16,14 @@ test('only the eleven fully read domestic recipe references are marked reviewed'
     assert.equal(new Set(recipe.domesticSources.map((s) => s.url)).size, recipe.domesticSources.length);
     for (const s of recipe.domesticSources) {
       assert.equal(new URL(s.url).protocol, 'https:');
-      assert.ok(['m.xiachufang.com', 'www.cfs.gov.hk'].includes(new URL(s.url).hostname));
+      assert.ok(['m.xiachufang.com', 'www.cfs.gov.hk', 'home.meishichina.com', 'tv.cctv.com'].includes(new URL(s.url).hostname));
       for (const field of ['site', 'title', 'author', 'checked', 'supports', 'adaptation']) assert.ok(s[field]?.trim(), `${id}: ${field}`);
       assert.equal(s.checked, '2026-11-06');
       assert.equal(s.views, undefined);
       assert.equal(s.rating, undefined);
     }
   }
-  for (const id of ['fried-rice', 'easy-pepper-pork', 'cn-steamed-perch']) assert.equal(byId(id).domesticSources, undefined, 'partly readable pages must not be marked fully reviewed');
+  for (const id of ['fried-rice', 'easy-pepper-pork']) assert.equal(byId(id).domesticSources, undefined, 'partly readable pages must not be marked fully reviewed');
 });
 
 test('the recipe/source differences describe the final cooking method, not a generic endorsement', () => {
