@@ -141,6 +141,11 @@ for (const r of recipes)
     await expect(page.locator(".ingredient-tile")).toHaveCount(
       r.ingredients.length,
     );
+    await expect.poll(() => page.locator(".dish-heading img").evaluate(img => img.naturalWidth)).toBeGreaterThan(160);
+    await page.getByRole("button", { name: "看实拍，放大" + r.name }).click();
+    const preview = page.getByRole("dialog", { name: r.name + "成品实拍" });
+    await expect.poll(() => preview.locator("img").evaluate(img => img.naturalWidth)).toBeGreaterThan(160);
+    await preview.getByRole("button", {name:"关闭实拍"}).click();
     const teaching = page.getByRole("complementary", { name: "这道菜怎么做好" });
     await expect(teaching).toContainText(r.teaching.focus);
     await expect(teaching.locator("details")).not.toHaveAttribute("open", "");
@@ -162,6 +167,9 @@ for (const r of recipes)
     await expect(
       page.getByRole("heading", { name: r.steps[0].title, exact: true }),
     ).toBeVisible();
+    const comparison = page.locator(".cooking-overview > li").nth(r.domesticSources[0].step).locator(".domestic-step-note");
+    await comparison.locator("summary").click();
+    await expect(comparison).toContainText(r.domesticSources[0].adaptation);
   });
 test("key pages have no automated WCAG A/AA violations", async ({ page }) => {
   for (const path of [

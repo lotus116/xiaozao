@@ -1,10 +1,79 @@
 {
+  "bacon-rice": {
+    "title": "培根蛋炒饭",
+    "credit": "Yang妈美食",
+    "publisher": "下厨房",
+    "source": "https://www.xiachufang.com/dish/190954617/",
+    "originalImage": "https://i2.chuimg.com/88e52027401043fdae7b2f7205757c5c_1280w_1706h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/bacon-rice-photo.webp",
+    "note": "参考培根、米饭和鸡蛋的成品外观，作者另加了蔬菜丁。"
+  },
+  "beef-noodles": {
+    "title": "蔬菜牛肉拌面：儿童辅食",
+    "credit": "皮卡喵",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107758260/",
+    "originalImage": "https://i2.chuimg.com/a6b9d8a665f341a99be4d7bf50d2f9a3_1920w_2560h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/beef-noodles-photo.webp",
+    "note": "原作者同用菠菜、切碎牛肉与面条，另配胡萝卜丝和鸡蛋。"
+  },
   "bok-choy": {
     "title": "Stir Fried Bok Choy, Aug 2025.jpg",
     "credit": "Ralff Nestor Nacor",
     "source": "https://commons.wikimedia.org/wiki/File:Stir_Fried_Bok_Choy,_Aug_2025.jpg",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "broccoli-tofu": {
+    "title": "西兰花豆腐",
+    "credit": "Z开芯",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106855831/",
+    "originalImage": "https://i2.chuimg.com/b47dcf00f1684872b7924d5c1ac0b310_1080w_608h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/broccoli-tofu-photo.webp",
+    "note": "原作者将西兰花摆在豆腐四周，小灶把两者合在锅里烧。"
+  },
+  "cabbage": {
+    "title": "手撕包菜",
+    "credit": "执剑踏云",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106880765/",
+    "originalImage": "https://i2.chuimg.com/d89c73c48e3f439caaa5020a0e417631_354w_372h.png",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cabbage-photo.webp"
+  },
+  "cabbage-noodles": {
+    "title": "包菜炒粉丝🔥不坨不结块，香到舔盘",
+    "credit": "陈家胖胖青",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107506024/",
+    "originalImage": "https://i2.chuimg.com/2a8aff79ca6849219d0b50a1bdda0bfb_1921w_2560h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cabbage-noodles-photo.webp"
+  },
+  "chive-eggs": {
+    "title": "韭菜炒鸡蛋",
+    "credit": "文琦",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/92086/",
+    "originalImage": "https://i2.chuimg.com/ac35933686fe11e6a9a10242ac110002_460w_690h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/chive-eggs-photo.webp"
   },
   "cn-blanched-choysum": {
     "title": "白灼菜心",
@@ -27,6 +96,40 @@
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
   },
+  "cn-cauliflower": {
+    "title": "清炒菜花",
+    "credit": "塞北主妇",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/77929/",
+    "originalImage": "https://i2.chuimg.com/03e2ae9886fa11e6a9a10242ac110002_490w_650h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-cauliflower-photo.webp"
+  },
+  "cn-celery-mince": {
+    "title": "芹菜炒肉末（完成装盘步骤）",
+    "credit": "美食作家王刚",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/103355130/",
+    "originalImage": "https://i2.chuimg.com/147132d5f3a54322869f0b43dfe57493_1521w_765h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-celery-mince-photo.webp",
+    "note": "原作者将牛肉末与香干丁、芹菜丁同炒。小灶使用猪肉末。"
+  },
+  "cn-celery-tofu": {
+    "title": "芹菜炒香干（豆腐干）",
+    "credit": "米二乔",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/102795880/",
+    "originalImage": "https://i2.chuimg.com/6b420b8a19714d96ae984f55fe4012eb_1280w_1023h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-celery-tofu-photo.webp"
+  },
   "cn-cola-wings": {
     "title": "Home made chicken wings with coca cola.jpg",
     "credit": "Pauloleong2002",
@@ -41,6 +144,50 @@
     "license": "CC BY 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
   },
+  "cn-garlic-lettuce": {
+    "title": "蒜蓉油麦菜",
+    "credit": "naaaaaa",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107749107/",
+    "originalImage": "https://i2.chuimg.com/a9ac5ca262c946e794b7b26f23455a09_3310w_2560h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-garlic-lettuce-photo.webp"
+  },
+  "cn-garlic-shoot-pork": {
+    "title": "蒜苔炒肉丝",
+    "credit": "琥珀君W",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106825830/",
+    "originalImage": "https://i2.chuimg.com/70b192a874ab40fa93dc92473de3eb7b_1280w_958h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-garlic-shoot-pork-photo.webp"
+  },
+  "cn-millet-congee": {
+    "title": "小米粥",
+    "credit": "80后男人的厨房",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/92918/",
+    "originalImage": "https://i2.chuimg.com/1e004ff686ff11e6b87c0242ac110003_450w_328h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-millet-congee-photo.webp"
+  },
+  "cn-mushroom-rapeseed": {
+    "title": "香菇油菜",
+    "credit": "五月孤芳",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/104252394/",
+    "originalImage": "https://i2.chuimg.com/ca06309fad094dc0a9554e5b25081013_1351w_1081h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-mushroom-rapeseed-photo.webp"
+  },
   "cn-onion-eggs": {
     "title": "洋葱炒鸡蛋",
     "credit": "HowToCook 菜谱贡献者",
@@ -48,12 +195,79 @@
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
   },
+  "cn-onion-shrimp": {
+    "title": "姜葱无水焗虾",
+    "credit": "陈西西-c",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106783464/",
+    "originalImage": "https://i2.chuimg.com/a9c4d1cdda67480f9da8654292a64a51_2560w_2560h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-onion-shrimp-photo.webp"
+  },
+  "cn-pepper-eggs": {
+    "title": "零失败青椒炒鸡蛋，5分钟快手下饭菜，家常味最香",
+    "credit": "张记小灶",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107726482/",
+    "originalImage": "https://i2.chuimg.com/ae0020c109054ae6b711453236171e7b_1280w_1353h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-pepper-eggs-photo.webp"
+  },
+  "cn-radish-soup": {
+    "title": "虾米萝卜丝汤🦐",
+    "credit": "99后两人生活记",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/104014365/",
+    "originalImage": "https://i2.chuimg.com/8b8dcfacb7a94e31bfcf1af8eb091513_828w_350h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-radish-soup-photo.webp",
+    "note": "参考虾米版的萝卜丝切法和清汤颜色，小灶这道用素汤。"
+  },
+  "cn-scallion-tofu": {
+    "title": "葱煎豆腐",
+    "credit": "贺子楠_",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/100366299/",
+    "originalImage": "https://i2.chuimg.com/d0a6f160887011e6a9a10242ac110002_638w_478h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-scallion-tofu-photo.webp"
+  },
+  "cn-seaweed-egg-soup": {
+    "title": "紫菜蛋汤",
+    "credit": "食尚煮妇",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/1004987/",
+    "originalImage": "https://i2.chuimg.com/41a98422874011e6a9a10242ac110002_400w_300h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-seaweed-egg-soup-photo.webp"
+  },
   "cn-steamed-perch": {
     "title": "清蒸鲈鱼",
     "credit": "HowToCook 菜谱贡献者",
     "source": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/aquatic/清蒸鲈鱼/清蒸鲈鱼.jpg",
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
+  },
+  "cn-steamed-pumpkin": {
+    "title": "营养蒸--清蒸南瓜",
+    "credit": "小美的美食",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/100409753/",
+    "originalImage": "https://i2.chuimg.com/34b9c50088ae11e6b87c0242ac110003_800w_530h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-steamed-pumpkin-photo.webp"
   },
   "cn-tiger-peppers": {
     "title": "虎皮青椒",
@@ -68,6 +282,17 @@
     "source": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/vegetable_dish/西红柿豆腐汤羹/1.jpeg",
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
+  },
+  "cn-vinegar-cabbage": {
+    "title": "醋溜白菜",
+    "credit": "圆圆圈_",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107635028/",
+    "originalImage": "https://i2.chuimg.com/d8530a52f7ab47969e704af1f001b52c_1280w_1706h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cn-vinegar-cabbage-photo.webp"
   },
   "cn-water-spinach": {
     "title": "蒜蓉空心菜",
@@ -90,12 +315,45 @@
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
   },
+  "cold-tofu": {
+    "title": "凉拌豆腐，爽口下饭超简单",
+    "credit": "半生瓜",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106603159/",
+    "originalImage": "https://i2.chuimg.com/f468fb3f41d44a7f9d7c8fe465c23894_1080w_864h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/cold-tofu-photo.webp"
+  },
+  "crispy-noodles": {
+    "title": "Pan-fried Noodles",
+    "credit": "joyosity",
+    "source": "https://www.flickr.com/photos/33993074@N00/3347567629",
+    "originalImage": "https://live.staticflickr.com/3550/3347567629_c6e145034d.jpg",
+    "license": "CC BY",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "fullFrame": true,
+    "asset": "/dishes/crispy-noodles-photo.webp",
+    "note": "煎面成品实拍，可对照面条的金黄焦边。原图未注明调味，小灶版另拌辣油酱汁。"
+  },
   "cucumber": {
     "title": "Smacked cucumbers at Changranju Restaurant, Beijing (20210501180457).jpg",
     "credit": "N509FZ",
     "source": "https://commons.wikimedia.org/wiki/File:Smacked_cucumbers_at_Changranju_Restaurant,_Beijing_(20210501180457).jpg",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "easy-bittermelon-eggs": {
+    "title": "苦瓜炒鸡蛋🥚",
+    "credit": "滑冰的鸡蛋黄-",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106853773/",
+    "originalImage": "https://i2.chuimg.com/7d5e59edcdef4d8db9b2550c28e4d396_1280w_1005h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-bittermelon-eggs-photo.webp"
   },
   "easy-blackbean-ribs": {
     "title": "Food 豉汁蒸排骨, 新葡苑, Shin Pu Yuan, 台北 (21531923392).jpg",
@@ -104,12 +362,35 @@
     "license": "CC BY-SA 2.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
   },
+  "easy-cabbage-tofu": {
+    "title": "白菜炖豆腐",
+    "credit": "多乐妈妈",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107248151/",
+    "originalImage": "https://i2.chuimg.com/009915dfed1645309c9dd61638332c13_3414w_2560h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-cabbage-tofu-photo.webp",
+    "note": "原作者用调味汁炖白菜豆腐，成品颜色较深，小灶做法较清淡。"
+  },
   "easy-catfish-tofu-soup": {
     "title": "昂刺鱼豆腐汤",
     "credit": "HowToCook 菜谱贡献者",
     "source": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/soup/昂刺鱼豆腐汤/昂刺鱼豆腐汤01.jpg",
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
+  },
+  "easy-celtuce": {
+    "title": "〖清炒莴笋〗｜超美味的家常菜做法",
+    "credit": "Lark",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107757693/",
+    "originalImage": "https://i2.chuimg.com/abd27d61711a477d85c0ef56f163617f_4032w_3024h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-celtuce-photo.webp"
   },
   "easy-century-pork-congee": {
     "title": "A century eggs and Pork Congee from Chi Kee Congee Shop.jpg",
@@ -125,12 +406,67 @@
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
+  "easy-chicken-breast": {
+    "title": "香煎鸡胸肉",
+    "credit": "执剑踏云",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106925059/",
+    "originalImage": "https://i2.chuimg.com/048320b24dd6438e81e222c33f406485_646w_638h.png",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-chicken-breast-photo.webp"
+  },
+  "easy-chicken-mushroom-rice": {
+    "title": "〖香菇鸡肉焖饭〗",
+    "credit": "日食记",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/103019699/",
+    "originalImage": "https://i2.chuimg.com/0145ad1b073247cd92fdd57b4092bfe9_2120w_1416h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-chicken-mushroom-rice-photo.webp"
+  },
+  "easy-chive-sprouts": {
+    "title": "韭菜炒豆芽",
+    "credit": "厦门媳妇山城妹",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/21271/",
+    "originalImage": "https://i2.chuimg.com/3b0b919486f211e6a9a10242ac110002_490w_643h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-chive-sprouts-photo.webp"
+  },
   "easy-corn-rib-soup": {
     "title": "玉米排骨汤",
     "credit": "HowToCook 菜谱贡献者",
     "source": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/soup/玉米排骨汤/玉米排骨汤.jpeg",
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
+  },
+  "easy-cucumber-century-soup": {
+    "title": "黄瓜皮蛋汤",
+    "credit": "胃你够了",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106489088/",
+    "originalImage": "https://i2.chuimg.com/9066181d11124b0aae5becccacd0a831_959w_1280h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-cucumber-century-soup-photo.webp"
+  },
+  "easy-cucumber-pork": {
+    "title": "黄瓜炒肉",
+    "credit": "athe",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107376773/",
+    "originalImage": "https://i2.chuimg.com/4fb4214594914d45ab7ffe81148cbdf8_1280w_960h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-cucumber-pork-photo.webp"
   },
   "easy-dace-lettuce": {
     "title": "豆豉鲮鱼油麦菜",
@@ -139,12 +475,168 @@
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
   },
+  "easy-egg-pancake": {
+    "title": "鸡蛋面糊饼",
+    "credit": "长点肉吧",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/103781692/",
+    "originalImage": "https://i2.chuimg.com/b769d7d2eaed49278779263ce486bae2_960w_1280h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-egg-pancake-photo.webp"
+  },
+  "easy-eggplant-potato": {
+    "title": "茄子炖土豆（东北详细版）",
+    "credit": "夏小冷",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/100532827/",
+    "originalImage": "https://i2.chuimg.com/a7355b9a894811e6a9a10242ac110002_640w_638h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-eggplant-potato-photo.webp"
+  },
+  "easy-enoki-salad": {
+    "title": "Cold enoki mushroom salad",
+    "credit": "ulterior epicure",
+    "source": "https://www.flickr.com/photos/13329406@N00/222931935",
+    "originalImage": "https://live.staticflickr.com/75/222931935_04d5d9280e.jpg",
+    "license": "CC BY-NC-ND",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-nd/2.0/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-enoki-salad-photo.webp"
+  },
+  "easy-enoki-soup": {
+    "title": "enoki-egg-drop-soup",
+    "credit": "webmasterHCS",
+    "source": "https://www.flickr.com/photos/90256269@N02/8202700068",
+    "originalImage": "https://live.staticflickr.com/8068/8202700068_3c00474bb3_b.jpg",
+    "license": "CC BY-SA",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-enoki-soup-photo.webp",
+    "note": "金针菇蛋花清汤实拍，参考加蛋版本。作者撒了少量葱花。"
+  },
+  "easy-kelp-salad": {
+    "title": "凉拌海带丝",
+    "credit": "岩岩爱吃肉",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107271255/",
+    "originalImage": "https://i2.chuimg.com/d7a76ae30c54444b95e1fde8ad03e49c_1920w_2560h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-kelp-salad-photo.webp"
+  },
+  "easy-kelp-tofu-soup": {
+    "title": "海带豆腐汤",
+    "credit": "大栾栾",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106975001/",
+    "originalImage": "https://i2.chuimg.com/1bbd3735ad194312a1d3f39922c436c2_1920w_2560h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-kelp-tofu-soup-photo.webp",
+    "note": "原作者的海带豆腐汤另加虾仁等配料；这里参考海带与豆腐的大小和汤色。"
+  },
+  "easy-lotus-slices": {
+    "title": "清炒藕片",
+    "credit": "不是厨子的煮夫",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106949171/",
+    "originalImage": "https://i2.chuimg.com/28681c61b6574ce69c111ddd74d732c3_1024w_768h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-lotus-slices-photo.webp"
+  },
+  "easy-luffa": {
+    "title": "清炒丝瓜🥒",
+    "credit": "向你扔了一坨放心肉",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106404256/",
+    "originalImage": "https://i2.chuimg.com/48cf4c26ba5d4f999fe0790dfdfa7ba9_1080w_864h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-luffa-photo.webp"
+  },
+  "easy-luffa-eggs": {
+    "title": "丝瓜炒鸡蛋（家常菜）",
+    "credit": "咖喱咖喱耶",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107600397/",
+    "originalImage": "https://i2.chuimg.com/16e7a4605e6448b3ae6214d5422a1344_1280w_1706h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-luffa-eggs-photo.webp"
+  },
   "easy-mapo-tofu": {
     "title": "麻婆豆腐",
     "credit": "HowToCook 菜谱贡献者",
     "source": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/meat_dish/麻婆豆腐/1.jpeg",
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
+  },
+  "easy-mince-steamed-egg": {
+    "title": "肉饼炖蛋",
+    "credit": "绯喵喵",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107542591/",
+    "originalImage": "https://i2.chuimg.com/a2c48895dc9f42fa8e49c366b52e369e_3414w_2560h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-mince-steamed-egg-photo.webp"
+  },
+  "easy-mung-sprouts": {
+    "title": "脆嫩爆炒绿豆芽｜不出水不软烂 快手家常菜",
+    "credit": "张记小灶",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107746839/",
+    "originalImage": "https://i2.chuimg.com/1043d4c37d1442b382984fe11034d0b9_1280w_960h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-mung-sprouts-photo.webp"
+  },
+  "easy-onion-pork": {
+    "title": "洋葱炒肉（甜面酱版）",
+    "credit": "晏。",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/100490141/",
+    "originalImage": "https://i2.chuimg.com/93175ce6890a11e6b87c0242ac110003_7087w_7087h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-onion-pork-photo.webp",
+    "note": "作者用甜面酱炒洋葱和猪肉，颜色较深。小灶用生抽调味。"
+  },
+  "easy-oyster-lettuce": {
+    "title": "快手蚝油生菜",
+    "credit": "安妮拉就是我",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107725209/",
+    "originalImage": "https://i2.chuimg.com/52e0c3ebbe6a4df9811dea242196a1c8_3414w_2560h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-oyster-lettuce-photo.webp"
+  },
+  "easy-oyster-mushroom": {
+    "title": "超简单的清炒平菇",
+    "credit": "吼吼哈嘿嘿",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/104341961/",
+    "originalImage": "https://i2.chuimg.com/e0faee8a856f46da812550e0a0e2529f_2048w_2048h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-oyster-mushroom-photo.webp",
+    "note": "平菇炒软后的样子，原作者的版本另加了彩椒。"
   },
   "easy-panfried-dumplings": {
     "title": "煎饺 Fried dumplings - Shanghai Noodle AUD7.50 for 15.jpg",
@@ -153,12 +645,58 @@
     "license": "CC BY-SA 2.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
   },
+  "easy-pepper-pork": {
+    "title": "青椒炒肉",
+    "credit": "酸奶口味",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107432033/",
+    "originalImage": "https://i2.chuimg.com/d643a360de8a4b998a3187966baa13e0_265w_327h.png",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-pepper-pork-photo.webp"
+  },
   "easy-potato-pork": {
     "title": "瘦肉土豆片",
     "credit": "HowToCook 菜谱贡献者",
     "source": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/meat_dish/瘦肉土豆片/瘦肉土豆片.jpg",
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
+  },
+  "easy-potato-rice": {
+    "title": "土豆焖饭（电饭锅版）",
+    "credit": "此处是空城",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/1100987/",
+    "originalImage": "https://i2.chuimg.com/9540a69a87ba11e6a9a10242ac110002_1000w_662h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-potato-rice-photo.webp"
+  },
+  "easy-pumpkin-congee": {
+    "title": "小美版养生小米南瓜粥",
+    "credit": "丽丽娟子的美食",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106608931/",
+    "originalImage": "https://i2.chuimg.com/a2dd661fe9444b23bf5ff568a4926f52_960w_960h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-pumpkin-congee-photo.webp",
+    "note": "原图用小米煮南瓜；本版以大米为主，小米可选，粥粒会稍大。"
+  },
+  "easy-shiitake-steamed-chicken": {
+    "title": "广东传统家常菜:香菇蒸鸡",
+    "credit": "番茄无心",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106584089/",
+    "originalImage": "https://i2.chuimg.com/138d22ee4fac4a63869f80ca90a3263f_1080w_1440h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-shiitake-steamed-chicken-photo.webp",
+    "note": "香菇与鸡肉蒸熟后的装盘参考，原作者另加了红枣等配料。"
   },
   "easy-snowpeas-sausage": {
     "title": "荷兰豆炒腊肠",
@@ -174,6 +712,103 @@
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
   },
+  "easy-steamed-eggplant": {
+    "title": "家常清蒸茄子",
+    "credit": "小米爱吃米",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106852978/",
+    "originalImage": "https://i2.chuimg.com/2e86f184d50142388a3454c2ee8d1c92_1080w_810h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-steamed-eggplant-photo.webp"
+  },
+  "easy-steamed-enoki": {
+    "title": "蒜蓉蒸金针菇",
+    "credit": "E路拾缘",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/100464836/",
+    "originalImage": "https://i2.chuimg.com/e9faf88ced9711e6bc9d0242ac110002_1440w_1080h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-steamed-enoki-photo.webp"
+  },
+  "easy-steamed-luffa": {
+    "title": "〖广东家常菜〗脆嫩爽口的蒜蓉蒸丝瓜，真的绝绝子！",
+    "credit": "高冷鱼大人",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106399820/",
+    "originalImage": "https://i2.chuimg.com/ca731de846a24cb6b9adbb358f0ac5f6_1920w_1119h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-steamed-luffa-photo.webp"
+  },
+  "easy-steamed-sweetpotato": {
+    "title": "Simple breakfast - steamed sweet potatoes",
+    "credit": "GeorgeTan#5",
+    "source": "https://www.flickr.com/photos/198109102@N06/53759473058",
+    "originalImage": "https://live.staticflickr.com/65535/53759473058_bb81d7715e_b.jpg",
+    "license": "CC CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-steamed-sweetpotato-photo.webp"
+  },
+  "easy-steamed-yam": {
+    "title": "快手清蒸山药",
+    "credit": "简单篮子",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/104329452/",
+    "originalImage": "https://i2.chuimg.com/bbb1d9a64f5346438be0702beb02f0f6_3264w_2448h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-steamed-yam-photo.webp"
+  },
+  "easy-tofu-skin-salad": {
+    "title": "Cucumber-tofu skin salad at China North Dumpling",
+    "credit": "Gary Soup",
+    "source": "https://www.flickr.com/photos/87117631@N00/15410905027",
+    "originalImage": "https://live.staticflickr.com/5603/15410905027_9bbc018785_b.jpg",
+    "license": "CC BY",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-tofu-skin-salad-photo.webp"
+  },
+  "easy-tomato-shrimp": {
+    "title": "番茄虾仁",
+    "credit": "糯米小桃子酱",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/101881218/",
+    "originalImage": "https://i2.chuimg.com/80ec1ce08b9011e6a9a10242ac110002_1280w_1280h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-tomato-shrimp-photo.webp"
+  },
+  "easy-vermicelli-babycabbage": {
+    "title": "蒜蓉粉丝蒸娃娃菜",
+    "credit": "玥月superman",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/102186551/",
+    "originalImage": "https://i2.chuimg.com/e0a99c4edb3011e6947d0242ac110002_328w_440h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-vermicelli-babycabbage-photo.webp"
+  },
+  "easy-wintermelon-driedshrimp-soup": {
+    "title": "冬瓜虾皮汤",
+    "credit": "透明小果冻",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106494282/",
+    "originalImage": "https://i2.chuimg.com/2b72088e9b814bcc8cb196596437eb0b_1280w_1034h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/easy-wintermelon-driedshrimp-soup-photo.webp"
+  },
   "egg-soup": {
     "title": "Egg drop soup (蛋花湯).jpg",
     "credit": "NeoBatfreak",
@@ -188,12 +823,67 @@
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
+  "garlic-bok": {
+    "title": "蒜蓉小白菜",
+    "credit": "王77",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/100514354/",
+    "originalImage": "https://i2.chuimg.com/a43cbf3a892c11e6b87c0242ac110003_638w_640h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/garlic-bok-photo.webp"
+  },
+  "garlic-broccoli": {
+    "title": "蒜蓉西兰花",
+    "credit": "机器猫姑娘",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/1005882/",
+    "originalImage": "https://i2.chuimg.com/cae58208874111e6b87c0242ac110003_4288w_2848h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/garlic-broccoli-photo.webp"
+  },
+  "ginger-shrimp": {
+    "title": "Ginger scallion shrimp",
+    "credit": "Neven Mrgan",
+    "source": "https://www.flickr.com/photos/28922784@N00/25864320833",
+    "originalImage": "https://live.staticflickr.com/1479/25864320833_47313d5f06_b.jpg",
+    "license": "CC BY-NC-SA",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/2.0/",
+    "fullFrame": true,
+    "asset": "/dishes/ginger-shrimp-photo.webp"
+  },
+  "honey-chicken": {
+    "title": "照烧鸡胸肉",
+    "credit": "三宝妈家常菜",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/107125587/",
+    "originalImage": "https://i2.chuimg.com/e62ca1fc69c247f0bbfb8ba662c121bb_1920w_2560h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/honey-chicken-photo.webp",
+    "note": "原作者同用鸡胸肉、蜂蜜和酱油，先煎再收汁，装盘前切成小段。本版先切丁再煎。"
+  },
   "hot-noodles": {
     "title": "陕西油泼面",
     "credit": "HowToCook 菜谱贡献者",
     "source": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/staple/陕西油泼面/成品.png",
     "license": "Unlicense",
     "licenseUrl": "https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/LICENSE"
+  },
+  "mushroom": {
+    "title": "〖黄油蒜香杏鲍菇〗",
+    "credit": "蜜桃厨房小主",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106552223/",
+    "originalImage": "https://i2.chuimg.com/65225fe9717f47aa93915062a2942ace_1280w_1024h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/mushroom-photo.webp"
   },
   "potatoes": {
     "title": "Hunan cuisine, vinegar potato wire.jpg",
@@ -216,6 +906,29 @@
     "license": "CC0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
   },
+  "soy-eggs": {
+    "title": "松兰（老式）拌饭",
+    "credit": "耿直李大妈",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/104458162/",
+    "originalImage": "https://i2.chuimg.com/628923c1e17e4021ad6377538cab5ca0_1124w_899h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/soy-eggs-photo.webp",
+    "note": "原作者的拌饭用了多颗煎蛋和辣椒。小灶按一人份煎蛋、淋酱油汁。"
+  },
+  "soy-rice": {
+    "title": "酱油炒饭",
+    "credit": "吖铭",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/106771368/",
+    "originalImage": "https://i2.chuimg.com/665c3e89612d423d8eb19b9a82bec6a1_864w_1152h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/soy-rice-photo.webp"
+  },
   "steamed-eggs": {
     "title": "鸡蛋羹",
     "credit": "HowToCook 菜谱贡献者",
@@ -229,6 +942,17 @@
     "source": "https://commons.wikimedia.org/wiki/File:Tomato_and_eggs.JPG",
     "license": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "tomato-noodles": {
+    "title": "番茄鸡蛋汤面",
+    "credit": "PauCifer",
+    "publisher": "下厨房",
+    "source": "https://m.xiachufang.com/recipe/102205110/",
+    "originalImage": "https://i2.chuimg.com/6580c7e0f2af11e6947d0242ac110002_1280w_1280h.jpg",
+    "license": "非商业转载说明",
+    "licenseUrl": "https://www.xiachufang.com/principle/",
+    "fullFrame": true,
+    "asset": "/dishes/tomato-noodles-photo.webp"
   },
   "tomato-soup": {
     "title": "Tomato and egg soup.jpg",

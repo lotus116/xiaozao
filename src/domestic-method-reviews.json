@@ -1,0 +1,731 @@
+{
+  "bok-choy": {
+    "site": "下厨房",
+    "title": "清炒小青菜",
+    "url": "https://m.xiachufang.com/recipe/100637054/",
+    "author": "瞬间777",
+    "step": 1,
+    "supports": "作者把菜帮和叶分开，蒜碎出香后先炒菜帮。",
+    "adaptation": "粗梗切细再先下锅，菜叶等梗开始变软再下；大份量用小锅时分批炒。"
+  },
+  "tomato-soup": {
+    "site": "下厨房",
+    "title": "番茄蛋花汤",
+    "url": "https://m.xiachufang.com/recipe/106424639/",
+    "author": "欢欢早安",
+    "step": 2,
+    "supports": "番茄炒出红汁后加水，原方勾薄芡再分次倒蛋。",
+    "adaptation": "小灶用清汤底，小滚时细流淋蛋；先让蛋花凝住再推动汤勺。"
+  },
+  "cold-tofu": {
+    "site": "下厨房",
+    "title": "凉拌豆腐，爽口下饭超简单",
+    "url": "https://m.xiachufang.com/recipe/106603159/",
+    "author": "半生瓜",
+    "step": 2,
+    "supports": "内酯豆腐装盘沥水，另碗调好醋和生抽再淋。",
+    "adaptation": "豆腐先按包装要求加热，再把盘底的水沥掉；蘸汁从半份开始，避免嫩豆腐拌碎。"
+  },
+  "fried-rice": {
+    "site": "下厨房",
+    "title": "家常蛋炒饭：只用鸡蛋葱花，炒出高级感",
+    "url": "https://m.xiachufang.com/recipe/107737761/",
+    "author": "张记小灶",
+    "step": 1,
+    "supports": "葱白和葱绿分开，蛋液底面定形后划散，再把饭团炒开。",
+    "adaptation": "先把妥善冷藏的熟饭拨散；饭多就分批炒热，葱绿留到出锅时撒。"
+  },
+  "garlic-bok": {
+    "site": "下厨房",
+    "title": "蒜蓉小白菜",
+    "url": "https://m.xiachufang.com/recipe/100514354/",
+    "author": "王77",
+    "step": 1,
+    "supports": "作者先控干白菜，蒜末刚出香时就下菜。",
+    "adaptation": "备菜时把洗好的白菜放漏篮；闻到蒜香就下厚梗，留出余地下叶，不必等蒜末变褐。"
+  },
+  "mushroom": {
+    "site": "下厨房",
+    "title": "〖黄油蒜香杏鲍菇〗",
+    "url": "https://m.xiachufang.com/recipe/106552223/",
+    "author": "蜜桃厨房小主",
+    "step": 1,
+    "supports": "厚切杏鲍菇先煎出金黄表面，再把菇拨开，加入黄油和调味。",
+    "adaptation": "本版用薄片，只在贴锅面上色、能轻推时翻面；黄油留到末段低火拌香。"
+  },
+  "soy-eggs": {
+    "site": "下厨房",
+    "title": "松兰（老式）拌饭",
+    "url": "https://m.xiachufang.com/recipe/104458162/",
+    "author": "耿直李大妈",
+    "step": 2,
+    "supports": "原方盖锅煎蛋，另碗用酱油和少量水调拌饭汁。",
+    "adaptation": "将酱汁调稀、分次拌入热饭，本版让蛋白和蛋黄充分凝固后再盖到饭上。"
+  },
+  "egg-soup": {
+    "site": "下厨房",
+    "title": "一碗漂亮又鲜嫩无比的基础蛋花汤",
+    "url": "https://m.xiachufang.com/recipe/103922153/",
+    "author": "王雪岩1984",
+    "step": 2,
+    "supports": "作者把蛋液充分打散，锅开后调小火，慢慢倒入。",
+    "adaptation": "用清汤也能出蛋花：水面仅轻轻翻动，蛋液细流入锅，凝成絮状再推开。"
+  },
+  "tomato-noodles": {
+    "site": "下厨房",
+    "title": "番茄鸡蛋汤面",
+    "url": "https://m.xiachufang.com/recipe/102205110/",
+    "author": "PauCifer",
+    "step": 1,
+    "supports": "原作者先炒出番茄红汁，另一锅煮面，再合锅调味。",
+    "adaptation": "小灶直接在番茄汤里煮面；先炒软番茄再加水，面条吸汤后用少量热水调稀。"
+  },
+  "crispy-noodles": {
+    "site": "下厨房",
+    "title": "韭黄肉丝两面黄",
+    "url": "https://m.xiachufang.com/recipe/1006107/",
+    "author": "呤儿",
+    "step": 1,
+    "supports": "两面黄的面条先沥水、整形成薄饼，在平底锅中将两面分别煎黄。",
+    "adaptation": "只借鉴煎面；本版拌辣味调料。摊薄后等底面结壳再翻，整张难翻时分块操作。"
+  },
+  "soy-rice": {
+    "site": "下厨房",
+    "title": "酱油炒饭",
+    "url": "https://m.xiachufang.com/recipe/106771368/",
+    "author": "吖铭",
+    "step": 2,
+    "supports": "作者先把酱油调料与米饭拌匀，再与洋葱、鸡蛋合炒。",
+    "adaptation": "小灶先炒松热饭，再把酱油分次拌开；饭粒已均匀着色就先尝咸淡。"
+  },
+  "garlic-broccoli": {
+    "site": "下厨房",
+    "title": "蒜蓉西兰花",
+    "url": "https://m.xiachufang.com/recipe/1005882/",
+    "author": "机器猫姑娘",
+    "step": 2,
+    "supports": "作者先焯西兰花并沥干，蒜末出香后再炒菜。",
+    "adaptation": "本版把蒜香料汁另锅煮开浇菜，沥去花球夹带的水，少量淋汁再尝。"
+  },
+  "shrimp-eggs": {
+    "site": "下厨房",
+    "title": "虾仁炒蛋",
+    "url": "https://m.xiachufang.com/recipe/100482860/",
+    "author": "Sophiephie",
+    "step": 2,
+    "supports": "原方把虾仁与蛋液拌在一起，中火用铲慢推成滑蛋。",
+    "adaptation": "新手先将虾炒熟再倒蛋，铲子从锅边往中间推；流动的蛋液完全凝固即可盛出。"
+  },
+  "bacon-rice": {
+    "site": "下厨房",
+    "title": "普通的蛋炒饭",
+    "url": "https://m.xiachufang.com/recipe/104539881/",
+    "author": "Leoanan",
+    "step": 1,
+    "supports": "原方小火煸培根出油，再用锅里的油炒配料和米饭。",
+    "adaptation": "本版省去牛肉末等配料。观察培根出油量再决定是否补油，米饭炒透后再补盐。"
+  },
+  "broccoli-tofu": {
+    "site": "下厨房",
+    "title": "西兰花豆腐",
+    "url": "https://m.xiachufang.com/recipe/106855831/",
+    "author": "Z开芯",
+    "step": 2,
+    "supports": "原作者先焯西兰花，豆腐两面煎黄后加汁炖，轻推收汁。",
+    "adaptation": "小灶将西兰花放进煎过豆腐的锅，加汤煮到厚茎熟软，最后才薄薄收汁。用铲背轻推豆腐保持完整。"
+  },
+  "cabbage-noodles": {
+    "site": "下厨房",
+    "title": "包菜炒粉丝🔥不坨不结块，香到舔盘",
+    "url": "https://m.xiachufang.com/recipe/107506024/",
+    "author": "陈家胖胖青",
+    "step": 0,
+    "supports": "温水浸软粉丝后剪短，沥水，后入锅抖散与包菜合炒。",
+    "adaptation": "按粉丝包装先泡至可弯，一夹成团就用筷子拨松；入锅少量补水让粉丝吸汁。"
+  },
+  "beef-noodles": {
+    "site": "下厨房",
+    "title": "肉末拌面",
+    "url": "https://m.xiachufang.com/recipe/103412186/",
+    "author": "Livvie",
+    "step": 2,
+    "supports": "原作者分开炒肉末、煮面烫青菜，并留少量面汤帮助拌开。",
+    "adaptation": "本版用牛肉末和菠菜，留一小杯面汤；肉末熟透后用少量面汤稀释肉汁再拌。"
+  },
+  "hot-noodles": {
+    "site": "下厨房",
+    "title": "油泼面（家常简单版）",
+    "url": "https://m.xiachufang.com/recipe/107424799/",
+    "author": "好食客小太阳",
+    "step": 2,
+    "supports": "作者把煮好的面沥水入碗，把蒜末和辣椒面放在面上后泼油拌开。",
+    "adaptation": "用稳固耐热碗，先沥掉碗底积水；少量油淋向调料，拌匀后再决定是否补醋。"
+  },
+  "ginger-shrimp": {
+    "site": "下厨房",
+    "title": "葱姜炒虾仁",
+    "url": "https://m.xiachufang.com/recipe/106966016/",
+    "author": "她是弯弯呀",
+    "step": 2,
+    "supports": "原作者先配好碗汁，煎虾仁后加葱姜，最后用料汁收尾。",
+    "adaptation": "小灶先用姜葱煸香再炒虾，调料提前量好。虾熟时加葱绿、翻到刚软就尝味，不必勾芡。"
+  },
+  "chive-eggs": {
+    "site": "下厨房",
+    "title": "韭菜炒鸡蛋",
+    "url": "https://m.xiachufang.com/recipe/92086/",
+    "author": "文琦",
+    "step": 2,
+    "supports": "原作者先炒鸡蛋盛出，再快炒韭菜，合锅即盛。",
+    "adaptation": "韭菜洗后沥干再切；韭菜变软才让鸡蛋回锅，一起热透即可。"
+  },
+  "cn-cucumber-eggs": {
+    "site": "下厨房",
+    "title": "黄瓜炒鸡蛋",
+    "url": "https://m.xiachufang.com/recipe/102333703/",
+    "author": "云姐的幸福日子",
+    "step": 2,
+    "supports": "作者把黄瓜切薄片，蛋液先下锅，鸡蛋成块后再加入瓜片。",
+    "adaptation": "小灶把成块的蛋先盛出；黄瓜略软仍有形时回蛋，避免鸡蛋全程在锅里变干。"
+  },
+  "cn-seaweed-egg-soup": {
+    "site": "下厨房",
+    "title": "紫菜蛋汤",
+    "url": "https://m.xiachufang.com/recipe/1004987/",
+    "author": "食尚煮妇",
+    "step": 2,
+    "supports": "原方将撕碎的紫菜泡进蛋液，再分团放入热汤。",
+    "adaptation": "小灶把两者分开下：先让紫菜舒展开，再往小滚的汤中细流淋蛋，形成较薄的蛋花。"
+  },
+  "cn-celery-tofu": {
+    "site": "下厨房",
+    "title": "芹菜炒香干（豆腐干）",
+    "url": "https://m.xiachufang.com/recipe/102795880/",
+    "author": "米二乔",
+    "step": 0,
+    "supports": "原方给芹菜去筋、斜切成片，香干也切片再与芹菜同炒。",
+    "adaptation": "粗芹菜梗顺长剖细再切段，香干切成相近长度的条。两者炒熟后再尝味，按香干本身的咸度补盐。"
+  },
+  "cn-celery-mince": {
+    "site": "下厨房",
+    "title": "厨师长教你：“芹菜炒肉末”的家常做法，味道很赞，非常下饭",
+    "url": "https://m.xiachufang.com/recipe/103355130/",
+    "author": "美食作家王刚",
+    "step": 2,
+    "supports": "作者把香干和芹菜切细粒，牛肉末与香干先炒，芹菜后下。",
+    "adaptation": "本版先拨散并炒熟肉末，再放香干和芹菜；切成接近大小的小粒，能均匀裹上肉汁。"
+  },
+  "cn-vinegar-cabbage": {
+    "site": "下厨房",
+    "title": "醋溜白菜",
+    "url": "https://m.xiachufang.com/recipe/107635028/",
+    "author": "圆圆圈_",
+    "step": 1,
+    "supports": "作者把白菜帮叶分开，帮的边缘略透后加叶，再倒预调醋汁。",
+    "adaptation": "厚帮切薄先炒，叶片软下来后再合醋汁；汁刚裹匀就盛盘，避免白菜久煮出水。"
+  },
+  "cn-garlic-lettuce": {
+    "site": "下厨房",
+    "title": "蒜蓉油麦菜",
+    "url": "https://m.xiachufang.com/recipe/107749107/",
+    "author": "naaaaaa",
+    "step": 1,
+    "supports": "原方将油麦菜切段，先炒蒜末和辣椒等香料，再放菜翻炒。",
+    "adaptation": "小灶主取蒜香。蒜碎刚出香就下沥干的菜段，菜量大分批炒，以免蒜焦菜仍生。"
+  },
+  "cn-mushroom-rapeseed": {
+    "site": "下厨房",
+    "title": "香菇油菜",
+    "url": "https://m.xiachufang.com/recipe/104252394/",
+    "author": "五月孤芳",
+    "step": 1,
+    "supports": "作者将青菜和香菇分开处理，再合锅淋芡汁，菜梗比菜叶先入热水。",
+    "adaptation": "小灶让鲜菇充分受热再合菜；粗菜梗纵剖，不让已经软的菜叶陪着菇久煮。"
+  },
+  "honey-chicken": {
+    "site": "下厨房",
+    "title": "黑椒蜜汁鸡胸肉",
+    "url": "https://m.xiachufang.com/recipe/105838365/",
+    "author": "厂尌",
+    "step": 2,
+    "supports": "原作者先给鸡胸肉裹蜜汁，煎到两面上色后补水盖锅焖煮。",
+    "adaptation": "小灶把蜂蜜留到煎鸡丁之后，避免甜汁先焦；酱汁已稠而肉心未达 74°C 时，加水继续煮。"
+  },
+  "cn-garlic-shoot-pork": {
+    "site": "下厨房",
+    "title": "蒜苔炒肉丝",
+    "url": "https://m.xiachufang.com/recipe/106825830/",
+    "author": "琥珀君W",
+    "step": 2,
+    "supports": "原方将肉和蒜苔分次下锅，蒜苔入锅后补一点水煮软再调味。",
+    "adaptation": "蒜苔先去老梗。咬不动的粗段可补少量水多煮片刻，把已熟的肉丝留到最后合锅。"
+  },
+  "cn-steamed-pumpkin": {
+    "site": "下厨房",
+    "title": "营养蒸--清蒸南瓜",
+    "url": "https://m.xiachufang.com/recipe/100409753/",
+    "author": "小美的美食",
+    "step": 2,
+    "supports": "原作者将南瓜切块装盘，等蒸锅水沸再入锅，用筷子检查软度。",
+    "adaptation": "挑盘中最厚的一块从侧面戳到中心；薄块先软时先夹出，余下继续蒸。"
+  },
+  "cn-cauliflower": {
+    "site": "下厨房",
+    "title": "清炒菜花",
+    "url": "https://m.xiachufang.com/recipe/77929/",
+    "author": "塞北主妇",
+    "step": 1,
+    "supports": "原方掰花菜成小朵、焯水，再炒蒜片和花菜。",
+    "adaptation": "把较粗花梗剖开，使它和小花朵同时受热；焯后捞一朵试梗，较硬的在炒后补水短焖。"
+  },
+  "cn-onion-shrimp": {
+    "site": "下厨房",
+    "title": "姜葱无水焗虾",
+    "url": "https://m.xiachufang.com/recipe/106783464/",
+    "author": "陈西西-c",
+    "step": 0,
+    "supports": "原方在厚锅底铺姜蒜和葱，将虾均匀摊开，再盖锅焗。",
+    "adaptation": "本版用洋葱垫底、加少量料酒或水。单层铺虾，起蒸汽后调小火，锅底发干就沿边补水。"
+  },
+  "cn-radish-soup": {
+    "site": "下厨房",
+    "title": "美味白萝卜汤(没有异味的鲜汤)",
+    "url": "https://m.xiachufang.com/recipe/105880634/",
+    "author": "胖妻的厨房日记",
+    "step": 1,
+    "supports": "作者把白萝卜擦丝，汤水先煮开，再下萝卜丝，最后调味。",
+    "adaptation": "小灶改为萝卜丝与清水同煮，不加榨菜。夹起时萝卜丝已能弯软、中心透亮，再尝汤调盐。"
+  },
+  "cn-tomato-tofu-soup": {
+    "site": "下厨房",
+    "title": "番茄豆腐鸡蛋汤",
+    "url": "https://m.xiachufang.com/recipe/107382076/",
+    "author": "春暖花开9628wm",
+    "step": 1,
+    "supports": "原方先炒出番茄汁再加热水，汤滚后放豆腐，另调淀粉和蛋液。",
+    "adaptation": "本版省去原方菌菇。豆腐轻轻滑入汤里，用勺背沿锅边推开，薄芡分次加。"
+  },
+  "cn-water-spinach": {
+    "site": "下厨房",
+    "title": "蒜蓉空心菜",
+    "url": "https://m.xiachufang.com/recipe/104012697/",
+    "author": "Forever_良和",
+    "step": 1,
+    "supports": "作者将空心菜梗叶分开，先炒蒜和菜梗，再下叶片。",
+    "adaptation": "粗梗切短或纵剖，趁蒜末刚出香时先炒梗；叶片最后翻入，软下来就检查梗是否熟透。"
+  },
+  "cn-scallion-tofu": {
+    "site": "下厨房",
+    "title": "葱煎豆腐",
+    "url": "https://m.xiachufang.com/recipe/100366299/",
+    "author": "贺子楠_",
+    "step": 1,
+    "supports": "原方将豆腐切厚块，小火煎黄后夹出，葱段炒香再与豆腐合拢。",
+    "adaptation": "豆腐沥干后单层摆好。用铲尖推一下底边，能轻松移动时再翻，可减少粘锅和碎裂。"
+  },
+  "cn-millet-congee": {
+    "site": "下厨房",
+    "title": "小米粥",
+    "url": "https://m.xiachufang.com/recipe/92918/",
+    "author": "80后男人的厨房",
+    "step": 2,
+    "supports": "作者水开下小米，小火留缝慢煮，中途搅动让粥渐稠。",
+    "adaptation": "小灶按米粒软烂程度停火。泡米与否、锅的厚薄都会影响用时，锅底开始粘时降火并轻搅。"
+  },
+  "cn-boiled-corn": {
+    "site": "下厨房",
+    "title": "水煮玉米",
+    "url": "https://m.xiachufang.com/recipe/106854782/",
+    "author": "0047_u137",
+    "step": 2,
+    "supports": "原方留少量内层苞叶，加水盖过玉米煮，依嫩老调整时间。",
+    "adaptation": "先确认是甜玉米还是糯玉米；夹出一穗稍凉，取中段一粒检查芯的软硬，按口感续煮。"
+  },
+  "easy-spinach-eggs": {
+    "site": "下厨房",
+    "title": "菠菜炒鸡蛋",
+    "url": "https://m.xiachufang.com/recipe/107743277/",
+    "author": "pepperandpineapple",
+    "step": 0,
+    "supports": "原作者先焯菠菜，另炒蛋，再把菠菜放回锅合炒。",
+    "adaptation": "焯好的菠菜先沥水切短。等蛋块已定形才合锅，可避免积水稀释蛋液。"
+  },
+  "easy-bittermelon-eggs": {
+    "site": "下厨房",
+    "title": "苦瓜炒鸡蛋🥚",
+    "url": "https://m.xiachufang.com/recipe/106853773/",
+    "author": "滑冰的鸡蛋黄-",
+    "step": 0,
+    "supports": "作者剔去苦瓜籽瓤，并列出盐腌冲洗或沸水处理两种做法。",
+    "adaptation": "本版选择焯水这一条路线，瓜片沥干再炒；不用把盐腌和焯水的用量叠加。"
+  },
+  "easy-celtuce": {
+    "site": "下厨房",
+    "title": "〖清炒莴笋〗｜超美味的家常菜做法",
+    "url": "https://m.xiachufang.com/recipe/107757693/",
+    "author": "Lark",
+    "step": 2,
+    "supports": "原方先炒香蒜末和椒，再下莴笋快炒，最后调味。",
+    "adaptation": "小灶先短腌莴笋后沥水，炒熟后再尝；已有底味时最后的盐只需少量。"
+  },
+  "easy-lotus-slices": {
+    "site": "下厨房",
+    "title": "清炒藕片",
+    "url": "https://m.xiachufang.com/recipe/106949171/",
+    "author": "不是厨子的煮夫",
+    "step": 0,
+    "supports": "作者把藕切片后淘洗表面淀粉，再焯水、翻炒。",
+    "adaptation": "本版省去另锅焯水，用锅里少量水焖熟；藕片先切成相近厚度，洗掉淀粉并沥干。"
+  },
+  "easy-mung-sprouts": {
+    "site": "下厨房",
+    "title": "脆嫩爆炒绿豆芽｜不出水不软烂 快手家常菜",
+    "url": "https://m.xiachufang.com/recipe/107746839/",
+    "author": "张记小灶",
+    "step": 1,
+    "supports": "原方先把豆芽沥干，炒香配料后才倒豆芽，下锅后持续翻动。",
+    "adaptation": "将锅底与上层豆芽翻换，让整锅充分受热；锅小就分批，不照搬原作者的快炒分钟数。"
+  },
+  "easy-chive-sprouts": {
+    "site": "下厨房",
+    "title": "韭菜炒豆芽",
+    "url": "https://m.xiachufang.com/recipe/21271/",
+    "author": "厦门媳妇山城妹",
+    "step": 1,
+    "supports": "作者先把豆芽炒软再拌入韭菜，利用两种菜自身的水分。",
+    "adaptation": "豆芽先下锅翻匀，充分受热后再放韭菜；最后一起炒熟，韭菜更容易保留香味。"
+  },
+  "easy-cabbage-tofu": {
+    "site": "下厨房",
+    "title": "白菜炖豆腐",
+    "url": "https://m.xiachufang.com/recipe/107248151/",
+    "author": "多乐妈妈",
+    "step": 2,
+    "supports": "原方先煎豆腐，炒软白菜后加入豆腐和料汁同炖。",
+    "adaptation": "本版走清炖路线，豆腐先小火炖，白菜帮先于叶入锅。用勺背轻推，避免把豆腐翻散。"
+  },
+  "easy-century-tofu": {
+    "site": "下厨房",
+    "title": "皮蛋豆腐",
+    "url": "https://m.xiachufang.com/recipe/267660/",
+    "author": "斯佳丽",
+    "step": 0,
+    "supports": "作者分别切豆腐和皮蛋，码在盘中，最后淋预先调好的汁。",
+    "adaptation": "先按豆腐包装确认食用方式，需要加热的先煮透；沥水放凉后再摆盘淋汁。"
+  },
+  "easy-enoki-salad": {
+    "site": "下厨房",
+    "title": "凉拌金针菇",
+    "url": "https://m.xiachufang.com/recipe/103915864/",
+    "author": "NB轮回",
+    "step": 1,
+    "supports": "原作者先煮金针菇等配菜，捞出后才与凉拌汁拌合。",
+    "adaptation": "菇团拆成细束再下沸水，确保全部彻底加热。沥干再淋汁，不用原方的固定短焯时间判断熟度。"
+  },
+  "easy-steamed-eggplant": {
+    "site": "下厨房",
+    "title": "家常清蒸茄子",
+    "url": "https://m.xiachufang.com/recipe/106852978/",
+    "author": "小米爱吃米",
+    "step": 1,
+    "supports": "原方把茄子剖开，水开后入锅蒸，蒸软才撕条淋汁。",
+    "adaptation": "茄块厚度尽量一致，用筷子戳最厚处；中心柔软后就能轻撕成条，调味汁分次拌。"
+  },
+  "easy-eggplant-potato": {
+    "site": "下厨房",
+    "title": "茄子炖土豆（东北详细版）",
+    "url": "https://m.xiachufang.com/recipe/100532827/",
+    "author": "夏小冷",
+    "step": 2,
+    "supports": "原作者把茄子先炒软，放入土豆加水同炖，末段还会压成泥。",
+    "adaptation": "本版保留块形。焖到筷子能轻易穿过最厚土豆块再收汁，用勺背轻推茄子。"
+  },
+  "easy-luffa": {
+    "site": "下厨房",
+    "title": "清炒丝瓜🥒",
+    "url": "https://m.xiachufang.com/recipe/106404256/",
+    "author": "向你扔了一坨放心肉",
+    "step": 2,
+    "supports": "原方将丝瓜削皮切块，中火翻炒至自身出水，再按软度出锅。",
+    "adaptation": "锅底出现瓜汁后先停加水，观察最厚块的中心是否柔软。菜汁多时开盖稍收再调味。"
+  },
+  "easy-luffa-eggs": {
+    "site": "下厨房",
+    "title": "丝瓜炒鸡蛋（家常菜）",
+    "url": "https://m.xiachufang.com/recipe/107600397/",
+    "author": "咖喱咖喱耶",
+    "step": 2,
+    "supports": "作者先煎蛋盛出，底油炒丝瓜，再加回鸡蛋一起完成加热。",
+    "adaptation": "小灶先让瓜条熟软，汤汁过多先略收，再放回蛋块轻拌，这样两者都能保持口感。"
+  },
+  "easy-steamed-enoki": {
+    "site": "下厨房",
+    "title": "蒜蓉蒸金针菇",
+    "url": "https://m.xiachufang.com/recipe/100464836/",
+    "author": "E路拾缘",
+    "step": 1,
+    "supports": "原方沥干金针菇，利用锅中余温炒香蒜末，再把蒜蓉铺在菇上蒸。",
+    "adaptation": "蒜末闻到香味就离火，薄铺到拆散的菇束上；蒸到全熟后再用盘汁调味，避免蒜蓉发苦。"
+  },
+  "easy-dace-lettuce": {
+    "site": "下厨房",
+    "title": "豆豉鲮鱼油麦菜",
+    "url": "https://m.xiachufang.com/recipe/104461145/",
+    "author": "-孙小碗-",
+    "step": 0,
+    "supports": "作者先挑掉鲮鱼中间的骨头、掰成小块，并留用罐头里的豆豉。",
+    "adaptation": "先检查大块鱼肉的硬骨，豆豉分次放；本版菜叶先炒熟再合罐头，最后尝味决定是否加盐。"
+  },
+  "easy-potato-pork": {
+    "site": "下厨房",
+    "title": "土豆片炒肉",
+    "url": "https://m.xiachufang.com/recipe/100027697/",
+    "author": "飞翔吧咏儿",
+    "step": 0,
+    "supports": "作者把土豆切成薄片并冲洗表面淀粉，再与薄肉片炒熟。",
+    "adaptation": "小灶把土豆先短焯再合肉，切片尽量一样厚，能弯而不碎时捞出，避免与肉片久炒。"
+  },
+  "easy-cucumber-pork": {
+    "site": "下厨房",
+    "title": "黄瓜炒肉",
+    "url": "https://m.xiachufang.com/recipe/107376773/",
+    "author": "athe",
+    "step": 2,
+    "supports": "原方黄瓜盐腌后挤水，肉先炒出锅，快炒黄瓜后让肉回锅。",
+    "adaptation": "本版直接用鲜瓜片，先沥干表面水。肉片确认熟透再加瓜片，只需炒到瓜边略软即可盛出。"
+  },
+  "easy-onion-pork": {
+    "site": "下厨房",
+    "title": "洋葱小炒肉",
+    "url": "https://m.xiachufang.com/recipe/175077/",
+    "author": "狗尾巴草",
+    "step": 2,
+    "supports": "原方先炒肉片盛出，洋葱丝变软、边缘透亮时再加肉回锅。",
+    "adaptation": "本版按洋葱的软度决定合锅时机，肉片已熟只需回温；甜面酱不是本版必需调料。"
+  },
+  "easy-pepper-pork": {
+    "site": "下厨房",
+    "title": "青椒炒肉",
+    "url": "https://m.xiachufang.com/recipe/107432033/",
+    "author": "酸奶口味",
+    "step": 1,
+    "supports": "原作者把五花肉与青椒分别煎煸，看到椒皮有焦斑后回锅调味。",
+    "adaptation": "本版先煸青椒再炒肉，青椒表面起皱就盛出；留意辣椒厚度，按实际状态调整火候。"
+  },
+  "easy-mince-steamed-egg": {
+    "site": "下厨房",
+    "title": "肉饼炖蛋",
+    "url": "https://m.xiachufang.com/recipe/107542591/",
+    "author": "绯喵喵",
+    "step": 1,
+    "supports": "作者把拌好的肉末铺平，在中间压出浅窝打蛋，再入蒸锅。",
+    "adaptation": "肉饼铺成均匀薄层，压窝时把四周的厚肉摊开；出锅前测最厚肉心并确认鸡蛋全熟。"
+  },
+  "easy-snowpeas-sausage": {
+    "site": "下厨房",
+    "title": "荷兰豆炒腊肠",
+    "url": "https://m.xiachufang.com/recipe/107740163/",
+    "author": "pepperandpineapple",
+    "step": 2,
+    "supports": "原方先焯荷兰豆，腊肠斜切薄片炒香，再把荷兰豆倒回锅中。",
+    "adaptation": "确认腊肠包装要求，生制品先按说明做熟。荷兰豆全熟后再合锅，先尝腊肠咸味再决定是否补盐。"
+  },
+  "easy-wintermelon-driedshrimp-soup": {
+    "site": "下厨房",
+    "title": "冬瓜虾皮汤",
+    "url": "https://m.xiachufang.com/recipe/106494282/",
+    "author": "透明小果冻",
+    "step": 1,
+    "supports": "作者将冬瓜去皮去瓤切薄，先炒香虾皮，再加水煮瓜片。",
+    "adaptation": "汤底保留虾皮香味，略炒出香就加水；瓜片厚薄均匀，待中心也透亮再尝汤调盐。"
+  },
+  "easy-cucumber-century-soup": {
+    "site": "下厨房",
+    "title": "黄瓜皮蛋汤",
+    "url": "https://m.xiachufang.com/recipe/102870680/",
+    "author": "sissith",
+    "step": 1,
+    "supports": "原方将皮蛋切瓣小火略煎，添热水煮汤，黄瓜在后段加入。",
+    "adaptation": "皮蛋底边定形再轻轻翻。热水沿锅边慢慢倒，等汤底有味再下瓜片，保留清爽口感。"
+  },
+  "easy-enoki-soup": {
+    "site": "下厨房",
+    "title": "🔥低脂低卡好喝到爆炸的番茄金针菇汤",
+    "url": "https://m.xiachufang.com/recipe/105842352/",
+    "author": "心灵手巧常",
+    "step": 1,
+    "supports": "参考番茄金针菇汤里煮菇的次序：先让汤滚，再放去根的金针菇煮软。",
+    "adaptation": "本版去掉番茄底，将拆散的菇束与清水同煮，确保每束都浸在汤里。全锅持续受热、菇束彻底熟透后调味。"
+  },
+  "easy-corn-rib-soup": {
+    "site": "下厨房",
+    "title": "排骨玉米汤",
+    "url": "https://m.xiachufang.com/recipe/104469170/",
+    "author": "云卷云姝",
+    "step": 1,
+    "supports": "作者排骨冷水下锅焯水、撇沫，换水炖排骨，中途再放鲜玉米。",
+    "adaptation": "本版把玉米和焯过的排骨一同炖，汤面持续冒小泡。排骨软烂、玉米芯附近的籽粒煮透再调味。"
+  },
+  "easy-kelp-tofu-soup": {
+    "site": "下厨房",
+    "title": "海带豆腐汤",
+    "url": "https://m.xiachufang.com/recipe/106975001/",
+    "author": "大栾栾",
+    "step": 2,
+    "supports": "原作者把泡发海带切段，水开后先入海带，再放内酯豆腐。",
+    "adaptation": "小灶省去虾仁。试一片厚海带是否已软；再把豆腐轻轻滑入汤里，保持微滚让中心热透。"
+  },
+  "easy-catfish-tofu-soup": {
+    "site": "下厨房",
+    "title": "昂刺鱼炖豆腐",
+    "url": "https://m.xiachufang.com/recipe/1005485/",
+    "author": "西柚",
+    "step": 1,
+    "supports": "作者让店家处理昂刺鱼，先小火将鱼的两面略煎，再和豆腐加水同炖。",
+    "adaptation": "鱼表面擦干、下锅摊稳，底面能推动再翻。加汤后减少翻动，到点检查厚处鱼肉，别只看汤色。"
+  },
+  "easy-tomato-shrimp": {
+    "site": "下厨房",
+    "title": "番茄虾仁",
+    "url": "https://m.xiachufang.com/recipe/101881218/",
+    "author": "糯米小桃子酱",
+    "step": 2,
+    "supports": "作者先炒虾盛起，再把番茄丁边压边炒出汁，最后让虾回锅。",
+    "adaptation": "把时间留给番茄。虾仁已炒熟后先等在干净盘里，汤汁能挂住锅铲时再回锅裹汁。"
+  },
+  "easy-vermicelli-babycabbage": {
+    "site": "下厨房",
+    "title": "蒜蓉粉丝蒸娃娃菜",
+    "url": "https://m.xiachufang.com/recipe/102186551/",
+    "author": "玥月superman",
+    "step": 1,
+    "supports": "原方把粉丝泡开，娃娃菜切瓣，摆盘后浇蒜蓉调汁一起蒸。",
+    "adaptation": "本版把厚菜帮切薄，粉丝铺松后淋入少量料汁和水；蒸好同时检查菜帮和盘底粉丝的软硬。"
+  },
+  "easy-steamed-sweetpotato": {
+    "site": "下厨房",
+    "title": "蒸红薯（红薯最营养的吃法——电高压锅版本）",
+    "url": "https://m.xiachufang.com/recipe/104159939/",
+    "author": "桃之灰灰",
+    "step": 1,
+    "supports": "原作者洗净红薯后，放在蒸架上，水加在蒸架下方，用电高压锅蒸。",
+    "adaptation": "小灶使用普通蒸锅，水面低于蒸架。选大小接近的红薯，最厚处也能轻松穿透时才出锅。"
+  },
+  "easy-chicken-mushroom-rice": {
+    "site": "下厨房",
+    "title": "〖香菇鸡肉焖饭〗",
+    "url": "https://m.xiachufang.com/recipe/103019699/",
+    "author": "日食记",
+    "step": 1,
+    "supports": "原方将去骨鸡腿先和洋葱煸炒，加香菇、蔬菜和米，再交给电饭煲焖熟。",
+    "adaptation": "炒香鸡块后加入本版的香菇和可选蔬菜；鸡肉上色后还要继续随饭煮，开盖时检查鸡肉中心。"
+  },
+  "easy-potato-rice": {
+    "site": "下厨房",
+    "title": "土豆焖饭（电饭锅版）",
+    "url": "https://m.xiachufang.com/recipe/1100987/",
+    "author": "此处是空城",
+    "step": 1,
+    "supports": "原作者将土豆切成小块并沥干，先在炒锅将边角煎黄，再与生米同煮。",
+    "adaptation": "土豆只需煎出香味，随后与米一起焖熟。锅内水按电饭煲刻度，起锅前检查土豆中心。"
+  },
+  "easy-pumpkin-congee": {
+    "site": "下厨房",
+    "title": "南瓜粥（原味）",
+    "url": "https://m.xiachufang.com/recipe/107534841/",
+    "author": "心灵做菜",
+    "step": 0,
+    "supports": "原方南瓜先切小块，再和洗净的米放进压力锅，利用南瓜本身的甜味。",
+    "adaptation": "本版用普通锅，南瓜厚薄一致更易软。根据粥的稠度和瓜块的软度停火，不套用压力锅时间。"
+  },
+  "easy-egg-pancake": {
+    "site": "下厨房",
+    "title": "鸡蛋面糊饼",
+    "url": "https://m.xiachufang.com/recipe/103781692/",
+    "author": "长点肉吧",
+    "step": 1,
+    "supports": "作者在电饼铛上刷薄油，舀入一勺面糊，刮平定形后再淋蛋。",
+    "adaptation": "小灶将蛋拌入面糊，用平底锅薄摊。面糊一次少舀，边缘能揭起、表面基本定形再翻。"
+  },
+  "easy-panfried-dumplings": {
+    "site": "下厨房",
+    "title": "平底锅煎速冻饺子",
+    "url": "https://m.xiachufang.com/recipe/101758119/",
+    "author": "3N的小披风",
+    "step": 1,
+    "supports": "作者把速冻饺子放入平底锅，先煎、加水盖焖，待水干再煎底。",
+    "adaptation": "先核对包装适用做法，按大小调整水和焖的时间。确认馅熟透后再开盖煎脆，底部颜色只说明上色。"
+  },
+  "easy-century-pork-congee": {
+    "site": "下厨房",
+    "title": "皮蛋瘦肉粥",
+    "url": "https://m.xiachufang.com/recipe/1043759/",
+    "author": "尚食之文",
+    "step": 2,
+    "supports": "原作者把肉切丝并拨散、皮蛋切丁，等米粥变稠再将其合入粥中。",
+    "adaptation": "本版用电饭煲同煮，放肉时先抖开成团的肉丝；开盖既要看粥稠度，也要确认肉已热透。"
+  },
+  "easy-kelp-salad": {
+    "site": "下厨房",
+    "title": "凉拌海带丝",
+    "url": "https://m.xiachufang.com/recipe/107271255/",
+    "author": "岩岩爱吃肉",
+    "step": 1,
+    "supports": "作者先泡发海带丝并煮制，捞出控水才拌蒜香料汁。",
+    "adaptation": "干海带、盐渍海带分别按包装泡发或脱盐，煮到合适软度再沥水；少量淋汁，尝完再补。"
+  },
+  "easy-steamed-yam": {
+    "site": "下厨房",
+    "title": "快手清蒸山药",
+    "url": "https://m.xiachufang.com/recipe/104329452/",
+    "author": "简单篮子",
+    "step": 1,
+    "supports": "原方把山药削皮切段装盘，可随饭蒸，也可水开后架在蒸锅中。",
+    "adaptation": "小灶以普通蒸锅为准，按厚度切匀。筷子从最厚处穿进中心没有硬芯，才夹出装盘。"
+  },
+  "easy-steamed-luffa": {
+    "site": "下厨房",
+    "title": "〖广东家常菜〗脆嫩爽口的蒜蓉蒸丝瓜，真的绝绝子！",
+    "url": "https://m.xiachufang.com/recipe/106399820/",
+    "author": "高冷鱼大人",
+    "step": 1,
+    "supports": "原方把蒜切碎，一半先炒香再拌余下的蒜，分放在丝瓜上蒸。",
+    "adaptation": "本版可直接用碎蒜铺盘，分散在大小接近的丝瓜块上，每块都有蒜香；厚块仍要检查熟度。"
+  },
+  "easy-chicken-breast": {
+    "site": "下厨房",
+    "title": "香煎鸡胸肉",
+    "url": "https://m.xiachufang.com/recipe/106925059/",
+    "author": "执剑踏云",
+    "step": 1,
+    "supports": "作者把鸡胸切片腌味，平底锅刷薄油，小火煎到两面上色。",
+    "adaptation": "把厚处片薄，留出间隙再煎。颜色用于决定翻面，出锅要测最厚部位中心达到 74°C。"
+  },
+  "easy-blackbean-ribs": {
+    "site": "下厨房",
+    "title": "豉汁蒸排骨",
+    "url": "https://m.xiachufang.com/recipe/1004429/",
+    "author": "梓晴",
+    "step": 1,
+    "supports": "原方将豆豉切碎拌小排骨，使用浅盘平铺，水烧开后上锅蒸。",
+    "adaptation": "同一盘骨块尽量一样大并单层摆放，避免中间堆高。豆豉本身咸，蒸熟尝味后再决定是否补盐。"
+  },
+  "easy-oyster-mushroom": {
+    "site": "下厨房",
+    "title": "超简单的清炒平菇",
+    "url": "https://m.xiachufang.com/recipe/104341961/",
+    "author": "吼吼哈嘿嘿",
+    "step": 1,
+    "supports": "原方把平菇先焯水沥干，再与蒜和蔬菜同炒。",
+    "adaptation": "小灶直接炒菇，薄撕成条，先让水汽逸出，再观察较厚菇柄是否熟软，最后才收汁。"
+  },
+  "easy-tofu-skin-salad": {
+    "site": "下厨房",
+    "title": "凉拌千张",
+    "url": "https://m.xiachufang.com/recipe/107571848/",
+    "author": "周周萌萌",
+    "step": 0,
+    "supports": "原方先把千张放进沸水煮，再沥水、切丝、调味。",
+    "adaptation": "按手中豆腐皮的品种和包装要求煮透；拌汁前沥去水，黄瓜丝最后合入，调味更均匀。"
+  }
+}

@@ -11,7 +11,6 @@ export function initialBrowseState(value = metadata()?.filters) {
     category: ["dish", "staple", "soup"].includes(value?.category) ? value.category : "dish",
     max: ["all", "15", "30"].includes(value?.max) ? value.max : "all",
     level: ["0", "1", "2"].includes(value?.level) ? value.level : "0",
-    photosOnly: value?.photosOnly === true,
     fewIngredients: value?.fewIngredients === true,
   };
 }

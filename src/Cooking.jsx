@@ -6,6 +6,7 @@ import {
   CookingPot,
   ShoppingBasket,
 } from "lucide-react";
+import DomesticStepNote from "./DomesticStepNote";
 import Ingredients from "./Ingredients";
 import KeepAwake from "./KeepAwake";
 import { PreparationNotes, CookingNotes, ChefNotes } from "./CookingNotes";
@@ -233,6 +234,7 @@ export default function Cooking({
                   {c.step === index && <small className="current-step-label">当前位置</small>}
                   <p>{st.text}</p>
                   {timerButton(index)}
+                  <DomesticStepNote recipe={r} index={index} />
                 </div>
               </li>
             ))}
@@ -249,6 +251,7 @@ export default function Cooking({
           <h2 className="focused-step" tabIndex="-1">{r.steps[c.step].title}</h2>
           <p className="instruction">{r.steps[c.step].text}</p>
           {timerButton(c.step)}
+          <DomesticStepNote recipe={r} index={c.step} />
           <div className="step-actions">
             <button onClick={() => stepTo(c.step - 1)}>
               <ArrowLeft size={18} />

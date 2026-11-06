@@ -3,15 +3,19 @@ import assert from 'node:assert/strict';
 import { recipes } from '../src/recipes.js';
 import { domesticSourcesById } from '../src/domestic-sources.js';
 
-const expected = ['tomato-eggs', 'steamed-eggs', 'potatoes', 'cucumber', 'cn-pepper-eggs', 'cn-cola-wings', 'easy-shiitake-steamed-chicken', 'cabbage', 'cn-wood-ear-salad', 'easy-mapo-tofu', 'easy-oyster-lettuce', 'cn-steamed-perch', 'scallion-noodles', 'cn-zucchini-eggs', 'cn-braised-wintermelon', 'cn-tiger-peppers', 'cn-blanched-choysum', 'cn-onion-eggs'];
 const byId = (id) => recipes.find((recipe) => recipe.id === id);
 
 test('only the reviewed domestic recipe references are marked reviewed', () => {
+  const expected = recipes.map((r) => r.id);
+  assert.equal(expected.length, 99);
+  assert.equal(new Set(recipes.map((r) => r.domesticSources[0].url)).size, expected.length);
   assert.deepEqual(Object.keys(domesticSourcesById).sort(), [...expected].sort());
   assert.equal(recipes.filter((r) => r.domesticSources?.length).length, expected.length);
   for (const id of expected) {
     const recipe = byId(id);
     assert.deepEqual(recipe.domesticSources, domesticSourcesById[id]);
+    const primary = recipe.domesticSources[0];
+    assert.ok(Number.isInteger(primary.step) && recipe.steps[primary.step], `source must map to an actual cooking step: ${id}`);
     assert.ok(recipe.source.url && recipe.additionalSources.length, 'preserve earlier provenance');
     assert.equal(new Set(recipe.domesticSources.map((s) => s.url)).size, recipe.domesticSources.length);
     for (const s of recipe.domesticSources) {
@@ -23,7 +27,6 @@ test('only the reviewed domestic recipe references are marked reviewed', () => {
       assert.equal(s.rating, undefined);
     }
   }
-  for (const id of ['fried-rice', 'easy-pepper-pork']) assert.equal(byId(id).domesticSources, undefined, 'partly readable pages must not be marked fully reviewed');
 });
 
 test('the recipe/source differences describe the final cooking method, not a generic endorsement', () => {

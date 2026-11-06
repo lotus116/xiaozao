@@ -11,3 +11,11 @@
 .hero-photo img {width:clamp(80px,22vw,160px);}
 .hero-photo span {font-size:.85rem;}
 .dish-reference {flex:none;max-width:9em;font-size:.88rem;line-height:1.4;padding:.5em 0;text-underline-offset:.2em;}
+.recipe-card-main {flex:1; min-width:0;}
+.recipe-card-main .recipe-open {width:100%;}
+.dish-thumbnail.full-frame {object-fit:contain;border-radius:0;}
+.dish-credit {display:inline-block;max-width:100%;margin:4px 0 0;font-size:.77rem;line-height:1.45;overflow-wrap:anywhere;color:var(--ink,#263d32);text-underline-offset:2px;}
+.detail-photo {flex:none;max-width:clamp(100px,27vw,168px);}
+.detail-photo:has(.full-frame) .dish-preview {border-radius:0;overflow:visible;}
+.detail-photo:has(.full-frame) .dish-preview span {position:static;justify-content:center;border-radius:0;}
+.hero-photo-block {max-width:35%;}

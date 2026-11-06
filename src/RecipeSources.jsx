@@ -4,7 +4,7 @@ import { ExternalLink } from "lucide-react";
 
 export default function Source({ r }) {
   return (
-    <details className="source">
+    <details key={r.id} className="source">
       <summary>菜谱来源与验证说明</summary>
       {r.domesticSources?.length > 0 && (
         <section className="domestic-sources" aria-label="国内教程与取舍">
@@ -16,7 +16,9 @@ export default function Source({ r }) {
                 <a href={source.url} target="_blank" rel="noreferrer">
                   {source.site} · {source.title} <ExternalLink size={14} aria-hidden="true" />
                 </a>
-                <p className="hint">{source.author} · 原页核对：{source.checked}</p>
+                <p className="hint">{source.author} · {source.checked}
+                  {Number.isInteger(source.step) && ` · 对应第 ${source.step + 1} 步「${r.steps[source.step].title}」`}
+                </p>
                 <p><strong>参考了什么：</strong>{source.supports}</p>
                 <p><strong>小灶怎么取舍：</strong>{source.adaptation}</p>
               </li>
@@ -24,7 +26,7 @@ export default function Source({ r }) {
           </ul>
         </section>
       )}
-      {photoPages[r.id] && <p><strong>国内图文参考</strong><br/>
+      {photoPages[r.id] && !r.domesticSources?.some((s) => s.url === photoPages[r.id].url) && <p><strong>国内图文参考</strong><br/>
         <a href={photoPages[r.id].url} target="_blank" rel="noreferrer">
           下厨房 · {photoPages[r.id].title}（{photoPages[r.id].author}）<ExternalLink size={14} />
         </a>

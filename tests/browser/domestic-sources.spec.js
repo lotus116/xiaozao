@@ -23,7 +23,7 @@ for (const r of recipes.filter((r) => r.domesticSources?.length)) {
   });
 }
 
-test('source transparency fits narrow screens and does not assign unreviewed dishes a domestic badge', async ({ page }) => {
+test('source transparency fits narrow screens and the fried rice comparison is linked in each cooking mode', async ({ page }) => {
   await page.goto('/#recipe/steamed-eggs');
   await page.getByText('菜谱来源与验证说明', { exact: true }).click();
   for (const width of [320, 390, 768, 1280]) {
@@ -35,7 +35,17 @@ test('source transparency fits narrow screens and does not assign unreviewed dis
   await page.getByRole('region', { name: '国内教程与取舍' }).screenshot({ path: 'test-results/domestic-sources-320.png' });
   await page.goto('/#recipe/fried-rice');
   await page.getByText('菜谱来源与验证说明', { exact: true }).click();
-  await expect(page.getByRole('region', { name: '国内教程与取舍' })).toHaveCount(0);
+  const source = recipes.find((r) => r.id === 'fried-rice').domesticSources[0];
+  await expect(page.getByRole('region', { name: '国内教程与取舍' })).toContainText(source.supports);
+  await page.getByRole('button', { name: /看看备料，开始做/ }).click();
+  await page.getByRole('button', { name: '开始做这道菜', exact: true }).click();
+  const step = page.locator('.cooking-overview > li').nth(source.step);
+  await step.getByText('这一步的做法对照').click();
+  await expect(step.locator('.domestic-step-note')).toContainText(source.adaptation);
+  await step.locator('.step-number').click();
+  await page.getByRole('button', { name: '分步看', exact: true }).click();
+  await page.getByText('这一步的做法对照').click();
+  await expect(page.locator('.domestic-step-note a')).toHaveAttribute('href', source.url);
 });
 
 test('starting to cook shows the first actual step on the mobile first screen; help remains available', async ({ page }) => {

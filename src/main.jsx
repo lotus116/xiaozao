@@ -1,4 +1,4 @@
-import { DishThumbnail, DishPreview, hasDishPhoto } from "./DishPhoto";
+import { DishThumbnail, DishPreview, PhotoCredit } from "./DishPhoto";
 import Source from "./RecipeSources";
 import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
@@ -66,6 +66,7 @@ function Card({ r, state, go, fav, addToBasket }) {
   const miss = missing(r, state.pantry);
   return (
     <article className="recipe-row">
+      <div className="recipe-card-main">
       <button className="recipe-open" onClick={() => go(`recipe/${r.id}`)}>
         <DishThumbnail recipe={r} />
         <span className="recipe-copy">
@@ -97,6 +98,8 @@ function Card({ r, state, go, fav, addToBasket }) {
           )}
         </span>
       </button>
+      <PhotoCredit recipe={r} />
+      </div>
       <div className="recipe-actions">
         <button
           className={`favorite ${state.favorites.includes(r.id) ? "saved" : ""}`}
@@ -124,7 +127,7 @@ function Card({ r, state, go, fav, addToBasket }) {
 }
 function App() {
   const [browse, setBrowse] = useState(initialBrowseState);
-  const { query, category, max, level, fewIngredients, photosOnly } = browse;
+  const { query, category, max, level, fewIngredients } = browse;
   const setFilter = (key, value) => setBrowse((s) => ({ ...s, [key]: typeof value === "function" ? value(s[key]) : value }));
   const setQuery = (value) => setFilter("query", value);
   const setCategory = (value) => setFilter("category", value);
@@ -228,7 +231,7 @@ function App() {
   const visibleRecipes = recipes.filter((r) =>
     allowedRecipe(r, state.preferences),
   );
-  const heroRecipe = visibleRecipes.find((r) => hasDishPhoto(r.id));
+  const heroRecipe = visibleRecipes[0];
   const selectedRecipes = visibleRecipes.filter(
     (r) => categoryOf(r) === category,
   );
@@ -311,9 +314,9 @@ function App() {
                   <br className="mobile-break" /> 找一道会做、想吃的家常菜。
                 </p>
               </div>
-              {heroRecipe && <button className="hero-photo" onClick={() => go("recipe/" + heroRecipe.id)}>
+              {heroRecipe && <div className="hero-photo-block"><button className="hero-photo" onClick={() => go("recipe/" + heroRecipe.id)}>
                 <DishThumbnail recipe={heroRecipe} eager /><span>{heroRecipe.name} ›</span>
-              </button>}
+              </button><PhotoCredit recipe={heroRecipe} /></div>}
             </div>
             {active && (
               <button
@@ -509,8 +512,6 @@ function App() {
               >
                 少配料 · 5 样以内
               </button>
-              <button className={photosOnly ? "chip selected" : "chip"} aria-pressed={photosOnly}
-                onClick={() => setFilter("photosOnly", !photosOnly)}>有成品实拍</button>
               <label>
                 用时
                 <select value={max} onChange={(e) => setMax(e.target.value)}>
@@ -537,7 +538,6 @@ function App() {
                   setMax("all");
                   setLevel("0");
                   setFewIngredients(false);
-                  setFilter("photosOnly", false);
                 }}
               >
                 重置筛选
@@ -552,7 +552,7 @@ function App() {
               ).filter(
                 (r) =>
                   (page !== "favorites" || state.favorites.includes(r.id)) &&
-                  (!fewIngredients || requiredCount(r) <= 5) && (!photosOnly || hasDishPhoto(r.id)),
+                  (!fewIngredients || requiredCount(r) <= 5),
               );
               const list = matches.filter((r) => categoryOf(r) === category);
               const otherCategories = !list.length && query.trim()
@@ -591,7 +591,6 @@ function App() {
                       setMax("all");
                       setLevel("0");
                       setFewIngredients(false);
-                      setFilter("photosOnly", false);
                       go("search");
                     }}
                   >

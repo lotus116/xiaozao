@@ -1,11 +1,13 @@
 // These exact public pages were read on the recorded date. Sources support
 // bounded techniques, not a full recipe copy, popularity rank or kitchen test.
 // Keep original provenance and saved cooking stage identities unchanged.
+import reviews from "./domestic-method-reviews.json" with { type: "json" };
+
 const checked = "2026-11-06";
 const xcf = (title, author, id, supports, adaptation) => ({
   site: "下厨房", title, author, url: `https://m.xiachufang.com/recipe/${id}/`, checked, supports, adaptation,
 });
-export const domesticSourcesById = {
+const priorReviews = {
   "cn-steamed-perch": [{
     site: "美食天下", author: "小董妞@厨房", title: "年年有鱼（余）——清蒸鲈鱼",
     url: "https://home.meishichina.com/recipe-377610.html", checked,
@@ -67,4 +69,20 @@ export const domesticSourcesById = {
   "easy-oyster-lettuce": [xcf("家常菜 蚝油生菜", "小美的美食", "100467836",
     "生菜分批处理后沥水，蒜香酱汁另做再淋。",
     "只借鉴分批与菜汁分做；本版用沸水焯熟，不照搬 80–90°C 关火短烫，也不把多种咸味料全加进去。")],
+};
+
+// Link each cooking comparison to the actual saved step. Safety references in
+// the same record remain separate and retain their own attribution.
+const priorSteps = {
+  "tomato-eggs": 2, "steamed-eggs": 1, potatoes: 0, cucumber: 0,
+  "cn-pepper-eggs": 2, "cn-cola-wings": 2, "easy-shiitake-steamed-chicken": 1,
+  cabbage: 0, "cn-wood-ear-salad": 0, "easy-mapo-tofu": 1,
+  "easy-oyster-lettuce": 1, "cn-steamed-perch": 2, "scallion-noodles": 1,
+  "cn-zucchini-eggs": 3, "cn-braised-wintermelon": 2,
+  "cn-tiger-peppers": 1, "cn-blanched-choysum": 1, "cn-onion-eggs": 0,
+};
+export const domesticSourcesById = {
+  ...Object.fromEntries(Object.entries(priorReviews).map(([id, [primary, ...other]]) =>
+    [id, [{ ...primary, step: priorSteps[id] }, ...other]])),
+  ...Object.fromEntries(Object.entries(reviews).map(([id, review]) => [id, [{ ...review, checked }]])),
 };
