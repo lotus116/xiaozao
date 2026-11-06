@@ -8,8 +8,10 @@ export default function TimerWidget({
   recipes,
   dock,
   setDock,
+  dialogRef,
 }) {
-  const dialog = useRef(),
+  const localDialog = useRef();
+  const dialog = dialogRef || localDialog,
     gesture = useRef(null),
     hold = useRef(null),
     blockedUntil = useRef(0),
@@ -322,7 +324,7 @@ export default function TimerWidget({
           </form>
         )}
         <p className="hint">
-          一次一个计时，刷新会保留。后台和锁屏不保证响铃；回来会校正时间。
+          一次一个计时，刷新会保留。这里提供页面内提醒，不保证后台或锁屏响铃；长时间蒸炖请同时设手机系统计时器。
         </p>
         <details className="timer-placement">
           <summary>图标位置与隐藏</summary>

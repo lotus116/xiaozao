@@ -42,6 +42,7 @@ import TimerWidget from "./TimerWidget";
 import Ingredients from "./Ingredients";
 import Basket from "./Basket";
 import Cooking from "./Cooking";
+import { PreparationNotes } from "./CookingNotes";
 import {
   allowedRecipe,
   dietaryWarnings,
@@ -179,6 +180,7 @@ function App() {
   const setFewIngredients = (value) => setFilter("fewIngredients", value);
   const { hash, go, backToList } = useKitchenNavigation(browse, setBrowse);
   const switchDialog = useRef(null);
+  const timerDialog = useRef(null);
   const [pendingRecipe, setPendingRecipe] = useState(null);
   useEffect(() => {
     if (pendingRecipe) switchDialog.current?.showModal();
@@ -192,8 +194,15 @@ function App() {
   useEffect(() => {
     if (!state.timer) return;
     setNow(Date.now());
-    const t = setInterval(() => setNow(Date.now()), 500);
-    return () => clearInterval(t);
+    const refresh = () => setNow(Date.now());
+    const t = setInterval(refresh, 500);
+    document.addEventListener("visibilitychange", refresh);
+    window.addEventListener("pageshow", refresh);
+    return () => {
+      clearInterval(t);
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("pageshow", refresh);
+    };
   }, [state.timer]);
   useEffect(() => {
     try {
@@ -739,6 +748,7 @@ function App() {
               </p>
               <h2>需要的厨具</h2>
               <p>{recipe.tools}</p>
+              <PreparationNotes recipe={recipe} />
               <h2>怎么做</h2>
               <ol className="step-preview">
                 {recipe.steps.map((st) => (
@@ -794,6 +804,8 @@ function App() {
               recipes={recipes}
               go={go}
               start={start}
+              now={now}
+              openTimer={() => timerDialog.current?.showModal()}
             />
           )}
         {![
@@ -836,6 +848,7 @@ function App() {
         </div>
       </dialog>
       <TimerWidget
+        dialogRef={timerDialog}
         timer={state.timer}
         dock={state.timerDock}
         setDock={(dock) => setState((s) => ({ ...s, timerDock: dock }))}

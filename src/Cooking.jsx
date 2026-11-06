@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -7,6 +7,10 @@ import {
   ShoppingBasket,
 } from "lucide-react";
 import Ingredients from "./Ingredients";
+import KeepAwake from "./KeepAwake";
+import { PreparationNotes, CookingNotes } from "./CookingNotes";
+import { timerLabel, formatTimer } from "./cooking-guidance";
+import { remaining } from "./logic";
 import { nextMealRecipe } from "./meal";
 import { dietaryWarnings } from "./preferences";
 export default function Cooking({
@@ -16,11 +20,19 @@ export default function Cooking({
   recipes,
   go,
   start,
+  now,
+  openTimer,
 }) {
   const c = state.cooking,
     inMeal = state.meal?.ids.includes(r.id);
+  const timerSeconds = state.timer ? state.timer.paused ?? remaining(state.timer.deadline, now) : 0;
+  const timerStatus = timerSeconds === 0 ? "到点，请检查" : state.timer?.paused != null ? "已暂停" : "计时中";
+  const bookmarkClick = useRef(false);
   useLayoutEffect(() => {
-    const stepHeading = document.querySelector(".focused-step");
+    const overviewHeading = (bookmarkClick.current || c?.step > 0) &&
+      document.querySelector('.cooking-overview [aria-current="step"] h2');
+    const stepHeading = document.querySelector(".focused-step") || overviewHeading;
+    bookmarkClick.current = false;
     const heading = stepHeading || document.querySelector(".cook h1");
     heading?.focus({ preventScroll: true });
     if (stepHeading) stepHeading.scrollIntoView({ block: "start" });
@@ -97,6 +109,8 @@ export default function Cooking({
         </p>
         <p className="hint">主料、调料放手边就好，不用逐项打勾。</p>
         <Ingredients r={r} />
+        <PreparationNotes recipe={r} />
+        <CookingNotes recipe={r} />
         <p>厨具：{r.tools}</p>
         <button className="primary wide" onClick={() => stepTo(0)}>
           开始做这道菜
@@ -165,6 +179,7 @@ export default function Cooking({
         </p>
       )}
       <h1 tabIndex="-1">{r.name}</h1>
+      <KeepAwake />
       <div className="cook-view">
         <button
           aria-pressed={state.cookView === "overview"}
@@ -188,19 +203,34 @@ export default function Cooking({
         <summary>用量放手边 · {r.servings} 人份</summary>
         <Ingredients r={r} />
       </details>
+      <CookingNotes recipe={r} />
       <p className="hint">
-        计时到点后看锅里的状态，不用盯着手机。可省调料没有就跳过。
+        计时从步骤指定的下锅、水开或盖盖时点开始。到点仍要看锅；可省调料没有就跳过。
       </p>
+      {state.timer && (
+        <button className="cooking-timer-status" onClick={openTimer} aria-label={`查看当前厨房计时：${timerLabel(state.timer, recipes)}，${timerStatus} · ${formatTimer(timerSeconds)}`}>
+          <Timer size={20} aria-hidden="true" />
+          <span>{timerLabel(state.timer, recipes)}<small>{timerStatus} · {formatTimer(timerSeconds)}</small></span>
+        </button>
+      )}
       {state.cookView === "overview" ? (
         <>
+          <p className="hint">可以一直往下看。想留个位置时，点步骤序号即可，不用逐项打勾。</p>
           <ol className="cooking-overview">
             {r.steps.map((st, index) => (
-              <li key={index}>
-                <span className="step-number" aria-hidden="true">
+              <li key={index} aria-current={c.step === index ? "step" : undefined}>
+                <button className="step-number" aria-label={`记住做到这里：第 ${index + 1} 步，${st.title}`} aria-pressed={c.step === index} onClick={() => {
+                  bookmarkClick.current = true;
+                  if (c.step === index) {
+                    document.getElementById(`cooking-step-${index}`)?.focus();
+                    bookmarkClick.current = false;
+                  } else stepTo(index);
+                }}>
                   {index + 1}
-                </span>
+                </button>
                 <div>
-                  <h2>{st.title}</h2>
+                  <h2 id={`cooking-step-${index}`} tabIndex="-1">{st.title}</h2>
+                  {c.step === index && <small className="current-step-label">当前位置</small>}
                   <p>{st.text}</p>
                   {timerButton(index)}
                 </div>

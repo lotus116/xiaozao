@@ -387,3 +387,33 @@ nav a {
 .cook .primary, .step-actions button, .step-timer, .cook-view button {
   min-height: 52px;
 }
+
+/* Quiet, optional help for an actual cooking session. */
+.preparation-notes {
+  margin: 24px 0;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #edf1e5;
+}
+.preparation-notes h2 { margin: 0 0 10px; font-size: 20px; }
+.preparation-notes p { margin: 8px 0; line-height: 1.8; color: #475c50; }
+.preparation-notes .hint { margin-bottom: 0; }
+.cooking-notes { margin: 16px 0; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.cooking-notes summary { min-height: 44px; padding: 10px 0; }
+.cooking-notes p { line-height: 1.8; }
+.keep-awake { margin: 16px 0; }
+.keep-awake .chips { margin-bottom: 6px; }
+.keep-awake .hint { margin-bottom: 0; font-size: 13px; }
+.cooking-overview .step-number { flex: 0 0 44px; width: 44px; height: 44px; min-height: 44px; padding: 0; border: 1px solid var(--line); }
+.cooking-overview .step-number[aria-pressed="true"] { background: var(--green); color: white; }
+.cooking-overview > li > div { min-width: 0; }
+.cooking-overview h2 { scroll-margin-top: calc(16px + var(--app-safe-top)); }
+.cooking-overview h2:focus { outline: none; }
+.current-step-label { display: block; color: #52654d; font-size: 12px; font-weight: 500; margin-top: 6px; }
+.cooking-timer-status { display: flex; gap: 12px; align-items: center; width: 100%; text-align: left; padding: 14px; min-height: 56px; color: var(--green); background: #edf1e5; }
+.cooking-timer-status small { display: block; margin-top: 5px; font-size: 14px; font-variant-numeric: tabular-nums; }
+@media (max-width: 380px) {
+  .preparation-notes { padding: 16px; }
+  .cooking-overview h2 { font-size: 20px; }
+}

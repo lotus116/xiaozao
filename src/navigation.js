@@ -71,9 +71,11 @@ export function useKitchenNavigation(filters, setFilters) {
   }, []);
 
   useLayoutEffect(() => {
-    const stepHeading = document.querySelector(".focused-step");
+    const bookmark = document.querySelector('.cooking-overview [aria-current="step"] h2');
+    const stepHeading = document.querySelector(".focused-step") ||
+      (bookmark?.id !== "cooking-step-0" ? bookmark : null);
     (stepHeading || document.querySelector("h1"))?.focus({ preventScroll: true });
-    if (stepHeading && !restore.current) stepHeading.scrollIntoView({ block: "start" });
+    if (stepHeading) stepHeading.scrollIntoView({ block: "start" });
     else window.scrollTo(0, restore.current);
   }, [hash]);
 
