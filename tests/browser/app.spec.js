@@ -141,6 +141,11 @@ for (const r of recipes)
     await expect(page.locator(".ingredient-tile")).toHaveCount(
       r.ingredients.length,
     );
+    const teaching = page.getByRole("complementary", { name: "这道菜怎么做好" });
+    await expect(teaching).toContainText(r.teaching.focus);
+    await expect(teaching.locator("details")).not.toHaveAttribute("open", "");
+    await teaching.getByText("怎么调整 · 做偏了怎么办", { exact: true }).click();
+    await expect(teaching).toContainText(r.teaching.rescue[0].advice);
     await page.getByText("菜谱来源与验证说明", { exact: true }).click();
     await expect(
       page.getByRole("link", { name: "查看原作者菜谱" }),
@@ -150,6 +155,7 @@ for (const r of recipes)
       r.ingredients.length,
     );
     await expect(page.getByRole("checkbox")).toHaveCount(0);
+    await expect(teaching).toContainText(r.teaching.focus);
     await page
       .getByRole("button", { name: "开始做这道菜", exact: true })
       .click();

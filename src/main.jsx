@@ -909,8 +909,7 @@ function Source({ r }) {
         </p>
       )}
       <p className="hint">
-        {r.source.checked}{" "}
-        核对用量与做法，中文步骤为简要整理。网页核对不等于项目试做，本项目尚未实际试做。不以评分或评论数量作为本项目试做证据。未取得转载图片许可，本页使用自绘示意图。
+        来源记录日期：{r.source.checked}。中文步骤为资料整理与编辑建议，不是对原作者配方的完整复刻。各来源的核对范围不同，见下方说明。网页核对不等于项目试做，本项目尚未实际试做。不以评分或评论数量作为本项目试做证据。未取得转载图片许可，本页使用自绘示意图。
       </p>
       {r.editorNote && <p className="hint">{r.editorNote}</p>}
       {r.source.site === "The Woks of Life" &&

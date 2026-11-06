@@ -2,6 +2,11 @@ import { expand } from "./extra.js";
 import { chineseRecipes, recipeRefinements } from "./chinese-recipes.js";
 import { easyRecipes, easyRefinements } from "./easy-recipes.js";
 import { beginnerRefinements } from "./beginner-recipes.js";
+import { vegetableATeaching } from "./teaching-vegetables-a.js";
+import { vegetableBTeaching } from "./teaching-vegetables-b.js";
+import { proteinTeaching } from "./teaching-protein.js";
+import { stapleSoupTeaching } from "./teaching-staples-soups.js";
+const teachingRefinements = { ...vegetableATeaching, ...vegetableBTeaching, ...proteinTeaching, ...stapleSoupTeaching };
 const i = (name, amount, optional = false) => ({
   name,
   amount,
@@ -467,6 +472,7 @@ export const recipes = [
     ? { ...easyRefinements[recipe.id], stateVersion: 3 }
     : {}),
   ...(beginnerRefinements[recipe.id] || {}),
+  ...(teachingRefinements[recipe.id] || {}),
 }));
 export const seasonings = [
   "食用油",
