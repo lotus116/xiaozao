@@ -102,6 +102,7 @@ export default function Basket({ state, setState, recipes, go, resetControls }) 
       <p className="eyebrow">选好菜，再一起开火</p>
       <h1 tabIndex="-1">今天的菜篮</h1>
       <p>放进今天想做的菜，备料集中看。按下面的顺序，一道接着一道做。</p>
+      {rows.length > 0 && <MealPlanner rows={rows} state={state} setState={setState} go={go} canBegin={canBegin} />}
       <section className="basket-pantry-reset" aria-labelledby="basket-reset-title">
         <h2 id="basket-reset-title">今天重新选食材</h2>
         <p className="hint">只清空本次食材，保留常备调料、已选菜和跟做进度；收藏、常用食材和偏好也不变。</p>
@@ -176,7 +177,6 @@ export default function Basket({ state, setState, recipes, go, resetControls }) 
         </div>
       ) : (
         <>
-          <MealPlanner rows={rows} state={state} setState={setState} go={go} canBegin={canBegin} />
           <section
             className="basket-prep-summary"
             aria-labelledby="basket-prep-title"
