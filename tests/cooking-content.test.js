@@ -23,7 +23,7 @@ test('fast stir fry prepares aromatics before the heated steps', () => {
   assert.doesNotMatch(r.steps[1].text, /再切好/);
   assert.match(r.steps[0].text, /冷藏腌/);
   const tomato = recipe('tomato-eggs');
-  assert.match(tomato.steps[0].text, /12 毫升油分成两份/);
+  assert.match(tomato.steps[0].text, /油分成两份/);
   assert.match(tomato.steps[2].text, /余油/);
 });
 

@@ -44,7 +44,7 @@ import TimerWidget from "./TimerWidget";
 import Ingredients from "./Ingredients";
 import Basket from "./Basket";
 import Cooking from "./Cooking";
-import { PreparationNotes } from "./CookingNotes";
+import { PreparationNotes, ChefNotes } from "./CookingNotes";
 import {
   allowedRecipe,
   dietaryWarnings,
@@ -727,6 +727,7 @@ function App() {
               <h2>需要的厨具</h2>
               <p>{recipe.tools}</p>
               <PreparationNotes recipe={recipe} />
+              <ChefNotes recipe={recipe} />
               <h2>怎么做</h2>
               <ol className="step-preview">
                 {recipe.steps.map((st) => (
@@ -895,6 +896,11 @@ function Source({ r }) {
           <a href={source.url} target="_blank" rel="noreferrer">
             补充做法来源：{source.site}
           </a>
+        </p>
+      ))}
+      {r.safetySources?.map((source) => (
+        <p key={source.url}>
+          <a href={source.url} target="_blank" rel="noreferrer">食品安全依据：{source.site}</a>
         </p>
       ))}
       {r.timeNote && (

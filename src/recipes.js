@@ -1,6 +1,7 @@
 import { expand } from "./extra.js";
 import { chineseRecipes, recipeRefinements } from "./chinese-recipes.js";
 import { easyRecipes, easyRefinements } from "./easy-recipes.js";
+import { beginnerRefinements } from "./beginner-recipes.js";
 const i = (name, amount, optional = false) => ({
   name,
   amount,
@@ -465,6 +466,7 @@ export const recipes = [
   ...(easyRefinements[recipe.id]
     ? { ...easyRefinements[recipe.id], stateVersion: 3 }
     : {}),
+  ...(beginnerRefinements[recipe.id] || {}),
 }));
 export const seasonings = [
   "食用油",

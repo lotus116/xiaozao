@@ -7,12 +7,12 @@ const expectedShoppingText = [
   "清单未记的必需食材，请先核对家中用量。",
   "",
   "鸡蛋",
-  "  番茄炒鸡蛋：3 个",
+  "  番茄炒鸡蛋：3 个，大小不必挑得一样",
   "  家常蒸蛋：2 个",
   "",
   "盐",
-  "  番茄炒鸡蛋：3–4 克，分次酌量加入",
-  "  家常蒸蛋：约 2 克，酌量",
+  "  番茄炒鸡蛋：先备约 1/4 茶匙，熟后尝味再补",
+  "  家常蒸蛋：一小撮；要淋生抽就再少些",
 ].join("\n");
 
 // Never touch the user's clipboard, even in the successful-copy tests.

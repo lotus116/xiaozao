@@ -27,3 +27,20 @@ export function CookingNotes({ recipe }) {
     </details>
   );
 }
+
+// Optional recipe-specific help. Essential actions and safe endpoints stay in steps.
+export function ChefNotes({ recipe }) {
+  const teaching = recipe.teaching;
+  if (!teaching) return null;
+  return (
+    <aside className="chef-notes" aria-label="这道菜怎么做好">
+      <p className="chef-focus"><strong>先抓住这一点：</strong>{teaching.focus}</p>
+      <details className="chef-rescue">
+        <summary>怎么调整 · 做偏了怎么办</summary>
+        <p>{teaching.flexibility}</p>
+        {teaching.rescue.map((item) => <p key={item.problem}><strong>{item.problem}：</strong>{item.advice}</p>)}
+        {teaching.safety && <p><strong>保存与复热：</strong>{teaching.safety}</p>}
+      </details>
+    </aside>
+  );
+}

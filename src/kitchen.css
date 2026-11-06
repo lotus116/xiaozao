@@ -399,9 +399,9 @@ nav a {
 .preparation-notes h2 { margin: 0 0 10px; font-size: 20px; }
 .preparation-notes p { margin: 8px 0; line-height: 1.8; color: #475c50; }
 .preparation-notes .hint { margin-bottom: 0; }
-.cooking-notes { margin: 16px 0; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
-.cooking-notes summary { min-height: 44px; padding: 10px 0; }
-.cooking-notes p { line-height: 1.8; }
+.cooking-notes, .chef-rescue { margin: 16px 0; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.cooking-notes summary, .chef-rescue summary { min-height: 44px; padding: 10px 0; }
+.cooking-notes p, .chef-rescue p { line-height: 1.8; }
 .keep-awake { margin: 16px 0; }
 .keep-awake .chips { margin-bottom: 6px; }
 .keep-awake .hint { margin-bottom: 0; font-size: 13px; }
@@ -417,3 +417,7 @@ nav a {
   .preparation-notes { padding: 16px; }
   .cooking-overview h2 { font-size: 20px; }
 }
+
+.chef-notes { margin: 20px 0; overflow-wrap: anywhere; }
+.chef-focus { padding: 14px 16px; border-left: 3px solid var(--green); background: #edf1e5; color: #254c3b; line-height: 1.8; }
+.chef-notes .chef-rescue { margin-top: 4px; }

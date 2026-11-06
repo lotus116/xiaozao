@@ -8,15 +8,15 @@
 
 | 菜谱 | 原作者与来源 | 份数 / 参考分钟 | 营养 | 验证与差异 |
 |---|---|---|---|---|
-| 番茄炒鸡蛋 | [HowToCook 社区贡献者 · HowToCook 中文开源菜谱](https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/vegetable_dish/西红柿炒鸡蛋.md) | 2 / 15 | 暂无可靠估算 | 中文做法事实简要重述；可省项分别标明原文依据或编辑简化；见中文研究记录。 |
-| 家常蒸蛋 | [HowToCook 社区贡献者 · HowToCook 中文开源菜谱](https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/breakfast/蒸水蛋.md)；[补充方法](https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/vegetable_dish/鸡蛋羹/鸡蛋羹.md) | 2 / 20 | 暂无可靠估算 | 中文做法事实简要重述；可省项分别标明原文依据或编辑简化；见中文研究记录。 |
+| 番茄炒鸡蛋 | [Sarah · The Woks of Life](https://thewoksoflife.com/stir-fried-tomato-and-egg/)；[补充方法](https://www.madewithlau.com/recipes/tomato-and-eggs) | 2 / 15 | 暂无可靠估算 | 首批新手教学改写；综合多个公开教程，保留关键比例与食品安全，尚未下厨试做。详见 BEGINNER_RECIPE_RESEARCH.md。 |
+| 家常蒸蛋 | [Elaine · China Sichuan Food](https://www.chinasichuanfood.com/chinese-steamed-egg/)；[补充方法](https://www.madewithlau.com/recipes/steamed-egg)；[补充方法](https://thewoksoflife.com/steamed-egg/) | 2 / 20 | 暂无可靠估算 | 首批新手教学改写；综合多个公开教程，保留关键比例与食品安全，尚未下厨试做。详见 BEGINNER_RECIPE_RESEARCH.md。 |
 | 清炒小白菜 | [Kaitlin · The Woks of Life](https://thewoksoflife.com/stir-fried-bok-choy-recipe/) | 4 / 15 | 暂无可靠估算 | 本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。 |
 | 番茄蛋花汤 | [HowToCook 社区贡献者 · HowToCook 中文开源菜谱](https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/soup/西红柿鸡蛋汤.md) | 2 / 15 | 暂无可靠估算 | 本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。 |
 | 葱油拌面 | [Judy · The Woks of Life](https://thewoksoflife.com/soy-scallion-noodles-cong-ban-mian/) | 6 / 20 | 暂无可靠估算 | 本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。 |
 | 蒜香拍黄瓜 | [Judy · The Woks of Life](https://thewoksoflife.com/smashed-asian-cucumber-salad/) | 4 / 15 | 暂无可靠估算 | 本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。 |
 | 酸辣土豆丝 | [HowToCook 社区贡献者 · HowToCook 中文开源菜谱](https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/vegetable_dish/酸辣土豆丝.md) | 2 / 20 | 暂无可靠估算 | 本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。 |
 | 家常凉拌豆腐 | [HowToCook 社区贡献者 · HowToCook 中文开源菜谱](https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/vegetable_dish/凉拌豆腐.md) | 1 / 15 | 暂无可靠估算 | 本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。 |
-| 家常蛋炒饭 | [HowToCook 社区贡献者 · HowToCook 中文开源菜谱](https://github.com/Anduin2017/HowToCook/blob/308cc8b7dab1da84b20e7fafdf836a715437f582/dishes/staple/蛋炒饭.md) | 1 / 15 | 暂无可靠估算 | 本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。 |
+| 家常蛋炒饭 | [Daddy Lau / Randy Lau · Made With Lau](https://www.madewithlau.com/recipes/egg-fried-rice)；[补充方法](https://thewoksoflife.com/egg-fried-rice/) | 1 / 15 | 暂无可靠估算 | 首批新手教学改写；综合多个公开教程，保留关键比例与食品安全，尚未下厨试做。详见 BEGINNER_RECIPE_RESEARCH.md。 |
 | 蜜汁鸡丁 | [Charlotte Pike · Good Food](https://www.bbcgoodfood.com/recipes/honey-chicken) | 4 / 25 | 暂无可靠估算 | 本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。 |
 | 蒜蓉小白菜 | [Bill · The Woks of Life](https://thewoksoflife.com/garlic-baby-bok-choy/) | 4 / 15 | 暂无可靠估算 | 本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。 |
 | 黄油酱香杏鲍菇 | [Judy · The Woks of Life](https://thewoksoflife.com/soy-butter-glazed-king-oyster-mushrooms/) | 4 / 20 | 暂无可靠估算 | 本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。 |
@@ -117,6 +117,8 @@
 - 基础调味与关键风味仍参与匹配；辅助增香可按具体菜谱省略。可省不代表不会引起过敏。
 - 当前不自动把所有醋、油、淀粉或豆腐视作可互换材料，具体品种仍须核对。
 - 使用自绘 SVG 示意，不下载或复制作者照片。菜谱文字为简短的方法笔记和事实性用量，不复制故事或整篇表达。
+
+首批番茄炒蛋、蒸蛋、蛋炒饭的热门教程选择、读者反馈证据和逐菜取舍见 [新手菜谱研究](BEGINNER_RECIPE_RESEARCH.md)。另外 96 道本轮未按这一标准逐菜重写。
 
 ## 来源使用条件
 

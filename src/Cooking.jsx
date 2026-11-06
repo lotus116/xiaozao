@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import Ingredients from "./Ingredients";
 import KeepAwake from "./KeepAwake";
-import { PreparationNotes, CookingNotes } from "./CookingNotes";
+import { PreparationNotes, CookingNotes, ChefNotes } from "./CookingNotes";
 import { timerLabel, formatTimer } from "./cooking-guidance";
 import { remaining } from "./logic";
 import { nextMealRecipe } from "./meal";
@@ -110,6 +110,7 @@ export default function Cooking({
         <p className="hint">主料、调料放手边就好，不用逐项打勾。</p>
         <Ingredients r={r} />
         <PreparationNotes recipe={r} />
+        <ChefNotes recipe={r} />
         <CookingNotes recipe={r} />
         <p>厨具：{r.tools}</p>
         <button className="primary wide" onClick={() => stepTo(0)}>
@@ -203,6 +204,7 @@ export default function Cooking({
         <summary>用量放手边 · {r.servings} 人份</summary>
         <Ingredients r={r} />
       </details>
+      <ChefNotes recipe={r} />
       <CookingNotes recipe={r} />
       <p className="hint">
         计时从步骤指定的下锅、水开或盖盖时点开始。到点仍要看锅；可省调料没有就跳过。

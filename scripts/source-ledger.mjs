@@ -37,7 +37,9 @@ let text = `# 菜谱来源与内容核对记录
 for (const r of recipes) {
   const chinese =
     r.source.site !== "The Woks of Life" && r.source.site !== "Good Food";
-  const verification = r.editorNote
+  const verification = r.teaching
+    ? "首批新手教学改写；综合多个公开教程，保留关键比例与食品安全，尚未下厨试做。详见 BEGINNER_RECIPE_RESEARCH.md。"
+    : r.editorNote
     ? "本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。"
     : chinese
       ? "中文做法事实简要重述；可省项分别标明原文依据或编辑简化；见中文研究记录。"
@@ -60,6 +62,8 @@ text += `
 - 基础调味与关键风味仍参与匹配；辅助增香可按具体菜谱省略。可省不代表不会引起过敏。
 - 当前不自动把所有醋、油、淀粉或豆腐视作可互换材料，具体品种仍须核对。
 - 使用自绘 SVG 示意，不下载或复制作者照片。菜谱文字为简短的方法笔记和事实性用量，不复制故事或整篇表达。
+
+首批番茄炒蛋、蒸蛋、蛋炒饭的热门教程选择、读者反馈证据和逐菜取舍见 [新手菜谱研究](BEGINNER_RECIPE_RESEARCH.md)。另外 96 道本轮未按这一标准逐菜重写。
 
 ## 来源使用条件
 

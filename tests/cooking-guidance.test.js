@@ -18,3 +18,10 @@ test('timer identity and remaining time stay explicit', () => {
   assert.equal(formatTimer(9), '0:09');
   assert.equal(formatTimer(0), '0:00');
 });
+
+test('rice reminders allow freshly cooked rice and keep leftover storage warnings', () => {
+  const text = cookingReminders(recipe('fried-rice')).find((r) => r.key === 'rice').text;
+  assert.match(text, /新煮米饭可直接用/);
+  assert.match(text, /剩饭只用妥善冷藏/);
+  assert.match(text, /不靠再次加热挽救/);
+});
