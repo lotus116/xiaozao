@@ -18,7 +18,7 @@ import {
 import { allowedRecipe, dietaryWarnings } from "./preferences";
 import { FoodIcon } from "./Ingredients";
 import "./basket-prep.css";
-export default function Basket({ state, setState, recipes, go }) {
+export default function Basket({ state, setState, recipes, go, resetControls }) {
   const [prepView, setPrepView] = useState("all");
   const [copyResult, setCopyResult] = useState(null);
   const copyPending = useRef(false);
@@ -101,6 +101,12 @@ export default function Basket({ state, setState, recipes, go }) {
       <p className="eyebrow">选好菜，再一起开火</p>
       <h1 tabIndex="-1">今天的菜篮</h1>
       <p>放进今天想做的菜，备料集中看。按下面的顺序，一道接着一道做。</p>
+      <section className="basket-pantry-reset" aria-labelledby="basket-reset-title">
+        <h2 id="basket-reset-title">今天重新选食材</h2>
+        <p className="hint">只清空本次食材，保留常备调料、已选菜和跟做进度；收藏、常用食材和偏好也不变。</p>
+        {resetControls}
+        <button className="text-button" onClick={() => go("pantry")}>去选今天的食材</button>
+      </section>
       <details className="cooking-notes meal-order-notes">
         <summary>一锅做几道，先做哪道？</summary>
         <p>先看是否需要提前煮饭、泡发或腌制，再按自己的锅具安排顺序。一般先做等待较久的菜，临上桌再炒青菜；下面仍按你排好的顺序，一道接着一道。</p>

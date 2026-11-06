@@ -35,6 +35,8 @@ import "./style.css";
 import "./kitchen.css";
 import Settings from "./Settings";
 import IngredientPicker from "./IngredientPicker";
+import IngredientInput from "./IngredientInput";
+import PantryReset from "./PantryReset";
 import { setupNative } from "./native";
 import { addPantryInput } from "./pantry-input";
 import { useKitchenNavigation, initialBrowseState } from "./navigation";
@@ -190,6 +192,7 @@ function App() {
     [input, setInput] = useState(""),
     [message, setMessage] = useState(""),
     [clearedIngredients, setClearedIngredients] = useState([]),
+    [resetMessage, setResetMessage] = useState(null),
     [now, setNow] = useState(Date.now());
   useEffect(() => {
     if (!state.timer) return;
@@ -234,6 +237,29 @@ function App() {
     setState((s) => ({ ...s, pantry: result.pantry }));
     setInput(result.rejected.join("、"));
   };
+  const clearIngredients = () => {
+    const fresh = state.pantry.filter((name) => !seasonings.includes(name));
+    if (!fresh.length) return;
+    setClearedIngredients((previous) => unique([...previous, ...fresh]));
+    const pantry = state.pantry.filter((name) => seasonings.includes(name));
+    setState((s) => ({ ...s, pantry }));
+    setResetMessage({ pantry, text: "本次食材已清空，调料和已选菜都保留。可撤销。" });
+  };
+  const undoClear = () => {
+    const restored = addPantryInput(state.pantry, clearedIngredients.join("、"));
+    setState((s) => ({ ...s, pantry: restored.pantry }));
+    setClearedIngredients(restored.rejected);
+    setResetMessage({ pantry: restored.pantry, text: restored.rejected.length
+      ? `已恢复 ${restored.added.length} 样；清单已满，还有 ${restored.rejected.length} 样未恢复。移除部分食材后可再撤销。`
+      : "已恢复清空的食材，后来添加的食材和调料也保留。" });
+  };
+  const resetControls = <PantryReset
+    count={state.pantry.filter((name) => !seasonings.includes(name)).length}
+    canUndo={clearedIngredients.length > 0}
+    message={resetMessage?.pantry === state.pantry ? resetMessage.text : ""}
+    onClear={clearIngredients}
+    onUndo={undoClear}
+  />;
   const fav = (id) =>
     setState((s) => ({
       ...s,
@@ -365,35 +391,7 @@ function App() {
                 </div>
                 <form onSubmit={add}>
                   <label htmlFor="ingredient">添加厨房里已有的食材</label>
-                  <div className="input-row">
-                    <input
-                      id="ingredient"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onPaste={(e) => {
-                        const text = e.clipboardData.getData("text");
-                        if (!/[\r\n]/.test(text)) return;
-                        e.preventDefault();
-                        const field = e.currentTarget;
-                        setInput((input.slice(0, field.selectionStart) + text.replace(/[\r\n]+/g, "、") + input.slice(field.selectionEnd)).slice(0, 500));
-                      }}
-                      maxLength={500}
-                      placeholder="番茄、鸡蛋、土豆，可以一起添加"
-                      list="ingredients"
-                    />
-                    <button
-                      className="primary square"
-                      aria-label="添加食材"
-                      disabled={!input.trim()}
-                    >
-                      <Plus />
-                    </button>
-                  </div>
-                  <datalist id="ingredients">
-                    {catalog.map((n) => (
-                      <option key={n} value={n} />
-                    ))}
-                  </datalist>
+                  <IngredientInput value={input} onChange={setInput} catalog={catalog} />
                 </form>
                 <p className="live-message" role="status">
                   {message || "多样食材用顿号、逗号或空格隔开；支持别名，自动去重。"}
@@ -436,27 +434,7 @@ function App() {
                   </summary>
                   <div className="chips">{seasonings.map(chip)}</div>
                 </details>
-                <button
-                  className="text-button"
-                  disabled={!state.pantry.some((n) => !seasonings.includes(n))}
-                  onClick={() => {
-                    setClearedIngredients(state.pantry.filter((n) => !seasonings.includes(n)));
-                    setState((s) => ({ ...s, pantry: s.pantry.filter((n) => seasonings.includes(n)) }));
-                    setMessage("本次食材已清空，常备调料保留。可撤销。 ");
-                  }}
-                >
-                  清空本次食材，保留调料
-                </button>
-                {clearedIngredients.length > 0 && (
-                  <button className="text-button" onClick={() => {
-                    const restored = addPantryInput(state.pantry, clearedIngredients.join("、"));
-                    setState((s) => ({ ...s, pantry: restored.pantry }));
-                    setClearedIngredients(restored.rejected);
-                    setMessage(restored.rejected.length
-                      ? `已恢复 ${restored.added.length} 样；清单已满，还有 ${restored.rejected.length} 样未恢复。移除部分食材后可再撤销。`
-                      : "已恢复刚才清空的食材。");
-                  }}>撤销清空</button>
-                )}
+                {resetControls}
                 <button
                   className="primary find-button"
                   onClick={() =>
@@ -659,7 +637,7 @@ function App() {
           </section>
         )}
         {page === "basket" && (
-          <Basket state={state} setState={setState} recipes={recipes} go={go} />
+          <Basket state={state} setState={setState} recipes={recipes} go={go} resetControls={resetControls} />
         )}
         {page === "settings" && (
           <Settings state={state} setState={setState} seasonings={seasonings} />

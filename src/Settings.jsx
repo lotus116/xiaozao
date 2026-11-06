@@ -140,18 +140,6 @@ export default function Settings({ state, setState, seasonings }) {
         设置已应用。{p.allergens.length} 项过敏筛选，{p.avoid.length}{" "}
         项普通忌口。保存状态以页面顶部提示为准。
       </p>
-      <h2>今天重新选食材</h2>
-      <p className="hint">只清除本次食材；常备调料、收藏和偏好继续保留。</p>
-      <button
-        onClick={() =>
-          setState((s) => ({
-            ...s,
-            pantry: s.pantry.filter((n) => seasonings.includes(n)),
-          }))
-        }
-      >
-        清空本次食材，保留调料
-      </button>
     </section>
   );
 }
