@@ -3,5 +3,5 @@
   "appName": "小灶",
   "webDir": "dist",
   "android": { "backgroundColor": "#faf9f5" },
-  "plugins": { "SystemBars": { "style": "DARK" } }
+  "plugins": { "SystemBars": { "style": "LIGHT" } }
 }

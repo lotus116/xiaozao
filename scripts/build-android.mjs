@@ -44,12 +44,12 @@ if (!existsSync(key))
     "CN=Android Debug,O=Android,C=US",
     "-noprompt",
   ]);
-run("npm", ["run", "android:sync"]);
-run(
-  "./gradlew",
-  ["assembleDebug", "lintDebug", "--no-daemon", "--console=plain"],
-  join(root, "android"),
-);
+const windows = process.platform === "win32";
+if (windows) run("cmd.exe", ["/d", "/c", "npm.cmd", "run", "android:sync"]);
+else run("npm", ["run", "android:sync"]);
+const tasks = ["assembleDebug", "lintDebug", "--no-daemon", "--console=plain"];
+if (windows) run("cmd.exe", ["/d", "/c", "gradlew.bat", ...tasks], join(root, "android"));
+else run("./gradlew", tasks, join(root, "android"));
 const version = JSON.parse(readFileSync(join(root, "package.json"))).version;
 const output = join(root, "releases", `xiaozao-${version}-debug.apk`);
 mkdirSync(dirname(output), { recursive: true });

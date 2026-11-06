@@ -70,9 +70,9 @@ function Card({ r, state, go, fav, addToBasket }) {
         <DishThumbnail recipe={r} tile />
         <span className="recipe-copy">
           <strong>{r.name}</strong>
-          <span className="meta">
-            {r.minutes} 分钟 · {r.level === 1 ? "简单" : "需练习"} ·{" "}
-            {r.servings} 人份 · 必需 {requiredCount(r)} 样
+          <span className="meta recipe-facts">
+            <span>{r.minutes} 分钟 · {r.level === 1 ? "简单" : "需练习"}</span>{" "}
+            <span>{r.servings} 人份 · 必需 {requiredCount(r)} 样</span>
           </span>
           <span className={miss.length ? "missing" : "ready"}>
             {miss.length
@@ -809,12 +809,13 @@ function App() {
           <a
             key={p}
             href={`#${p}`}
+            aria-label={p === "pantry" ? label : undefined}
             aria-current={page === p ? "page" : undefined}
             className={page === p ? "active" : ""}
           >
             <Icon size={22} />
             <span>
-              {label}
+              {p === "pantry" ? <><span className="nav-possessive">我的</span>食材</> : label}
               {p === "basket" && state.basket.length > 0 && (
                 <b className="basket-count">{state.basket.length}</b>
               )}

@@ -421,3 +421,60 @@ nav a {
 .chef-notes { margin: 20px 0; overflow-wrap: anywhere; }
 .chef-focus { padding: 14px 16px; border-left: 3px solid var(--green); background: #edf1e5; color: #254c3b; line-height: 1.8; }
 .chef-notes .chef-rescue { margin-top: 4px; }
+
+/* Keep scrolling content out of the transparent Android status bar. */
+html {
+  scroll-padding-top: var(--app-safe-top);
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: var(--app-safe-top);
+  background: #faf9f5;
+  z-index: 6;
+  pointer-events: none;
+}
+.recipe-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+}
+@media (max-width: 600px) {
+  .recipe-row {
+    --photo-width: clamp(88px, 22vw, 96px);
+    display: grid;
+    grid-template-columns: var(--photo-width) minmax(0, 1fr);
+    column-gap: 12px;
+    align-items: start;
+  }
+  .recipe-open {
+    grid-area: 1 / 1 / 2 / -1;
+    display: grid;
+    grid-template-columns: var(--photo-width) minmax(0, 1fr);
+    align-items: start;
+    column-gap: inherit;
+    min-height: calc(var(--photo-width) + 48px);
+  }
+  .recipe-open .dish-tile {
+    width: var(--photo-width);
+  }
+  .recipe-actions {
+    grid-area: 1 / 1;
+    align-self: start;
+    justify-content: space-between;
+    margin-top: calc(var(--photo-width) + 4px);
+    flex-direction: row;
+    gap: 0;
+    position: relative;
+  }
+  .recipe-copy { gap: 5px; }
+  .recipe-copy strong { color: var(--green); font-size: 1.125rem; }
+  .recipe-facts { line-height: 1.5; }
+  .cook .instruction { line-height: 1.65; margin: 12px 0 20px; }
+  .step-actions { margin-top: 20px; }
+  .cook .focused-step { margin-bottom: 0; }
+}
+@media (max-width: 380px) {
+  .nav-possessive { display: none; }
+}

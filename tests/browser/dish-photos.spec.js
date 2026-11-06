@@ -73,3 +73,21 @@ test("mixed photo shapes share a square and text alignment on phone and desktop"
     }
   }
 });
+
+test("narrow recipe rows keep both actions below the photo and leave the title tappable", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 704 });
+  await page.goto("/#search");
+  const row = page.locator(".recipe-row").first();
+  const photo = await row.locator(".dish-tile").boundingBox();
+  const actions = await row.locator(".recipe-actions").boundingBox();
+  const title = row.locator(".recipe-copy strong");
+  expect(actions.y).toBeGreaterThanOrEqual(photo.y + photo.height);
+  expect(actions.x + actions.width).toBeLessThanOrEqual((await title.boundingBox()).x);
+  for (const action of await row.locator(".recipe-actions button").all()) {
+    const size = await action.boundingBox();
+    expect(Math.min(size.width, size.height)).toBeGreaterThanOrEqual(44);
+  }
+  const name = await title.innerText();
+  await title.click();
+  await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
+});

@@ -1,6 +1,6 @@
 # 小灶安卓安装与构建
 
-本轮交付 `releases/xiaozao-1.3.1-debug.apk`，应用名“小灶”，包名 `com.xiaozao.kitchen`，版本 1.3.1（versionCode 5）。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。这是供本机安装体验的测试签名包，尚未提交应用商店。
+本轮交付 `releases/xiaozao-1.3.2-debug.apk`，应用名“小灶”，包名 `com.xiaozao.kitchen`，版本 1.3.2（versionCode 6）。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。这是供本机安装体验的测试签名包，尚未提交应用商店。
 
 ## 安装
 
@@ -23,7 +23,7 @@ npm run android:apk
 
 脚本重新构建网页、同步原生工程、运行 `assembleDebug` 与 `lintDebug`，最后将 APK 及 SHA-256 校验文件复制至 `releases/`。如需 Android Studio 查看工程，执行 `npx cap open android`。
 
-此电脑本轮单独下载的 JDK、SDK 位于 `/tmp/little-kitchen-android-tools`，脚本在未配置环境变量时自动使用它们。临时目录可能被系统清理，届时安装工具或重新设置环境变量即可。Gradle 缓存和测试签名密钥位于项目的 `.local-build/`，都不会提交 Git；构建脚本不修改系统 Java 设置。
+Windows 使用 JDK 21，脚本会调用仓库里的 `android/gradlew.bat`。本机 SDK 位于 `%LOCALAPPDATA%\Android\Sdk`。打开 Android Studio 时选择仓库中的 `android` 目录，Gradle JDK 也选择 21。首次使用新工作区可先运行打包脚本生成项目的测试密钥，再在 Studio 中运行。保留 `.local-build/debug.keystore` 才能对使用同一密钥的已安装版本执行覆盖升级。
 
 保留 `.local-build/debug.keystore` 可以让后续测试包覆盖安装并保留数据。丢失密钥后生成的新包无法直接覆盖旧签名包；卸载旧包会清除数据。正式上架需要单独管理正式签名密钥及发布版本，本次未创建正式签名或发布。
 
