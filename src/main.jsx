@@ -300,11 +300,16 @@ function App() {
     <div className={`kitchen-app${isCooking ? " is-cooking" + (state.cookView === "step" ? " is-step-cooking" : "") : ""}`}>
       <header>
         <a className="brand" href="#pantry">
-          <img src="/brand/xiaozao-logo.svg" alt="小灶" width="138" height="46" />
+          <img src="/brand/xiaozao-logo.svg" alt="小灶" width="120" height="40" />
         </a>
-        <a className="header-settings" href="#settings" aria-label="设置" aria-current={page === "settings" ? "page" : undefined}>
-          <SettingsIcon size={23} aria-hidden="true" />
-        </a>
+        <div className="header-actions" role="group" aria-label="快捷入口">
+          <a className="header-action" href="#search" aria-label="打开找菜页" title="找菜" aria-current={page === "search" ? "page" : undefined}>
+            <Search size={23} aria-hidden="true" />
+          </a>
+          <a className="header-action header-settings" href="#settings" aria-label="设置" title="设置" aria-current={page === "settings" ? "page" : undefined}>
+            <SettingsIcon size={23} aria-hidden="true" />
+          </a>
+        </div>
       </header>
       <main id="main">
         {storageError && (
