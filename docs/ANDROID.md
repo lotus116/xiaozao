@@ -1,10 +1,10 @@
 # 小灶安卓安装与构建
 
-当前源码版本为 1.6.3（versionCode 12），应用名“小灶”，包名 `com.xiaozao.kitchen`。工作区已生成测试包 `releases/xiaozao-1.6.3-debug.apk`，下方命令可以再次构建。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。
+当前源码版本为 1.7.0（versionCode 13），应用名“小灶”，包名 `com.xiaozao.kitchen`。测试包为 `releases/xiaozao-1.7.0-debug.apk`，下方命令可以再次构建。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。
 
 本轮保留 React + Capacitor 架构。项目本地 JDK 与 Android SDK 已就绪，1.6.3 启用确认的轻量顶部工具栏，右侧新增找菜入口并整理设置按钮；保留 1.6.2 的 A「小字蒸汽锅」桌面／圆形／单色图标和启动页。签名沿用原有测试包，覆盖升级不需要先卸载旧版。构建及验证细节见[测试记录](TEST_REPORT.md)，真机安装与体验仍由手机测试确认。
 
-[下载 v1.6.3 阶段发布安装包](https://github.com/lotus116/xiaozao/releases/tag/v1.6.3) · [文档索引](INDEX.md)
+[下载 v1.7.0 测试包](https://github.com/lotus116/xiaozao/releases/tag/v1.7.0) · [文档索引](INDEX.md)
 
 ## 安装
 
@@ -12,13 +12,13 @@
 2. 在手机文件管理器中打开 APK。若系统提示，允许当前文件管理器“安装未知应用”，再完成安装。
 3. 桌面打开“小灶”。安装后无需电脑、同一 Wi-Fi 或开发服务器。
 
-源码中的 200 道菜谱及其成品实拍、技法对照、食材分类、菜篮和做菜步骤在重新构建的 1.6.3 包内，首次打开也可离线使用；已有 1.4.0 包仍含 99 道。外部来源链接需要联网。食材、调料、常用顺序、收藏和饮食偏好保存在此 App 中，与网页版分开；卸载或清除应用数据会丢失，未提供云同步。
+内置 200 道菜谱、照片和教学随 1.7.0 包提供，首次可离线使用。饭友圈中完整下载的用户菜谱与图片也可离线跟做。食材、调料、常用顺序、收藏和饮食偏好保存在本机，与网页版分开，可在饭友圈账号页手动备份／恢复；卸载或清除数据会丢失本机内容。备份不包含下载文件、当前一餐和计时器，未提供自动同步。
 
 计时器保留悬浮、拖动、长按隐藏与设置恢复。1.6.1 新增前台响铃，默认开启，可在厨房设置关闭或试听；声音受手机媒体音量影响。到时点“知道了，结束计时”停止，延长或关闭开关也停止声音；隐藏悬浮图标不停止前台提醒。进入后台停止播放，回到前台按结束时间校正，未确认的到点计时可继续提醒。音频受阻时可点“重试提示音”。当前未实现后台响铃、系统闹钟和锁屏通知。尚未做真机安装、真实扬声器或厂商系统兼容测试。
 
 ## 再次打包
 
-项目使用 Capacitor 8。准备 Node.js 22+、JDK 21、Android SDK（platforms;android-36、build-tools;36.0.0、platform-tools），设置 `JAVA_HOME`、`ANDROID_HOME` 后执行：
+项目使用 Capacitor 8。准备 Node.js 24+、JDK 21、Android SDK（platforms;android-36、build-tools;36.0.0、platform-tools），设置 `JAVA_HOME`、`ANDROID_HOME` 后执行：
 
 ```sh
 npm ci
@@ -41,6 +41,10 @@ npm run android:apk
 - 返回键优先收起计时弹层，再返回上页；无历史页面时回到食材页，在首页返回则进入后台。
 - 使用 Capacitor 注入的安全区变量避开状态栏、手势导航和屏幕切口。
 - A「小字蒸汽锅」矢量图标，包含旧系统图标、自适应图标和主题单色图标；启动页使用独立透明红色标志。几何源在 `scripts/generate-brand.mjs`，更新后运行它可同步生成网页与安卓资源。
-- 仅声明联网权限供外部资料链接使用，不请求相机、联系人或定位。
+- 仅声明联网权限用于社区服务和外部资料链接，不请求相机、联系人或定位。图片通过系统文件选择器选择。
+
+## 饭友圈连接
+
+底部饭友圈 → 账号 → 填写 Windows 服务的 HTTPS 地址。部署见 [Windows 教程](WINDOWS_SERVER.md)。游客可下载，发布、评论和手动备份需登录。原内置功能和悬浮计时器不依赖服务在线。
 
 实现依据：[Capacitor 8 升级说明](https://capacitorjs.com/docs/updating/8-0)、[App 插件文档](https://capacitorjs.com/docs/apis/app)，并核对了当前安装包内的原生实现。平台版本由生成的 `android/variables.gradle` 固定。

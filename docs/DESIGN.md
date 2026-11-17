@@ -1,12 +1,12 @@
 # 当前界面与工程设计
 
-基线 1.6.3，2026-11-17。初期设计见 [DESIGN_INITIAL](DESIGN_INITIAL.md)，不再作为当前颜色或导航依据。
+当前 1.7.0，2026-11-18，离线能力继承 1.6.3。初期设计见 [DESIGN_INITIAL](DESIGN_INITIAL.md)，不再作为当前颜色或导航依据。
 
 ## 架构与界面
 
-React 19 + Vite 7，Capacitor 8 安卓包装。业务数据和资源随 APK 打包，无业务后端、账号或在线菜谱 API；网页尚无离线缓存。localStorage 保存带版本的本地状态，各设备／浏览器独立。
+React 19 + Vite 7，Capacitor 8 安卓包装。内置菜谱和资源随 APK 打包；Node.js 内置 HTTP／SQLite 提供社区服务，图片保存在独立目录。网页尚无应用外壳离线缓存。localStorage 保存厨房状态和连接凭证，IndexedDB 保存下载与按账号隔离的草稿，各设备／浏览器独立。
 
-暖白 #fffdf8、番茄红 #b83225、深棕 #38251d、提示黄 #fff0b8。正文系统中文字体，A Logo 为固定矢量笔画。顶部左侧 Logo、右侧找菜／设置；底部食材／找菜／菜篮／收藏。主要触点至少 48px，跟做使用独立工具栏。细节见 [UI_DESIGN](UI_DESIGN.md)。
+暖白 #fffdf8、番茄红 #b83225、深棕 #38251d、提示黄 #fff0b8。正文系统中文字体，A Logo 为固定矢量笔画。顶部左侧 Logo、右侧找菜／设置；底部食材／找菜／菜篮／收藏／饭友圈。主要触点至少 48px，跟做使用独立工具栏。细节见 [UI_DESIGN](UI_DESIGN.md)。
 
 照片随包提供并署名。前台音频在 App 层统一控制，切页不重复创建声音；退后台停止播放，后台／锁屏提醒未实现。
 
@@ -20,4 +20,10 @@ React 19 + Vite 7，Capacitor 8 安卓包装。业务数据和资源随 APK 打�
 - `scripts/generate-brand.mjs` 同步网页及安卓标志；`scripts/build-android.mjs` 构建、lint 与复制 APK。
 - `src/dish-photos.json` 登记图片；来源清单和验收页由 `scripts/source-ledger.mjs`、`scripts/catalog-review.mjs` 生成，不能替代人工核对。
 
-饭友圈拟增加独立后端、数据库与图片存储，不重写现有前端。账号隔离、同步覆盖、下载版本规则尚待 PRD 确认，本阶段不引入相关代码。
+## 社区边界
+
+- `server/app.mjs`：鉴权、菜谱、评论、举报、备份；密码 scrypt，随机会话令牌仅哈希落库，校验过期与退出。管理员在电脑本地创建，禁止公开抢注。
+- `shared/community-schema.js`：共享字段限制；服务端独立检查图片签名、类型、体积、权限与版本冲突。
+- `src/Community.jsx`、`community-api.js`：页面、确认和请求取消；服务切换不发送旧凭证。
+- `src/community-store.js`：完整下载后事务保存；启动读取下载再清洗厨房状态，保留下载菜的进度与收藏。ID 包含服务实例和菜谱编号，避免不同服务碰撞。
+- `deployment/windows`、`scripts/package-windows.mjs`：带运行时的部署包、临时 HTTPS 通道和停机备份。见[交互约定](COMMUNITY_INTERACTIONS.md)、[Windows 教程](WINDOWS_SERVER.md)。

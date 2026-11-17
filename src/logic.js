@@ -142,7 +142,7 @@ export function cleanState(raw, recipes) {
       .slice(0, 500);
     const favorites = unique(
       Array.isArray(s.favorites) ? s.favorites : [],
-    ).filter((x) => ids.has(x));
+    ).filter((x) => ids.has(x) || /^community-[a-f0-9-]{73}$/.test(x));
     let cooking = null;
     const c = s.cooking,
       r = recipes.find((r) => r.id === c?.id);

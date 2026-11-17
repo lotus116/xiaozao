@@ -8,7 +8,8 @@ function photoPath(id, size) {
 }
 
 export function PhotoCredit({ recipe }) {
-  const photo = photos[recipe.id];
+  const photo = recipe.community ? { asset: recipe.imageData, title: recipe.name, note: "用户上传成品图，未经项目核对" } : photos[recipe.id];
+  if (recipe.community) return <p className="photo-credit-footer" id="photo-credit" tabIndex={-1}>成品图：{recipe.community.author} 上传 · {recipe.community.attribution}</p>;
   if (!photo) return null;
   return <footer className="photo-credit-footer" id="photo-credit" tabIndex={-1}>
     <h2>成品图来源</h2>
@@ -19,11 +20,11 @@ export function PhotoCredit({ recipe }) {
 }
 
 export function DishThumbnail({ recipe, eager = false, tile = false, large = false }) {
-  const photo = photos[recipe.id];
+  const photo = recipe.community ? { asset: recipe.imageData, title: recipe.name, note: "用户上传成品图，未经项目核对" } : photos[recipe.id];
   const [failed, setFailed] = useState(null);
   if (!photo || failed === recipe.id) return null;
   const img = <img onError={() => setFailed(recipe.id)} className={photo.fullFrame ? "dish-thumbnail full-frame" : "dish-thumbnail"}
-    src={photoPath(recipe.id, large ? "view" : "thumb")} width="224" height="192" alt=""
+    src={recipe.imageData || photoPath(recipe.id, large ? "view" : "thumb")} width="224" height="192" alt=""
     decoding="async" loading={eager ? "eager" : "lazy"} />;
   if (!tile) return img;
   return <span className="dish-tile">
@@ -34,7 +35,7 @@ export function DishThumbnail({ recipe, eager = false, tile = false, large = fal
 }
 
 export function DishPreview({ recipe }) {
-  const photo = photos[recipe.id];
+  const photo = recipe.community ? { asset: recipe.imageData, title: recipe.name, note: "用户上传成品图，未经项目核对" } : photos[recipe.id];
   const dialog = useRef(null);
   const [open, setOpen] = useState(false);
   const [unavailable, setUnavailable] = useState(false);
@@ -54,7 +55,7 @@ export function DishPreview({ recipe }) {
       {open && <>
         <div className="photo-bar"><strong>{recipe.name}</strong><button aria-label="关闭实拍" autoFocus onClick={() => dialog.current.close()}><X size={22}/></button></div>
         {unavailable ? <p role="status">图片未能打开，可通过图片来源查看原图。</p> :
-          <img src={photoPath(recipe.id, "view")} alt={photo.title + " · 作者成品实拍"} onError={() => setUnavailable(true)} />}
+          <img src={recipe.imageData || photoPath(recipe.id, "view")} alt={photo.title + " · 作者成品实拍"} onError={() => setUnavailable(true)} />}
         <p>{photo.note || "同款成品参考 · 配料和摆盘可能不同"}</p>
         <button className="text-button" onClick={() => {
           dialog.current.close();

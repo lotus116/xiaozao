@@ -90,7 +90,7 @@ export function useKitchenNavigation(filters, setFilters) {
     }
     const prior = metadata() || { index: 0 };
     write({ ...prior, scroll: window.scrollY, filters });
-    const fromList = /^#(pantry|search|favorites|basket)$/.test(current.current);
+    const fromList = /^#(pantry|search|favorites|basket)$/.test(current.current) || current.current.startsWith("#community");
     const origin = target.startsWith("#recipe/") && fromList
       ? { hash: current.current, index: prior.index }
       : prior.origin;

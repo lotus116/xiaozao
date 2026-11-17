@@ -8,3 +8,7 @@ playwright-report/
 releases/*.apk
 releases/*.sha256
 .local-build/
+server-data/
+server-config.json
+管理员账号.txt
+releases/*.zip

@@ -59,6 +59,7 @@ export function dietaryWarnings(r, p) {
     伍斯特酱: ["鱼类", "含麸质谷物"],
   };
   return [
+    ...(r.community && r.unknownIngredients?.length && p.allergens.length ? ["过敏设置：用户菜谱存在未识别食材，无法可靠核查"] : []),
     ...p.allergens
       .filter((a) => names.some((n) =>
         packaged[n]?.includes(a) ||

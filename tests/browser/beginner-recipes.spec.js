@@ -29,6 +29,7 @@ for (const id of ['tomato-eggs', 'steamed-eggs', 'fried-rice']) {
 
 test('old steam progress and active timer survive reload with teaching hints', async ({ page }) => {
   await page.goto('/');
+  await expect.poll(() => page.evaluate(() => !!localStorage.getItem('xiaozao-v1'))).toBe(true);
   const timer = { id: 'steamed-eggs', step: 1, paused: 75, deadline: Date.now() + 100000 };
   await page.evaluate(({ key, timer }) => localStorage.setItem(key, JSON.stringify({ version: 3, cooking: { id: 'steamed-eggs', step: 1 }, timer, meal: { ids: ['steamed-eggs', 'fried-rice'], done: [] }, basket: ['steamed-eggs', 'fried-rice'] })), { key, timer });
   await page.goto('/#cook/steamed-eggs');

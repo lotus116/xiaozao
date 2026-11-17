@@ -1,3 +1,5 @@
+import Community from "./Community";
+import { getDownloads, putDownload } from "./community-store";
 import { DishThumbnail, DishPreview, PhotoCredit } from "./DishPhoto";
 import Source from "./RecipeSources";
 import React, { useState, useEffect, useRef } from "react";
@@ -22,7 +24,7 @@ import {
   Settings as SettingsIcon,
   ShoppingBasket,
 } from "lucide-react";
-import { recipes, catalog, seasonings } from "./recipes";
+import { recipes as builtInRecipes, catalog, seasonings } from "./recipes";
 import {
   unique,
   missing,
@@ -56,7 +58,7 @@ import {
   categories,
 } from "./preferences";
 import "./warm-kitchen.css";
-const load = () => {
+const load = (recipes) => {
   try {
     return cleanState(localStorage.getItem(KEY), recipes);
   } catch {
@@ -74,6 +76,7 @@ function Card({ r, state, go, fav, addToBasket, featured = false }) {
         <DishThumbnail recipe={r} tile eager={featured} large={featured} />
         <span className="recipe-copy">
           <strong>{r.name}</strong>
+          {r.community && <span className="meta">用户分享 · {r.community.author} · 第 {r.community.version} 版</span>}
           <span className="meta">
             {r.minutes} 分钟 · {r.level === 1 ? "简单" : "需练习"} ·{" "}
             {r.servings} 人份 · 必需 {requiredCount(r)} 样
@@ -130,7 +133,23 @@ function Card({ r, state, go, fav, addToBasket, featured = false }) {
     </article>
   );
 }
-function App() {
+function App({ initialDownloads = [], downloadError = false }) {
+  const [downloads, setDownloads] = useState(initialDownloads);
+  const recipes = [...builtInRecipes, ...downloads];
+  const stateRef = useRef(null);
+  const onDownload = async (recipe) => {
+    const previous = downloads.find(r => r.id === recipe.id);
+    const busy = (s) => (s?.cooking?.id === recipe.id && s.cooking.step < (previous || recipe).steps.length) || s?.meal?.ids.includes(recipe.id) || s?.timer?.id === recipe.id;
+    if (busy(stateRef.current)) throw new Error("这道菜正在一餐、跟做或计时中，请先结束当前使用再更新");
+    await putDownload(recipe);
+    if (previous && busy(stateRef.current)) {
+      await putDownload(previous);
+      throw new Error("这道菜刚开始使用，已保留旧版；请结束当前使用后再更新");
+    }
+    // A finished single-dish bookmark must not become an active step in a longer update.
+    setState(s => s.cooking?.id === recipe.id ? { ...s, cooking: null } : s);
+    setDownloads(rows => [...rows.filter(r => r.id !== recipe.id), recipe]);
+  };
   const [browse, setBrowse] = useState(initialBrowseState);
   const [focusIngredient, setFocusIngredient] = useState("");
   const { query, category, max, level, fewIngredients } = browse;
@@ -147,13 +166,14 @@ function App() {
   useEffect(() => {
     if (pendingRecipe) switchDialog.current?.showModal();
   }, [pendingRecipe]);
-  const [state, setState] = useState(load),
+  const [state, setState] = useState(() => load(recipes)),
     [storageError, setStorageError] = useState(false),
     [input, setInput] = useState(""),
     [message, setMessage] = useState(""),
     [clearedIngredients, setClearedIngredients] = useState([]),
     [resetMessage, setResetMessage] = useState(null),
     [now, setNow] = useState(Date.now());
+  stateRef.current = state;
   const sound = useTimerSound(state.timer, state.timerSound, now);
   useEffect(() => {
     if (!state.timer) return;
@@ -170,6 +190,7 @@ function App() {
   }, [state.timer]);
   useEffect(() => {
     try {
+      if (downloadError) return;
       localStorage.setItem(KEY, JSON.stringify({ ...state, version: 3 }));
       setStorageError(false);
     } catch {
@@ -245,7 +266,7 @@ function App() {
   );
   const pantryFoods = state.pantry.filter((name) => !seasonings.includes(name));
   const focusedFood = pantryFoods.includes(focusIngredient) ? focusIngredient : "";
-  const rec = recommend(selectedRecipes, state.pantry, focusedFood);
+  const rec = recommend(selectedRecipes.filter(r => !r.community || !r.unknownIngredients?.length), state.pantry, focusedFood);
   const [page, id] = hash.replace("#", "").split("/");
   const recipe = recipes.find((r) => r.id === id);
   const isCooking = page === "cook" && recipe &&
@@ -312,6 +333,8 @@ function App() {
         </div>
       </header>
       <main id="main">
+        {downloadError && <p role="alert" className="warning">本机下载库暂时打不开。请重新打开应用；本次不写入厨房进度，避免覆盖原记录。</p>}
+        {page === "community" && <Community hash={hash} go={go} downloads={downloads} onDownload={onDownload} state={state} setState={setState} />}
         {storageError && (
           <p role="alert" className="warning">
             浏览器未允许保存。当前仍可使用，但关闭页面后可能丢失清单。
@@ -472,6 +495,7 @@ function App() {
         {["search", "favorites"].includes(page) && (
           <section className="browse">
             <h1 tabIndex="-1">{page === "search" ? "找一道想吃的菜" : "我的收藏"}</h1>
+            {page === "favorites" && state.favorites.filter(id => id.startsWith("community-") && !recipes.some(r => r.id === id)).map(id => <p className="warning" key={id}>社区收藏尚未下载或已不可获取。<a href="#community/feed">去饭友圈查找并下载</a><button onClick={() => fav(id)}>移除此收藏</button></p>)}
             <CategoryTabs category={category} setCategory={setCategory} includeAll={page === "favorites" || Boolean(query.trim()) || category === "all"} />
             <label className="searchbox">
               <Search size={20} />
@@ -607,6 +631,7 @@ function App() {
               <div className="dish-heading">
                 <div>
                   <h1 tabIndex="-1">{recipe.name}</h1>
+                  {recipe.community && <p className="warning">用户分享，未经项目核对 · {recipe.community.author} · 第 {recipe.community.version} 版{recipe.unknownIngredients?.length ? `；未识别食材：${recipe.unknownIngredients.join("、")}` : ""}</p>}
                   <p>{recipe.description}</p>
                 </div>
                 <DishPreview key={recipe.id} recipe={recipe} />
@@ -738,6 +763,7 @@ function App() {
           "recommendations",
           "settings",
           "basket",
+          "community",
         ].includes(page) ||
         (["recipe", "cook"].includes(page) && !recipe)
           ? empty("没有找到这个页面", "回到找菜谱，重新选一道菜吧。")
@@ -784,6 +810,7 @@ function App() {
           ["search", BookOpen, "找菜谱"],
           ["basket", ShoppingBasket, "菜篮"],
           ["favorites", Heart, "收藏"],
+          ["community", Users, "饭友圈"],
         ].map(([p, Icon, label]) => (
           <a
             key={p}
@@ -823,4 +850,4 @@ function Redirect({ go }) {
   useEffect(go, []);
   return null;
 }
-createRoot(document.getElementById("root")).render(<App />);
+getDownloads().then(initialDownloads => createRoot(document.getElementById("root")).render(<App initialDownloads={initialDownloads} />)).catch(() => createRoot(document.getElementById("root")).render(<App downloadError />));

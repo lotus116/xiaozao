@@ -4,9 +4,13 @@ const key = "xiaozao-v1";
 const readState = (page) => page.evaluate((k) => JSON.parse(localStorage.getItem(k)), key);
 async function seed(page, value, hash = "basket") {
   await page.goto("/");
+  // Download hydration is asynchronous; seed only after initial persistence.
+  await expect.poll(() => page.evaluate(() => !!localStorage.getItem("xiaozao-v1"))).toBe(true);
   await page.evaluate(({ key, value }) => localStorage.setItem(key, JSON.stringify({ version: 3, ...value })), { key, value });
   await page.goto("/#" + hash);
   await page.reload();
+  await expect(page.locator("main")).toBeVisible();
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("xiaozao-v1"))?.timerSound !== undefined)).toBe(true);
 }
 
 test("batch add normalizes foods, ignores duplicates and undo keeps newer ingredients and seasonings", async ({ page }) => {

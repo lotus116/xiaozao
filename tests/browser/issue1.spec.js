@@ -4,8 +4,12 @@ const key='xiaozao-v1';
 test.use({isMobile:true,hasTouch:true});
 const read=page=>page.evaluate(k=>JSON.parse(localStorage.getItem(k)),key);
 async function seed(page,state,route='basket') {
- await page.goto('/');await page.evaluate(({key,state})=>localStorage.setItem(key,JSON.stringify({version:3,...state})),{key,state});
+ await page.goto('/');
+  // Download hydration is asynchronous; seed only after initial persistence.
+  await expect.poll(() => page.evaluate(() => !!localStorage.getItem("xiaozao-v1"))).toBe(true);await page.evaluate(({key,state})=>localStorage.setItem(key,JSON.stringify({version:3,...state})),{key,state});
  await page.goto('/#'+route);await page.reload();
+  await expect(page.locator("main")).toBeVisible();
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("xiaozao-v1"))?.timerSound !== undefined)).toBe(true);
 }
 async function audioProbe(page,fail=false) {
  await page.addInitScript(fail=>{

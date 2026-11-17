@@ -17,8 +17,8 @@ import { dietaryWarnings } from "./preferences";
 import { stepGuidance } from "./step-guidance";
 import { scrollCookingHeading } from "./cooking-scroll";
 
-function StepGuidance({ recipeId, title }) {
-  const guide = stepGuidance[recipeId]?.[title];
+function StepGuidance({ recipeId, title, step }) {
+  const guide = step || stepGuidance[recipeId]?.[title];
   if (!guide || !(guide.amount || guide.heat || guide.cue)) return null;
 
   return (
@@ -243,7 +243,7 @@ export default function Cooking({
                 <div>
                   <h2 id={`cooking-step-${index}`} tabIndex="-1">{st.title}</h2>
                   {c.step === index && <small className="current-step-label">当前位置</small>}
-                  <StepGuidance recipeId={r.id} title={st.title} />
+                  <StepGuidance recipeId={r.id} title={st.title} step={r.community ? st : undefined} />
                   <p>{st.text}</p>
                   {timerButton(index)}
                   <DomesticStepNote recipe={r} index={index} />
@@ -261,7 +261,7 @@ export default function Cooking({
             第 {c.step + 1} / {r.steps.length} 步
           </p>
           <h2 className="focused-step" tabIndex="-1">{r.steps[c.step].title}</h2>
-          <StepGuidance recipeId={r.id} title={r.steps[c.step].title} />
+          <StepGuidance recipeId={r.id} title={r.steps[c.step].title} step={r.community ? r.steps[c.step] : undefined} />
           <p className="instruction">{r.steps[c.step].text}</p>
           {timerButton(c.step)}
           <DomesticStepNote recipe={r} index={c.step} />

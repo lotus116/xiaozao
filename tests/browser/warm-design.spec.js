@@ -8,9 +8,13 @@ const button = (page, name) => page.getByRole("button", { name, exact: typeof na
 const read = (page) => page.evaluate(() => JSON.parse(localStorage.getItem("xiaozao-v1")));
 async function seed(page, state, route = "pantry") {
   await page.goto("/");
+  // Download hydration is asynchronous; seed only after initial persistence.
+  await expect.poll(() => page.evaluate(() => !!localStorage.getItem("xiaozao-v1"))).toBe(true);
   await page.evaluate((state) => localStorage.setItem("xiaozao-v1", JSON.stringify({ version: 3, ...state })), state);
   await page.goto("/#" + route);
   await page.reload();
+  await expect(page.locator("main")).toBeVisible();
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("xiaozao-v1"))?.timerSound !== undefined)).toBe(true);
 }
 async function unobscured(page, locator) {
   await expect(locator).toBeVisible();
@@ -21,9 +25,9 @@ async function unobscured(page, locator) {
   })).toBeTruthy();
 }
 
-test("four destinations and header settings preserve inventory and independent list context", async ({ page }) => {
+test("five destinations and header settings preserve inventory and independent list context", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator("nav a")).toHaveCount(4);
+  await expect(page.locator("nav a")).toHaveCount(5);
   await expect(page.locator(".pantry-picker")).not.toHaveAttribute("open", "");
   await page.locator(".pantry-picker > summary").tap();
   await button(page, "鸡蛋").tap();

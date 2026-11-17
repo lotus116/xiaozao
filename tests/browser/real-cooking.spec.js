@@ -3,9 +3,13 @@ import AxeBuilder from '@axe-core/playwright';
 const key = 'xiaozao-v1';
 async function seed(page, values = {}, path = 'cook/tomato-eggs') {
   await page.goto('/');
+  // Download hydration is asynchronous; seed only after initial persistence.
+  await expect.poll(() => page.evaluate(() => !!localStorage.getItem("xiaozao-v1"))).toBe(true);
   await page.evaluate(({ key, values }) => localStorage.setItem(key, JSON.stringify({ version: 3, cooking: { id: 'tomato-eggs', step: 0 }, ...values })), { key, values });
   await page.goto('/#' + path);
   await page.reload();
+  await expect(page.locator("main")).toBeVisible();
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("xiaozao-v1"))?.timerSound !== undefined)).toBe(true);
 }
 async function mockWake(page, mode = 'success') {
   await page.addInitScript((mode) => {
