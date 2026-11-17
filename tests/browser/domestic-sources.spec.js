@@ -37,7 +37,7 @@ test('source transparency fits narrow screens and the fried rice comparison is l
   await page.getByText('菜谱来源与验证说明', { exact: true }).click();
   const source = recipes.find((r) => r.id === 'fried-rice').domesticSources[0];
   await expect(page.getByRole('region', { name: '国内教程与取舍' })).toContainText(source.supports);
-  await page.getByRole('button', { name: /看看备料，开始做/ }).click();
+  await page.getByRole('button', { name: /^看备料$/ }).click();
   await page.getByRole('button', { name: '开始做这道菜', exact: true }).click();
   const step = page.locator('.cooking-overview > li').nth(source.step);
   await step.getByText('这一步的做法对照').click();
@@ -51,7 +51,7 @@ test('source transparency fits narrow screens and the fried rice comparison is l
 test('starting to cook shows the first actual step on the mobile first screen; help remains available', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#recipe/tomato-eggs');
-  await page.getByRole('button', { name: /看看备料，开始做/ }).click();
+  await page.getByRole('button', { name: /^看备料$/ }).click();
   await page.getByRole('button', { name: '开始做这道菜', exact: true }).click();
   await expect(page.locator('.cook h1')).toBeFocused();
   await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);

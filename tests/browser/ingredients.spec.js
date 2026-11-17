@@ -210,5 +210,6 @@ test("native insets keep navigation and the timer away from system bars", async 
   await timer.press("Home");
   expect((await timer.boundingBox()).y).toBeGreaterThanOrEqual(44);
   const box = await timer.boundingBox();
-  expect(box.y + box.height).toBeLessThan(760);
+  expect(box.y).toBeGreaterThanOrEqual((await page.locator("nav").boundingBox()).y);
+  expect(box.y + box.height).toBeLessThanOrEqual(844 - 24);
 });

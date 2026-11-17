@@ -214,6 +214,7 @@ test("a fully blocked current meal offers settings and ending without a broken r
   await expect(page).toHaveURL(/#settings$/);
   await page.goto("/#basket");
   await page.getByRole("button", { name: "结束本次跟做", exact: true }).click();
+  await page.getByRole("button", { name: "确认结束跟做", exact: true }).click();
   await expect(page.locator(".meal-progress")).toHaveCount(0);
   expect(await page.evaluate((key) => JSON.parse(localStorage.getItem(key)).meal, key)).toBeNull();
   await expect(page.locator(".basket-dishes > li")).toHaveCount(1);

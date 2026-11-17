@@ -30,9 +30,25 @@ test("missing oil must block ready recommendation", () => {
 test("one and two missing go near, three excluded", () => {
   for (const n of [1, 2, 3])
     assert.equal(
-      recommend([tomato], have.slice(n)).near.length,
+      recommend([tomato], have.slice(0, -n)).near.length,
       n <= 2 ? 1 : 0,
     );
+});
+test("seasonings fill requirements without triggering ingredient recommendations", () => {
+  assert.deepEqual(recommend(recipes, ["油", "盐"]), { ready: [], near: [] });
+  const results = recommend(recipes, ["西红柿", "鸡蛋", "油"]);
+  const match = results.near.find((r) => r.id === tomato.id);
+  assert.deepEqual(match.matchedIngredients, ["番茄", "鸡蛋"]);
+  assert.deepEqual(match.missing, ["盐"]);
+  assert.ok(results.near.every((r) => r.matchedIngredients.length > 0));
+  assert.ok(!results.near.some((r) => r.id === "bok-choy"));
+});
+test("focus uses a present required ingredient and respects aliases", () => {
+  const have = ["番茄", "鸡蛋", "食用油", "盐"];
+  const { ready, near } = recommend(recipes, have, "西红柿");
+  assert.ok(ready.some((r) => r.id === tomato.id));
+  assert.ok([...ready, ...near].every((r) => r.matchedIngredients.includes("番茄")));
+  assert.deepEqual(recommend(recipes, have, "黄瓜"), { ready: [], near: [] });
 });
 test("empty pantry and unrelated food do not manufacture matches", () => {
   assert.deepEqual(recommend(recipes, []), { ready: [], near: [] });

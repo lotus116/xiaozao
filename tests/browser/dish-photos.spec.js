@@ -21,7 +21,7 @@ test("browse photos, open a credited full image on demand, return to filter, sta
   await expect(credit.getByRole("link", { name: "CC BY-SA 3.0" })).toBeVisible();
   await page.getByRole("button", { name: "返回菜谱" }).click();
   await page.locator(".recipe-open").first().click();
-  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await page.getByRole("button", { name: /^看备料$/ }).click();
   await page.getByRole("button", { name: "开始做这道菜", exact: true }).click();
   await expect(page.locator(".cooking-overview > li").first()).toBeVisible();
 });

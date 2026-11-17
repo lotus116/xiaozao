@@ -79,6 +79,9 @@ function Card({ r, state, go, fav, addToBasket }) {
               ? `还缺 ${miss.length} 样：${miss.join("、")}`
               : "可以做，必需食材齐全"}
           </span>
+          {r.matchedIngredients?.length > 0 && (
+            <span className="meta">用到已有食材：{r.matchedIngredients.join("、")}</span>
+          )}
           {r.ingredients.some(
             (i) => i.optional && !state.pantry.includes(i.name),
           ) && (
@@ -124,6 +127,7 @@ function Card({ r, state, go, fav, addToBasket }) {
 }
 function App() {
   const [browse, setBrowse] = useState(initialBrowseState);
+  const [focusIngredient, setFocusIngredient] = useState("");
   const { query, category, max, level, fewIngredients } = browse;
   const setFilter = (key, value) => setBrowse((s) => ({ ...s, [key]: typeof value === "function" ? value(s[key]) : value }));
   const setQuery = (value) => setFilter("query", value);
@@ -232,7 +236,9 @@ function App() {
   const selectedRecipes = visibleRecipes.filter(
     (r) => categoryOf(r) === category,
   );
-  const rec = recommend(selectedRecipes, state.pantry);
+  const pantryFoods = state.pantry.filter((name) => !seasonings.includes(name));
+  const focusedFood = pantryFoods.includes(focusIngredient) ? focusIngredient : "";
+  const rec = recommend(selectedRecipes, state.pantry, focusedFood);
   const [page, id] = hash.replace("#", "").split("/");
   const recipe = recipes.find((r) => r.id === id);
   const cooking = state.cooking;
@@ -300,18 +306,9 @@ function App() {
           <>
             <div className="hero">
               <div>
-                <p className="eyebrow">从手边的食材开始</p>
-                <h1 tabIndex="-1">
-                  今天这顿，
-                  <br />
-                  我们慢慢做好。
-                </h1>
-                <p>
-                  告诉小灶厨房里有什么，
-                  <br className="mobile-break" /> 找一道会做、想吃的家常菜。
-                </p>
+                <h1 tabIndex="-1">今天有什么食材？</h1>
               </div>
-              {heroRecipe && <div className="hero-photo-block"><button className="hero-photo" onClick={() => go("recipe/" + heroRecipe.id)}>
+              {heroRecipe && <div className="hero-photo-block"><button className="hero-photo" aria-label={heroRecipe.name} onClick={() => go("recipe/" + heroRecipe.id)}>
                 <DishThumbnail recipe={heroRecipe} eager /><span>{heroRecipe.name} ›</span>
               </button></div>}
             </div>
@@ -350,22 +347,19 @@ function App() {
                 <p className="live-message" role="status">
                   {message || "多样食材用顿号、逗号或空格隔开；支持别名，自动去重。"}
                 </p>
-                {state.pantry.filter((n) => !seasonings.includes(n)).length >
-                  0 && (
+                {pantryFoods.length > 0 && (
                   <div className="selected-list">
-                    {state.pantry
-                      .filter((n) => !seasonings.includes(n))
-                      .map((n) => (
-                        <button
-                          className="chip selected"
-                          key={n}
-                          onClick={() => toggle(n)}
-                          aria-label={`移除${n}`}
-                        >
-                          {n}
-                          <X size={14} />
-                        </button>
-                      ))}
+                    {pantryFoods.map((n) => (
+                      <button
+                        className="chip selected"
+                        key={n}
+                        onClick={() => toggle(n)}
+                        aria-label={`移除${n}`}
+                      >
+                        {n}
+                        <X size={14} />
+                      </button>
+                    ))}
                   </div>
                 )}
                 <IngredientPicker
@@ -403,9 +397,20 @@ function App() {
               <section className="recommendations" id="recommendations">
                 <div className="section-title">
                   <h2>今晚可以做</h2>
-                  <span>按简单、快捷排序</span>
                 </div>
                 <CategoryTabs category={category} setCategory={setCategory} />
+                {pantryFoods.length > 1 && (
+                  <label className="recommendation-focus">
+                    优先用掉
+                    <select
+                      value={focusedFood}
+                      onChange={(event) => setFocusIngredient(event.target.value)}
+                    >
+                      <option value="">不限食材</option>
+                      {pantryFoods.map((name) => <option key={name}>{name}</option>)}
+                    </select>
+                  </label>
+                )}
                 <p className="hint">
                   可省的增香配料不影响“可以做”，必需缺料仍会列出。请核对用量。
                 </p>
@@ -413,10 +418,10 @@ function App() {
                   饮食设置已隐藏 {recipes.length - visibleRecipes.length} 道菜。
                   <a href="#settings">管理偏好</a>
                 </p>
-                {!state.pantry.length ? (
+                {!pantryFoods.length ? (
                   empty(
-                    "先打开你的食材清单",
-                    "选几样手边食材和调料，推荐会出现在这里。",
+                    "先加一样手边的食材",
+                    "选番茄、鸡蛋等手边食材，就能看到用得上的菜。",
                   )
                 ) : (
                   <>
@@ -437,7 +442,7 @@ function App() {
                       ))
                     ) : (
                       <p className="quiet">
-                        还没有完全齐全的菜，看看下面还差什么。
+                        暂时没有食材种类齐全的菜。
                       </p>
                     )}
                     <h3 className="group-title near">
@@ -456,7 +461,9 @@ function App() {
                         ))
                       : empty(
                           "暂时没有近似搭配",
-                          "已核对的菜谱中，还需要更多食材或调料。可以补充清单，也可以先浏览菜谱。",
+                          focusedFood
+                            ? `这类菜里暂时没有符合条件、用到${focusedFood}的近似搭配。可以换个分类或食材。`
+                            : "可以补充食材、换个分类，或先浏览菜谱。",
                         )}
                   </>
                 )}
@@ -478,20 +485,8 @@ function App() {
         )}
         {["search", "favorites"].includes(page) && (
           <section className="browse">
-            <p className="eyebrow">把下一顿也安排好</p>
-            <h1 tabIndex="-1">
-              {page === "search" ? "找一道想吃的菜" : "我的收藏"}
-            </h1>
-            <p>
-              {page === "search"
-                ? `${recipes.length} 道家常菜，从熟悉的味道开始。`
-                : "喜欢的味道，留着下次再做。"}
-            </p>
-            <CategoryTabs category={category} setCategory={setCategory} />
-            <p className="hint">
-              当前只看{categories[category]}。饮食设置已隐藏{" "}
-              {recipes.length - visibleRecipes.length} 道菜。
-            </p>
+            <h1 tabIndex="-1">{page === "search" ? "找一道想吃的菜" : "我的收藏"}</h1>
+            <CategoryTabs category={category} setCategory={setCategory} includeAll={page === "favorites"} />
             <label className="searchbox">
               <Search size={20} />
               <input
@@ -501,6 +496,8 @@ function App() {
                 onChange={(e) => setQuery(e.target.value)}
               />
             </label>
+            <details className="browse-filters" key={page}>
+              <summary>筛选{[fewIngredients && "少配料", max !== "all" && `${max} 分钟内`, level !== "0" && (level === "1" ? "简单" : "需练习")].filter(Boolean).map((v) => " · " + v).join("")}</summary>
             <div className="filters">
               <button
                 aria-pressed={fewIngredients}
@@ -540,6 +537,7 @@ function App() {
                 重置筛选
               </button>
             </div>
+            </details>
             {(() => {
               const matches = searchRecipes(
                 visibleRecipes,
@@ -551,13 +549,13 @@ function App() {
                   (page !== "favorites" || state.favorites.includes(r.id)) &&
                   (!fewIngredients || requiredCount(r) <= 5),
               );
-              const list = matches.filter((r) => categoryOf(r) === category);
+              const list = matches.filter((r) => category === "all" || categoryOf(r) === category);
               const otherCategories = !list.length && query.trim()
                 ? [...new Set(matches.map(categoryOf))]
                 : [];
               return list.length ? (
                 <>
-                  <p className="hint">找到 {list.length} 道菜</p>
+                  <p className="hint">找到 {list.length} 道菜{recipes.length > visibleRecipes.length && ` · 饮食设置已隐藏 ${recipes.length - visibleRecipes.length} 道`}</p>
                   {list.map((r) => (
                     <Card
                       key={r.id}
@@ -583,13 +581,7 @@ function App() {
                     </button>)}
                   </div> : <p>试试“鸡蛋”或清除筛选。</p>}
                   <button
-                    onClick={() => {
-                      setQuery("");
-                      setMax("all");
-                      setLevel("0");
-                      setFewIngredients(false);
-                      go("search");
-                    }}
+                    onClick={() => go("search", { resetFilters: true })}
                   >
                     浏览全部菜谱
                   </button>
@@ -599,7 +591,7 @@ function App() {
           </section>
         )}
         {page === "basket" && (
-          <Basket state={state} setState={setState} recipes={recipes} go={go} resetControls={resetControls} />
+          <Basket state={state} setState={setState} recipes={recipes} go={go} />
         )}
         {page === "settings" && (
           <Settings state={state} setState={setState} seasonings={seasonings} />
@@ -650,6 +642,7 @@ function App() {
                 {recipe.servingsNote || "标准份数保持原配方。"}
               </p>
               <div className="detail-actions">
+                <button className="primary" onClick={() => start(recipe)}>看备料 <ArrowRight size={18} /></button>
                 <button
                   aria-pressed={state.basket.includes(recipe.id)}
                   onClick={() => addToBasket(recipe.id)}
@@ -659,9 +652,7 @@ function App() {
                     ? "已加入菜篮"
                     : "加入今天的菜篮"}
                 </button>
-                <button className="primary" onClick={() => start(recipe)}>
-                  看看备料，开始做 <ArrowRight size={18} />
-                </button>
+
                 <button
                   aria-pressed={state.favorites.includes(recipe.id)}
                   onClick={() => fav(recipe.id)}
@@ -798,7 +789,7 @@ function App() {
         recipes={recipes}
         setTimer={(timer) => setState((s) => ({ ...s, timer }))}
       />
-      <nav aria-label="主要导航">
+      <nav aria-label="主要导航" className={!state.timerDock.hidden && !state.timerDock.position ? "has-timer-slot" : ""}>
         {[
           ["pantry", Carrot, "我的食材"],
           ["search", BookOpen, "找菜谱"],
@@ -825,10 +816,10 @@ function App() {
     </>
   );
 }
-function CategoryTabs({ category, setCategory }) {
+function CategoryTabs({ category, setCategory, includeAll = false }) {
   return (
     <div className="category-tabs" aria-label="菜谱分类">
-      {Object.entries(categories).map(([id, label]) => (
+      {Object.entries(includeAll ? { all: "全部", ...categories } : categories).map(([id, label]) => (
         <button
           key={id}
           aria-pressed={category === id}

@@ -65,16 +65,17 @@ export default function MealPlanner({ rows, state, setState, go, canBegin }) {
   return (
     <section className="meal-planner" aria-labelledby="meal-planner-title">
       <div className="meal-planner-heading">
-        <h2 id="meal-planner-title">先想好做菜顺序</h2>
+        <h2 id="meal-planner-title">做菜顺序</h2>
         <button ref={trigger} className="primary" onClick={showPreview} aria-expanded={Boolean(preview)} aria-controls="meal-order-preview" disabled={!canBegin}>
           <ListOrdered size={18} aria-hidden="true" />帮我排个顺序
         </button>
       </div>
-      <p className="hint">先看建议和理由，点采用才会改菜篮。跟做仍是做完一道，再做下一道。</p>
+
       {!canBegin && <p className="warning">有菜不符合厨房设置，请先移出再生成建议。</p>}
       {state.meal && state.cooking && <p className="hint">这里只调整下一餐菜篮，不改变正在做的一餐、进度或计时。</p>}
       {!preview && <details className="meal-advance-details">
         <summary>开火前要准备 · {current.prep.length ? `${current.prep.length} 项提醒` : "先看一眼"}</summary>
+        <p className="hint">先煮饭、泡发或腌制，青菜临上桌再炒。生肉鱼虾与凉拌菜分开备料，加热时留意锅里的状态。</p>
         <Preparation items={current.prep} go={go} />
       </details>}
       <p className="meal-plan-status" role="status" aria-live="polite">{message && sameOrder(message.ids, state.basket) ? message.text : ""}</p>

@@ -36,6 +36,13 @@ export function FoodIcon({ name }) {
                       : Carrot;
   return <Icon size={25} strokeWidth={1.6} aria-hidden="true" />;
 }
+// Keep conditional amounts and quantities for a second use on the card.
+function amountForCard({ amount, quickAmount }) {
+  if (quickAmount) return quickAmount;
+  const [quantity, ...notes] = amount.split(/[，；]/);
+  if (!notes.length || /[0-9半]|另|再加|调成|没过/.test(notes.join(""))) return amount;
+  return /[0-9]|一小撮|适量|少量|少许/.test(quantity) ? quantity : amount;
+}
 export default function Ingredients({ r }) {
   const groups = [
     [
@@ -69,11 +76,19 @@ export default function Ingredients({ r }) {
                 >
                   <FoodIcon name={i.name} />
                   <strong>{i.name}</strong>
-                  <span className="ingredient-amount">{i.amount}</span>
+                  <span className="ingredient-amount">{amountForCard(i)}</span>
                   {i.optional && <small>可省</small>}
                 </li>
               ))}
             </ul>
+            {items.some((i) => amountForCard(i) !== i.amount) && (
+              <details className="amount-notes">
+                <summary>用量与处理提示</summary>
+                {items.filter((i) => amountForCard(i) !== i.amount).map((i) =>
+                  <p key={i.name}><strong>{i.name}</strong>　{i.amount}</p>
+                )}
+              </details>
+            )}
             {title === "有就加，没有也能做" && (
               <details className="optional-notes">
                 <summary>为什么可以省？</summary>

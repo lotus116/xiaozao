@@ -21,6 +21,7 @@ test("remember pantry seasonings independently of fresh ingredients", async ({
     page.getByRole("button", { name: "鸡蛋", exact: true }),
   ).toHaveAttribute("aria-pressed", "false");
   await page.getByRole("link", { name: "设置", exact: true }).click();
+  await page.locator(".settings-seasonings > summary").click();
   await expect(
     page.getByRole("button", { name: "✓ 盐", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
@@ -75,7 +76,7 @@ test("allergy filter persists and blocks direct cooking links; ordinary dislikes
   await expect(
     page.locator(".warning").filter({ hasText: "忌口：番茄" }),
   ).toBeVisible();
-  await expect(page.getByRole("button", { name: /看看备料/ })).toBeEnabled();
+  await expect(page.getByRole("button", { name: /^看备料$/ })).toBeEnabled();
 });
 test("custom timer can pause resume extend expire and survive refresh", async ({
   page,
@@ -160,7 +161,7 @@ test("settings and timer modal remain accessible and mobile sized", async ({
 
 test("recipe step timer survives step changes and reload", async ({ page }) => {
   await page.goto("/#recipe/cn-cauliflower");
-  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await page.getByRole("button", { name: /^看备料$/ }).click();
   await page.getByRole("button", { name: "开始做这道菜", exact: true }).click();
   await page.getByRole("button", { name: "分步看", exact: true }).click();
   await page.getByRole("button", { name: "下一步", exact: true }).click();

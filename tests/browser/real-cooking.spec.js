@@ -40,7 +40,7 @@ test('overview remembers an optional place without marking completion or forcing
 test('preparation and small kitchen reference are available without a checklist', async ({ page }) => {
   await page.goto('/#recipe/fried-rice');
   await expect(page.getByRole('complementary', { name: '开火前提醒' })).toContainText('妥善冷藏');
-  await page.getByRole('button', { name: /看看备料，开始做/ }).click();
+  await page.getByRole('button', { name: /^看备料$/ }).click();
   await expect(page.getByRole('checkbox')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '做菜时保持亮屏' })).toHaveCount(0);
   await page.getByText('厨房小抄 · 用量、火候与安全', { exact: true }).click();

@@ -19,12 +19,15 @@ import { allowedRecipe, dietaryWarnings } from "./preferences";
 import { FoodIcon } from "./Ingredients";
 import "./basket-prep.css";
 import MealPlanner from "./MealPlanner";
-export default function Basket({ state, setState, recipes, go, resetControls }) {
+export default function Basket({ state, setState, recipes, go }) {
   const [prepView, setPrepView] = useState("all");
   const [copyResult, setCopyResult] = useState(null);
   const copyPending = useRef(false);
   const copyField = useRef(null);
   const startDialog = useRef(null);
+  const endDialog = useRef(null);
+  const mealTimer = state.meal?.ids.includes(state.timer?.id) ? state.timer : null;
+  const timedRecipe = mealTimer && recipes.find((r) => r.id === mealTimer.id);
   const rows = basketRecipes(state.basket, recipes);
   const ingredients = mealIngredients(rows, state.pantry);
   const needed = ingredients.filter((i) => i.missing && !i.water);
@@ -99,22 +102,19 @@ export default function Basket({ state, setState, recipes, go, resetControls }) 
           <button className="primary" onClick={() => { startDialog.current.close(); beginNow(); }}>确认，开始这顿饭</button>
         </div>
       </dialog>
-      <p className="eyebrow">选好菜，再一起开火</p>
+      <dialog ref={endDialog} className="timer-dialog" aria-labelledby="end-meal-title">
+        <h2 id="end-meal-title">结束这顿饭的跟做？</h2>
+        <p>将清除本餐的步骤进度。{timedRecipe ? `${timedRecipe.name}的「${timedRecipe.steps[mealTimer.step]?.title || "步骤"}」计时也会结束。` : state.timer ? "独立厨房计时将继续。" : ""}</p>
+        <div className="chips">
+          <button autoFocus onClick={() => endDialog.current.close()}>取消，保留进度</button>
+          <button onClick={() => {
+            endDialog.current.close();
+            setState((s) => ({ ...s, cooking: null, meal: null,
+              timer: s.meal?.ids.includes(s.timer?.id) ? null : s.timer }));
+          }}>{mealTimer ? "确认结束跟做及计时" : "确认结束跟做"}</button>
+        </div>
+      </dialog>
       <h1 tabIndex="-1">今天的菜篮</h1>
-      <p>放进今天想做的菜，备料集中看。按下面的顺序，一道接着一道做。</p>
-      {rows.length > 0 && <MealPlanner rows={rows} state={state} setState={setState} go={go} canBegin={canBegin} />}
-      <section className="basket-pantry-reset" aria-labelledby="basket-reset-title">
-        <h2 id="basket-reset-title">今天重新选食材</h2>
-        <p className="hint">只清空本次食材，保留常备调料、已选菜和跟做进度；收藏、常用食材和偏好也不变。</p>
-        {resetControls}
-        <button className="text-button" onClick={() => go("pantry")}>去选今天的食材</button>
-      </section>
-      <details className="cooking-notes meal-order-notes">
-        <summary>一锅做几道，先做哪道？</summary>
-        <p>先看是否需要提前煮饭、泡发或腌制，再按自己的锅具安排顺序。一般先做等待较久的菜，临上桌再炒青菜；下面仍按你排好的顺序，一道接着一道。</p>
-        <p>先把各道菜的材料分开放好，生肉鱼虾不要与凉拌菜、熟食共用未清洗的刀板。正在加热的锅不要无人照看。</p>
-        <p className="hint">这里不自动安排多锅并行。顺序建议里的用时只是菜谱标注的合计，不是整餐上桌时间。</p>
-      </details>
       {active && (
         <aside className="meal-progress">
           <p>
@@ -149,19 +149,7 @@ export default function Basket({ state, setState, recipes, go, resetControls }) 
           {currentBlocked && (
             <button onClick={() => go("settings")}>查看厨房设置</button>
           )}
-          <button
-            onClick={() =>
-              setState((s) => ({
-                ...s,
-                meal: null,
-                cooking: null,
-                timer:
-                  s.timer?.id && s.meal.ids.includes(s.timer.id)
-                    ? null
-                    : s.timer,
-              }))
-            }
-          >
+          <button onClick={() => endDialog.current.showModal()}>
             结束本次跟做
           </button>
         </aside>
@@ -181,18 +169,19 @@ export default function Basket({ state, setState, recipes, go, resetControls }) 
             className="basket-prep-summary"
             aria-labelledby="basket-prep-title"
           >
-            <p className="eyebrow">备料速览</p>
-            <h2 id="basket-prep-title">
-              {needed.length
-                ? `清单未记 ${needed.length} 样`
-                : "必需食材都已记录"}
-            </h2>
-            {needed.length > 0 && (
-              <p className="basket-prep-names">
-                {needed.map((i) => i.name).join("、")}
-              </p>
-            )}
-            <p className="hint">按食材种类比对，开做前再看一眼用量。</p>
+            <p className="meal-menu"><strong>{rows.slice(0, 3).map((r) => r.name).join("、")}</strong>{rows.length > 3 && ` 等 ${rows.length} 道`}</p>
+            <h2 id="basket-prep-title">{needed.length ? `清单未记 ${needed.length} 样` : "必需食材都已记录"}</h2>
+            {needed.length > 0 && <p className="basket-prep-names">{needed.slice(0, 5).map((i) => i.name).join("、")}{needed.length > 5 && " 等"}</p>}
+          {!active && (
+            <button
+              className="primary wide meal-start"
+              disabled={!canBegin}
+              onClick={begin}
+            >
+              <Play size={20} />
+              一键开始做饭 · {rows.length} 道
+            </button>
+          )}
             {needed.length > 0 && (
               <button
                 className="basket-copy-button"
@@ -234,6 +223,7 @@ export default function Basket({ state, setState, recipes, go, resetControls }) 
               </div>
             )}
           </section>
+          <MealPlanner rows={rows} state={state} setState={setState} go={go} canBegin={canBegin} />
           <ol className="basket-dishes">
             {rows.map((r, index) => (
               <li key={r.id}>
@@ -345,21 +335,12 @@ export default function Basket({ state, setState, recipes, go, resetControls }) 
           <p className="hint">
             可省配料在各道菜中查看。清单未记也可以开做，请先确认手边用量足够。
           </p>
-          {!active && (
-            <button
-              className="primary wide meal-start"
-              disabled={!canBegin}
-              onClick={begin}
-            >
-              <Play size={20} />
-              一键开始做饭 · {rows.length} 道
-            </button>
-          )}
           <button className="text-button" onClick={() => go("search")}>
             再挑一道菜
           </button>
         </>
       )}
+      <button className="text-button" onClick={() => go("pantry")}>去选今天的食材</button>
     </section>
   );
 }

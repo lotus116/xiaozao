@@ -16,7 +16,7 @@ async function add(page, text) {
   await page.getByRole("button", { name: "添加食材", exact: true }).click();
 }
 
-test("basket replaces settings reset and preserves selected dishes, progress and personal settings", async ({ page }) => {
+test("pantry owns reset and preserves selected dishes, progress and personal settings", async ({ page }) => {
   await seed(page, {
     pantry: ["番茄", "鸡蛋", "食用油", "盐"], basket: ["tomato-eggs", "steamed-eggs"],
     meal: { ids: ["tomato-eggs", "steamed-eggs"], done: [] }, cooking: { id: "tomato-eggs", step: 1 },
@@ -24,16 +24,17 @@ test("basket replaces settings reset and preserves selected dishes, progress and
     preferences: { allergens: [], avoid: ["香菜"], avoidMode: "warn" },
   });
   const before = await readState(page);
-  await expect(page.getByRole("heading", { name: "今天重新选食材", exact: true })).toBeVisible();
-  await expect(page.locator(".basket-pantry-reset")).toContainText("保留常备调料、已选菜和跟做进度");
+  await expect(page.locator(".basket-dishes > li")).toHaveCount(2);
+  await expect(clear(page)).toHaveCount(0);
+  await page.getByRole("button", { name: "去选今天的食材" }).click();
   await clear(page).click();
   await expect(clear(page)).toBeDisabled();
-  await expect(page.locator(".basket-dishes > li")).toHaveCount(2);
   expect(await readState(page)).toEqual({ ...before, pantry: ["食用油", "盐"] });
   await page.getByRole("link", { name: "设置", exact: true }).click();
   await expect(page.getByRole("heading", { name: "今天重新选食材", exact: true })).toHaveCount(0);
   await expect(clear(page)).toHaveCount(0);
   await page.getByRole("link", { name: /^菜篮/ }).click();
+  await page.getByRole("button", { name: "去选今天的食材" }).click();
   await undo(page).click();
   expect((await readState(page)).pantry).toEqual(["食用油", "盐", "番茄", "鸡蛋"]);
   await page.reload();
@@ -43,13 +44,14 @@ test("basket replaces settings reset and preserves selected dishes, progress and
 
 test("undo is shared across pantry and basket, retaining newer ingredients and repeated clears", async ({ page }) => {
   await seed(page, { pantry: ["鸡蛋", "食用油", "盐"] });
-  await clear(page).click();
   await page.getByRole("button", { name: "去选今天的食材", exact: true }).click();
+  await clear(page).click();
   await add(page, "黄瓜");
   await expect(page.locator(".pantry-reset-status")).toContainText("本次记录了 1 样食材");
   await clear(page).click();
   await add(page, "土豆、糖");
   await page.getByRole("link", { name: /^菜篮/ }).click();
+  await page.getByRole("button", { name: "去选今天的食材" }).click();
   await undo(page).click();
   expect((await readState(page)).pantry).toEqual(["食用油", "盐", "土豆", "糖", "鸡蛋", "黄瓜"]);
   await expect(undo(page)).toHaveCount(0);
@@ -57,11 +59,12 @@ test("undo is shared across pantry and basket, retaining newer ingredients and r
 
 test("empty basket still offers ingredient reset but empty pantry cannot clear", async ({ page }) => {
   await seed(page, { pantry: ["盐"], basket: [] });
+  await page.getByRole("button", { name: "去选今天的食材", exact: true }).click();
   await expect(clear(page)).toBeDisabled();
   await expect(page.locator(".pantry-reset-status")).toContainText("本次还没有食材");
-  await page.getByRole("button", { name: "去选今天的食材", exact: true }).click();
   await add(page, "鸡蛋");
   await page.getByRole("link", { name: /^菜篮/ }).click();
+  await page.getByRole("button", { name: "去选今天的食材" }).click();
   await clear(page).click();
   await expect(undo(page)).toBeVisible();
 });

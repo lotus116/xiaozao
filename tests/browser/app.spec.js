@@ -10,7 +10,7 @@ test("tomato eggs uses reminder tiles without checkboxes and cooking progress pe
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { name: "先打开你的食材清单" }),
+    page.getByRole("heading", { name: "先加一样手边的食材" }),
   ).toBeVisible();
   await page.getByLabel("添加厨房里已有的食材").fill("西红柿");
   await page.getByRole("button", { name: "添加食材", exact: true }).click();
@@ -27,7 +27,7 @@ test("tomato eggs uses reminder tiles without checkboxes and cooking progress pe
     page.getByRole("heading", { name: "番茄炒鸡蛋", exact: true }),
   ).toBeVisible();
   await page.getByRole("button", { name: "收藏", exact: true }).click();
-  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await page.getByRole("button", { name: /^看备料$/ }).click();
   await expect(page.getByRole("checkbox")).toHaveCount(0);
   await expect(
     page.getByRole("button", { name: "开始做这道菜", exact: true }),
@@ -82,6 +82,7 @@ test("search, missing seasoning, no results, filters, persistence and corruption
   await expect(page.locator(".recipe-row")).toHaveCount(
     recipes.filter((r) => categoryOf(r) === "dish").length,
   );
+  await page.locator(".browse-filters > summary").click();
   await page.getByLabel("用时").selectOption("15");
   await expect(page.locator(".recipe-row")).toHaveCount(
     recipes.filter((r) => categoryOf(r) === "dish" && r.minutes <= 15).length,
@@ -90,7 +91,7 @@ test("search, missing seasoning, no results, filters, persistence and corruption
   await page.goto("/#pantry");
   await page.reload();
   await expect(
-    page.getByRole("heading", { name: "先打开你的食材清单" }),
+    page.getByRole("heading", { name: "先加一样手边的食材" }),
   ).toBeVisible();
 });
 test("responsive layouts and visual evidence", async ({ page }) => {
@@ -155,7 +156,7 @@ for (const r of recipes)
     await expect(
       page.getByRole("link", { name: "查看原作者菜谱" }),
     ).toHaveAttribute("href", r.source.url);
-    await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+    await page.getByRole("button", { name: /^看备料$/ }).click();
     await expect(page.locator(".ingredient-tile")).toHaveCount(
       r.ingredients.length,
     );
@@ -167,6 +168,7 @@ for (const r of recipes)
     await expect(
       page.getByRole("heading", { name: r.steps[0].title, exact: true }),
     ).toBeVisible();
+    await expect(page.locator(".cooking-overview > li .step-guidance")).toHaveCount(r.steps.length);
     const comparison = page.locator(".cooking-overview > li").nth(r.domesticSources[0].step).locator(".domestic-step-note");
     await comparison.locator("summary").click();
     await expect(comparison).toContainText(r.domesticSources[0].adaptation);

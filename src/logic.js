@@ -1,5 +1,7 @@
 import { cleanPreferences, defaultPreferences } from "./preferences.js";
 import { defaultFrequentIngredients } from "./ingredient-groups.js";
+import { seasonings } from "./recipes.js";
+const seasoningNames = new Set(seasonings);
 export const aliases = {
   西红柿: "番茄",
   蕃茄: "番茄",
@@ -43,26 +45,33 @@ export function missing(recipe, pantry) {
 }
 export const requiredCount = (recipe) =>
   recipe.ingredients.filter((i) => !i.optional && !i.water).length;
-export function recommend(recipes, pantry) {
-  if (!pantry.length) return { ready: [], near: [] };
+export function recommend(recipes, pantry, focusIngredient = "") {
   const available = new Set(unique(pantry));
-  const rows = recipes
-    .filter((r) =>
-      r.ingredients.some(
-        (i) => !i.optional && !i.water && available.has(i.name),
-      ),
-    )
-    .map((r) => ({ ...r, missing: missing(r, pantry) }))
-    .sort(
-      (a, b) =>
-        a.missing.length - b.missing.length ||
-        a.level - b.level ||
-        a.minutes - b.minutes ||
-        a.id.localeCompare(b.id),
-    );
+  const focus = normalize(focusIngredient);
+  const rows = [];
+  for (const recipe of recipes) {
+    const matchedIngredients = recipe.ingredients
+      .filter(
+        (i) => !i.optional && !i.water && !seasoningNames.has(i.name) && available.has(i.name),
+      )
+      .map((i) => i.name);
+    if (!matchedIngredients.length || (focus && !matchedIngredients.includes(focus))) continue;
+    const absent = missing(recipe, pantry);
+    if (absent.length <= 2) {
+      rows.push({ ...recipe, missing: absent, matchedIngredients });
+    }
+  }
+  const ready = rows.filter((r) => !r.missing.length);
+  const near = rows.filter((r) => r.missing.length);
+  const byEase = (a, b) =>
+    a.level - b.level || a.minutes - b.minutes || a.id.localeCompare(b.id);
   return {
-    ready: rows.filter((r) => !r.missing.length),
-    near: rows.filter((r) => r.missing.length > 0 && r.missing.length <= 2),
+    ready: ready.sort(byEase),
+    near: near.sort((a, b) =>
+      a.missing.length - b.missing.length ||
+      b.matchedIngredients.length - a.matchedIngredients.length ||
+      byEase(a, b),
+    ),
   };
 }
 export function searchRecipes(recipes, query, max = Infinity, level = 0) {

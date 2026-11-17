@@ -5,10 +5,10 @@ const route = () => location.hash || "#pantry";
 const metadata = () => history.state?.[key];
 const write = (value) => history.replaceState({ ...history.state, [key]: value }, "");
 
-export function initialBrowseState(value = metadata()?.filters) {
+export function initialBrowseState(value = metadata()?.filters, target = route()) {
   return {
     query: typeof value?.query === "string" ? value.query.slice(0, 200) : "",
-    category: ["dish", "staple", "soup"].includes(value?.category) ? value.category : "dish",
+    category: ["dish", "staple", "soup", ...(target === "#favorites" ? ["all"] : [])].includes(value?.category) ? value.category : target === "#favorites" ? "all" : "dish",
     max: ["all", "15", "30"].includes(value?.max) ? value.max : "all",
     level: ["0", "1", "2"].includes(value?.level) ? value.level : "0",
     fewIngredients: value?.fewIngredients === true,
@@ -21,10 +21,12 @@ export function useKitchenNavigation(filters, setFilters) {
   const current = useRef(hash);
   const restore = useRef(metadata()?.scroll || 0);
   const goRef = useRef(null);
+  const listFilters = useRef(metadata()?.lists || {});
   const filtersRef = useRef(filters);
   filtersRef.current = filters;
   useEffect(() => {
-    write({ ...metadata(), filters });
+    if (["#search", "#favorites", "#pantry"].includes(current.current)) listFilters.current[current.current] = filters;
+    write({ ...metadata(), filters, lists: listFilters.current });
   }, [filters]);
 
   useEffect(() => {
@@ -79,16 +81,22 @@ export function useKitchenNavigation(filters, setFilters) {
     else window.scrollTo(0, restore.current);
   }, [hash]);
 
-  const go = (path) => {
+  const go = (path, { resetFilters = false } = {}) => {
     const target = path.startsWith("#") ? path : "#" + path;
-    if (target === current.current) return;
+    if (target === current.current) {
+      if (resetFilters) setFilters(initialBrowseState({}, target));
+      return;
+    }
     const prior = metadata() || { index: 0 };
     write({ ...prior, scroll: window.scrollY, filters });
     const fromList = /^#(pantry|search|favorites|basket)$/.test(current.current);
     const origin = target.startsWith("#recipe/") && fromList
       ? { hash: current.current, index: prior.index }
       : prior.origin;
-    history.pushState({ [key]: { index: prior.index + 1, scroll: 0, origin, filters } }, "", target);
+    const enteringList = ["#search", "#favorites", "#pantry"].includes(target);
+    const nextFilters = enteringList ? initialBrowseState(resetFilters ? {} : listFilters.current[target] || {}, target) : filters;
+    history.pushState({ [key]: { index: prior.index + 1, scroll: 0, origin, filters: nextFilters, lists: listFilters.current } }, "", target);
+    if (enteringList) setFilters(nextFilters);
     document.querySelectorAll("dialog[open]").forEach((dialog) => dialog.close());
     restore.current = 0;
     current.current = target;

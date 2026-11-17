@@ -14,6 +14,21 @@ import { timerLabel, formatTimer } from "./cooking-guidance";
 import { remaining } from "./logic";
 import { nextMealRecipe } from "./meal";
 import { dietaryWarnings } from "./preferences";
+import { stepGuidance } from "./step-guidance";
+
+function StepGuidance({ recipeId, title }) {
+  const guide = stepGuidance[recipeId]?.[title];
+  if (!guide || !(guide.amount || guide.heat || guide.cue)) return null;
+
+  return (
+    <dl className="step-guidance" aria-label="本步提示">
+      {guide.amount && <div><dt>用量</dt><dd>{guide.amount}</dd></div>}
+      {guide.heat && <div><dt>火力</dt><dd>{guide.heat}</dd></div>}
+      {guide.cue && <div><dt>看状态</dt><dd>{guide.cue}</dd></div>}
+    </dl>
+  );
+}
+
 export default function Cooking({
   recipe: r,
   state,
@@ -108,14 +123,14 @@ export default function Cooking({
         <p>
           {r.name} · {r.servings} 人份
         </p>
-        <p className="hint">主料、调料放手边就好，不用逐项打勾。</p>
+        <button className="primary wide" onClick={() => stepTo(0)}>开始做这道菜 <ArrowRight size={18} /></button>
         <Ingredients r={r} />
         <PreparationNotes recipe={r} />
         <ChefNotes recipe={r} />
         <CookingNotes recipe={r} />
         <p>厨具：{r.tools}</p>
         <button className="primary wide" onClick={() => stepTo(0)}>
-          开始做这道菜
+          备好了，开始做
           <ArrowRight size={18} />
         </button>
       </section>
@@ -232,6 +247,7 @@ export default function Cooking({
                 <div>
                   <h2 id={`cooking-step-${index}`} tabIndex="-1">{st.title}</h2>
                   {c.step === index && <small className="current-step-label">当前位置</small>}
+                  <StepGuidance recipeId={r.id} title={st.title} />
                   <p>{st.text}</p>
                   {timerButton(index)}
                   <DomesticStepNote recipe={r} index={index} />
@@ -249,6 +265,7 @@ export default function Cooking({
             第 {c.step + 1} / {r.steps.length} 步
           </p>
           <h2 className="focused-step" tabIndex="-1">{r.steps[c.step].title}</h2>
+          <StepGuidance recipeId={r.id} title={r.steps[c.step].title} />
           <p className="instruction">{r.steps[c.step].text}</p>
           {timerButton(c.step)}
           <DomesticStepNote recipe={r} index={c.step} />

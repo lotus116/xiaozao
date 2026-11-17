@@ -13,7 +13,7 @@ for (const id of ['tomato-eggs', 'steamed-eggs', 'fried-rice']) {
     await page.getByText('菜谱来源与验证说明', { exact: true }).click();
     await expect(page.locator('.source')).toContainText('尚未下厨试做');
     await expect(page.locator('.source a').first()).toHaveAttribute('href', /^https:\/\//);
-    await page.getByRole('button', { name: /看看备料，开始做/ }).click();
+    await page.getByRole('button', { name: /^看备料$/ }).click();
     await expect(notes).toBeVisible();
     await expect(page.getByRole('checkbox')).toHaveCount(0);
     await page.getByRole('button', { name: '开始做这道菜', exact: true }).click();

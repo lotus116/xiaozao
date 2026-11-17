@@ -55,7 +55,7 @@ test("returning from a pantry recommendation restores pantry rather than search"
 test("cooking transitions start at visible focused content and preserve the meal when switching its dishes", async ({ page }) => {
   await seed(page, { basket: ["tomato-eggs", "steamed-eggs"], meal: { ids: ["tomato-eggs", "steamed-eggs"], done: ["tomato-eggs"] }, cooking: { id: "tomato-eggs", step: 4 } });
   await page.getByRole("button", { name: "家常蒸蛋", exact: true }).click();
-  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await page.getByRole("button", { name: /^看备料$/ }).click();
   expect((await readState(page)).meal.done).toEqual(["tomato-eggs"]);
   await page.getByRole("button", { name: "开始做这道菜", exact: true }).click();
   await expect(page.locator(".cook h1")).toBeFocused();
@@ -69,15 +69,15 @@ test("cooking transitions start at visible focused content and preserve the meal
 
 test("starting an unrelated dish asks before replacing progress and cancellation is safe", async ({ page }) => {
   await seed(page, { basket: ["tomato-eggs"], meal: { ids: ["tomato-eggs"], done: [] }, cooking: { id: "tomato-eggs", step: 1 } }, "recipe/steamed-eggs");
-  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await page.getByRole("button", { name: /^看备料$/ }).click();
   const modal = page.getByRole("dialog", { name: "换一道菜开始？" });
   await expect(modal).toBeVisible();
   await page.getByRole("button", { name: "保留当前进度", exact: true }).click();
   expect((await readState(page)).cooking).toEqual({ id: "tomato-eggs", step: 1 });
-  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await page.getByRole("button", { name: /^看备料$/ }).click();
   await page.keyboard.press("Escape");
   await expect(modal).not.toBeVisible();
-  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await page.getByRole("button", { name: /^看备料$/ }).click();
   await page.getByRole("button", { name: "确认，开始家常蒸蛋", exact: true }).click();
   expect((await readState(page)).meal).toBeNull();
   expect((await readState(page)).basket).toEqual(["tomato-eggs"]);
@@ -86,7 +86,7 @@ test("starting an unrelated dish asks before replacing progress and cancellation
 
 test("browser navigation closes a timer dialog without cancelling the timer", async ({ page }) => {
   await page.goto("/#recipe/tomato-eggs");
-  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await page.getByRole("button", { name: /^看备料$/ }).click();
   await page.getByRole("button", { name: /打开厨房计时器/ }).click();
   await page.getByRole("button", { name: "3 分钟", exact: true }).click();
   await page.getByRole("button", { name: /打开厨房计时器/ }).click();
@@ -142,6 +142,7 @@ test("multiline paste adds separate foods rather than merging the line breaks", 
 test("refreshing a recipe preserves the exact category and filters on return", async ({ page }) => {
   await page.goto("/#search");
   await page.getByRole("button", { name: "汤羹", exact: true }).click();
+  await page.locator(".browse-filters > summary").click();
   await page.getByLabel("用时").selectOption("15");
   await page.getByRole("textbox", { name: "搜索菜谱" }).fill("鸡蛋");
   await page.locator(".recipe-open").first().click();
@@ -179,7 +180,7 @@ test("new completion, interruption and cooking controls remain accessible on a n
   await audit();
   await page.screenshot({ path: "test-results/timer-complete-320.png" });
   await seed(page, { cooking: { id: "tomato-eggs", step: 1 } }, "recipe/steamed-eggs");
-  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await page.getByRole("button", { name: /^看备料$/ }).click();
   await audit();
   await page.screenshot({ path: "test-results/switch-cooking-320.png" });
   await page.getByRole("button", { name: "保留当前进度", exact: true }).click();

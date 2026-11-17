@@ -99,7 +99,7 @@ export default function TimerWidget({
     gesture.current = {
       x: e.clientX,
       y: e.clientY,
-      origin: point,
+      origin: { x: e.currentTarget.parentElement.getBoundingClientRect().left, y: e.currentTarget.parentElement.getBoundingClientRect().top },
       moved: false,
     };
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -153,10 +153,11 @@ export default function TimerWidget({
         <div
           className={
             "floating-timer icon-timer " +
+            (!dock.position && !dragPoint ? "docked " : "") +
             (timer ? "running " : "") +
             (timer && left === 0 ? "expired" : "")
           }
-          style={{
+          style={!dock.position && !dragPoint ? undefined : {
             left: "clamp(12px, " + point.x + "px, calc(100vw - 68px))",
             top:
               "clamp(calc(12px + var(--app-safe-top)), " +

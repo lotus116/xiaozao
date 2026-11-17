@@ -29,6 +29,7 @@ test("few ingredient filter can be toggled and reset", async ({ page }) => {
   await expect(
     page.getByRole("button", { name: /番茄豆腐蛋花羹.*分钟/ }),
   ).toBeVisible();
+  await page.locator(".browse-filters > summary").click();
   await page
     .getByRole("button", { name: "少配料 · 5 样以内", exact: true })
     .click();
@@ -95,7 +96,7 @@ test("ending a timer closes the modal and stays in cooking without a new timer f
   page,
 }) => {
   await page.goto("/#recipe/cn-cauliflower");
-  await page.getByRole("button", { name: /看看备料，开始做/ }).click();
+  await page.getByRole("button", { name: /^看备料$/ }).click();
   await page.getByRole("button", { name: "开始做这道菜", exact: true }).click();
   await page.getByRole("button", { name: /^启动计时：焯花菜/ }).click();
   await page.getByRole("button", { name: /打开厨房计时器/ }).click();

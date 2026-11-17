@@ -8,58 +8,8 @@ export default function Settings({ state, setState, seasonings }) {
     setState((s) => ({ ...s, preferences: { ...s.preferences, ...patch } }));
   return (
     <section className="browse settings">
-      <p className="eyebrow">把习惯留在自己的厨房</p>
       <h1 tabIndex="-1">厨房设置</h1>
-      <p>自动保存在当前浏览器，下次打开继续使用。</p>
-      <h2>计时器图标</h2>
-      <p className="hint">图标可拖动、长按隐藏。隐藏不会停止正在运行的计时。</p>
-      <div className="chips">
-        <button
-          aria-pressed={!state.timerDock.hidden}
-          onClick={() =>
-            setState((s) => ({
-              ...s,
-              timerDock: { ...s.timerDock, hidden: !s.timerDock.hidden },
-            }))
-          }
-        >
-          {state.timerDock.hidden ? "显示计时器图标" : "隐藏计时器图标"}
-        </button>
-        <button
-          onClick={() =>
-            setState((s) => ({
-              ...s,
-              timerDock: { hidden: false, position: null },
-            }))
-          }
-        >
-          恢复图标默认位置
-        </button>
-      </div>
-      <h2>常备调料</h2>
-      <p className="hint">
-        选一次就记住。清空本次食材、完成做菜，都不会清掉调料。
-      </p>
-      <div className="chips">
-        {seasonings.map((n) => (
-          <button
-            className={"chip " + (state.pantry.includes(n) ? "selected" : "")}
-            key={n}
-            aria-pressed={state.pantry.includes(n)}
-            onClick={() =>
-              setState((s) => ({
-                ...s,
-                pantry: s.pantry.includes(n)
-                  ? s.pantry.filter((x) => x !== n)
-                  : [...s.pantry, n],
-              }))
-            }
-          >
-            {state.pantry.includes(n) ? "✓ " : ""}
-            {n}
-          </button>
-        ))}
-      </div>
+
       <h2>过敏食材</h2>
       <p className="hint">
         从推荐、搜索和收藏中排除相关菜谱，包括可选配料。复合调味品按可能含有相关成分处理。
@@ -136,6 +86,56 @@ export default function Settings({ state, setState, seasonings }) {
           <option value="warn">显示并提醒</option>
         </select>
       </label>
+      <details className="settings-seasonings"><summary>常备调料 · 已选 {state.pantry.filter((n) => seasonings.includes(n)).length} 样</summary>
+      <p className="hint">
+        选一次就记住。清空本次食材、完成做菜，都不会清掉调料。
+      </p>
+      <div className="chips">
+        {seasonings.map((n) => (
+          <button
+            className={"chip " + (state.pantry.includes(n) ? "selected" : "")}
+            key={n}
+            aria-pressed={state.pantry.includes(n)}
+            onClick={() =>
+              setState((s) => ({
+                ...s,
+                pantry: s.pantry.includes(n)
+                  ? s.pantry.filter((x) => x !== n)
+                  : [...s.pantry, n],
+              }))
+            }
+          >
+            {state.pantry.includes(n) ? "✓ " : ""}
+            {n}
+          </button>
+        ))}
+      </div>
+      </details>
+      <h2>计时器图标</h2>
+      <p className="hint">图标可拖动、长按隐藏。隐藏不会停止正在运行的计时。</p>
+      <div className="chips">
+        <button
+          aria-pressed={!state.timerDock.hidden}
+          onClick={() =>
+            setState((s) => ({
+              ...s,
+              timerDock: { ...s.timerDock, hidden: !s.timerDock.hidden },
+            }))
+          }
+        >
+          {state.timerDock.hidden ? "显示计时器图标" : "隐藏计时器图标"}
+        </button>
+        <button
+          onClick={() =>
+            setState((s) => ({
+              ...s,
+              timerDock: { hidden: false, position: null },
+            }))
+          }
+        >
+          恢复图标默认位置
+        </button>
+      </div>
       <p role="status" className="hint">
         设置已应用。{p.allergens.length} 项过敏筛选，{p.avoid.length}{" "}
         项普通忌口。保存状态以页面顶部提示为准。
