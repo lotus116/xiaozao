@@ -66,7 +66,7 @@ export default function MealPlanner({ rows, state, setState, go, canBegin }) {
     <section className="meal-planner" aria-labelledby="meal-planner-title">
       <div className="meal-planner-heading">
         <h2 id="meal-planner-title">做菜顺序</h2>
-        <button ref={trigger} className="primary" onClick={showPreview} aria-expanded={Boolean(preview)} aria-controls="meal-order-preview" disabled={!canBegin}>
+        <button ref={trigger} className="meal-plan-trigger" onClick={showPreview} aria-expanded={Boolean(preview)} aria-controls="meal-order-preview" disabled={!canBegin}>
           <ListOrdered size={18} aria-hidden="true" />帮我排个顺序
         </button>
       </div>

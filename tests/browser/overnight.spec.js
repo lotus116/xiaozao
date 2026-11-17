@@ -54,7 +54,7 @@ test("returning from a pantry recommendation restores pantry rather than search"
 
 test("cooking transitions start at visible focused content and preserve the meal when switching its dishes", async ({ page }) => {
   await seed(page, { basket: ["tomato-eggs", "steamed-eggs"], meal: { ids: ["tomato-eggs", "steamed-eggs"], done: ["tomato-eggs"] }, cooking: { id: "tomato-eggs", step: 4 } });
-  await page.getByRole("button", { name: "家常蒸蛋", exact: true }).click();
+  await page.getByRole("button", { name: /^家常蒸蛋.*人份/ }).click();
   await page.getByRole("button", { name: /^看备料$/ }).click();
   expect((await readState(page)).meal.done).toEqual(["tomato-eggs"]);
   await page.getByRole("button", { name: "开始做这道菜", exact: true }).click();

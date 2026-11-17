@@ -18,6 +18,7 @@ test("tomato eggs uses reminder tiles without checkboxes and cooking progress pe
   await page.getByRole("button", { name: "添加食材", exact: true }).click();
   await expect(page.locator(".live-message")).toContainText("已经在清单");
   await page.getByText(/管理常备调料/).click();
+  await page.locator(".pantry-picker > summary").click();
   for (const name of ["鸡蛋", "食用油", "盐"])
     await page.getByRole("button", { name, exact: true }).click();
   await page
@@ -62,6 +63,7 @@ test("search, missing seasoning, no results, filters, persistence and corruption
   page,
 }) => {
   await page.goto("/");
+  await page.locator(".pantry-picker > summary").click();
   await page.getByRole("button", { name: "鸡蛋", exact: true }).click();
   await page.reload();
   await expect(page.getByRole("button", { name: "移除鸡蛋" })).toBeVisible();
@@ -129,6 +131,7 @@ test("unavailable storage stays usable", async ({ page }) => {
   });
   await page.goto("/");
   await expect(page.getByRole("alert")).toContainText("未允许保存");
+  await page.locator(".pantry-picker > summary").click();
   await page.getByRole("button", { name: "鸡蛋", exact: true }).click();
   await expect(page.getByRole("button", { name: "移除鸡蛋" })).toBeVisible();
 });

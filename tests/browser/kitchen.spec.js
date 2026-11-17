@@ -7,6 +7,7 @@ test("simple soup is recommended without stock, pepper or starch", async ({
 }) => {
   await page.goto("/");
   await page.getByText(/管理常备调料/).click();
+  await page.locator(".pantry-picker > summary").click();
   for (const name of ["番茄", "鸡蛋", "食用油", "盐"])
     await page.getByRole("button", { name, exact: true }).click();
   await page.getByRole("button", { name: "汤羹", exact: true }).click();

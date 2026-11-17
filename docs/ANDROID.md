@@ -1,6 +1,8 @@
 # 小灶安卓安装与构建
 
-当前源码版本为 1.4.1（versionCode 7），应用名“小灶”，包名 `com.xiaozao.kitchen`。下方命令可从源码生成 `releases/xiaozao-1.4.1-debug.apk`，工作区现有测试包为 `releases/xiaozao-1.4.0-debug.apk`。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。
+当前源码版本为 1.5.0（versionCode 8），应用名“小灶”，包名 `com.xiaozao.kitchen`。下方命令可从源码生成 `releases/xiaozao-1.5.0-debug.apk`，工作区现有测试包为 `releases/xiaozao-1.4.0-debug.apk`。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。
+
+本轮界面优化保留 React + Capacitor 架构。当前电脑没有可用 JDK，原临时 Android SDK 目录为空，因此本轮未生成 1.5.0 APK；手机触控模拟验证不能等同于安卓真机验证。
 
 ## 安装
 
@@ -23,7 +25,7 @@ npm run android:apk
 
 脚本重新构建网页、同步原生工程、运行 `assembleDebug` 与 `lintDebug`，最后将 APK 及 SHA-256 校验文件复制至 `releases/`。如需 Android Studio 查看工程，执行 `npx cap open android`。
 
-此电脑本轮单独下载的 JDK、SDK 位于 `/tmp/little-kitchen-android-tools`，脚本在未配置环境变量时自动使用它们。临时目录可能被系统清理，届时安装工具或重新设置环境变量即可。Gradle 缓存和测试签名密钥位于项目的 `.local-build/`，都不会提交 Git；构建脚本不修改系统 Java 设置。
+历史构建使用的临时 JDK、SDK 位于 `/tmp/little-kitchen-android-tools`，脚本在未配置环境变量时自动使用它们。临时目录可能被系统清理，届时安装工具或重新设置环境变量即可。Gradle 缓存和测试签名密钥位于项目的 `.local-build/`，都不会提交 Git；构建脚本不修改系统 Java 设置。
 
 保留 `.local-build/debug.keystore` 可以让后续测试包覆盖安装并保留数据。丢失密钥后生成的新包无法直接覆盖旧签名包；卸载旧包会清除数据。正式上架需要单独管理正式签名密钥及发布版本，本次未创建正式签名或发布。
 

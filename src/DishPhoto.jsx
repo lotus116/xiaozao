@@ -18,12 +18,12 @@ export function PhotoCredit({ recipe }) {
   </footer>;
 }
 
-export function DishThumbnail({ recipe, eager = false, tile = false }) {
+export function DishThumbnail({ recipe, eager = false, tile = false, large = false }) {
   const photo = photos[recipe.id];
   const [failed, setFailed] = useState(null);
   if (!photo || failed === recipe.id) return null;
   const img = <img onError={() => setFailed(recipe.id)} className={photo.fullFrame ? "dish-thumbnail full-frame" : "dish-thumbnail"}
-    src={photoPath(recipe.id, "thumb")} width="224" height="192" alt=""
+    src={photoPath(recipe.id, large ? "view" : "thumb")} width="224" height="192" alt=""
     decoding="async" loading={eager ? "eager" : "lazy"} />;
   if (!tile) return img;
   return <span className="dish-tile">

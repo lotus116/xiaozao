@@ -8,7 +8,7 @@
   gap: 10px;
   margin-bottom: 12px;
 }
-.frequent-heading h3 {
+.frequent-heading h2 {
   margin: 0;
   font-size: 16px;
 }
@@ -24,10 +24,10 @@
   white-space: nowrap;
   min-height: 44px;
   padding: 8px;
-  border: 1px solid #ced8c9;
+  border: 1px solid var(--line);
   border-radius: 12px;
-  background: #fafbf5;
-  color: #254c3b;
+  background: var(--canvas);
+  color: var(--accent);
   font-size: 13px;
 }
 .frequent-editor {
@@ -41,18 +41,18 @@
   display: flex;
   align-items: center;
   min-width: 0;
-  border: 1px solid #dbe2d4;
+  border: 1px solid var(--line);
   border-radius: 12px;
-  background: #fafbf6;
+  background: var(--canvas);
   padding: 3px;
 }
 .frequent-editor li.dragging {
   opacity: 0.6;
 }
 .frequent-editor li.drop-target {
-  border-color: #254c3b;
-  box-shadow: inset 0 3px #254c3b;
-  background: #eaf0df;
+  border-color: var(--accent);
+  box-shadow: inset 0 3px var(--accent);
+  background: var(--yellow);
 }
 .frequent-editor button {
   flex: 0 0 44px;
@@ -62,7 +62,7 @@
   border: 0;
   border-radius: 9px;
   background: transparent;
-  color: #365944;
+  color: var(--ink);
   display: grid;
   place-items: center;
 }
@@ -85,7 +85,7 @@
 }
 .frequent-name > span {
   margin-right: 8px;
-  color: #6b7566;
+  color: var(--muted);
   font-size: 11px;
   font-variant-numeric: tabular-nums;
 }
@@ -93,7 +93,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid #cdd6c6;
+  border: 1px solid var(--line);
   background: #fffdf7;
   border-radius: 12px;
   margin: 12px 0;
@@ -109,7 +109,7 @@
   color: inherit;
 }
 .ingredient-search:focus-within {
-  outline: 2px solid #254c3b;
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 .ingredient-search input:focus-visible {
@@ -129,19 +129,19 @@
   min-height: 62px;
   padding: 7px 2px;
   font-size: 12px;
-  border: 1px solid #d8dfd1;
-  background: #fafbf5;
-  color: #4a5d45;
+  border: 1px solid var(--line);
+  background: var(--canvas);
+  color: var(--ink);
   border-radius: 12px;
 }
 .ingredient-category-tabs button[aria-pressed="true"] {
-  background: #254c3b;
+  background: var(--accent);
   color: #fffdf2;
-  border-color: #254c3b;
+  border-color: var(--accent);
 }
 .ingredient-results {
   font-size: 13px;
-  color: #59654f;
+  color: var(--muted);
   margin: 15px 0 10px;
 }
 .category-ingredients {

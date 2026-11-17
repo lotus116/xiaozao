@@ -19,7 +19,7 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--green);
+  color: var(--accent);
 }
 .ingredient-dropdown-toggle[aria-expanded="true"] svg {
   transform: rotate(180deg);
@@ -31,9 +31,9 @@
   right: 0;
   z-index: 5;
   background: var(--paper);
-  border: 1px solid #adb9ad;
+  border: 1px solid #b8a99a;
   border-radius: 10px;
-  box-shadow: 0 8px 24px #24372e1a;
+  box-shadow: 0 8px 24px #38251d1a;
   overflow: hidden;
 }
 .ingredient-suggestions-panel[data-side="above"] {
@@ -58,8 +58,8 @@
 }
 .ingredient-suggestions-panel li:hover,
 .ingredient-suggestions-panel li[aria-selected="true"] {
-  background: #edf1e5;
-  color: var(--green);
+  background: var(--surface);
+  color: var(--accent);
 }
 .ingredient-suggestions-panel p {
   margin: 0;

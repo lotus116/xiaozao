@@ -100,11 +100,11 @@ export default function IngredientPicker({
     <div className="ingredient-picker">
       <div className="frequent-heading">
         <div>
-          <h3>常用食材</h3>
+          <h2>常用食材</h2>
           <p className="hint">
             {editing
               ? "拖动把手调整顺序，改完自动保存。"
-              : "点一下加入今天的食材，顺序按你的习惯。"}
+              : ""}
           </p>
         </div>
         <button

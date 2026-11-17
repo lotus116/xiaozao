@@ -6,11 +6,13 @@ test("remember pantry seasonings independently of fresh ingredients", async ({
 }) => {
   await page.goto("/");
   await page.getByText(/管理常备调料/).click();
+  await page.locator(".pantry-picker > summary").click();
   for (const name of ["食用油", "盐", "糖", "鸡蛋"])
     await page.getByRole("button", { name, exact: true }).click();
   await page.getByRole("button", { name: "清空本次食材，保留调料" }).click();
   await page.reload();
   await page.getByText(/管理常备调料/).click();
+  await page.locator(".pantry-picker > summary").click();
   await expect(
     page.getByRole("button", { name: "盐", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");

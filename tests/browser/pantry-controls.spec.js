@@ -47,7 +47,8 @@ test("undo is shared across pantry and basket, retaining newer ingredients and r
   await page.getByRole("button", { name: "去选今天的食材", exact: true }).click();
   await clear(page).click();
   await add(page, "黄瓜");
-  await expect(page.locator(".pantry-reset-status")).toContainText("本次记录了 1 样食材");
+  await expect(page.getByRole("button", { name: "移除黄瓜", exact: true })).toBeVisible();
+  await expect(page.locator(".pantry-reset-status")).toBeEmpty();
   await clear(page).click();
   await add(page, "土豆、糖");
   await page.getByRole("link", { name: /^菜篮/ }).click();
@@ -61,7 +62,7 @@ test("empty basket still offers ingredient reset but empty pantry cannot clear",
   await seed(page, { pantry: ["盐"], basket: [] });
   await page.getByRole("button", { name: "去选今天的食材", exact: true }).click();
   await expect(clear(page)).toBeDisabled();
-  await expect(page.locator(".pantry-reset-status")).toContainText("本次还没有食材");
+  await expect(page.locator(".selected-list button")).toHaveCount(0);
   await add(page, "鸡蛋");
   await page.getByRole("link", { name: /^菜篮/ }).click();
   await page.getByRole("button", { name: "去选今天的食材" }).click();
@@ -110,7 +111,7 @@ test("suggestions support keyboard toggle, navigation, selection, Escape and out
   await input(page).press("Escape");
   await expect(page.getByRole("listbox")).toHaveCount(0);
   await toggle.click();
-  await page.getByRole("heading", { name: "我的食材", exact: true }).click();
+  await page.getByRole("heading", { name: "今天有什么食材？", exact: true }).click();
   await expect(page.getByRole("listbox")).toHaveCount(0);
   await toggle.focus();
   await toggle.press("ArrowDown");

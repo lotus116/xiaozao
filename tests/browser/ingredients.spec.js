@@ -10,6 +10,7 @@ test("frequent foods can be removed, added, reordered and remembered independent
   page,
 }) => {
   await page.goto("/");
+  await page.locator(".pantry-picker > summary").click();
   await page.getByRole("button", { name: "鸡蛋", exact: true }).click();
   await page.getByRole("button", { name: "管理常用", exact: true }).click();
   await page.getByRole("button", { name: "取消常用鸡蛋", exact: true }).click();
@@ -30,6 +31,7 @@ test("frequent foods can be removed, added, reordered and remembered independent
   const ordered = await names(page);
   await page.getByRole("button", { name: "完成管理", exact: true }).click();
   await page.reload();
+  await page.locator(".pantry-picker > summary").click();
   const saved = await page.evaluate(
     (k) => JSON.parse(localStorage.getItem(k)),
     key,
@@ -50,6 +52,7 @@ test("drag sorting commits on release, cancellation preserves order", async ({
   page,
 }) => {
   await page.goto("/");
+  await page.locator(".pantry-picker > summary").click();
   await page.getByRole("button", { name: "管理常用", exact: true }).click();
   const first = page.getByRole("button", { name: "拖动排序番茄", exact: true });
   // Keep both the source and destination above the fixed mobile navigation.
@@ -79,6 +82,7 @@ test("drag sorting commits on release, cancellation preserves order", async ({
   await page.mouse.up();
   expect(await names(page)).toEqual(before);
   await page.reload();
+  await page.locator(".pantry-picker > summary").click();
   await page.getByRole("button", { name: "管理常用", exact: true }).click();
   expect(await names(page)).toEqual(before);
 });
@@ -88,6 +92,7 @@ test("mobile touch dragging does not toggle inventory or scroll the handle", asy
   context,
 }) => {
   await page.goto("/");
+  await page.locator(".pantry-picker > summary").click();
   await page.getByRole("button", { name: "管理常用", exact: true }).click();
   const first = page.getByRole("button", { name: "拖动排序番茄", exact: true });
   await first.scrollIntoViewIfNeeded();
@@ -119,6 +124,7 @@ test("food categories and alias search locate fresh, soy and prepared foods", as
   page,
 }) => {
   await page.goto("/");
+  await page.locator(".pantry-picker > summary").click();
   await page.getByText("更多食材 · 按分类找", { exact: true }).click();
   for (const [category, food] of [
     ["肉类", "排骨"],
@@ -161,6 +167,7 @@ test("empty frequent list persists, management is accessible and fits a narrow p
 }, testInfo) => {
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto("/");
+  await page.locator(".pantry-picker > summary").click();
   await page.getByRole("button", { name: "管理常用", exact: true }).click();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   expect(
@@ -178,6 +185,7 @@ test("empty frequent list persists, management is accessible and fits a narrow p
       .first()
       .click();
   await page.reload();
+  await page.locator(".pantry-picker > summary").click();
   await expect(page.locator(".frequent-chips button")).toHaveCount(0);
   await page.getByRole("button", { name: "管理常用", exact: true }).click();
   await page
@@ -190,6 +198,7 @@ test("native insets keep navigation and the timer away from system bars", async 
   page,
 }) => {
   await page.goto("/");
+  await page.locator(".pantry-picker > summary").click();
   await page.evaluate(() => {
     document.documentElement.style.setProperty("--safe-area-inset-top", "32px");
     document.documentElement.style.setProperty(

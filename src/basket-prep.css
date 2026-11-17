@@ -4,29 +4,29 @@
   padding: 20px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: #edf1e5;
+  background: var(--surface);
   overflow-wrap: anywhere;
 }
 .basket-prep-summary .eyebrow {
   margin-bottom: 8px;
 }
 .basket-prep-summary h2 {
-  color: var(--green);
+  color: var(--accent);
   margin-bottom: 8px;
 }
 .basket-prep-names {
-  color: var(--green);
+  color: var(--accent);
   margin-bottom: 8px;
 }
 .basket-prep-summary .hint {
-  color: #475c50;
+  color: var(--ink);
   margin-bottom: 12px;
 }
 .basket-prep-summary .hint:last-child {
   margin-bottom: 0;
 }
 .basket-copy-button {
-  color: var(--green);
+  color: var(--accent);
   font-size: 14px;
 }
 .basket-copy-button svg {
@@ -35,7 +35,7 @@
 .basket-copy-status {
   font-size: 13px;
   margin: 10px 0 0;
-  color: var(--green);
+  color: var(--accent);
 }
 .basket-copy-status:empty {
   margin: 0;
@@ -52,7 +52,7 @@
   width: 100%;
   min-width: 0;
   max-width: 100%;
-  border: 1px solid #adb9ad;
+  border: 1px solid #b8a99a;
   border-radius: 10px;
   padding: 12px;
   font: inherit;
@@ -81,12 +81,12 @@
 }
 .basket-prep-switch button[aria-pressed="true"] {
   color: white;
-  background: var(--green);
+  background: var(--accent);
 }
 .basket-prep-empty {
-  color: #475c50;
+  color: var(--ink);
   padding: 16px;
-  background: #edf1e5;
+  background: var(--surface);
   border-radius: 12px;
   font-size: 14px;
 }

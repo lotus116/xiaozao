@@ -19,6 +19,7 @@ import { allowedRecipe, dietaryWarnings } from "./preferences";
 import { FoodIcon } from "./Ingredients";
 import "./basket-prep.css";
 import MealPlanner from "./MealPlanner";
+import { DishThumbnail } from "./DishPhoto";
 export default function Basket({ state, setState, recipes, go }) {
   const [prepView, setPrepView] = useState("all");
   const [copyResult, setCopyResult] = useState(null);
@@ -165,23 +166,71 @@ export default function Basket({ state, setState, recipes, go }) {
         </div>
       ) : (
         <>
+          <ol className="basket-dishes">
+            {rows.map((r, index) => (
+              <li key={r.id}>
+                <div className="basket-dish-heading">
+                  <button
+                    className="text-button"
+                    onClick={() => go("recipe/" + r.id)}
+                  >
+                    <DishThumbnail recipe={r} tile />
+                    <span>{r.name}<small>{r.servings} 人份 · 约 {r.minutes} 分钟</small></span>
+                  </button>
+                  {state.meal?.done.includes(r.id) && (
+                    <span className="ready">
+                      <Check size={16} />
+                      已做完
+                    </span>
+                  )}
+                  <button
+                    aria-label={"移出菜篮" + r.name}
+                    onClick={() =>
+                      setState((s) => ({
+                        ...s,
+                        basket: s.basket.filter((id) => id !== r.id),
+                      }))
+                    }
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+                {dietaryWarnings(r, state.preferences).length > 0 && (
+                  <p className="warning">
+                    {dietaryWarnings(r, state.preferences).join("；")}
+                    {!allowedRecipe(r, state.preferences) &&
+                      "。请移出这道菜后再开始。"}
+                  </p>
+                )}
+                <div className="basket-order">
+                  <span>第 {index + 1} 道</span>
+                  <button
+                    disabled={index === 0}
+                    aria-label={"提前做" + r.name}
+                    onClick={() => move(index, -1)}
+                  >
+                    <ArrowUp size={16} />
+                    提前
+                  </button>
+                  <button
+                    disabled={index === rows.length - 1}
+                    aria-label={"延后做" + r.name}
+                    onClick={() => move(index, 1)}
+                  >
+                    <ArrowDown size={16} />
+                    延后
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ol>
           <section
             className="basket-prep-summary"
             aria-labelledby="basket-prep-title"
           >
-            <p className="meal-menu"><strong>{rows.slice(0, 3).map((r) => r.name).join("、")}</strong>{rows.length > 3 && ` 等 ${rows.length} 道`}</p>
             <h2 id="basket-prep-title">{needed.length ? `清单未记 ${needed.length} 样` : "必需食材都已记录"}</h2>
             {needed.length > 0 && <p className="basket-prep-names">{needed.slice(0, 5).map((i) => i.name).join("、")}{needed.length > 5 && " 等"}</p>}
-          {!active && (
-            <button
-              className="primary wide meal-start"
-              disabled={!canBegin}
-              onClick={begin}
-            >
-              <Play size={20} />
-              一键开始做饭 · {rows.length} 道
-            </button>
-          )}
+
             {needed.length > 0 && (
               <button
                 className="basket-copy-button"
@@ -224,66 +273,19 @@ export default function Basket({ state, setState, recipes, go }) {
             )}
           </section>
           <MealPlanner rows={rows} state={state} setState={setState} go={go} canBegin={canBegin} />
-          <ol className="basket-dishes">
-            {rows.map((r, index) => (
-              <li key={r.id}>
-                <div className="basket-dish-heading">
-                  <button
-                    className="text-button"
-                    onClick={() => go("recipe/" + r.id)}
-                  >
-                    {r.name}
-                  </button>
-                  {state.meal?.done.includes(r.id) && (
-                    <span className="ready">
-                      <Check size={16} />
-                      已做完
-                    </span>
-                  )}
-                  <button
-                    aria-label={"移出菜篮" + r.name}
-                    onClick={() =>
-                      setState((s) => ({
-                        ...s,
-                        basket: s.basket.filter((id) => id !== r.id),
-                      }))
-                    }
-                  >
-                    <X size={18} />
-                  </button>
-                </div>
-                <p className="hint">
-                  {r.servings} 人份 · 约 {r.minutes} 分钟 · {r.tools}
-                </p>
-                {dietaryWarnings(r, state.preferences).length > 0 && (
-                  <p className="warning">
-                    {dietaryWarnings(r, state.preferences).join("；")}
-                    {!allowedRecipe(r, state.preferences) &&
-                      "。请移出这道菜后再开始。"}
-                  </p>
-                )}
-                <div className="basket-order">
-                  <span>第 {index + 1} 道</span>
-                  <button
-                    disabled={index === 0}
-                    aria-label={"提前做" + r.name}
-                    onClick={() => move(index, -1)}
-                  >
-                    <ArrowUp size={16} />
-                    提前
-                  </button>
-                  <button
-                    disabled={index === rows.length - 1}
-                    aria-label={"延后做" + r.name}
-                    onClick={() => move(index, 1)}
-                  >
-                    <ArrowDown size={16} />
-                    延后
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ol>
+
+          {!active && (
+            <div className="basket-start-bar">
+              <button
+                className="primary wide meal-start"
+                disabled={!canBegin}
+                onClick={begin}
+              >
+                <Play size={20} />
+                一键开始做饭 · {rows.length} 道
+              </button>
+            </div>
+          )}
           <h2>这一餐，一起备好</h2>
           <p className="hint">
             只是提醒，不用逐项打勾。每道菜的用量分别列出，按实际吃饭人数核对。

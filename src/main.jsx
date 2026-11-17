@@ -52,6 +52,7 @@ import {
   categoryOf,
   categories,
 } from "./preferences";
+import "./warm-kitchen.css";
 const load = () => {
   try {
     return cleanState(localStorage.getItem(KEY), recipes);
@@ -62,12 +63,12 @@ const load = () => {
 setupNative().catch((error) =>
   console.error("Android navigation setup failed", error),
 );
-function Card({ r, state, go, fav, addToBasket }) {
+function Card({ r, state, go, fav, addToBasket, featured = false }) {
   const miss = missing(r, state.pantry);
   return (
-    <article className="recipe-row">
+    <article className={`recipe-row${featured ? " featured-recipe" : ""}`}>
       <button className="recipe-open" onClick={() => go(`recipe/${r.id}`)}>
-        <DishThumbnail recipe={r} tile />
+        <DishThumbnail recipe={r} tile eager={featured} large={featured} />
         <span className="recipe-copy">
           <strong>{r.name}</strong>
           <span className="meta">
@@ -120,6 +121,7 @@ function Card({ r, state, go, fav, addToBasket }) {
           onClick={() => addToBasket(r.id)}
         >
           <ShoppingBasket size={21} />
+          {featured && <span>{state.basket.includes(r.id) ? "已入菜篮" : "加入菜篮"}</span>}
         </button>
       </div>
     </article>
@@ -232,7 +234,6 @@ function App() {
   const visibleRecipes = recipes.filter((r) =>
     allowedRecipe(r, state.preferences),
   );
-  const heroRecipe = visibleRecipes[0];
   const selectedRecipes = visibleRecipes.filter(
     (r) => categoryOf(r) === category,
   );
@@ -241,6 +242,9 @@ function App() {
   const rec = recommend(selectedRecipes, state.pantry, focusedFood);
   const [page, id] = hash.replace("#", "").split("/");
   const recipe = recipes.find((r) => r.id === id);
+  const isCooking = page === "cook" && recipe &&
+    state.cooking?.id === recipe.id && state.cooking.step >= 0 &&
+    state.cooking.step < recipe.steps.length && allowedRecipe(recipe, state.preferences);
   const cooking = state.cooking;
   const active = recipes.find((r) => r.id === cooking?.id);
   const beginRecipe = (r, replace = false) => {
@@ -287,14 +291,15 @@ function App() {
     </button>
   );
   return (
-    <>
+    <div className={`kitchen-app${isCooking ? " is-cooking" + (state.cookView === "step" ? " is-step-cooking" : "") : ""}`}>
       <header>
         <a className="brand" href="#pantry">
-          <CookingPot size={27} />
           <span>小灶</span>
-          <small>今天，自己做饭</small>
+          <Flame size={19} aria-hidden="true" />
         </a>
-        <span className="local-note">不用登录 · 存在本机</span>
+        <a className="header-settings" href="#settings" aria-label="设置" aria-current={page === "settings" ? "page" : undefined}>
+          <SettingsIcon size={23} aria-hidden="true" />
+        </a>
       </header>
       <main id="main">
         {storageError && (
@@ -308,9 +313,6 @@ function App() {
               <div>
                 <h1 tabIndex="-1">今天有什么食材？</h1>
               </div>
-              {heroRecipe && <div className="hero-photo-block"><button className="hero-photo" aria-label={heroRecipe.name} onClick={() => go("recipe/" + heroRecipe.id)}>
-                <DishThumbnail recipe={heroRecipe} eager /><span>{heroRecipe.name} ›</span>
-              </button></div>}
             </div>
             {active && (
               <button
@@ -333,19 +335,12 @@ function App() {
             )}
             <div className="workspace">
               <section className="pantry-panel">
-                <div className="section-title">
-                  <h2>我的食材</h2>
-                  <span>
-                    {state.pantry.filter((n) => !seasonings.includes(n)).length}{" "}
-                    样已添加
-                  </span>
-                </div>
                 <form onSubmit={add}>
-                  <label htmlFor="ingredient">添加厨房里已有的食材</label>
+                  <label className="sr-only" htmlFor="ingredient">添加厨房里已有的食材</label>
                   <IngredientInput value={input} onChange={setInput} catalog={catalog} />
                 </form>
                 <p className="live-message" role="status">
-                  {message || "多样食材用顿号、逗号或空格隔开；支持别名，自动去重。"}
+                  {message || "多样食材可用顿号、逗号或空格隔开。"}
                 </p>
                 {pantryFoods.length > 0 && (
                   <div className="selected-list">
@@ -362,19 +357,18 @@ function App() {
                     ))}
                   </div>
                 )}
-                <IngredientPicker
-                  frequent={state.frequentIngredients}
-                  pantry={state.pantry}
-                  toggle={toggle}
-                  onChange={(names) =>
-                    setState((s) => ({ ...s, frequentIngredients: names }))
-                  }
-                />
-                <div className="seasoning-title">
-                  <h2>常备调料 · 自动记住</h2>
-                  <p>选一次，下次直接用；用完或补货时再修改。</p>
-                </div>
-                <details>
+                <details className="pantry-picker">
+                  <summary>常用与分类食材</summary>
+                  <IngredientPicker
+                    frequent={state.frequentIngredients}
+                    pantry={state.pantry}
+                    toggle={toggle}
+                    onChange={(names) =>
+                      setState((s) => ({ ...s, frequentIngredients: names }))
+                    }
+                  />
+                </details>
+                <details className="pantry-seasonings">
                   <summary>
                     管理常备调料（已记住{" "}
                     {state.pantry.filter((n) => seasonings.includes(n)).length}{" "}
@@ -382,42 +376,43 @@ function App() {
                   </summary>
                   <div className="chips">{seasonings.map(chip)}</div>
                 </details>
-                {resetControls}
-                <button
-                  className="primary find-button"
-                  onClick={() =>
-                    document
-                      .getElementById("recommendations")
-                      ?.scrollIntoView({ behavior: "auto" })
-                  }
-                >
-                  看看能做什么 <ArrowRight size={18} />
-                </button>
+                <div className="pantry-tools">
+                  {resetControls}
+                  <button
+                    className="primary find-button"
+                    onClick={() =>
+                      document
+                        .getElementById("recommendations")
+                        ?.scrollIntoView({ behavior: "auto" })
+                    }
+                  >
+                    看看能做什么 <ArrowRight size={18} />
+                  </button>
+                </div>
               </section>
               <section className="recommendations" id="recommendations">
                 <div className="section-title">
-                  <h2>今晚可以做</h2>
+                  <h2>看看能做什么</h2>
                 </div>
-                <CategoryTabs category={category} setCategory={setCategory} />
-                {pantryFoods.length > 1 && (
-                  <label className="recommendation-focus">
-                    优先用掉
-                    <select
-                      value={focusedFood}
-                      onChange={(event) => setFocusIngredient(event.target.value)}
-                    >
-                      <option value="">不限食材</option>
-                      {pantryFoods.map((name) => <option key={name}>{name}</option>)}
-                    </select>
-                  </label>
-                )}
-                <p className="hint">
-                  可省的增香配料不影响“可以做”，必需缺料仍会列出。请核对用量。
-                </p>
-                <p className="hint">
+                <div className="recommendation-controls">
+                  <CategoryTabs category={category} setCategory={setCategory} />
+                  {pantryFoods.length > 1 && (
+                    <label className="recommendation-focus">
+                      <span className="sr-only">优先用掉</span>
+                      <select
+                        value={focusedFood}
+                        onChange={(event) => setFocusIngredient(event.target.value)}
+                      >
+                        <option value="">不限食材</option>
+                        {pantryFoods.map((name) => <option key={name}>{name}</option>)}
+                      </select>
+                    </label>
+                  )}
+                </div>
+                {recipes.length > visibleRecipes.length && <p className="hint">
                   饮食设置已隐藏 {recipes.length - visibleRecipes.length} 道菜。
                   <a href="#settings">管理偏好</a>
-                </p>
+                </p>}
                 {!pantryFoods.length ? (
                   empty(
                     "先加一样手边的食材",
@@ -430,9 +425,10 @@ function App() {
                       现在可以做 <span>{rec.ready.length}</span>
                     </h3>
                     {rec.ready.length ? (
-                      rec.ready.map((r) => (
+                      rec.ready.map((r, index) => (
                         <Card
                           key={r.id}
+                          featured={index === 0}
                           r={r}
                           state={state}
                           go={go}
@@ -467,14 +463,6 @@ function App() {
                         )}
                   </>
                 )}
-                <aside className="note">
-                  <Leaf size={20} />
-                  <p>
-                    一餐的小提醒
-                    <br />
-                    <span>菜谱之外，也记得看看有没有蔬菜和主食。</span>
-                  </p>
-                </aside>
                 <p className="catalog-note">
                   目前收录 {recipes.length}{" "}
                   道家常菜笔记。各菜来源与核对范围见详情，尚未下厨试做。
@@ -617,7 +605,6 @@ function App() {
               </button>
               <div className="dish-heading">
                 <div>
-                  <p className="eyebrow">家常的一道，认真做好</p>
                   <h1 tabIndex="-1">{recipe.name}</h1>
                   <p>{recipe.description}</p>
                 </div>
@@ -793,9 +780,8 @@ function App() {
         {[
           ["pantry", Carrot, "我的食材"],
           ["search", BookOpen, "找菜谱"],
-          ["favorites", Heart, "收藏"],
           ["basket", ShoppingBasket, "菜篮"],
-          ["settings", SettingsIcon, "设置"],
+          ["favorites", Heart, "收藏"],
         ].map(([p, Icon, label]) => (
           <a
             key={p}
@@ -813,7 +799,7 @@ function App() {
           </a>
         ))}
       </nav>
-    </>
+    </div>
   );
 }
 function CategoryTabs({ category, setCategory, includeAll = false }) {

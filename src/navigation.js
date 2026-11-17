@@ -1,4 +1,5 @@
 import { useLayoutEffect, useEffect, useRef, useState } from "react";
+import { scrollCookingHeading } from "./cooking-scroll";
 
 const key = "xiaozaoNavigation";
 const route = () => location.hash || "#pantry";
@@ -77,7 +78,7 @@ export function useKitchenNavigation(filters, setFilters) {
     const stepHeading = document.querySelector(".focused-step") ||
       (bookmark?.id !== "cooking-step-0" ? bookmark : null);
     (stepHeading || document.querySelector("h1"))?.focus({ preventScroll: true });
-    if (stepHeading) stepHeading.scrollIntoView({ block: "start" });
+    if (stepHeading) scrollCookingHeading(stepHeading);
     else window.scrollTo(0, restore.current);
   }, [hash]);
 

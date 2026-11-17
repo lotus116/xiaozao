@@ -4,11 +4,11 @@ import AxeBuilder from "@axe-core/playwright";
 test.use({ isMobile: true, hasTouch: true, viewport: { width: 390, height: 844 } });
 
 const button = (page, name) => page.getByRole("button", { name, exact: typeof name === "string" });
-const navigate = (page, hash) => page.locator(`nav a[href="#${hash}"]`).tap();
+const navigate = (page, hash) => page.locator(`${hash === "settings" ? "header" : "nav"} a[href="#${hash}"]`).tap();
 const saved = (page) => page.evaluate(() => JSON.parse(localStorage.getItem("xiaozao-v1")));
 async function onFirstScreen(page, control) {
   const box = await control.boundingBox();
-  const nav = await page.locator("nav").boundingBox();
+  const nav = await page.locator(await page.locator(".step-actions").isVisible() ? ".step-actions" : "nav").boundingBox();
   expect(box.y).toBeGreaterThanOrEqual(0);
   expect(box.y + box.height).toBeLessThanOrEqual(nav.y);
 }

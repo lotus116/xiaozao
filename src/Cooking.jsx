@@ -15,6 +15,7 @@ import { remaining } from "./logic";
 import { nextMealRecipe } from "./meal";
 import { dietaryWarnings } from "./preferences";
 import { stepGuidance } from "./step-guidance";
+import { scrollCookingHeading } from "./cooking-scroll";
 
 function StepGuidance({ recipeId, title }) {
   const guide = stepGuidance[recipeId]?.[title];
@@ -22,9 +23,9 @@ function StepGuidance({ recipeId, title }) {
 
   return (
     <dl className="step-guidance" aria-label="本步提示">
-      {guide.amount && <div><dt>用量</dt><dd>{guide.amount}</dd></div>}
-      {guide.heat && <div><dt>火力</dt><dd>{guide.heat}</dd></div>}
-      {guide.cue && <div><dt>看状态</dt><dd>{guide.cue}</dd></div>}
+      {guide.amount && <div className="guide-amount"><dt>用量</dt><dd>{guide.amount}</dd></div>}
+      {guide.heat && <div className="guide-heat"><dt>火力</dt><dd>{guide.heat}</dd></div>}
+      {guide.cue && <div className="guide-cue"><dt>看状态</dt><dd>{guide.cue}</dd></div>}
     </dl>
   );
 }
@@ -51,7 +52,7 @@ export default function Cooking({
     bookmarkClick.current = false;
     const heading = stepHeading || document.querySelector(".cook h1");
     heading?.focus({ preventScroll: true });
-    if (stepHeading) stepHeading.scrollIntoView({ block: "start" });
+    if (stepHeading) scrollCookingHeading(stepHeading);
     else window.scrollTo(0, 0);
   }, [c?.id, c?.step, state.cookView, r.id]);
   const stepTo = (step) =>
@@ -181,13 +182,16 @@ export default function Cooking({
     );
   return (
     <section className="cook cooking-page">
-      <button
-        className="text-button"
-        onClick={() => go(inMeal ? "basket" : "recipe/" + r.id)}
-      >
-        <ArrowLeft size={18} />
-        {inMeal ? "返回菜篮（进度保留）" : "返回详情（进度保留）"}
-      </button>
+      <div className="cooking-toolbar">
+        <button
+          className="text-button"
+          onClick={() => go(inMeal ? "basket" : "recipe/" + r.id)}
+        >
+          <ArrowLeft size={18} />
+          {inMeal ? "返回菜篮（进度保留）" : "返回详情（进度保留）"}
+        </button>
+        <KeepAwake />
+      </div>
       {inMeal && (
         <p className="meal-position">
           <ShoppingBasket size={16} />
@@ -196,7 +200,6 @@ export default function Cooking({
         </p>
       )}
       <h1 tabIndex="-1">{r.name}</h1>
-      <KeepAwake />
       <div className="cook-view">
         <button
           aria-pressed={state.cookView === "overview"}
@@ -216,13 +219,6 @@ export default function Cooking({
           {dietaryWarnings(r, state.preferences).join("；")}
         </p>
       )}
-      <details className="cook-ingredients">
-        <summary>用量放手边 · {r.servings} 人份</summary>
-        <Ingredients r={r} />
-      </details>
-      <p className="hint">
-        下锅或水开后再按步骤计时，到点仍需检查熟度。
-      </p>
       {state.timer && (
         <button className="cooking-timer-status" onClick={openTimer} aria-label={`查看当前厨房计时：${timerLabel(state.timer, recipes)}，${timerStatus} · ${formatTimer(timerSeconds)}`}>
           <Timer size={20} aria-hidden="true" />
@@ -286,6 +282,11 @@ export default function Cooking({
           </div>
         </>
       )}
+      <details className="cook-ingredients">
+        <summary>用量放手边 · {r.servings} 人份</summary>
+        <Ingredients r={r} />
+      </details>
+      <p className="hint">下锅或水开后再按步骤计时，到点仍需检查熟度。</p>
       <ChefNotes recipe={r} />
       <CookingNotes recipe={r} />
     </section>

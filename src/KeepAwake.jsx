@@ -33,18 +33,19 @@ export default function KeepAwake() {
       <div className="chips">
         <button
           type="button"
+          aria-label={state.wanted ? "关闭常亮请求" : "做菜时保持亮屏"}
           aria-pressed={state.wanted}
           disabled={state.status === "unsupported"}
           onClick={() => state.wanted ? controller.current?.disable() : controller.current?.enable()}
         >
           <Sun size={18} aria-hidden="true" />
-          {state.wanted ? "关闭常亮请求" : "做菜时保持亮屏"}
+          {state.wanted ? "关闭常亮" : "保持亮屏"}
         </button>
         {state.wanted && ["released", "error"].includes(state.status) && (
           <button type="button" onClick={() => controller.current?.enable()}>重试常亮</button>
         )}
       </div>
-      <p className="hint" role="status">{messages[state.status]}</p>
+      <p className="hint" role="status">{state.status !== "off" && messages[state.status]}</p>
     </div>
   );
 }
