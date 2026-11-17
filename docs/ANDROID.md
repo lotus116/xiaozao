@@ -1,8 +1,8 @@
 # 小灶安卓安装与构建
 
-当前源码版本为 1.6.0（versionCode 9），应用名“小灶”，包名 `com.xiaozao.kitchen`。下方命令可从源码生成 `releases/xiaozao-1.6.0-debug.apk`，工作区现有测试包为 `releases/xiaozao-1.4.0-debug.apk`。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。
+当前源码版本为 1.6.0（versionCode 9），应用名“小灶”，包名 `com.xiaozao.kitchen`。工作区已生成测试包 `releases/xiaozao-1.6.0-debug.apk`，下方命令可以再次构建。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。
 
-本轮菜谱扩充与交互修正保留 React + Capacitor 架构。当前电脑没有可用 JDK，原临时 Android SDK 目录为空，因此本轮未生成 1.6.0 APK；手机触控模拟验证不能等同于安卓真机验证。
+本轮保留 React + Capacitor 架构。2026-11-17 已安装项目本地 JDK 与 Android SDK，成功编译 1.6.0 APK 并运行 Android lint（0 错误、5 警告）。安装包与原有 1.4.0 测试包签名一致，允许覆盖升级，不需要先卸载旧版。真机安装与体验由接下来的手机测试验证。
 
 ## 安装
 
@@ -25,7 +25,11 @@ npm run android:apk
 
 脚本重新构建网页、同步原生工程、运行 `assembleDebug` 与 `lintDebug`，最后将 APK 及 SHA-256 校验文件复制至 `releases/`。如需 Android Studio 查看工程，执行 `npx cap open android`。
 
-历史构建使用的临时 JDK、SDK 位于 `/tmp/little-kitchen-android-tools`，脚本在未配置环境变量时自动使用它们。临时目录可能被系统清理，届时安装工具或重新设置环境变量即可。Gradle 缓存和测试签名密钥位于项目的 `.local-build/`，都不会提交 Git；构建脚本不修改系统 Java 设置。
+本机工具已安装到项目 `.local-build/tools/` 持久目录，构建脚本自动找到 JDK 与 SDK，不依赖临时目录。当前为 Amazon Corretto 21.0.13（Apple Silicon）、Android Platform 36 r2、Build Tools 36.0.0、Platform Tools 37.0.1、Command-line Tools 23.0。下载来自 Corretto 与 Google 官方地址，JDK SHA-256 和命令行工具的官方仓库校验值均已核对。
+
+直接运行 `npm run android:apk` 即可再次打包。如果要在终端单独使用 Java、adb 或 SDK 工具，可先执行 `source .local-build/tools/env.sh`。显式设置的 `JAVA_HOME` / `ANDROID_HOME` 优先；旧临时工具路径仅作回退，空 SDK 或失效 JDK 指针不会被自动选中。Gradle 缓存和原有测试签名密钥仍在 `.local-build/`，工具与密钥均不提交 Git；未修改系统全局 Java 设置。
+
+官方安装资料：[OpenJDK Corretto 21 下载](https://corretto.aws/downloads/latest/amazon-corretto-21-aarch64-macos-jdk.tar.gz)、[Android SDK 工具](https://developer.android.com/tools/sdkmanager)。
 
 保留 `.local-build/debug.keystore` 可以让后续测试包覆盖安装并保留数据。丢失密钥后生成的新包无法直接覆盖旧签名包；卸载旧包会清除数据。正式上架需要单独管理正式签名密钥及发布版本，本次未创建正式签名或发布。
 
