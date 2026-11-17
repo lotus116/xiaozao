@@ -4,6 +4,8 @@
 
 本轮保留 React + Capacitor 架构。项目本地 JDK 与 Android SDK 已就绪，1.6.3 启用确认的轻量顶部工具栏，右侧新增找菜入口并整理设置按钮；保留 1.6.2 的 A「小字蒸汽锅」桌面／圆形／单色图标和启动页。签名沿用原有测试包，覆盖升级不需要先卸载旧版。构建及验证细节见[测试记录](TEST_REPORT.md)，真机安装与体验仍由手机测试确认。
 
+[下载 v1.6.3 阶段发布安装包](https://github.com/lotus116/xiaozao/releases/tag/v1.6.3) · [文档索引](INDEX.md)
+
 ## 安装
 
 1. 将 APK 通过数据线、文件传输等方式发到安卓手机。
@@ -31,7 +33,7 @@ npm run android:apk
 
 官方安装资料：[OpenJDK Corretto 21 下载](https://corretto.aws/downloads/latest/amazon-corretto-21-aarch64-macos-jdk.tar.gz)、[Android SDK 工具](https://developer.android.com/tools/sdkmanager)。
 
-保留 `.local-build/debug.keystore` 可以让后续测试包覆盖安装并保留数据。丢失密钥后生成的新包无法直接覆盖旧签名包；卸载旧包会清除数据。正式上架需要单独管理正式签名密钥及发布版本，本次未创建正式签名或发布。
+保留 `.local-build/debug.keystore` 可以让后续测试包覆盖安装并保留数据。丢失密钥后生成的新包无法直接覆盖旧签名包；卸载旧包会清除数据。正式上架需要单独管理正式签名密钥及发布版本，本次 GitHub 阶段发布使用测试签名，不属于应用商店正式发行。
 
 ## 原生适配
 
