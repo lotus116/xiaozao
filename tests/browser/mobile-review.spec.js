@@ -19,7 +19,7 @@ test("touching the second heart saves the dish; search and favorites remember se
   const box = await favorite.boundingBox();
   const clock = await page.locator(".timer-handle").boundingBox();
   const nav = await page.locator("nav").boundingBox();
-  expect(clock.y).toBeGreaterThanOrEqual(nav.y);
+  expect(clock.y + clock.height).toBeLessThanOrEqual(nav.y);
   await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
   await expect(button(page, "取消收藏家常蒸蛋")).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("dialog[open]")).toHaveCount(0);

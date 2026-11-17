@@ -13,7 +13,7 @@ export function addPantryInput(pantry, input) {
   const parsed = parsePantryInput(input);
   const current = unique(pantry);
   const fresh = parsed.names.filter((name) => !current.includes(normalize(name)));
-  const added = fresh.slice(0, Math.max(0, 200 - current.length));
+  const added = fresh.slice(0, Math.max(0, 500 - current.length));
   return {
     pantry: [...current, ...added],
     added,

@@ -464,14 +464,6 @@ nav a {
 .chef-focus { padding: 14px 16px; border-left: 3px solid var(--accent); background: var(--surface); color: var(--accent); line-height: 1.8; }
 .chef-notes .chef-rescue { margin-top: 4px; }
 
-/* The clock rests inside the bottom bar until the cook moves it. */
-nav.has-timer-slot { padding-right: calc(66px + var(--safe-area-inset-right, env(safe-area-inset-right, 0px))); }
-.floating-timer.icon-timer.docked {
-  left: auto; top: auto; right: calc(9px + var(--safe-area-inset-right, env(safe-area-inset-right, 0px)));
-  bottom: calc(10px + var(--app-safe-bottom)); width: 48px; height: 48px;
-  box-shadow: none;
-}
-.icon-timer.docked .timer-handle { width: 100%; height: 100%; }
 .meal-menu { margin: 0 0 8px; color: var(--accent); }
 .basket-prep-summary .meal-start { margin: 8px 0 12px; }
 .settings-seasonings, .browse-filters { margin: 8px 0 16px; }
@@ -498,7 +490,4 @@ nav.has-timer-slot { padding-right: calc(66px + var(--safe-area-inset-right, env
   .detail-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
   .detail-actions .primary { grid-column: 1 / -1; }
   .basket-page .basket-prep-summary { margin: 8px 0 16px; padding: 14px; }
-  nav.has-timer-slot { gap: 1px; padding-left: 3px; }
-  nav.has-timer-slot a { padding-inline: 0; min-width: 0; }
-  nav.has-timer-slot .basket-count { margin-left: 1px; }
 }

@@ -153,11 +153,10 @@ export default function TimerWidget({
         <div
           className={
             "floating-timer icon-timer " +
-            (!dock.position && !dragPoint ? "docked " : "") +
             (timer ? "running " : "") +
             (timer && left === 0 ? "expired" : "")
           }
-          style={!dock.position && !dragPoint ? undefined : {
+          style={{
             left: "clamp(12px, " + point.x + "px, calc(100vw - 68px))",
             top:
               "clamp(calc(12px + var(--app-safe-top)), " +

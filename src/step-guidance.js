@@ -1,6 +1,8 @@
 // Short reminders based on the active recipe instructions and ingredient list.
 // Omitted fields have no step-specific guidance. Keep original recipe steps and timers intact.
+import { expandedStepGuidance } from "./expanded-recipes.js";
 export const stepGuidance = {
+  ...expandedStepGuidance,
   "tomato-eggs": {
     "准备食材": {
       amount: "番茄 2 个、鸡蛋 3 个、盐一小撮。油分为炒蛋和炒番茄两份。",

@@ -74,14 +74,44 @@ export function recommend(recipes, pantry, focusIngredient = "") {
     ),
   };
 }
+// Search aliases do not change pantry identities: a steak is not ground beef.
+const searchAliases = {
+  西红柿: "番茄", 蕃茄: "番茄", 马铃薯: "土豆", 洋芋: "土豆",
+  牛扒: "牛排", 豬扒: "猪排", 猪扒: "猪排", 鸡扒: "鸡排",
+  青花菜: "西兰花", 西蓝花: "西兰花", 卷心菜: "包菜", 圆白菜: "包菜",
+  大蒜: "蒜", 蒜头: "蒜", 香葱: "葱", 小葱: "葱", 芝士: "奶酪",
+  意粉: "意大利面", 意面: "意大利面", 番薯: "红薯", 地瓜: "红薯",
+};
+const searchText = (value) => {
+  let text = String(value ?? "").normalize("NFKC").toLowerCase();
+  for (const [alias, canonical] of Object.entries(searchAliases)) text = text.replaceAll(alias, canonical);
+  return text;
+};
+const ingredientSearchNames = (name) => {
+  const families = [];
+  if (/牛排|牛里脊|牛腩|牛腱|肥牛|牛肉/.test(name)) families.push("牛肉", "beef");
+  if (/猪|五花肉|排骨/.test(name)) families.push("猪肉", "pork");
+  if (/鸡胸|鸡腿|鸡翅/.test(name)) families.push("鸡肉", "chicken");
+  if (/羊肉|羊排/.test(name)) families.push("羊肉", "lamb");
+  return [name, ...families].map(searchText);
+};
 export function searchRecipes(recipes, query, max = Infinity, level = 0) {
-  const q = normalize(query);
-  return recipes.filter(
-    (r) =>
-      (r.name.includes(q) || r.ingredients.some((i) => i.name.includes(q))) &&
-      r.minutes <= max &&
-      (!level || r.level === level),
-  );
+  const words = searchText(query).trim().split(/[\s,，、;；]+/u).filter(Boolean);
+  const eligible = recipes.filter((r) => r.minutes <= max && (!level || r.level === level));
+  if (!words.length) return eligible;
+  return eligible.map((r, index) => {
+    const names = [r.name, ...(r.aliases || [])].map(searchText);
+    const scores = words.map((word) => {
+      if (names.some((name) => name === word)) return 4;
+      if (names.some((name) => name.includes(word))) return 3;
+      if (r.ingredients.some((i) => !i.optional && ingredientSearchNames(i.name).some((n) => n.includes(word)))) return 2;
+      if (r.ingredients.some((i) => i.optional && ingredientSearchNames(i.name).some((n) => n.includes(word)))) return 1;
+      return 0;
+    });
+    return { r, index, matches: scores.every(Boolean), score: scores.reduce((a, b) => a + b, 0) };
+  }).filter((row) => row.matches)
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .map((row) => row.r);
 }
 export const remaining = (deadline, now = Date.now()) =>
   Math.max(0, Math.ceil((deadline - now) / 1000));
@@ -105,7 +135,7 @@ export function cleanState(raw, recipes) {
     const ids = new Set(recipes.map((r) => r.id));
     const pantry = unique(Array.isArray(s.pantry) ? s.pantry : [])
       .filter((x) => x.length <= 30)
-      .slice(0, 200);
+      .slice(0, 500);
     const favorites = unique(
       Array.isArray(s.favorites) ? s.favorites : [],
     ).filter((x) => ids.has(x));
@@ -154,7 +184,7 @@ export function cleanState(raw, recipes) {
             ? value.filter((id) => typeof id === "string" && ids.has(id))
             : [],
         ),
-      ].slice(0, 99);
+      ].slice(0, recipes.length);
     const basket = knownIds(s.basket);
     const mealIds = knownIds(s.meal?.ids);
     const meal =
@@ -170,7 +200,7 @@ export function cleanState(raw, recipes) {
       frequentIngredients: Array.isArray(s.frequentIngredients)
         ? unique(s.frequentIngredients)
             .filter((name) => name.length <= 30)
-            .slice(0, 200)
+            .slice(0, 500)
         : [...defaultFrequentIngredients],
       favorites,
       cooking,

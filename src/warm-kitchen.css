@@ -117,7 +117,7 @@ nav { background: var(--canvas); backdrop-filter: none; gap: 24px; }
 nav a { position: relative; color: var(--muted); min-height: 52px; }
 nav a.active { background: transparent; color: var(--accent); }
 nav a.active::after { content: ""; position: absolute; bottom: -4px; width: 24px; height: 3px; border-radius: 2px; background: var(--accent); }
-nav, nav.has-timer-slot { padding-left: max(6px, var(--safe-area-inset-left, env(safe-area-inset-left, 0px))); }
+nav { padding-left: max(6px, var(--safe-area-inset-left, env(safe-area-inset-left, 0px))); }
 .floating-timer.icon-timer { background: var(--surface); color: var(--accent); border-color: var(--line); }
 .floating-timer.icon-timer.running { border-color: var(--accent); }
 .timer-dialog { color: var(--ink); border-radius: 12px; }
@@ -150,7 +150,7 @@ nav, nav.has-timer-slot { padding-left: max(6px, var(--safe-area-inset-left, env
 .cook-ingredients { margin-top: 24px; padding-block: 8px; border-block: 1px solid var(--line); }
 .cook-ingredients summary { font-weight: 600; color: var(--ink); }
 .is-step-cooking > nav { display: none; }
-.is-step-cooking .step-actions { position: fixed; bottom: 0; left: 0; right: 0; margin: 0; padding: 10px calc(72px + var(--safe-area-inset-right, env(safe-area-inset-right, 0px))) calc(10px + var(--app-safe-bottom)) max(16px, var(--safe-area-inset-left, env(safe-area-inset-left, 0px))); gap: 10px; background: var(--canvas); border-top: 1px solid var(--line); z-index: 5; }
+.is-step-cooking .step-actions { position: fixed; bottom: 0; left: 0; right: 0; margin: 0; padding: 10px max(16px, var(--safe-area-inset-right, env(safe-area-inset-right, 0px))) calc(10px + var(--app-safe-bottom)) max(16px, var(--safe-area-inset-left, env(safe-area-inset-left, 0px))); gap: 10px; background: var(--canvas); border-top: 1px solid var(--line); z-index: 5; }
 .is-step-cooking .step-actions button { font-size: 17px; min-height: 52px; padding: 10px; }
 .is-step-cooking .step-actions button:first-child { color: var(--accent); border-color: var(--accent); background: transparent; }
 .is-step-cooking main { padding-bottom: calc(115px + var(--app-safe-bottom)); }

@@ -188,7 +188,7 @@ function App() {
       result.added.length ? `已添加${result.added.join("、")}` : "",
       result.duplicate.length ? `${result.duplicate.join("、")}已经在清单里了` : "",
       unknown.length ? "部分食材在当前菜谱库可能暂未收录相关菜" : "",
-      result.rejected.length ? "部分内容未添加：每样最多 30 字，清单最多 200 样" : "",
+      result.rejected.length ? "部分内容未添加：每样最多 30 字，清单最多 500 样" : "",
     ].filter(Boolean).join("；");
     setMessage(feedback);
     setState((s) => ({ ...s, pantry: result.pantry }));
@@ -474,14 +474,14 @@ function App() {
         {["search", "favorites"].includes(page) && (
           <section className="browse">
             <h1 tabIndex="-1">{page === "search" ? "找一道想吃的菜" : "我的收藏"}</h1>
-            <CategoryTabs category={category} setCategory={setCategory} includeAll={page === "favorites"} />
+            <CategoryTabs category={category} setCategory={setCategory} includeAll={page === "favorites" || Boolean(query.trim()) || category === "all"} />
             <label className="searchbox">
               <Search size={20} />
               <input
                 aria-label="搜索菜谱"
                 placeholder="搜索菜名或食材，如西红柿"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => setBrowse((s) => ({ ...s, query: e.target.value, category: e.target.value.trim() || page === "favorites" ? "all" : "dish" }))}
               />
             </label>
             <details className="browse-filters" key={page}>
@@ -569,7 +569,10 @@ function App() {
                     </button>)}
                   </div> : <p>试试“鸡蛋”或清除筛选。</p>}
                   <button
-                    onClick={() => go("search", { resetFilters: true })}
+                    onClick={() => {
+                      go("search", { resetFilters: true });
+                      setBrowse(initialBrowseState({ category: "all" }, "#search"));
+                    }}
                   >
                     浏览全部菜谱
                   </button>
@@ -776,7 +779,7 @@ function App() {
         recipes={recipes}
         setTimer={(timer) => setState((s) => ({ ...s, timer }))}
       />
-      <nav aria-label="主要导航" className={!state.timerDock.hidden && !state.timerDock.position ? "has-timer-slot" : ""}>
+      <nav aria-label="主要导航">
         {[
           ["pantry", Carrot, "我的食材"],
           ["search", BookOpen, "找菜谱"],

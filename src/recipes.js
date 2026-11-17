@@ -1,4 +1,5 @@
 import { domesticSourcesById } from "./domestic-sources.js";
+import { expandedRecipes } from "./expanded-recipes.js";
 import { expand } from "./extra.js";
 import { chineseRecipes, recipeRefinements } from "./chinese-recipes.js";
 import { easyRecipes, easyRefinements } from "./easy-recipes.js";
@@ -464,6 +465,7 @@ export const recipes = [
   ...expand(r, i, s),
   ...chineseRecipes(r, i, s),
   ...easyRecipes(r, i, s),
+  ...expandedRecipes,
 ].map((recipe) => ({
   ...recipe,
   ...(recipeRefinements[recipe.id]
@@ -512,6 +514,7 @@ export const seasonings = [
   "芥末",
   "豆豉",
   "番茄酱",
+  "南乳", "柱侯酱", "八角", "黄豆酱", "桂皮", "土豆淀粉", "甜面酱", "花椒油", "蒜粉", "红甜椒粉", "蒜蓉辣酱", "孜然粉", "椒盐", "芝麻酱", "咖喱块", "味淋", "韩式辣酱", "番茄意面酱", "蛋黄酱", "剁椒", "食用陈皮", "泡打粉", "番茄莎莎酱", "番茄膏", "泰式红咖喱酱", "伍斯特酱", "泰式绿咖喱酱", "印度综合香料", "芫荽籽粉", "哈里萨辣椒酱",
 ];
 export const catalog = [
   ...new Set(

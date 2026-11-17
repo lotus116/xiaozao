@@ -1,0 +1,2016 @@
+{
+  "checked": "2026-11-17",
+  "methods": {
+    "steak": {
+      "url": "https://www.recipetineats.com/how-to-cook-steak/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "How to Cook Steak - like a chef! - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "f519801f5075ead2c23526bb5b875e3461ba207b7fdc2f309994d84bc4dce4fc"
+    },
+    "beef": {
+      "url": "https://thewoksoflife.com/prepare-beef-for-stir-fry/",
+      "site": "The Woks of Life",
+      "author": "Bill",
+      "title": "How to Velvet Beef for Stir-fry - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "68fbd1da8afbf36146f55c3938e6ee448060a0c6485982010520f890f0ec06f6"
+    },
+    "stir": {
+      "url": "https://thewoksoflife.com/how-to-make-stir-fry/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "How to Make Stir-fry: The Right Way! - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "37dc99640ed382654c53a60cc4e8f261abe5a830d4518d2b36a20d4b7bc4fc4e"
+    },
+    "braise": {
+      "url": "https://thewoksoflife.com/shanghai-style-braised-pork-belly/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "Shanghai-Style Braised Pork Belly (Hong Shao Rou) - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "67f4ecf3747301a660dd684d84588a8bae71beafa410b86b8f3676b0e27f8a24"
+    },
+    "beef-braise": {
+      "url": "https://thewoksoflife.com/chinese-braised-beef-turnips/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "Chinese Braised Beef Stew with Daikon - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "913654721181950019938514f3bbd2da44a47125f435db84d3097192330c6fb9"
+    },
+    "poach": {
+      "url": "https://thewoksoflife.com/poached-chicken-scallion-ginger-sauce/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "Poached Chicken w/ Scallion Ginger Sauce - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "3777d7f7e959f648e1fe4765f27d96fcac07a5d45bbb77f23f409008c6149c0f"
+    },
+    "shrimp": {
+      "url": "https://thewoksoflife.com/boiled-shrimp-dipping-sauce/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "Chinese Boiled Shrimp with Ginger Scallion Sauce - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "13015b6b6127439179bbcd717b54bc494ecaf1d0a0b08d37648a6b6ecec941aa"
+    },
+    "fish": {
+      "url": "https://thewoksoflife.com/chinese-braised-fish-hongshao-yu-2/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "Chinese Braised Fish (Hong Shao Yu) - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "c83b9447597f343f253c82457002857cb99f6a612ade3b18b95ef6540219ea6c"
+    },
+    "veg": {
+      "url": "https://thewoksoflife.com/di-san-xian-stir-fry/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "Stir-fried Eggplant, Potatoes & Peppers (Di San Xian) - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "02882116771e7f4e5385e6f143e19f4e5191ba8a63b7fd63910a7e4e4b693c0c"
+    },
+    "rice": {
+      "url": "https://thewoksoflife.com/how-to-cook-rice-without-a-rice-cooker/",
+      "site": "The Woks of Life",
+      "author": "Sarah",
+      "title": "How to Cook Rice Without a Rice Cooker",
+      "checked": "2026-11-17",
+      "sha256": "89f6ef830b94234fbfe2d4458165c40a57d6075efad5859d3e66234899a9bce4"
+    },
+    "noodle": {
+      "url": "https://thewoksoflife.com/lo-mein-how-to-cook-it-the-right-way/",
+      "site": "The Woks of Life",
+      "author": "Bill",
+      "title": "Lo Mein: How to Cook It The Right Way - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "331271b959113fa2fee0179ec4c326a61f1417ff3d1d8a962b451acb54289810"
+    },
+    "porridge": {
+      "url": "https://thewoksoflife.com/snow-fungus-soup-pears/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "Snow Fungus Soup with Pears: A Chinese Recipe - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "dd236a1ff72307749819b09503e18fad55da85447317c11334f9264a182929f0"
+    },
+    "pancake": {
+      "url": "https://www.recipetineats.com/pancake-recipe/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Pancakes - Fluffy, quick, no-fail - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "121c0b38c962c5ac9d46ce1d145cede89ecaa42f0e697ec277847fefd7fe7d86"
+    },
+    "pasta": {
+      "url": "https://www.recipetineats.com/spaghetti-bolognese/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi | RecipeTin Eats",
+      "title": "Spaghetti Bolognese - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "e09e0ae3f76d13cc3c72262b53e537e54a34462325c6561211e543d7793da2e8"
+    },
+    "cream": {
+      "url": "https://www.recipetineats.com/baked-mac-and-cheese/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Baked Mac and Cheese - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "f644a5e44f49c63dde6b930fcebfdbe5fdb3c188b01f88c8a405f8a03b1f6324"
+    },
+    "curry": {
+      "url": "https://www.justonecookbook.com/simple-chicken-curry/",
+      "site": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen",
+      "title": "Japanese Chicken Curry (Video) From Scratch • Just One Cookbook",
+      "checked": "2026-11-17",
+      "sha256": "e60745ca3c1c010f382019ac5894e0f7e5fb043fa02487064abc051f87746c39"
+    },
+    "egg": {
+      "url": "https://www.recipetineats.com/omelette/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Omelette - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "be533fadccd15cfea42f0d6be8cc124e8e83af5f0ebb10ceb25cd21bf60ffada"
+    },
+    "salad": {
+      "url": "https://www.recipetineats.com/greek-salad/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi | RecipeTin Eats",
+      "title": "Greek Salad - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "9f00695afaa45bb4d0dfeeab60d7caa2ec32bada7e7a1bacd2c9f3dd9efa6982"
+    },
+    "bean": {
+      "url": "https://www.recipetineats.com/hummus/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Hummus - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "e5008103430fcf5b2488bee21154d4f1f1b5b19fbde3a871811a1ea945dde05c"
+    },
+    "thai": {
+      "url": "https://www.recipetineats.com/chicken-pad-thai/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Pad Thai - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "e955d0823044ff0911b3dc1bfc403d8a854640b3aebdf3d6d18f25aebfc12439"
+    },
+    "soup": {
+      "url": "https://www.recipetineats.com/mushroom-soup/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Mushroom Soup - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "049823390c0176536ac75bd8167dafe1e2a49c7002d37c82710a5b5128717662"
+    },
+    "steam": {
+      "url": "https://thewoksoflife.com/cantonese-steamed-fish/",
+      "site": "The Woks of Life",
+      "author": "Bill",
+      "title": "Cantonese Steamed Fish: A 20 Minute Recipe - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "614484973e55895d65f885c06a3df19e7414e975d117dff353892d46a74882ca"
+    },
+    "friedrice": {
+      "url": "https://thewoksoflife.com/young-chow-fried-rice/",
+      "site": "The Woks of Life",
+      "author": "Bill",
+      "title": "Young Chow Fried Recipe - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "5b102988cc7ad3c2e1fbfdefa68ad4659750c9f2ef4dc1fd305d51237cc73156"
+    },
+    "lu": {
+      "url": "https://thewoksoflife.com/lu-rou-fan-taiwanese-braised-pork-rice-bowl/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "Lu Rou Fan (Taiwanese Braised Pork Rice Bowl) - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "5733337ce65ccde842b26cc1072c17b80598455946246bc8a995c0d4721679aa"
+    },
+    "kungpao": {
+      "url": "https://thewoksoflife.com/kung-pao-chicken/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "Kung Pao Chicken: An Authentic Chinese Recipe - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "f2febe9a2bdd4c05ab7aefe5e95b4e6ace6a7a8be04fd9205212b86f6d3db836"
+    },
+    "porktwice": {
+      "url": "https://thewoksoflife.com/twice-cooked-pork/",
+      "site": "The Woks of Life",
+      "author": "Bill",
+      "title": "Twice Cooked Pork: Chinese Sichuan Recipe - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "da2c7d9c0464cb26464d3e2eb65977b5d18bda6cef5e53198c181a46a7376507"
+    },
+    "gyudon": {
+      "url": "https://www.justonecookbook.com/gyudon/",
+      "site": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen",
+      "title": "Gyudon Recipe (Japanese Beef Rice Bowl) • Just One Cookbook",
+      "checked": "2026-11-17",
+      "sha256": "16948cc47360125fd59fae63a95efd740b2e15ab2c624454e4271ca19a119d72"
+    },
+    "sweetpork": {
+      "url": "https://thewoksoflife.com/shanghai-sweet-sour-ribs/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "Shanghai Sweet and Sour Ribs - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "1120c713152fdc5d510492ea9b68e1ba9de58ba0d5251e0a7c5c6e9b3a38147f"
+    },
+    "salmon": {
+      "url": "https://www.recipetineats.com/teriyaki-salmon-noodles/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Teriyaki Salmon Noodles - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "9eeac33417a4a33d54b23abf64a68dd913207693179bf8dc0a3f5820a4981257"
+    },
+    "carbonara": {
+      "url": "https://www.recipetineats.com/carbonara/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Carbonara - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "f1a14fdac5239d508da1aa921ddb83446729cacab92c52850ed2616064e33361"
+    },
+    "scotch": {
+      "url": "https://www.bbcgoodfood.com/recipes/scotch-eggs",
+      "site": "Good Food",
+      "author": "Sarah Cook",
+      "title": "Scotch eggs recipe | Good Food",
+      "checked": "2026-11-17",
+      "sha256": "ebae6d525f30e77dd2075ffc0c5706f632572543f46ee2dc4a63ac937527100b"
+    }
+  },
+  "records": {
+    "home-01": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/牛排/牛排.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "牛排",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "708bf0f9096217237f4bdea9dddc647323044773f01523455b16fe053d2ef02f"
+      }
+    },
+    "home-02": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/黑椒牛柳/黑椒牛柳.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "黑椒牛柳",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "fd7eda5bb2548cbbdf388b11983d95484492f3c0a1765165ddf2d552e24eabad"
+      }
+    },
+    "home-03": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/小炒黄牛肉/小炒黄牛肉.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "小炒黄牛肉",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "02b20428ae93648cc9de76dc8040cfa8285fcb2641185418a00aec0d9f104fe5"
+      }
+    },
+    "home-04": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/广式萝卜牛腩/广式萝卜牛腩.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "广式萝卜牛腩",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "47301c4e88951cfadabf0af4ef2b5ec1ba737cd1cb6b170a2138e2a25944e4d2"
+      }
+    },
+    "home-05": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/西红柿土豆炖牛肉/西红柿土豆炖牛肉.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "西红柿土豆炖牛肉",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "4455842b432b3149c37727b5c58c7faa0f34ed197b5acd8353a5de18cc83c09b"
+      }
+    },
+    "home-06": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/酱牛肉/酱牛肉.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "酱牛肉",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "83e90f35bde017fb119be7ac2d8bff0d2c75e21d446a51be9a047727cb0f1905"
+      }
+    },
+    "home-07": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/红烧肉/简易红烧肉.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "简易红烧肉",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "b268ceba9cb9a1a3bdab365e060a29badd34589aab8d2a54c80bc9c9baf42447"
+      }
+    },
+    "home-08": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/回锅肉/回锅肉.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "回锅肉",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "e1639a38cbebb8d56aaa2661c72a3537a79df8c08dcd6b9b08558867e01835b7"
+      }
+    },
+    "home-09": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/糖醋排骨/糖醋排骨.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "糖醋排骨",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "a8d978851b23eb937adf7c3ee34224b9ed1e13afbad77773f18aa8c82dad8031"
+      }
+    },
+    "home-10": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/土豆炖排骨/土豆炖排骨.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "土豆炖排骨",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "ad7bd69ee4c653f6261ae637f5584030d52daaf18d207751ae26238a641b2da2"
+      }
+    },
+    "home-11": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/红烧猪蹄/红烧猪蹄.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "红烧猪蹄",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "56293bbe0ead63b520fd618bba0796d8cd8cb39a6f5808c89617dc559cdc4c00"
+      }
+    },
+    "home-12": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/老式锅包肉/老式锅包肉.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "老式锅包肉",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "c3ea6710d1eb6109136753a011c9a5264ff4282733dc232f55415a2a6215e512"
+      }
+    },
+    "home-13": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/青椒酿/青椒酿.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "青椒酿",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "5e43029a5b5aac2827332f5ce873d0864bb020e2ed190056df3c004673c35d2c"
+      }
+    },
+    "home-14": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/冬瓜酿肉/冬瓜酿肉.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "冬瓜酿肉",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "61f0517945af526e56e08402cb75ea5962615b92a64ffdb6e7b816efd95cc7ec"
+      }
+    },
+    "home-15": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/茭白炒肉/茭白炒肉.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "茭白炒肉",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "cb8bbdfde0034b54a38c633f3231fc8d2bbd55b1138dd4b85324d520bdb33b34"
+      }
+    },
+    "home-16": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/农家一碗香/农家一碗香.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "农家一碗香",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "7dddee256e59a120fc0c17e0401f0e911a3ef3f27e55dbd6bcf88bf674561ef9"
+      }
+    },
+    "home-17": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/香煎五花肉/香煎五花肉.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "香煎五花肉",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "5e29124f9e5db5b0b6aa6305c4ee1bd0308162d3d4a057285572a7b2822f300b"
+      }
+    },
+    "home-18": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/宫保鸡丁/宫保鸡丁.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "宫保鸡丁",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "c44371612f01646a0395f7f9e0ef1a6dab6592992f9c1a80ae7d2b0550d6a5ee"
+      }
+    },
+    "home-19": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/口水鸡/口水鸡.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "口水鸡",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "331e18f5de20a5091df167ea9b85d5a00a32216789e62780909b1b74fdc6c701"
+      }
+    },
+    "home-20": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/凉拌鸡丝/凉拌鸡丝.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "凉拌鸡丝",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "9e61031ea3b77c4686b05fb40bf54f50928c9ff807acd81d9a1dcdf3b1345c18"
+      }
+    },
+    "home-21": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/姜炒鸡/姜炒鸡.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "姜炒鸡",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "08edc8550ace0dac55a00228d2c175e52f43770dfacc8e71096d4b05ac09e5d3"
+      }
+    },
+    "home-22": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/新疆大盘鸡/新疆大盘鸡.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "新疆大盘鸡",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "d74bbe97c0199fccafd9f09831666735118aa3f47045c5c31bb3116630e08e4d"
+      }
+    },
+    "home-23": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/啤酒鸭/啤酒鸭.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "啤酒鸭",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "f0af11c89a037641d7576d28ed77ea135f8623118bc497b6675b1c8439615251"
+      }
+    },
+    "home-24": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/空气炸锅脆皮现腌炸鸡/空气炸锅脆皮现腌炸鸡.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "空气炸锅脆皮现腌炸鸡",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "30b7f165ddc1c4f43eb1e97488ba6054fd5687d59bb72f2157d279207431ad6e"
+      }
+    },
+    "home-25": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/aquatic/蒜香黄油虾/蒜香黄油虾.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "蒜香黄油虾",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "d346a992b858c0bc12693c959ea60e8b61adda363a5dbb8a549ce2f9f851ad3b"
+      }
+    },
+    "home-26": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/aquatic/油焖大虾/油焖大虾.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "油焖大虾",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "f7d0a6c69cdd4253e3db8816a2d8bacf61fd75bf0ac7c256f4acd2ce42f29c39"
+      }
+    },
+    "home-27": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/aquatic/白灼虾/白灼虾.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "白灼虾",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "6296adcbaaeb2ecd0280c60b22c91d1c4a97b888791320942e4787b9d58f9b43"
+      }
+    },
+    "home-28": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/aquatic/蒜蓉虾/蒜蓉虾.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "蒜蓉虾",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "d8965d8b868bdba8892843fabf5c58fcad6a46fe1b92da25eaec07895e471881"
+      }
+    },
+    "home-29": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/aquatic/阳朔啤酒鱼/阳朔啤酒鱼.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "阳朔啤酒鱼",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "72cf8b32ec2bba0b6d27fe84c07a7369ce32bd68d111bfc2427c81c41676d2fc"
+      }
+    },
+    "home-30": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/aquatic/鳊鱼炖豆腐/鳊鱼炖豆腐.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "鳊鱼炖豆腐",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "9251244cee7014524ffbfc0426d47b2f16cdde8d4881e54e3cae4522629715a1"
+      }
+    },
+    "home-31": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/aquatic/蛏抱蛋/蛏抱蛋.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "蛏抱蛋",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "328e71351946eb93ba64dbf49021639bf66aacbb495755c97f9ce8d824d6b962"
+      }
+    },
+    "home-32": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/aquatic/葱油桂鱼/葱油桂鱼.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "葱油桂鱼",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "edc7424ac89813e6a371df764b4110db42face4d22922af877631f351099d8e8"
+      }
+    },
+    "home-33": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/vegetable_dish/地三鲜/地三鲜.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "地三鲜",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "0db707103ad5e9a63677f47628e8719ee46b350a3f820da08cbbfdceda1dd010"
+      }
+    },
+    "home-34": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/vegetable_dish/干锅花菜/干锅花菜.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "干锅花菜",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "7bc7117f7735d73eee88229f81bc4e64ecd750205fa2543a4e1392905cda7780"
+      }
+    },
+    "home-35": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/vegetable_dish/烤茄子/烤茄子.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "烤茄子",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "c190f31061f860d07c6eaadf649fc3ff28599eef19a36ad4434753cf96791396"
+      }
+    },
+    "home-36": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/vegetable_dish/上汤娃娃菜/上汤娃娃菜.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "上汤娃娃菜",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "3f78058f94d453648d94822db0384aafcb2b24736d8d6f4d60189fc6b21643db"
+      }
+    },
+    "home-37": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/vegetable_dish/椒盐玉米/椒盐玉米.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "椒盐玉米",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "89a6d5a30bf8a19e16214d510be63945a032cdace78c6c418c5a7f8180ffeb84"
+      }
+    },
+    "home-38": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/vegetable_dish/小炒藕丁/小炒藕丁.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "小炒藕丁",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "be3cea3e09f01471722afe9c845e6dfa570d513562e232a55acf39a65498a669"
+      }
+    },
+    "home-39": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/vegetable_dish/乾隆白菜/乾隆白菜.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "乾隆白菜",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "cf405213577cf486172da00fd8c157b2a49aa8847574ec753c4d92284cf81783"
+      }
+    },
+    "home-40": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/vegetable_dish/蚝油三鲜菇/蚝油三鲜菇.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "蚝油三鲜菇",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "c2581b940bc3682d53fe0d1911f225195829e153d25fc059c1f3deadaedd43e5"
+      }
+    },
+    "home-41": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/鱼香茄子/鱼香茄子.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "鱼香茄子",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "3b1304b832bf2c010bc55d0de647d49f776545dfed24ec2c99869cdc5027707e"
+      }
+    },
+    "home-42": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/vegetable_dish/榄菜肉末四季豆/榄菜肉末四季豆.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "榄菜肉末四季豆",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "9c856825d7aa2e17d3fe19fb4d8605346452fede4ca4bdbe07e538bc7caec397"
+      }
+    },
+    "home-43": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/台式卤肉饭/台式卤肉饭.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "台式卤肉饭",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "b85e44d36a166e933a7293239360ef2565ccd3d1014d44f594c5d90c295c29b8"
+      }
+    },
+    "home-44": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/staple/日式咖喱饭/日式咖喱饭.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "日式咖喱饭",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "e91033b268e47a08ace3e821cd95b040f0767b9c9c882c2b843b245d294c240e"
+      }
+    },
+    "home-45": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/staple/日式肥牛丼饭/日式肥牛丼饭.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "日式肥牛丼饭",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "6169acd91d2be5b623f6bf5caae36967450bd0dc848bba48d83329446083ba0f"
+      }
+    },
+    "home-46": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/staple/韩式拌饭/韩式拌饭.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "韩式拌饭",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "5aab8b71de5f31652b4bfaea571316cc6a3b6c0e0cbca8ab1bfa0c0f4484188b"
+      }
+    },
+    "home-47": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/staple/扬州炒饭/扬州炒饭.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "扬州炒饭",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "5a996f70892a9186f58eec015c02a21e3e9c4fdb4e3b6cb53a24160ba0a41631"
+      }
+    },
+    "home-48": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/staple/意式肉酱面/意式肉酱面.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "意式肉酱面",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "02329109acd923c6466382e8e3b34c5ca3cd7b6befa3f45d15e25ef3fbecae6e"
+      }
+    },
+    "home-49": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/奶酪培根通心粉/奶酪培根通心粉.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "奶酪培根通心粉",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "4884f223feef8c72ff2ead7ac64b537e63965f7b22839c49360e4f827740c094"
+      }
+    },
+    "home-50": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/meat_dish/羊排焖面/羊排焖面.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "羊排焖面",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "6d853018bbcb1c951cfecf299e2756e03cd38b69835cb4e72aef39f28f029154"
+      }
+    },
+    "home-51": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/staple/炒方便面/炒方便面.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "炒方便面",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "e37885e6886b5ab2202bad275a26f0254434e728d91f7adc5073db3408263c19"
+      }
+    },
+    "home-52": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/staple/河南蒸面条/河南蒸面条.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "河南蒸面条",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "5cbe8158982cbdc7cbf5eec9d13a2a8b51cadc8961a3f59c250c1aaac240dec4"
+      }
+    },
+    "home-53": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/staple/火腿饭团/火腿饭团.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "火腿饭团",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "192e2ba3063c84244c7220f979dc40b6b1cc439bd48250b3844054ab7b49939e"
+      }
+    },
+    "home-54": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/staple/电饭煲三文鱼炊饭/电饭煲三文鱼炊饭.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "电饭煲三文鱼炊饭",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "7d454091bacf5da5fd5d77de6bdb4df4352b16585e18cb628c90419463bc723a"
+      }
+    },
+    "home-55": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/staple/酱拌荞麦面/酱拌荞麦面.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "酱拌荞麦面",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "ee253318dee83882497b63fa08ec1c6663de135c2e69da5fd0eddd24471f4b72"
+      }
+    },
+    "home-56": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/staple/老友猪肉粉/老友猪肉粉.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "老友猪肉粉",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "ad91d3064531f7d32c761e29e71544d039e99fef6da9a30639b7b53470ff7c8f"
+      }
+    },
+    "home-57": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/soup/羊肉汤/羊肉汤.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "羊肉汤",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "67bb1e702aa8f78f908381c4bb137ab5ee98de2dc6167e0a53bd86d0119cddc1"
+      }
+    },
+    "home-58": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/soup/陈皮排骨汤/陈皮排骨汤.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "陈皮排骨汤",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "1385f4f1f4ad196a7850a41358e900508647e1261e17fab34332bc9d11b34378"
+      }
+    },
+    "home-59": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/soup/银耳莲子粥/银耳莲子粥.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "银耳莲子粥",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "26b2d70247e989e283a21319280f9f2e38bab15b21be2019127717cf6235d404"
+      }
+    },
+    "home-60": {
+      "source": {
+        "url": "https://github.com/Anduin2017/HowToCook/blob/25854882a423d7dbd6f6146b6554e2fa3b8f9804/dishes/breakfast/苏格兰蛋/苏格兰蛋.md",
+        "site": "HowToCook",
+        "author": "HowToCook 社区贡献者（逐页提交记录见原页）",
+        "title": "苏格兰蛋",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "pinned-markdown",
+        "revision": "25854882a423d7dbd6f6146b6554e2fa3b8f9804",
+        "sha256": "01459abafb904ebc0aa08ae899468dbf1a6a7a65fcce7c95b7801e9b1a7b572a"
+      }
+    },
+    "world-53191": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53191",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Pad Thai",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53191",
+        "sha256": "96e7c1f5e4fd8f41f4311bbd42df11692bd951785c6d0833a97c696909abb5b3",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/easy-pad-thai",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Easy pad Thai recipe | Good Food",
+        "originalPageSha256": "02248342df0bd4d1f09a2fc7bcd658ca3849106ceff97cda547adb9424b09db7"
+      }
+    },
+    "world-52854": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52854",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Pancakes",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52854",
+        "sha256": "db3809fa54541388a4fbbdcddbfc9c9b8782f84c4639da04a371e1d681aa96f1",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/2907669/easy-pancakes",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Easy pancakes recipe | Good Food",
+        "originalPageSha256": "442a5701004cf106c3ab0164cd3a8b70c4bf9493406cddf00e956703241184bd"
+      }
+    },
+    "world-52773": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52773",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Honey Teriyaki Salmon",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52773",
+        "sha256": "23d77d0cafdc78659e916f55f043c9eee564af8cc5af49001cb3a380e618385b",
+        "originalSource": null,
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-53269": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53269",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Hummus",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53269",
+        "sha256": "5be33aae1bee1f73d3b5868039410680d66e32979232f5c912e67de7db992a23",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/easy-hummus-recipe",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Easy hummus recipe | Good Food",
+        "originalPageSha256": "ef0b4b2c7ab3d8e870db95b543676545f016680e5b2f0f6a15350886ea77b6ff"
+      }
+    },
+    "world-52963": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52963",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Shakshuka",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52963",
+        "sha256": "fa6dbd5a934e7b32edf2e402fe406a6992e5b0a72af59d8219cbe52c592ff1c1",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/7573/spicy-tomato-baked-eggs",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Easy shakshuka recipe (with video) | Good Food",
+        "originalPageSha256": "3c8245f26c9ccd751d9d34c05750f270b5a6d2fafed27ba2ba4bf95b32b80410"
+      }
+    },
+    "world-53232": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53232",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Vietnamese chicken salad",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53232",
+        "sha256": "6b4c2e2900ea7887c7cc61470b7b9408eca3f717468a5db000015184ecf0cb2f",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/vietnamese-chicken-salad",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Vietnamese chicken salad recipe | Good Food",
+        "originalPageSha256": "d0543b091aafa7446cacde74804dc1b92793515c426c19c5cc8ee138eff1958b"
+      }
+    },
+    "world-52819": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52819",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Cajun spiced fish tacos",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52819",
+        "sha256": "7ded28c8c4223fb2d1748944d1f0933098fafe02cadfe40a3fc1ff13c27b9449",
+        "originalSource": "https://realfood.tesco.com/recipes/cajun-spiced-fish-tacos.html",
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-52796": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52796",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Chicken Alfredo Primavera",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52796",
+        "sha256": "6569a2ad3ba390c5fc8b5d31b8e01e1e44298f095c8ba7afd3b0e640e628fd4d",
+        "originalSource": null,
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-52870": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52870",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Chickpea Fajitas",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52870",
+        "sha256": "864074bf01bded9db74e1b85378faec98c35b1fa005864b2dd8930d560bb9524",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/chickpea-fajitas",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Chickpea fajitas recipe | Good Food",
+        "originalPageSha256": "8e162f532561c3244abe42788540e79165773217cab7f8b3854a6147ac7bc6df"
+      }
+    },
+    "world-53166": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53166",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Chickpea, chorizo & spinach stew",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53166",
+        "sha256": "84ec51c0fa783d36525935d81bc1d315a5195290faec29abec2b90d0cb13086a",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/chickpea-chorizo-spinach-stew",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Chickpea, chorizo & spinach stew recipe | Good Food",
+        "originalPageSha256": "410741442500c61419b3387662741f80e96c303295ff507f2a7b0f50fbeeabf9"
+      }
+    },
+    "world-52834": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52834",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Beef stroganoff",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52834",
+        "sha256": "9d33f46319a13c5f0daeeafb0d4b5567c52782e272e3d07e21c5bb767de92ae6",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/beef-stroganoff",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Beef stroganoff recipe | Good Food",
+        "originalPageSha256": "7dcfc336dbc9a59d83d564017c8b3c20f1fbf9b15f77fa3518afea17189ae295"
+      }
+    },
+    "world-52842": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52842",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Broccoli & Stilton soup",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52842",
+        "sha256": "ee38dfd6ef70b72ad1727f5bfcd8a1a3b1f16c455d207d582f434f36899f4e5c",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/1940679/broccoli-and-stilton-soup",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Broccoli & stilton soup recipe | Good Food",
+        "originalPageSha256": "b8d852c76351410699f72cf2dac76f2e1d1b87a5180f36858e5eff8121f85fa4"
+      }
+    },
+    "world-53006": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53006",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Moussaka",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53006",
+        "sha256": "795281ab2957a4203dd8101991f80119c5525cbd4bba1ef88af5e46adddeebe9",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/must-make-moussaka",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Must-make moussaka recipe | Good Food",
+        "originalPageSha256": "2bead831ec3450dfeaa46ba13a4ad9421cec12f073fb064dac3aa19c2c5f34f9"
+      }
+    },
+    "world-53210": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53210",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Thai pumpkin soup",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53210",
+        "sha256": "047a104eabf688501859aeec135588a3612263f9851866049b1ccec73f21a141",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/thai-pumpkin-soup",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Thai pumpkin soup recipe | Good Food",
+        "originalPageSha256": "51743202006a981de6f2420d5d75ae0528f06482f9f996ebc35f5b376f4a4e8c"
+      }
+    },
+    "world-53196": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53196",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Tom yum (hot & sour) soup with prawns",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53196",
+        "sha256": "543bb4f3586609796252350814704bb41aab4134ac38d4c84d7b3497c4443ac4",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/tom-yum-hot-sour-soup-prawns",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Tom yum (hot & sour) soup with prawns recipe | Good Food",
+        "originalPageSha256": "8e473c64b6d189f8d0164ac50ff45e30a1f31233ffd9a55f00ab7cbcb5959017"
+      }
+    },
+    "world-53032": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53032",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Tonkatsu pork",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53032",
+        "sha256": "cd742437257e0f37574614da6d9c7928f47f67f4de0d37ad36f790da1eebe05b",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/tonkatsu-pork",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Tonkatsu pork recipe | Good Food",
+        "originalPageSha256": "4bc94f4637139b6b961cd6d77757166920c5e0c22f54cabd0fa37d2840dbf6fc"
+      }
+    },
+    "world-52821": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52821",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Laksa King Prawn Noodles",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52821",
+        "sha256": "5e1513fc78bcac1aa100782aa818711a75e4e6e06f925b762347d119800be4bf",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/prawn-laksa-curry-bowl",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Prawn laksa curry bowl recipe | Good Food",
+        "originalPageSha256": "c2aff40e623513b03b577e1e888e5d38143ff16c6303dfbb45d5a3dc5a1535e6"
+      }
+    },
+    "world-52844": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52844",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Lasagne",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52844",
+        "sha256": "ecf21d3ad92270d0284cd27a8317377e1cda6f9f961e157fb82e0cc8d294531c",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/classic-lasagne",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Easy classic lasagne recipe | Good Food",
+        "originalPageSha256": "706f6d0bd0fb0a58607157d31065cca2073724590ef137f8c982c27a7452d9d1"
+      }
+    },
+    "world-52908": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52908",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Ratatouille",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52908",
+        "sha256": "f092cf6877ce3efa232edd7aba472d8fc779c6fb5917c7f955ac18797c6e99c0",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/2903/ratatouille",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Ratatouille recipe | Good Food",
+        "originalPageSha256": "1a5801050f56a0305d6cf5da4c6f8738ab7cc1557cb40cab1955539575762032"
+      }
+    },
+    "world-52820": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52820",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Katsu Chicken curry",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52820",
+        "sha256": "f3f42a4f47884b7267c2212768f2afc172b430979ec5558399b2eeff879f0720",
+        "originalSource": "http://allrecipes.co.uk/recipe/29578/chicken-katsu-curry.aspx",
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-53034": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53034",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Japanese Katsudon",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53034",
+        "sha256": "16a6418e7142c80c3b1936638c9d5fc16ee43e1ac93cb50f9589a9e9e292491e",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/japanese-katsudon",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Japanese katsudon recipe | Good Food",
+        "originalPageSha256": "4272adafcfc0aecf7e80d82f2d555141656b353b5d65dfebe7f05b4b2a26ae16"
+      }
+    },
+    "world-52960": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52960",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Salmon Avocado Salad",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52960",
+        "sha256": "782f31fd5b37708aaf54651bb9232e85f89f7cc586854fdba5c3097a6170436d",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/4521/salmon-avocado-and-cucumber-salad",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Salmon, avocado & cucumber salad recipe | Good Food",
+        "originalPageSha256": "242d4619fe97d2fa3655e8bec395c9eac7da5a0558becc9bc1b5bdca29f311af"
+      }
+    },
+    "world-52823": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52823",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Salmon Prawn Risotto",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52823",
+        "sha256": "f82438c69e932e10e8c639ee6f1d4f6cb822937977e199a6b28b8a2229460a10",
+        "originalSource": "http://www.rangemaster.co.uk/rangemaster-owners/recipes-ideas-inspiration/recipes/mains/prawn-and-hot-smoked-salmon-risotto-with-asparagus",
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-52982": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52982",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Spaghetti alla Carbonara",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52982",
+        "sha256": "b0de6c46d49aa2f20420b1c0e8665bd26f14b80db62521744aa4e0009726f579",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/ultimate-spaghetti-carbonara-recipe",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Ultimate spaghetti carbonara recipe | Good Food",
+        "originalPageSha256": "46e17da82fbb6cec9b8dc0b2254ce34618e8f632d02056e13ecc5b9fce610b3a"
+      }
+    },
+    "world-52771": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52771",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Spicy Arrabiata Penne",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771",
+        "sha256": "20eb8af83d282a7cd4d8259847433286e1e7ab81c3903dbdeba90f23d00a4e2b",
+        "originalSource": null,
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-52802": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52802",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Fish pie",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52802",
+        "sha256": "09c2b8daac5637939ee9f71955f4f4f42c5ba9d89871e7b5a0bed980b4b03caf",
+        "originalSource": null,
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-52915": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52915",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "French Omelette",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52915",
+        "sha256": "3a1a2be634c43c5d7887f239bfd3ce887570374834653fe839127660cd23d185",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/1669/ultimate-french-omelette",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Classic French omelette recipe | Good Food",
+        "originalPageSha256": "fdae378f13feb5c03441dc72d86f0ed0c330a254bb18087b31a96628f3d1ca8d"
+      }
+    },
+    "world-52772": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52772",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Teriyaki Chicken Casserole",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52772",
+        "sha256": "1f9c6859dad540f7c9e751e43f210fc76ea36a34f42b841557cd7fa641fcc2e4",
+        "originalSource": null,
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-53000": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53000",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Vegetable Shepherds Pie",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53000",
+        "sha256": "d883338fcb21fcbac6d8dea31d03936b54406a0240be7a3fb59004105ff3990b",
+        "originalSource": null,
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-52848": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52848",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Bean & Sausage Hotpot",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52848",
+        "sha256": "4e70f64b319c4514e6816f841776cb22610e34406182ef94ea12377b86330fb2",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/339607/bean-and-sausage-hotpot",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Sausage hotpot recipe | Good Food",
+        "originalPageSha256": "a61cfa2e7bfebb0e1f50822b972415ab8148057c8d5a193575620226a38cf890"
+      }
+    },
+    "world-52841": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52841",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Creamy Tomato Soup",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52841",
+        "sha256": "9b812edd4a8a873b695104fb05bdc53776aa71ab9bffdb23e5ca73fc06a0bfad",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/2604646/creamy-tomato-soup",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Creamy tomato soup recipe | Good Food",
+        "originalPageSha256": "fd17433d4d649de4e84c026c05a06b664403bd823c155377c2e18c02a7dfd218"
+      }
+    },
+    "world-52814": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52814",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Thai Green Curry",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52814",
+        "sha256": "a4bab35cb193cab3402b32eeccd0a1dd3c648a7214704e56ea66574867f6d430",
+        "originalSource": "http://www.bbcgoodfood.com/recipes/3235/thai-green-chicken-curry",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Thai green chicken curry recipe | Good Food",
+        "originalPageSha256": "063f214a2bf511d77db019e0cd7ef020905df71bf7d3aad28889a02997897ce1"
+      }
+    },
+    "world-52868": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52868",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Kidney Bean Curry",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52868",
+        "sha256": "85bdd04c4ed22a995e68e1faab034ee54946fd5e9b0b7ecaf72ccdcb69d81e0c",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/kidney-bean-curry",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Kidney bean curry recipe | Good Food",
+        "originalPageSha256": "5c2b181c5e38a6c43887adcea1fc2f176f3263c5624ae14a11fcc6913bb4ea43"
+      }
+    },
+    "world-52831": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52831",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Chicken Karaage",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52831",
+        "sha256": "ee6a8bbcc6941011bd795fd26722e3946153a1ec514572fd0bd2285ca69200c0",
+        "originalSource": "https://norecipes.com/karaage-recipe",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Karaage Recipe (Crispy Japanese Fried Chicken)",
+        "originalPageSha256": "bcac838078b474d0b4755bc48643302b9fc43f519f030bd5d1fb9d6f429a0d78"
+      }
+    },
+    "world-52934": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52934",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Chicken Basquaise",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52934",
+        "sha256": "accff9250bf8b8a4c94e182bb729442fd4a6c2d8f54972b88a3cbf00b9595109",
+        "originalSource": "https://www.rivercottage.net/recipes/chicken-basquaise",
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-52777": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52777",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Mediterranean Pasta Salad",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52777",
+        "sha256": "f7a75f729db778160b4db0956295e5a50364156032bac6bceea4e8337a923a4c",
+        "originalSource": "https://thelemonsqueezy.com/recipe/mediterranean-pasta-salad/",
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-53078": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53078",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Beetroot Soup (Borscht)",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53078",
+        "sha256": "212407170efaa53b06ab4a41f377e86e0e5f49f1eb62579015ba3be430934872",
+        "originalSource": "https://natashaskitchen.com/classic-russian-borscht-recipe/",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "Classic Borscht Recipe (VIDEO)",
+        "originalPageSha256": "2244cdc95971c3b382879b844deb62a61c0252896dc8387136cbe5ec5a0eaafb"
+      }
+    },
+    "world-52903": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52903",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "French Onion Soup",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52903",
+        "sha256": "eb09ad570ed32488936acb6dded8075e6ef8599628c34466e2adf4da131e1bd0",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/3020694/french-onion-soup",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "French onion soup recipe | Good Food",
+        "originalPageSha256": "56833874459f2bebd5d83cd9e4cd120700f65382188bef0593b68d94ed83779c"
+      }
+    },
+    "world-53047": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53047",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Moroccan Carrot Soup",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53047",
+        "sha256": "69cac2c77b5778fe615c167d31336eb59c7f8ec1c1b936c9ad8aea20638675a6",
+        "originalSource": "https://www.sanjeevkapoor.com/Recipe/Moroccan-Carrot-Soup.html",
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-53081": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/53081",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Potato Salad (Olivier Salad)",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=53081",
+        "sha256": "812c5eb8cb5bca66784ce7aacddd0010ae9d469bf6929a9f95ac2b7946fb6168",
+        "originalSource": "https://www.sweetandsavorybyshinee.com/russian-potato-salad/",
+        "originalPageStatus": "unavailable-or-unrelated"
+      }
+    },
+    "world-52850": {
+      "source": {
+        "url": "https://www.themealdb.com/meal/52850",
+        "site": "TheMealDB",
+        "author": "社区菜谱记录；署名见所列原来源",
+        "title": "Chicken Couscous",
+        "checked": "2026-11-17"
+      },
+      "evidence": {
+        "kind": "official-api",
+        "url": "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52850",
+        "sha256": "cf336b631b33b9d85f1e3a77115312fd84bc7c3fb4f2d79f1e3d73cc503f1d77",
+        "originalSource": "https://www.bbcgoodfood.com/recipes/13139/onepan-chicken-couscous",
+        "originalPageStatus": "retrieved",
+        "originalTitle": "One-pan chicken couscous recipe | Good Food",
+        "originalPageSha256": "976d4d63b706759dbec205c282b782a81b4e16d18b5bc099c32c6fb38ce31310"
+      }
+    }
+  },
+  "exact": {
+    "home-34": {
+      "url": "https://thewoksoflife.com/dry-pot-cauliflower/",
+      "site": "The Woks of Life",
+      "author": "Judy",
+      "title": "Chinese Dry Pot Cauliflower with Pork Belly - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "26f883121cc85a9b047aee8399698853dafb3854ae6e54e9c86b6558aa222bb5",
+      "supports": "同菜对照：花菜切小朵，猪肉先炒，合锅后加少量液体焖熟；本版先焯花菜并明确猪肉中心温度。"
+    },
+    "home-41": {
+      "url": "https://thewoksoflife.com/chinese-eggplant-garlic-sauce/",
+      "site": "The Woks of Life",
+      "author": "Sarah",
+      "title": "Chinese Eggplant with Garlic Sauce (The Ultimate Recipe!) - The Woks of Life",
+      "checked": "2026-11-17",
+      "sha256": "5bf728f93189aa698a69a81050c59a54f8256e50ff1d4ee965ddf6cf0b101a5d",
+      "supports": "同菜对照：茄子分批煎软，肉末与香料另炒，碗汁重搅后合锅挂薄芡；本版保留豆瓣酱并减少油量。"
+    },
+    "home-46": {
+      "url": "https://www.recipetineats.com/bibimbap/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Bibimbap! (Korean Rice Bowl) - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "79843ade24a45eae6b84688d0a6b37be85a6f6158c16cac6b68fff3eb8ffc8d0",
+      "supports": "同菜对照：蔬菜分开熟制、热饭搭配牛肉和韩式酱；本版用水糖代替汽水，并选全熟蛋、彻底加热豆芽。"
+    },
+    "world-52771": {
+      "url": "https://www.recipetineats.com/penne-all-arrabbiata-spicy-tomato-pasta/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Penne all'Arrabbiata (spicy tomato pasta) - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "9deb86a37ba089213911092dcd99f39eb905cfb7b6a827712326484efa67cbe6",
+      "supports": "同菜对照：蒜辣椒先炒香，番茄轻煮，面汤用于调节挂汁；本版按两人份重新量化并省略奶酪。"
+    },
+    "world-52796": {
+      "url": "https://www.recipetineats.com/one-pot-chicken-alfredo-pasta/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "One Pot Chicken Alfredo Pasta - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "203e9c396c34711e2d64a245b27d922b29b6e5fcf45178dff214649ce7346485",
+      "supports": "同菜对照：鸡肉先煎熟，奶与奶油做酱，奶酪调稠；补充来源是一锅煮面，本版保留原记录的面另煮、加入蔬菜路线。"
+    },
+    "world-52802": {
+      "url": "https://www.recipetineats.com/fish-pie/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Fish Pie (for Easter!) - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "42128f618a74097e36f3c4eb794c14e750b06f45e23fe40f19a581d9d92b53f1",
+      "supports": "同菜对照：熟鱼与白汁作底、煮软土豆压泥盖顶再烤；本版保留虾，省去难买的配菜并检查焗盘中心温度。"
+    },
+    "world-52814": {
+      "url": "https://www.recipetineats.com/thai-green-curry/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Thai Green Curry - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "4c07723ce283468bf38f44418600d40478af29162ecd5285270c7d411a198c1b",
+      "supports": "同菜对照：绿咖喱酱先炒、加椰奶后轻煮鸡肉；本版保留原记录土豆四季豆，提前煮豆至全熟，不采用来源里的茄子和荷兰豆。"
+    },
+    "world-52819": {
+      "url": "https://www.recipetineats.com/marinated-fish-tacos/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi | RecipeTin Eats",
+      "title": "Fish Tacos - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "9ab4957e562c666e14f5372d3bb568c776ddc91c688c7d8c848fb1360056bcea",
+      "supports": "同菜对照：鱼调味后煎熟拨块，蔬菜和酸奶油类酱分开准备，再装饼；本版沿用原记录的生菜牛油果，不换成腌包菜。"
+    },
+    "world-52820": {
+      "url": "https://www.justonecookbook.com/katsu-curry/",
+      "site": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen",
+      "title": "Katsu Curry カツカレー • Just One Cookbook",
+      "checked": "2026-11-17",
+      "sha256": "a6f6233d60e1044c57b9cb2aa01040e604f997c2ff3b55a64a8caeb9774d884a",
+      "supports": "同菜对照：日式咖喱、炸肉排和热米饭分别完成再组合；本版给出鸡排裹糠与中心温度，不假设用户已经有熟肉排。"
+    },
+    "world-52821": {
+      "url": "https://www.recipetineats.com/laksa-soup/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi | RecipeTin Eats",
+      "title": "Laksa Noodle Soup - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "d189dbb967d36dd4b82be567da31f8256d305eeee65efa10704f97be17cc1bc2",
+      "supports": "同菜对照：香料酱先炒，椰奶高汤煮底，酸咸最后调节；补充来源为鸡肉叻沙，本版保留原记录的虾与红咖喱酱简易版。"
+    },
+    "world-52823": {
+      "url": "https://www.recipetineats.com/prawn-risotto-shrimp/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Creamy Prawn Risotto (Shrimp) - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "c54ebeb6d4e8ab602d3d06d805bb182a0ac607f1f8d05d46aa18cd0c350bc568",
+      "supports": "同菜对照：虾先单独煎熟，烩饭保持湿润，熟虾最后拌入；本版采用原记录分次加汤并保留三文鱼，补上鱼虾各自熟度检查。"
+    },
+    "world-52831": {
+      "url": "https://www.justonecookbook.com/karaage/",
+      "site": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen",
+      "title": "Karaage (Japanese Fried Chicken) 唐揚げ • Just One Cookbook",
+      "checked": "2026-11-17",
+      "sha256": "4162ec3b9a63130ad05d79904ee1c9395c0dfe9b814b812dddd7704a03affbae",
+      "supports": "同菜对照：鸡腿切块冷藏腌制、薄裹淀粉、分批控制油温；本版不采用原页短时间两次炸，而用中心74度复查单次炸制。"
+    },
+    "world-52834": {
+      "url": "https://www.recipetineats.com/beef-stroganoff/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Beef Stroganoff - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "551bb57cc94276e4c3bff2445c9faa019e3ffeb0c0f408d731323a6225869c95",
+      "supports": "同菜对照：薄牛肉分批煎、洋葱蘑菇另炒、酸奶油芥末调汁；本版不用短时回锅等同安全熟度，明确测温和静置。"
+    },
+    "world-52842": {
+      "url": "https://www.recipetineats.com/easy-broccoli-cheese-soup/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi | RecipeTin Eats",
+      "title": "Broccoli Soup - Thick & Creamy! - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "808ff7ccec19f7a91ee82df48f17173c35dec8d75d8bed4de1791168fa5f54f2",
+      "supports": "同菜对照：西兰花与土豆煮软搅打，奶酪后融化；本版保留原记录的芹菜，用切达替代蓝纹奶酪。"
+    },
+    "world-52844": {
+      "url": "https://www.recipetineats.com/lasagna/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Lasagna! - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "ce5ccf7b12280036477b5f8fdadbf8193c8dc9d52fa06024881fd717817028b2",
+      "supports": "同菜对照：肉酱与面片交替、面片被酱覆盖，顶部奶酪焗烤；本版采用原记录酸奶油简易顶层而非补充来源长时肉酱白汁。"
+    },
+    "world-52868": {
+      "url": "https://www.indianhealthyrecipes.com/rajma-recipe-rajma-masala-recipe/",
+      "site": "Swasthi’s Recipes",
+      "author": "swasthi",
+      "title": "Rajma Recipe | Rajma Masala | Rajma Chawal - Swasthi's Recipes",
+      "checked": "2026-11-17",
+      "sha256": "1dd9d2499283e47133e8f456028a21d2c3060aaf11bf2f799d6a04d9065b8a9e",
+      "supports": "同菜对照：洋葱姜蒜香料炒香、番茄收浓后加熟红腰豆，压碎少量豆增稠；本版固定用熟罐头豆，不套用干豆压力锅时间。"
+    },
+    "world-52908": {
+      "url": "https://www.recipetineats.com/ratatouille/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Ratatouille - French Vegetable Stew - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "bfdad96b737e31e93813a5bc5f3a7643d1702e6686333b724e0d96f05c1d06e3",
+      "supports": "同菜对照：不同蔬菜分批煎、合入番茄后炖软、罗勒最后放；本版切小块并逐次检查熟软，省略橄榄。"
+    },
+    "world-52960": {
+      "url": "https://www.recipetineats.com/salmon-salad/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Salmon Salad with Asian Ginger Sesame Dressing - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "15e552eedf87dc6c113cfb0bbd31e8454eba2f6fb1d66353022efd33568c6da4",
+      "supports": "同菜对照：鱼单独煎后稍放温，鲜蔬和调汁分开，鱼最后摆上；本版保留蜂蜜青柠汁，不改为来源的姜芝麻汁。"
+    },
+    "world-52963": {
+      "url": "https://www.recipetineats.com/shakshuka-baked-eggs/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Shakshuka (Middle Eastern Baked Eggs) - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "f9378b0dd3e4bf620983c864edc0e74a574e33374ce663f2ee6e8bc5fb265de7",
+      "supports": "同菜对照：番茄汁先收浓到能挖窝，再放蛋盖锅；本版选择全熟蛋并复查中心，不采用流心终点。"
+    },
+    "world-53006": {
+      "url": "https://www.recipetineats.com/moussaka-greek-eggplant-beef-bake/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Moussaka (Greek Beef and Eggplant Lasagna) - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "a2a6f0c1f2a084b0857993e315b7062ca6f45fe0b11d7e53a04d83b6c551c590",
+      "supports": "同菜对照：茄子先做软、肉酱收浓后分层焗烤；本版保留原记录的土豆酸奶蛋顶层，不直接替换为白汁。"
+    },
+    "world-53034": {
+      "url": "https://www.justonecookbook.com/katsudon/",
+      "site": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen",
+      "title": "Katsudon (Pork Cutlet Rice Bowl) (Video) かつ丼 • Just One Cookbook",
+      "checked": "2026-11-17",
+      "sha256": "e5dbb046d3f0d8634cd629563ff05277ae40213c7279b1db20f761740c25f15d",
+      "supports": "同菜对照：洋葱汤煮软、熟猪排入汤热透再加蛋盖饭；本版补全炸猪排步骤，并把蛋加热至全熟。"
+    },
+    "world-53081": {
+      "url": "https://natashaskitchen.com/olivye-ukrainian-potato-salad/",
+      "site": "Natasha’s Kitchen",
+      "author": "Natasha Kravchuk",
+      "title": "Olivye - Ukrainian Potato Salad",
+      "checked": "2026-11-17",
+      "sha256": "b3eccf220949a8100aacc1520e14fb753dac938c6a1c23f6b6322c96d2aacdf7",
+      "supports": "同菜对照：土豆胡萝卜和鸡蛋分别煮熟，火腿腌黄瓜切小丁，豌豆最后轻拌；纠正API里腌黄瓜与莳萝的错配。"
+    },
+    "world-53196": {
+      "url": "https://www.recipetineats.com/tom-yum-soup-thai/",
+      "site": "RecipeTin Eats",
+      "author": "Nagi",
+      "title": "Tom Yum Soup (Thai soup) - RecipeTin Eats",
+      "checked": "2026-11-17",
+      "sha256": "7dc166e7962b383ab7c6688ace919709a2c268cee97d30b374661355b214fb7b",
+      "supports": "同菜对照：香茅南姜柠檬叶先煮汤、虾后放、青柠最后调酸；本版保留清汤路线，不加入淡奶或椰奶。"
+    }
+  }
+}

@@ -6,9 +6,10 @@ import { domesticSourcesById } from '../src/domestic-sources.js';
 const byId = (id) => recipes.find((recipe) => recipe.id === id);
 
 test('only the reviewed domestic recipe references are marked reviewed', () => {
-  const expected = recipes.map((r) => r.id);
+  const reviewed = recipes.filter((r) => r.domesticSources?.length);
+  const expected = reviewed.map((r) => r.id);
   assert.equal(expected.length, 99);
-  assert.equal(new Set(recipes.map((r) => r.domesticSources[0].url)).size, expected.length);
+  assert.equal(new Set(reviewed.map((r) => r.domesticSources[0].url)).size, expected.length);
   assert.deepEqual(Object.keys(domesticSourcesById).sort(), [...expected].sort());
   assert.equal(recipes.filter((r) => r.domesticSources?.length).length, expected.length);
   for (const id of expected) {

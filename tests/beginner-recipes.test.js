@@ -6,7 +6,7 @@ const ids = ['tomato-eggs', 'steamed-eggs', 'fried-rice'];
 const get = (id) => recipes.find((r) => r.id === id);
 
 test('the original three teaching recipes retain their reviewed guidance', () => {
-  assert.equal(recipes.length, 99);
+  assert.equal(recipes.length, 200);
   assert.deepEqual(recipes.filter((r) => ids.includes(r.id)).map((r) => r.id).sort(), [...ids].sort());
   for (const id of ids) {
     const r = get(id);

@@ -6,7 +6,7 @@ import { cleanState, missing } from '../src/logic.js';
 const baseline = JSON.parse(readFileSync(new URL('./fixtures/recipe-progress-v3.json', import.meta.url), 'utf8'));
 
 test('all 99 recipes preserve their v3 step identities and timers', () => {
-  assert.deepEqual(recipes.map((r) => ({ id: r.id, stateVersion: r.stateVersion || 1, steps: r.steps.map((s) => ({ title: s.title, seconds: s.seconds })) })), baseline);
+  assert.deepEqual(recipes.filter((r) => baseline.some((old) => old.id === r.id)).map((r) => ({ id: r.id, stateVersion: r.stateVersion || 1, steps: r.steps.map((s) => ({ title: s.title, seconds: s.seconds })) })), baseline);
   for (const r of recipes) {
     for (let step = -1; step <= r.steps.length; step++) {
       const prior = { version: 3, cooking: { id: r.id, step }, basket: [r.id], meal: { ids: [r.id], done: [] }, favorites: [r.id], pantry: ['盐'] };
@@ -19,9 +19,9 @@ test('all 99 recipes preserve their v3 step identities and timers', () => {
 });
 
 test('every teaching recipe has specific guidance, multiple sources, and optional ingredients remain optional', () => {
-  assert.equal(recipes.length, 99);
-  assert.equal(recipes.filter((r) => r.teaching).length, 99);
-  assert.equal(new Set(recipes.map((r) => r.teaching.focus)).size, 99);
+  assert.equal(recipes.length, 200);
+  assert.equal(recipes.filter((r) => r.teaching).length, 200);
+  assert.equal(new Set(recipes.map((r) => r.teaching.focus)).size, 200);
   for (const r of recipes) {
     assert.ok(r.teaching.focus && r.teaching.flexibility, r.id);
     assert.ok(r.teaching.rescue.length >= 2, r.id);

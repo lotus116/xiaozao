@@ -9,7 +9,7 @@ const write = (value) => history.replaceState({ ...history.state, [key]: value }
 export function initialBrowseState(value = metadata()?.filters, target = route()) {
   return {
     query: typeof value?.query === "string" ? value.query.slice(0, 200) : "",
-    category: ["dish", "staple", "soup", ...(target === "#favorites" ? ["all"] : [])].includes(value?.category) ? value.category : target === "#favorites" ? "all" : "dish",
+    category: ["dish", "staple", "soup", "all"].includes(value?.category) ? value.category : target === "#favorites" ? "all" : "dish",
     max: ["all", "15", "30"].includes(value?.max) ? value.max : "all",
     level: ["0", "1", "2"].includes(value?.level) ? value.level : "0",
     fewIngredients: value?.fewIngredients === true,

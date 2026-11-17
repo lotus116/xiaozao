@@ -6,6 +6,19 @@ export default function Source({ r }) {
   return (
     <details key={r.id} className="source">
       <summary>菜谱来源与验证说明</summary>
+      {r.methodReviews?.length > 0 && (
+        <section className="domestic-sources" aria-label="做法核对与取舍">
+          <h2>做法核对与取舍</h2>
+          <ul>{r.methodReviews.map((source) => (
+            <li key={source.url}>
+              <a href={source.url} target="_blank" rel="noreferrer">{source.site} · {source.title} <ExternalLink size={14} aria-hidden="true" /></a>
+              <p className="hint">{source.author} · {source.checked}</p>
+              <p><strong>参考了什么：</strong>{source.supports}</p>
+              <p><strong>小灶怎么取舍：</strong>{source.adaptation}</p>
+            </li>
+          ))}</ul>
+        </section>
+      )}
       {r.domesticSources?.length > 0 && (
         <section className="domestic-sources" aria-label="国内教程与取舍">
           <h2>国内教程与取舍</h2>
@@ -31,7 +44,7 @@ export default function Source({ r }) {
           下厨房 · {photoPages[r.id].title}（{photoPages[r.id].author}）<ExternalLink size={14} />
         </a>
       </p>}
-      <p><strong>原有资料来源</strong></p>
+      <p><strong>主要资料来源</strong></p>
       <p>
         {r.source.site} · {r.source.author}
       </p>
@@ -43,6 +56,7 @@ export default function Source({ r }) {
           <a href={source.url} target="_blank" rel="noreferrer">
             补充做法来源：{source.site}
           </a>
+          {source.supports && <small className="hint"> · {source.supports}</small>}
         </p>
       ))}
       {r.safetySources?.map((source) => (

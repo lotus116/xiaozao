@@ -44,7 +44,7 @@ test("a photographed soup remains discoverable when searching the dish tab", asy
   await page.goto("/#search");
   const query = page.getByRole("textbox", {name:"搜索菜谱"});
   await query.fill("番茄蛋花汤");
-  await page.getByRole("button", {name:/在汤羹中查看/}).click();
+  await expect(page.getByRole("button", {name:"全部", exact:true})).toHaveAttribute("aria-pressed", "true");
   await expect(query).toHaveValue("番茄蛋花汤");
   await expect(page.locator(".recipe-open").first()).toContainText("番茄蛋花汤");
 });

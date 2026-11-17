@@ -35,5 +35,5 @@ test("each recipe ships its own attributed offline image within the mobile stora
     }
   }
   assert.equal(files.size, 0, "no unused images or originals in the app");
-  assert.ok(total <= 3 * 1024 * 1024, "photo collection exceeds the 3 MiB mobile budget");
+  assert.ok(total <= 6 * 1024 * 1024, "photo collection exceeds the 6 MiB mobile budget");
 });

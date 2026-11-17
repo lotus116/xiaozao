@@ -1,6 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
 import { recipes } from "../../src/recipes.js";
-import { categoryOf } from "../../src/preferences.js";
 import { test, expect } from "@playwright/test";
 const key = "xiaozao-v1";
 test("tomato eggs uses reminder tiles without checkboxes and cooking progress persists", async ({
@@ -73,8 +72,8 @@ test("search, missing seasoning, no results, filters, persistence and corruption
     page.getByRole("button", { name: /番茄炒鸡蛋.*分钟/ }),
   ).toBeVisible();
   await expect(
-    page.getByRole("button", { name: /番茄蛋花汤.*分钟/ }),
-  ).toHaveCount(0);
+    page.getByRole("button", { name: /^番茄蛋花汤\s.*分钟/ }),
+  ).toBeVisible();
   await expect(page.locator(".recipe-row").first()).toContainText("食用油");
   await page.getByRole("textbox", { name: "搜索菜谱" }).fill("找不到");
   await expect(
@@ -82,12 +81,12 @@ test("search, missing seasoning, no results, filters, persistence and corruption
   ).toBeVisible();
   await page.getByRole("button", { name: "浏览全部菜谱" }).click();
   await expect(page.locator(".recipe-row")).toHaveCount(
-    recipes.filter((r) => categoryOf(r) === "dish").length,
+    recipes.length,
   );
   await page.locator(".browse-filters > summary").click();
   await page.getByLabel("用时").selectOption("15");
   await expect(page.locator(".recipe-row")).toHaveCount(
-    recipes.filter((r) => categoryOf(r) === "dish" && r.minutes <= 15).length,
+    recipes.filter((r) => r.minutes <= 15).length,
   );
   await page.evaluate((k) => localStorage.setItem(k, "broken"), key);
   await page.goto("/#pantry");
@@ -172,9 +171,9 @@ for (const r of recipes)
       page.getByRole("heading", { name: r.steps[0].title, exact: true }),
     ).toBeVisible();
     await expect(page.locator(".cooking-overview > li .step-guidance")).toHaveCount(r.steps.length);
-    const comparison = page.locator(".cooking-overview > li").nth(r.domesticSources[0].step).locator(".domestic-step-note");
+    const comparison = page.locator(".cooking-overview > li").nth((r.domesticSources || r.methodReviews)[0].step).locator(".domestic-step-note");
     await comparison.locator("summary").click();
-    await expect(comparison).toContainText(r.domesticSources[0].adaptation);
+    await expect(comparison).toContainText((r.domesticSources || r.methodReviews)[0].adaptation);
   });
 test("key pages have no automated WCAG A/AA violations", async ({ page }) => {
   for (const path of [

@@ -95,7 +95,7 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }
     await unobscured(page, next);
     await unobscured(page, clock);
     const nextBox = await next.boundingBox(), clockBox = await clock.boundingBox();
-    expect(nextBox.x + nextBox.width).toBeLessThanOrEqual(clockBox.x);
+    expect(clockBox.y + clockBox.height).toBeLessThanOrEqual(nextBox.y);
     expect(nextBox.y + nextBox.height).toBeLessThanOrEqual(viewport.height - 24);
     await page.screenshot({ path: info.outputPath(`cooking-${viewport.width}.png`) });
     await clock.tap();

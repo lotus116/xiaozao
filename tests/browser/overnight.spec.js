@@ -145,6 +145,7 @@ test("refreshing a recipe preserves the exact category and filters on return", a
   await page.locator(".browse-filters > summary").click();
   await page.getByLabel("用时").selectOption("15");
   await page.getByRole("textbox", { name: "搜索菜谱" }).fill("鸡蛋");
+  await page.getByRole("button", { name: "汤羹", exact: true }).click();
   await page.locator(".recipe-open").first().click();
   await page.reload();
   await page.getByRole("button", { name: "返回菜谱", exact: true }).click();

@@ -35,23 +35,36 @@ export function cleanPreferences(p) {
   };
 }
 const patterns = {
-  蛋类: /蛋|蛋黄酱|鸡精/,
-  奶类: /奶|乳|黄油|奶酪/,
+  蛋类: /蛋|蛋黄酱|鸡精|方便面|手抓饼|面包|咖喱块/,
+  奶类: /奶|乳|黄油|芝士|面包|咖喱块/,
   大豆: /鸡精|豆腐|豆干|香干|豆皮|腐竹|豆芽|毛豆|黄豆|豆浆|豆瓣|豆豉|生抽|老抽|酱油|豉油|蚝油|甜面酱|腐乳/,
   含麸质谷物:
-    /面条|挂面|面粉|炒面|馒头|面包|面筋|饺子|馄饨|小麦|大麦|黑麦|燕麦|生抽|老抽|酱油|豉油|蚝油|豆瓣|甜面酱|料酒/,
+    /面条|挂面|面粉|炒面|意大利面|通心粉|宽面|方便面|荞麦面|千层面|古斯米|卷饼|手抓饼|馒头|面包|面筋|饺子|馄饨|小麦|大麦|黑麦|燕麦|生抽|老抽|酱油|豉油|蚝油|豆瓣|甜面酱|料酒|啤酒|咖喱块|韩式辣酱|柱侯酱|伍斯特酱/,
   花生: /花生|沙茶/,
   坚果: /核桃|杏仁|腰果|榛子|松子|坚果/,
   甲壳类: /虾|蟹|虾酱|沙茶/,
   鱼类: /鱼|鱼露|沙茶/,
-  贝类: /蚝油|牡蛎|蛤|蚬|扇贝|干贝|鲍鱼|贻贝/,
+  贝类: /蚝油|牡蛎|蛤|蚬|蛏|扇贝|干贝|鲍鱼|贻贝/,
   芝麻: /芝麻|香油|麻油|麻酱/,
 };
 export function dietaryWarnings(r, p) {
   const names = r.ingredients.map((i) => i.name);
+  // Prepared sauces may contain multiple allergens. This is a conservative
+  // label check, while crab-flavoured mushrooms contain no actual shellfish.
+  const packaged = {
+    柱侯酱: ["大豆", "含麸质谷物"], 南乳: ["大豆"],
+    咖喱块: ["奶类", "大豆", "含麸质谷物"],
+    韩式辣酱: ["大豆", "含麸质谷物"],
+    泰式红咖喱酱: ["甲壳类", "鱼类"], 泰式绿咖喱酱: ["甲壳类", "鱼类"],
+    伍斯特酱: ["鱼类", "含麸质谷物"],
+  };
   return [
     ...p.allergens
-      .filter((a) => names.some((n) => patterns[a]?.test(n)))
+      .filter((a) => names.some((n) =>
+        packaged[n]?.includes(a) ||
+        (!(n === "蟹味菇" && a === "甲壳类") &&
+          !(["椰奶", "南乳", "腐乳"].includes(n) && a === "奶类") && patterns[a]?.test(n)),
+      ))
       .map((a) => "过敏设置：" + a),
     ...p.avoid
       .filter((a) => names.some((n) => n.includes(a)))
