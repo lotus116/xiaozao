@@ -24,6 +24,9 @@ export const aliases = {
   卷心菜: "包菜",
   圆白菜: "包菜",
   青花菜: "西兰花",
+  西蓝花: "西兰花",
+  牛扒: "牛排",
+  芝士: "奶酪",
   米饭: "熟米饭",
   北豆腐: "老豆腐",
   南豆腐: "嫩豆腐",
@@ -127,6 +130,7 @@ export function cleanState(raw, recipes) {
     meal: null,
     cookView: "overview",
     timerDock: { hidden: false, position: null },
+    timerSound: true,
     preferences: defaultPreferences(),
   };
   try {
@@ -205,6 +209,7 @@ export function cleanState(raw, recipes) {
       favorites,
       cooking,
       timer,
+      timerSound: s.timerSound !== false,
       basket,
       meal,
       cookView: s.cookView === "step" ? "step" : "overview",

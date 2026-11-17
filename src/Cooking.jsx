@@ -167,7 +167,7 @@ export default function Cooking({
         <button
           className={next ? "" : "primary"}
           onClick={() => {
-            setState((s) => ({ ...s, cooking: null, meal: null }));
+            if (!inMeal) setState((s) => ({ ...s, cooking: null, meal: null }));
             go(inMeal ? "basket" : "pantry");
           }}
         >

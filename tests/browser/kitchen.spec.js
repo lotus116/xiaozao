@@ -156,8 +156,9 @@ test("basket supports selecting, reordering, combined prep, and a complete two d
   ).toBeVisible();
   await page.getByRole("button", { name: "回到菜篮", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: /一键开始做饭/ }),
+    page.getByRole("button", { name: /开始新的一餐/ }),
   ).toBeVisible();
+  await expect(page.locator(".meal-progress")).toContainText("已完成 2 / 共 2 道");
 });
 test("basket respects later allergy changes and allows removing blocked dishes", async ({
   page,

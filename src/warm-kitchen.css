@@ -98,6 +98,16 @@ main { padding-bottom: calc(110px + var(--app-safe-bottom)); }
 .basket-dish-heading small { display: block; margin-top: 4px; font-size: 13px; font-weight: 400; color: var(--muted); }
 .basket-dish-heading > button:last-child { width: 48px; flex: 0 0 48px; padding: 8px; }
 .basket-order { margin-top: 8px; }
+.basket-dish-progress { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.basket-dish-progress > span { display: inline-flex; align-items: center; gap: 5px; font-size: 14px; }
+.basket-dish-progress button { min-height: 48px; font-size: 14px; padding: 8px 12px; }
+.meal-retained ul { padding-left: 20px; }
+.meal-retained li { padding-block: 8px; }
+.pantry-label { display: inline-flex; align-items: stretch; max-width: 100%; flex-wrap: wrap; gap: 4px; }
+.pantry-label .chip { flex-wrap: wrap; overflow-wrap: anywhere; min-height: 48px; }
+.pantry-label.needs-review .chip { border: 1px solid #98713e; background: #fff4dc; }
+.food-status { font-size: 12px; font-weight: 600; color: #77531d; }
+.refine-food { min-height: 48px; padding: 8px; font-size: 13px; color: var(--accent); background: transparent; }
 .basket-order button { min-width: 68px; min-height: 48px; border: 0; background: var(--surface); }
 .basket-page .basket-prep-summary { margin: 12px 0 20px; padding: 0 0 16px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; }
 .basket-prep-summary h2 { color: var(--ink); }

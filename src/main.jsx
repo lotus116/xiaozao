@@ -38,6 +38,9 @@ import Settings from "./Settings";
 import IngredientPicker from "./IngredientPicker";
 import IngredientInput from "./IngredientInput";
 import PantryReset from "./PantryReset";
+import PantryLabels from "./PantryLabels";
+import { ingredientStatus } from "./ingredient-status";
+import { useTimerSound } from "./useTimerSound";
 import { setupNative } from "./native";
 import { addPantryInput } from "./pantry-input";
 import { useKitchenNavigation, initialBrowseState } from "./navigation";
@@ -151,6 +154,7 @@ function App() {
     [clearedIngredients, setClearedIngredients] = useState([]),
     [resetMessage, setResetMessage] = useState(null),
     [now, setNow] = useState(Date.now());
+  const sound = useTimerSound(state.timer, state.timerSound, now);
   useEffect(() => {
     if (!state.timer) return;
     setNow(Date.now());
@@ -183,11 +187,13 @@ function App() {
     e.preventDefault();
     const result = addPantryInput(state.pantry, input);
     if (!result.added.length && !result.duplicate.length && !result.rejected.length) return;
-    const unknown = result.added.filter((name) => !catalog.includes(name));
+    const unknown = result.added.filter((name) => ingredientStatus(name).label === "未收录");
+    const general = result.added.filter((name) => ingredientStatus(name).label === "需细分");
     const feedback = [
       result.added.length ? `已添加${result.added.join("、")}` : "",
       result.duplicate.length ? `${result.duplicate.join("、")}已经在清单里了` : "",
       unknown.length ? "部分食材在当前菜谱库可能暂未收录相关菜" : "",
+      general.length ? "请在食材标签旁选择具体部位或种类" : "",
       result.rejected.length ? "部分内容未添加：每样最多 30 字，清单最多 500 样" : "",
     ].filter(Boolean).join("；");
     setMessage(feedback);
@@ -343,19 +349,7 @@ function App() {
                   {message || "多样食材可用顿号、逗号或空格隔开。"}
                 </p>
                 {pantryFoods.length > 0 && (
-                  <div className="selected-list">
-                    {pantryFoods.map((n) => (
-                      <button
-                        className="chip selected"
-                        key={n}
-                        onClick={() => toggle(n)}
-                        aria-label={`移除${n}`}
-                      >
-                        {n}
-                        <X size={14} />
-                      </button>
-                    ))}
-                  </div>
+                  <PantryLabels names={pantryFoods} toggle={toggle} setState={setState} />
                 )}
                 <details className="pantry-picker">
                   <summary>常用与分类食材</summary>
@@ -585,7 +579,7 @@ function App() {
           <Basket state={state} setState={setState} recipes={recipes} go={go} />
         )}
         {page === "settings" && (
-          <Settings state={state} setState={setState} seasonings={seasonings} />
+          <Settings state={state} setState={setState} seasonings={seasonings} sound={sound} />
         )}
         {["recipe", "cook"].includes(page) &&
           recipe &&
@@ -771,6 +765,7 @@ function App() {
         </div>
       </dialog>
       <TimerWidget
+        sound={sound}
         dialogRef={timerDialog}
         timer={state.timer}
         dock={state.timerDock}

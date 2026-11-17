@@ -58,7 +58,7 @@ test('hidden running timer remains reachable within the recipe and never gets ov
   await page.getByRole('button', { name: /^查看当前厨房计时：/ }).click();
   const dialog = page.getByRole('dialog', { name: '厨房计时器', exact: true });
   await expect(dialog).toBeVisible();
-  await expect(dialog).toContainText('不保证后台或锁屏响铃');
+  await expect(dialog).toContainText('后台和锁屏暂不支持');
   await page.keyboard.press('Escape');
   await expect(dialog).not.toBeVisible();
   expect(await page.evaluate((key) => JSON.parse(localStorage.getItem(key)).timer.label, key)).toBe('旁边的米饭');

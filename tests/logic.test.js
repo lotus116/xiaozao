@@ -104,6 +104,7 @@ test("storage handles corrupt JSON, null and schema mismatch", () => {
       meal: null,
       cookView: "overview",
       timerDock: { hidden: false, position: null },
+      timerSound: true,
       preferences: { allergens: [], avoid: [], avoidMode: "hide" },
     });
 });

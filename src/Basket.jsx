@@ -13,7 +13,8 @@ import {
   canStartMeal,
   mealIngredients,
   mealShoppingText,
-  nextMealRecipe,
+  resumeMealRecipe,
+  restoreMealRecipe,
 } from "./meal";
 import { allowedRecipe, dietaryWarnings } from "./preferences";
 import { FoodIcon } from "./Ingredients";
@@ -40,9 +41,21 @@ export default function Basket({ state, setState, recipes, go }) {
   const currentRecipe = active && recipes.find((r) => r.id === state.cooking.id);
   const currentBlocked = active &&
     (!currentRecipe || !allowedRecipe(currentRecipe, state.preferences));
-  const resumeRecipe = active && (currentBlocked
-    ? nextMealRecipe(state.meal, recipes, state.preferences)
-    : currentRecipe);
+  const resumeRecipe = active && resumeMealRecipe(state, recipes);
+  const completed = active && state.meal.done.length === state.meal.ids.length;
+  const removedMealRows = active ? basketRecipes(state.meal.ids.filter((id) => !state.basket.includes(id)), recipes) : [];
+  const statusOf = (r) => !state.meal?.ids.includes(r.id) ? "下一餐"
+    : state.meal.done.includes(r.id) ? "已完成"
+    : state.cooking?.id === r.id && state.cooking.step < r.steps.length ? "正在做" : "待做";
+  const progress = (r) => active && (
+    <div className="basket-dish-progress">
+      <span className={statusOf(r) === "已完成" ? "ready" : "hint"}>
+        {statusOf(r) === "已完成" && <Check size={16} aria-hidden="true" />}{statusOf(r)}
+      </span>
+      {state.meal.done.includes(r.id) && <button aria-label={`恢复待做${r.name}`}
+        onClick={() => setState((s) => restoreMealRecipe(s, r))}>恢复待做</button>}
+    </div>
+  );
   useEffect(() => {
     if (copyStatus === "fallback") {
       copyField.current?.focus();
@@ -87,7 +100,7 @@ export default function Basket({ state, setState, recipes, go }) {
   };
   const begin = () => {
     const previous = recipes.find((r) => r.id === state.cooking?.id);
-    if (!state.meal && previous && state.cooking.step < previous.steps.length) {
+    if (state.meal || (previous && state.cooking.step < previous.steps.length)) {
       startDialog.current.showModal();
       return;
     }
@@ -97,7 +110,7 @@ export default function Basket({ state, setState, recipes, go }) {
     <section className="browse basket-page">
       <dialog ref={startDialog} className="timer-dialog" aria-labelledby="basket-start-title">
         <h2 id="basket-start-title">从这份菜篮重新开始？</h2>
-        <p>当前单道菜的跟做进度和步骤计时会结束。菜篮、收藏和独立厨房计时保留。</p>
+        <p>{state.meal ? "本餐完成记录将清空，按现在的菜篮开始新一餐。" : "当前单道菜的跟做进度和步骤计时会结束。"}菜篮、收藏和独立厨房计时保留。</p>
         <div className="chips">
           <button autoFocus onClick={() => startDialog.current.close()}>保留当前跟做</button>
           <button className="primary" onClick={() => { startDialog.current.close(); beginNow(); }}>确认，开始这顿饭</button>
@@ -118,11 +131,12 @@ export default function Basket({ state, setState, recipes, go }) {
       <h1 tabIndex="-1">今天的菜篮</h1>
       {active && (
         <aside className="meal-progress">
-          <p>
-            这餐已完成 {state.meal.done.length} / {state.meal.ids.length}{" "}
-            道。调整菜篮只影响下一餐，正在做的顺序保持不变。
+          <p role="status" aria-atomic="true">
+            已完成 {state.meal.done.length} / 共 {state.meal.ids.length} 道 · 剩余 {state.meal.ids.length - state.meal.done.length} 道
           </p>
-          {currentBlocked && (
+          <p className="hint">调整菜篮只影响下一餐，本餐顺序保持不变。</p>
+          {completed && <p>本餐已完成。可以恢复待做，或开始新的一餐。</p>}
+          {!completed && (currentBlocked || !resumeRecipe) && (
             <p className="warning">
               {resumeRecipe
                 ? "当前这道菜不符合厨房设置，可以先做下一道。跳过的菜不会计为完成。"
@@ -134,7 +148,7 @@ export default function Basket({ state, setState, recipes, go }) {
               className="primary"
               onClick={() => {
                 if (!allowedRecipe(resumeRecipe, state.preferences)) return;
-                if (currentBlocked)
+                if (state.cooking.id !== resumeRecipe.id || state.cooking.step >= resumeRecipe.steps.length)
                   setState((s) => ({
                     ...s,
                     cooking: { id: resumeRecipe.id, step: 0 },
@@ -147,12 +161,17 @@ export default function Basket({ state, setState, recipes, go }) {
                 : "继续这顿饭"}
             </button>
           )}
-          {currentBlocked && (
+          {!completed && (currentBlocked || !resumeRecipe) && (
             <button onClick={() => go("settings")}>查看厨房设置</button>
           )}
+          {completed && rows.length > 0 && <button className="primary" disabled={!canBegin} onClick={begin}>开始新的一餐 · {rows.length} 道</button>}
           <button onClick={() => endDialog.current.showModal()}>
             结束本次跟做
           </button>
+          {removedMealRows.length > 0 && <details className="meal-retained">
+            <summary>本餐另有 {removedMealRows.length} 道已移出下一餐菜篮</summary>
+            <ul>{removedMealRows.map((r) => <li key={r.id}><span>{r.name}</span>{progress(r)}</li>)}</ul>
+          </details>}
         </aside>
       )}
       {!rows.length ? (
@@ -177,12 +196,6 @@ export default function Basket({ state, setState, recipes, go }) {
                     <DishThumbnail recipe={r} tile />
                     <span>{r.name}<small>{r.servings} 人份 · 约 {r.minutes} 分钟</small></span>
                   </button>
-                  {state.meal?.done.includes(r.id) && (
-                    <span className="ready">
-                      <Check size={16} />
-                      已做完
-                    </span>
-                  )}
                   <button
                     aria-label={"移出菜篮" + r.name}
                     onClick={() =>
@@ -195,6 +208,7 @@ export default function Basket({ state, setState, recipes, go }) {
                     <X size={18} />
                   </button>
                 </div>
+                {progress(r)}
                 {dietaryWarnings(r, state.preferences).length > 0 && (
                   <p className="warning">
                     {dietaryWarnings(r, state.preferences).join("；")}

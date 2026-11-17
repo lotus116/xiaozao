@@ -9,6 +9,7 @@ export default function TimerWidget({
   dock,
   setDock,
   dialogRef,
+  sound,
 }) {
   const localDialog = useRef();
   const dialog = dialogRef || localDialog,
@@ -207,6 +208,7 @@ export default function TimerWidget({
       {timer && left === 0 && (
         <aside className="timer-complete" aria-label="计时到点提醒">
           <div role="status"><strong>时间到了</strong><span>{title} · 看一眼锅里的状态</span></div>
+          {sound?.status === "blocked" && <p className="hint">声音未能播放。<button onClick={() => sound.activate()}>重试提示音</button></p>}
           <div className="chips">
             <button aria-label={"查看计时，打开厨房计时器：" + title + "，时间到了 " + display} onClick={() => dialog.current.showModal()}>查看计时</button>
             <button onClick={stop}>知道了，结束计时</button>
@@ -324,7 +326,7 @@ export default function TimerWidget({
           </form>
         )}
         <p className="hint">
-          一次一个计时，刷新会保留。这里提供页面内提醒，不保证后台或锁屏响铃；长时间蒸炖请同时设手机系统计时器。
+          一次一个计时，刷新会保留。可在厨房设置开启前台到时响铃；后台和锁屏暂不支持，请同时设手机系统计时器。
         </p>
         <details className="timer-placement">
           <summary>图标位置与隐藏</summary>

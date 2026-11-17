@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { normalize } from "./logic";
 import { allergenOptions } from "./preferences";
-export default function Settings({ state, setState, seasonings }) {
+export default function Settings({ state, setState, seasonings, sound }) {
   const [input, setInput] = useState("");
+  const [audioMessage, setAudioMessage] = useState("");
   const p = state.preferences;
   const update = (patch) =>
     setState((s) => ({ ...s, preferences: { ...s.preferences, ...patch } }));
@@ -111,6 +112,21 @@ export default function Settings({ state, setState, seasonings }) {
         ))}
       </div>
       </details>
+      <h2>计时提醒</h2>
+      <div className="chips">
+        <button role="switch" aria-checked={state.timerSound} aria-label="前台到时响铃"
+          onClick={() => {
+            if (!state.timerSound) sound.activate();
+            setState((s) => ({ ...s, timerSound: !s.timerSound }));
+            setAudioMessage("");
+          }}>前台到时响铃 · {state.timerSound ? "已开启" : "已关闭"}</button>
+        <button disabled={!state.timerSound} onClick={async () => {
+          const ok = await sound.preview();
+          setAudioMessage(ok ? "已播放试听，请确认手机媒体音量。" : "声音未能播放，请再点试听，或使用手机系统计时器。");
+        }}>试听提示音</button>
+      </div>
+      <p className="hint">只在 App 前台播放，受手机媒体音量影响。后台和锁屏暂不支持响铃，请使用手机系统计时器。</p>
+      <p className="hint" role="status">{audioMessage || (state.timerSound && sound.status === "blocked" ? "声音尚未就绪，请点试听重试；到时文字提醒仍会显示。" : "")}</p>
       <h2>计时器图标</h2>
       <p className="hint">图标可拖动、长按隐藏。隐藏不会停止正在运行的计时。</p>
       <div className="chips">

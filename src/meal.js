@@ -48,3 +48,22 @@ export function nextMealRecipe(meal, recipes, preferences) {
     (r) => !meal.done.includes(r.id) && allowedRecipe(r, preferences),
   );
 }
+
+export function resumeMealRecipe(state, recipes) {
+  if (!state.meal) return undefined;
+  const current = recipes.find((r) => r.id === state.cooking?.id);
+  if (current && state.meal.ids.includes(current.id) &&
+      !state.meal.done.includes(current.id) &&
+      state.cooking.step < current.steps.length && allowedRecipe(current, state.preferences)) return current;
+  return nextMealRecipe(state.meal, recipes, state.preferences);
+}
+
+export function restoreMealRecipe(state, recipe) {
+  if (!state.meal?.done.includes(recipe.id)) return state;
+  return {
+    ...state,
+    meal: { ...state.meal, done: state.meal.done.filter((id) => id !== recipe.id) },
+    cooking: state.cooking?.id === recipe.id
+      ? { id: recipe.id, step: 0 } : state.cooking,
+  };
+}
