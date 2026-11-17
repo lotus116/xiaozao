@@ -300,8 +300,7 @@ function App() {
     <div className={`kitchen-app${isCooking ? " is-cooking" + (state.cookView === "step" ? " is-step-cooking" : "") : ""}`}>
       <header>
         <a className="brand" href="#pantry">
-          <span>小灶</span>
-          <Flame size={19} aria-hidden="true" />
+          <img src="/brand/xiaozao-logo.svg" alt="小灶" width="138" height="46" />
         </a>
         <a className="header-settings" href="#settings" aria-label="设置" aria-current={page === "settings" ? "page" : undefined}>
           <SettingsIcon size={23} aria-hidden="true" />

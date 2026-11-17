@@ -24,9 +24,8 @@ header::after {
   background-image: repeating-linear-gradient(90deg, #b832255c 0 4px, transparent 4px 8px),
     repeating-linear-gradient(0deg, #b8322540 0 2px, transparent 2px 4px);
 }
-.brand { color: var(--ink); gap: 2px; min-height: 48px; }
-.brand > span { font-family: "Kaiti SC", "KaiTi", cursive; font-size: 30px; letter-spacing: 0; font-weight: 900; }
-.brand > svg { color: var(--accent); fill: var(--accent); align-self: flex-end; margin-bottom: 10px; }
+.brand { color: var(--ink); min-height: 48px; flex-shrink: 0; }
+.brand > img { display: block; width: 138px; height: 46px; }
 .header-settings { display: grid; place-items: center; width: 48px; height: 48px; color: var(--ink); border-radius: 8px; }
 .header-settings[aria-current="page"] { background: var(--yellow); }
 .settings .input-row > button { flex-shrink: 0; white-space: nowrap; }
