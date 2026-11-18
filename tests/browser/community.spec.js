@@ -247,12 +247,10 @@ test("updates are explicit; active cooking blocks replacement; author deletion k
   await connect(page);
   await register(page, "versions" + Date.now());
   const id = await publish(page, "更新前的菜");
-  await page
-    .getByRole("button", { name: "下载到我的菜谱", exact: true })
-    .click();
-  await expect(
-    page.getByText("已完整下载，可断网跟做", { exact: true }),
-  ).toBeVisible();
+  await expect(page.getByText("已发布并保存到本机，可离线跟做。")).toBeVisible();
+  await page.getByRole("button", { name: "打开离线菜谱" }).click();
+  await page.getByRole("button", { name: "看备料", exact: true }).click();
+  await page.goto("/#community/detail/" + id);
   await page.getByRole("button", { name: "编辑菜谱", exact: true }).click();
   await page.getByLabel("菜名 *", { exact: true }).fill("更新后的菜");
   await expect(
@@ -306,6 +304,11 @@ test("image failure never creates half download; failed comment preserves text; 
   await connect(page);
   await register(page, "failure" + Date.now());
   const id = await publish(page, "失败恢复测试菜");
+  await page.goto("/#community/mine");
+  page.once("dialog", dialog => dialog.accept());
+  await page.getByRole("button", {name:"删除本机下载：失败恢复测试菜"}).click();
+  await expect(page.getByText(/尚未下载菜谱/)).toBeVisible();
+  await page.goto("/#community/detail/" + id);
   await page.route(server + "/api/images/**", (r) => r.abort());
   await page
     .getByRole("button", { name: "下载到我的菜谱", exact: true })
@@ -386,4 +389,34 @@ test("照烧牛肉饭下载后断网，普通牛肉不能替代牛肉卷，按�
     await reader.getByRole("button", { name: "下载到我的菜谱" }).click();
     await expect(reader.getByRole("button", { name: "打开离线菜谱" })).toBeVisible();
   } finally { await ctx.close(); }
+});
+
+test("mine starts creation, numeric drafts allow blanks, published edits replace the author's offline copy", async ({page}) => {
+  await connect(page);
+  await register(page, "creator" + Date.now());
+  await page.goto("/#community/mine");
+  await page.getByRole("button", {name:"写菜谱"}).click();
+  for (const [label, number] of [["份数 *","1"], ["预计分钟 *","15"], ["计时秒数 1（0 表示不计时）","5"]]) {
+    const field = page.getByLabel(label, {exact:true});
+    await field.fill("");
+    await expect(field).toHaveValue("");
+    if (label.includes("*")) expect(await field.evaluate(el=>el.validity.valueMissing)).toBe(true);
+    await field.pressSequentially(number);
+    await expect(field).toHaveValue(number);
+  }
+  await page.goto("/#community/feed");
+  await publish(page, "作者的食谱");
+  await page.getByRole("button",{name:"编辑菜谱"}).click();
+  await page.getByLabel("菜名 *",{exact:true}).fill("作者修订的食谱");
+  await page.getByRole("button",{name:"保存公开修改"}).click();
+  await expect(page.getByRole("button",{name:"打开离线菜谱"})).toBeVisible();
+  await page.goto("/#community/mine");
+  await expect(page.locator("article button.community-recipe")).toHaveCount(1);
+  await expect(page.locator("article button.community-recipe")).toContainText("作者修订的食谱");
+  await page.getByRole("button",{name:"删除本机下载：作者修订的食谱"}).click({trial:true});
+  await page.goto("/#settings");
+  await page.getByLabel("界面语言").selectOption("zh-HK");
+  await expect(page.locator("html")).toHaveAttribute("lang","zh-HK");
+  await page.goto("/#community/mine");
+  await expect(page.locator("article button.community-recipe")).toContainText("作者修订的食谱");
 });

@@ -333,15 +333,9 @@
   background: var(--yellow);
   border-color: #805b24;
 }
-.timer-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  position: absolute;
-  top: 6px;
-  right: 7px;
-  background: var(--accent);
-}
+.dock-countdown { display: grid; justify-items: center; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.dock-countdown small { font-size: 10px; }
+.dock-countdown b { font-size: 14px; }
 .timer-notice {
   position: fixed;
   bottom: calc(84px + var(--app-safe-bottom));

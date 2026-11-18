@@ -1,3 +1,4 @@
+import { recipeText, original } from "./localized-element";
 import React, { useLayoutEffect, useRef } from "react";
 import {
   ArrowLeft,
@@ -23,9 +24,9 @@ function StepGuidance({ recipeId, title, step }) {
 
   return (
     <dl className="step-guidance" aria-label="本步提示">
-      {guide.amount && <div className="guide-amount"><dt>用量</dt><dd>{guide.amount}</dd></div>}
-      {guide.heat && <div className="guide-heat"><dt>火力</dt><dd>{guide.heat}</dd></div>}
-      {guide.cue && <div className="guide-cue"><dt>看状态</dt><dd>{guide.cue}</dd></div>}
+      {guide.amount && <div className="guide-amount"><dt>用量</dt><dd>{step ? original(guide.amount) : guide.amount}</dd></div>}
+      {guide.heat && <div className="guide-heat"><dt>火力</dt><dd>{step ? original(guide.heat) : guide.heat}</dd></div>}
+      {guide.cue && <div className="guide-cue"><dt>看状态</dt><dd>{step ? original(guide.cue) : guide.cue}</dd></div>}
     </dl>
   );
 }
@@ -107,7 +108,7 @@ export default function Cooking({
   if (c?.id !== r.id)
     return (
       <section className="cook">
-        <h1 tabIndex="-1">开始做 {r.name}</h1>
+        <h1 tabIndex="-1">开始做 {recipeText(r, r.name)}</h1>
         <button className="primary" onClick={() => start(r)}>
           看看备料
         </button>
@@ -122,14 +123,14 @@ export default function Cooking({
         </button>
         <h1 tabIndex="-1">开火前，扫一眼</h1>
         <p>
-          {r.name} · {r.servings} 人份
+          {recipeText(r, r.name)} · {r.servings} 人份
         </p>
         <button className="primary wide" onClick={() => stepTo(0)}>开始做这道菜 <ArrowRight size={18} /></button>
         <Ingredients r={r} />
         <PreparationNotes recipe={r} />
         <ChefNotes recipe={r} />
         <CookingNotes recipe={r} />
-        <p>厨具：{r.tools}</p>
+        <p>厨具：{recipeText(r, r.tools)}</p>
         <button className="primary wide" onClick={() => stepTo(0)}>
           备好了，开始做
           <ArrowRight size={18} />
@@ -143,7 +144,7 @@ export default function Cooking({
         <h1 tabIndex="-1">
           {inMeal && next ? "这道做好了。" : "辛苦啦，开饭吧。"}
         </h1>
-        <p>{r.name} 已完成。上桌前确认熟透。</p>
+        <p>{recipeText(r, r.name)} 已完成。上桌前确认熟透。</p>
         {inMeal && (
           <p>
             这餐已完成 {state.meal.done.length} / {state.meal.ids.length} 道
@@ -199,7 +200,7 @@ export default function Cooking({
           · 已完成 {state.meal.done.length} 道
         </p>
       )}
-      <h1 tabIndex="-1">{r.name}</h1>
+      <h1 tabIndex="-1">{recipeText(r, r.name)}</h1>
       <div className="cook-view">
         <button
           aria-pressed={state.cookView === "overview"}
@@ -241,10 +242,10 @@ export default function Cooking({
                   {index + 1}
                 </button>
                 <div>
-                  <h2 id={`cooking-step-${index}`} tabIndex="-1">{st.title}</h2>
+                  <h2 id={`cooking-step-${index}`} tabIndex="-1">{recipeText(r, st.title)}</h2>
                   {c.step === index && <small className="current-step-label">当前位置</small>}
                   <StepGuidance recipeId={r.id} title={st.title} step={r.community ? st : undefined} />
-                  <p>{st.text}</p>
+                  <p>{recipeText(r, st.text)}</p>
                   {timerButton(index)}
                   <DomesticStepNote recipe={r} index={index} />
                 </div>
@@ -260,9 +261,9 @@ export default function Cooking({
           <p className="eyebrow">
             第 {c.step + 1} / {r.steps.length} 步
           </p>
-          <h2 className="focused-step" tabIndex="-1">{r.steps[c.step].title}</h2>
+          <h2 className="focused-step" tabIndex="-1">{recipeText(r, r.steps[c.step].title)}</h2>
           <StepGuidance recipeId={r.id} title={r.steps[c.step].title} step={r.community ? r.steps[c.step] : undefined} />
-          <p className="instruction">{r.steps[c.step].text}</p>
+          <p className="instruction">{recipeText(r, r.steps[c.step].text)}</p>
           {timerButton(c.step)}
           <DomesticStepNote recipe={r} index={c.step} />
           <div className="step-actions">

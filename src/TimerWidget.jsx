@@ -200,8 +200,10 @@ export default function TimerWidget({
               }
             }}
           >
-            <Timer size={26} aria-hidden="true" />
-            {timer && <i className="timer-dot" aria-hidden="true" />}
+            {timer ? <span className="dock-countdown" aria-hidden="true">
+              <small>{timer.paused != null ? "暂停" : "计时"}</small>
+              <b>{String(Math.floor(left / 60)).padStart(2, "0")}:{String(left % 60).padStart(2, "0")}</b>
+            </span> : <Timer size={26} aria-hidden="true" />}
           </button>
         </div>
       )}

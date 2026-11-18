@@ -1,3 +1,4 @@
+import { searchSpelling } from "./language.js";
 export const aliases = {
   西红柿: "番茄",
   蕃茄: "番茄",
@@ -35,6 +36,6 @@ export const aliases = {
   南豆腐: "嫩豆腐",
 };
 export function normalize(value) {
-  const name = String(value).trim();
+  const name = searchSpelling(String(value).trim());
   return Object.hasOwn(aliases, name) ? aliases[name] : name;
 }

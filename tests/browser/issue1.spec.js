@@ -111,7 +111,7 @@ test('sound starts once after expiry, survives route changes and hidden icon, an
  const clock=page.locator('.timer-handle');const box=await clock.boundingBox();
  await page.mouse.move(box.x+20,box.y+20);await page.mouse.down();await page.clock.fastForward(800);await page.mouse.up();
  await expect(clock).toHaveCount(0);
- expect((await read(page)).timerDock.hidden).toBe(true);
+ await expect.poll(async () => (await read(page)).timerDock.hidden).toBe(true);
  await page.clock.fastForward(10000);
  await expect(page.getByRole('complementary',{name:'计时到点提醒'})).toBeVisible();
  await expect.poll(async()=>(await soundCounts(page)).starts).toBe(3);

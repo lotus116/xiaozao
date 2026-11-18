@@ -1,3 +1,4 @@
+import { searchSpelling } from "./language.js";
 import { cleanPreferences, defaultPreferences } from "./preferences.js";
 import { defaultFrequentIngredients } from "./ingredient-groups.js";
 import { seasonings } from "./recipes.js";
@@ -58,7 +59,7 @@ const searchAliases = {
   意粉: "意大利面", 意面: "意大利面", 番薯: "红薯", 地瓜: "红薯",
 };
 const searchText = (value) => {
-  let text = String(value ?? "").normalize("NFKC").toLowerCase();
+  let text = searchSpelling(value ?? "").normalize("NFKC").toLowerCase();
   for (const [alias, canonical] of Object.entries(searchAliases)) text = text.replaceAll(alias, canonical);
   return text;
 };

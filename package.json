@@ -1,6 +1,6 @@
 {
   "name": "little-kitchen",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -20,6 +20,7 @@
     "@capacitor/app": "^8.1.2",
     "@capacitor/core": "^8.6.0",
     "lucide-react": "^0.468.0",
+    "opencc-js": "1.4.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

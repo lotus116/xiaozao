@@ -1,3 +1,5 @@
+import { recipeText } from "./localized-element";
+import { isHK, prepareLanguage } from "./language";
 import Profile from "./Profile";
 import Community from "./Community";
 import { getDownloads, putDownload, deleteDownload } from "./community-store";
@@ -78,7 +80,7 @@ function Card({ r, state, go, fav, addToBasket, featured = false }) {
       <button className="recipe-open" onClick={() => go(`recipe/${r.id}`)}>
         <DishThumbnail recipe={r} tile eager={featured} large={featured} />
         <span className="recipe-copy">
-          <strong>{r.name}</strong>
+          <strong>{recipeText(r, r.name)}</strong>
           {r.community && <span className="meta">用户分享 · {r.community.author} · 第 {r.community.version} 版</span>}
           <span className="meta">
             {r.minutes} 分钟 · {r.level === 1 ? "简单" : "需练习"} ·{" "}
@@ -676,9 +678,9 @@ function App({ initialDownloads = [], downloadError = false }) {
               </button>
               <div className="dish-heading">
                 <div>
-                  <h1 tabIndex="-1">{recipe.name}</h1>
+                  <h1 tabIndex="-1">{recipeText(recipe, recipe.name)}</h1>
                   {recipe.community && <p className="warning">用户分享，未经项目核对 · {recipe.community.author} · 第 {recipe.community.version} 版{recipe.unknownIngredients?.length ? `；需自行核对过敏原的食材：${recipe.unknownIngredients.join("、")}` : ""}</p>}
-                  <p>{recipe.description}</p>
+                  <p>{recipeText(recipe, recipe.description)}</p>
                 </div>
                 <DishPreview key={recipe.id} recipe={recipe} />
               </div>
@@ -737,15 +739,15 @@ function App({ initialDownloads = [], downloadError = false }) {
                 毫升；少量盐按口味酌加。
               </p>
               <h2>需要的厨具</h2>
-              <p>{recipe.tools}</p>
+              <p>{recipeText(recipe, recipe.tools)}</p>
               <PreparationNotes recipe={recipe} />
               <ChefNotes recipe={recipe} />
               <h2>怎么做</h2>
               <ol className="step-preview">
                 {recipe.steps.map((st) => (
                   <li key={st.title}>
-                    <strong>{st.title}</strong>
-                    <p>{st.text}</p>
+                    <strong>{recipeText(recipe, st.title)}</strong>
+                    <p>{recipeText(recipe, st.text)}</p>
                   </li>
                 ))}
               </ol>
@@ -897,4 +899,11 @@ function Redirect({ go }) {
   useEffect(go, []);
   return null;
 }
-getDownloads().then(initialDownloads => createRoot(document.getElementById("root")).render(<App initialDownloads={initialDownloads} />)).catch(() => createRoot(document.getElementById("root")).render(<App downloadError />));
+document.documentElement.lang = isHK() ? "zh-HK" : "zh-CN";
+async function startKitchen() {
+  await prepareLanguage();
+  const root = createRoot(document.getElementById("root"));
+  try { root.render(<App initialDownloads={await getDownloads()} />); }
+  catch { root.render(<App downloadError />); }
+}
+startKitchen();

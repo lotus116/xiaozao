@@ -1,3 +1,4 @@
+import { recipeText } from "./localized-element";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ShoppingBasket,
@@ -170,7 +171,7 @@ export default function Basket({ state, setState, recipes, go }) {
           </button>
           {removedMealRows.length > 0 && <details className="meal-retained">
             <summary>本餐另有 {removedMealRows.length} 道已移出下一餐菜篮</summary>
-            <ul>{removedMealRows.map((r) => <li key={r.id}><span>{r.name}</span>{progress(r)}</li>)}</ul>
+            <ul>{removedMealRows.map((r) => <li key={r.id}><span>{recipeText(r, r.name)}</span>{progress(r)}</li>)}</ul>
           </details>}
         </aside>
       )}
@@ -194,7 +195,7 @@ export default function Basket({ state, setState, recipes, go }) {
                     onClick={() => go("recipe/" + r.id)}
                   >
                     <DishThumbnail recipe={r} tile />
-                    <span>{r.name}<small>{r.servings} 人份 · 约 {r.minutes} 分钟</small></span>
+                    <span>{recipeText(r, r.name)}<small>{r.servings} 人份 · 约 {r.minutes} 分钟</small></span>
                   </button>
                   <button
                     aria-label={"移出菜篮" + r.name}

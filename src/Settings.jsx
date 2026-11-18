@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { isHK } from "./language";
+import { original } from "./localized-element";
 import { normalize } from "./logic";
 import { allergenOptions } from "./preferences";
 export default function Settings({ state, setState, seasonings, sound }) {
@@ -11,6 +13,15 @@ export default function Settings({ state, setState, seasonings, sound }) {
     <section className="browse settings">
       <h1 tabIndex="-1">厨房设置</h1>
 
+      <label className="setting-row">界面语言
+        <select value={isHK() ? "zh-HK" : "zh-CN"} onChange={event => {
+          localStorage.setItem("xiaozao-language", event.target.value);
+          window.location.reload();
+        }}>
+          <option value="zh-CN">{original("简体中文")}</option>
+          <option value="zh-HK">{original("繁體中文（香港）")}</option>
+        </select>
+      </label>
       <h2>过敏食材</h2>
       <p className="hint">
         从推荐、搜索和收藏中排除相关菜谱，包括可选配料。复合调味品按可能含有相关成分处理。

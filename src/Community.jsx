@@ -1,3 +1,5 @@
+import { localize } from "./language";
+import { original } from "./localized-element";
 import React, { useEffect, useRef, useState } from "react";
 import { Download, Plus } from "lucide-react";
 import {
@@ -18,6 +20,7 @@ import {
 import { recipeInput, backupInput } from "../shared/community-schema";
 import { KEY, normalize, unique } from "./logic";
 import { cleanPreferences } from "./preferences";
+import { publications, rememberPublication, forgetPublication } from "./published-recipes";
 import "./community.css";
 const blank = () => ({
   requestId: crypto.randomUUID(),
@@ -58,6 +61,7 @@ export default function Community({
   useEffect(() => {
     if (error) errorSummary.current?.focus();
   }, [error]);
+  const [publishResult, setPublishResult] = useState(null);
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
   const [items, setItems] = useState([]);
@@ -227,14 +231,14 @@ export default function Community({
         <h1 tabIndex={-1}>
           {{
             feed: "饭友圈",
-            detail: remote?.name || "菜谱详情",
+            detail: remote?.name ? original(remote.name) : "菜谱详情",
             mine: "我的菜谱",
             account: "账号与备份",
             edit: "编辑菜谱",
             admin: "举报管理",
           }[section] || "饭友圈"}
         </h1>
-        {section === "feed" && (
+        {(section === "feed" || section === "mine") && (
           <button
             className="primary"
             onClick={() => {
@@ -242,7 +246,7 @@ export default function Community({
             }}
           >
             <Plus size={18} />
-            发布菜谱
+            {section === "mine" ? "写菜谱" : "发布菜谱"}
           </button>
         )}
       </div>
@@ -297,9 +301,9 @@ export default function Community({
               >
                 <img src={connection.server + r.image} alt="" loading="lazy" />
                 <span>
-                  <strong>{r.name}</strong>
+                  <strong>{original(r.name)}</strong>
                   <small>
-                    {r.author} · 第 {r.version} 版
+                    {original(r.author)} · 第 {r.version} 版
                   </small>
                   <small>
                     {r.minutes} 分钟 · {r.servings} 人份
@@ -333,6 +337,45 @@ export default function Community({
       )}
       {section === "mine" && (
         <>
+          <h2>我的草稿</h2>
+          {!user ? (
+            <button onClick={() => go("community/account")}>
+              登录查看草稿
+            </button>
+          ) : (
+            <>
+              {!drafts.length && <p>暂无草稿。</p>}
+              {drafts.map((d) => (
+                <div className="community-local" key={d.key}>
+                  <strong>{d.value.name ? original(d.value.name) : "未命名菜谱"}</strong>
+                  <div className="community-actions">
+                    <button onClick={() => go("community/edit/" + d.id)}>
+                      继续编辑
+                    </button>
+                    <button
+                      onClick={() =>
+                        run(async () => {
+                          if (window.confirm("删除这份本机草稿？")) {
+                            await deleteDraft(d.key);
+                            setRefresh((v) => v + 1);
+                          }
+                        })
+                      }
+                    >
+                      删除草稿
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+          {user && <section><h2>我发布的</h2>
+            {publications(scope).length === 0 && <p className="hint">这里会记录你用这台设备发布的菜谱。</p>}
+            {publications(scope).map(row => <article key={row.id} className="community-local">
+              <strong>{original(row.name)}</strong>
+              <button onClick={() => go("community/detail/" + row.id)}>查看公开菜谱</button>
+            </article>)}
+          </section>}
           <h2>已下载 · 本机可用</h2>
           <p className="hint">退出账号不会删除本机菜谱。收藏不等于下载。</p>
           {!downloads.length && (
@@ -346,9 +389,9 @@ export default function Community({
               >
                 <img src={r.imageData} alt="" />
                 <span>
-                  <strong>{r.name}</strong>
+                  <strong>{original(r.name)}</strong>
                   <small>
-                    {r.community.author} · 已下载第 {r.community.version} 版
+                    {original(r.community.author)} · 已下载第 {r.community.version} 版
                   </small>
                 </span>
               </button>
@@ -372,53 +415,22 @@ export default function Community({
               }}>删除本机下载</button>
             </article>
           ))}
-          <h2>我的草稿</h2>
-          {!user ? (
-            <button onClick={() => go("community/account")}>
-              登录查看草稿
-            </button>
-          ) : (
-            <>
-              {!drafts.length && <p>暂无草稿。</p>}
-              {drafts.map((d) => (
-                <div className="community-local" key={d.key}>
-                  <strong>{d.value.name || "未命名菜谱"}</strong>
-                  <div className="community-actions">
-                    <button onClick={() => go("community/edit/" + d.id)}>
-                      继续编辑
-                    </button>
-                    <button
-                      onClick={() =>
-                        run(async () => {
-                          if (window.confirm("删除这份本机草稿？")) {
-                            await deleteDraft(d.key);
-                            setRefresh((v) => v + 1);
-                          }
-                        })
-                      }
-                    >
-                      删除草稿
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </>
-          )}
         </>
       )}
       {section === "detail" && remote && (
         <>
+          {publishResult?.id === remote.id && <p role="status">{publishResult.message}</p>}
           <img
             className="community-cover"
             src={connection.server + remote.image}
             alt={remote.name + "成品图"}
           />
           <p>
-            {remote.author} · 第 {remote.version} 版 · {remote.servings} 人份 ·{" "}
+            {original(remote.author)} · 第 {remote.version} 版 · {remote.servings} 人份 ·{" "}
             {remote.minutes} 分钟
           </p>
           <p className="warning">用户分享，未经项目核对</p>
-          <p>{remote.description}</p>
+          <p>{original(remote.description)}</p>
           <div className="community-actions">
             <button
               className="primary"
@@ -456,6 +468,7 @@ export default function Community({
                       await call("/api/recipes/" + remote.id, {
                         method: "DELETE",
                       });
+                      forgetPublication(scope, remote.id);
                       go("community/feed");
                     })
                   }
@@ -469,7 +482,7 @@ export default function Community({
           <ul>
             {remote.ingredients.map((i, n) => (
               <li key={n}>
-                {i.name}：{i.amount}
+                {original(i.name)}：{original(i.amount)}
                 {i.optional ? "（可省）" : ""}
               </li>
             ))}
@@ -478,15 +491,15 @@ export default function Community({
           <ol>
             {remote.steps.map((s, n) => (
               <li key={n}>
-                <strong>{s.title}</strong>
-                <p>{s.text}</p>
-                <p>用量：{s.amount}</p>
-                {s.heat && <p>火力：{s.heat}</p>}
-                {s.cue && <p>状态：{s.cue}</p>}
+                <strong>{original(s.title)}</strong>
+                <p>{original(s.text)}</p>
+                <p>用量：{original(s.amount)}</p>
+                {s.heat && <p>火力：{original(s.heat)}</p>}
+                {s.cue && <p>状态：{original(s.cue)}</p>}
               </li>
             ))}
           </ol>
-          <p>来源／原创声明：{remote.attribution}</p>
+          <p>来源／原创声明：{original(remote.attribution)}</p>
           <Comments
             key={remote.id + scope}
             rows={comments}
@@ -535,6 +548,16 @@ export default function Community({
                   : "/api/recipes",
                 { method: value.remoteId ? "PUT" : "POST", data },
               );
+              let message = "已发布并保存到本机，可离线跟做。";
+              try {
+                const photo = value.imageData || await fetchImage(connection, r.image, requestSignal);
+                await onDownload(toLocalRecipe(r, photo, connection.server));
+              } catch (error) {
+                message = "已发布，本机副本未更新。可在本页重试下载。" + error.message;
+              }
+              try { rememberPublication(scope, r); }
+              catch { message += " 本机作品目录保存失败，请通过发现页查看。"; }
+              setPublishResult({id: r.id, message});
               return r;
             }}
           />
@@ -834,8 +857,8 @@ function Comments({ rows, user, send, onError, login, report, remove }) {
       className={"community-comment" + (c.parentId ? " reply" : "")}
       key={c.id}
     >
-      <strong>{c.author}</strong>
-      <p>{c.text}</p>
+      <strong>{original(c.author)}</strong>
+      <p>{original(c.text)}</p>
       {!c.deleted && (
         <div className="community-actions">
           {!c.parentId && (
@@ -915,6 +938,24 @@ function Comments({ rows, user, send, onError, login, report, remove }) {
       )}
     </section>
   );
+}
+function DraftNumber({ label, value, min, max, required = false, onChange }) {
+  const [touched, setTouched] = useState(false);
+  const hintId = React.useId();
+  const number = Number(value);
+  const invalid = value === "" ? required : !Number.isInteger(number) || number < min || number > max;
+  const hint = label + "需为 " + min + "–" + max + " 的整数";
+  return <label>{label}
+    <input type="number" min={min} max={max} required={required} value={value}
+      aria-invalid={touched && invalid || undefined} aria-describedby={touched && invalid ? hintId : undefined}
+      aria-label={label}
+      onBlur={() => setTouched(true)} onInvalid={event => {
+        setTouched(true);
+        event.currentTarget.setCustomValidity(localize(hint));
+      }}
+      onChange={event => { event.currentTarget.setCustomValidity(""); onChange(event.target.value); }} />
+    {touched && invalid && <small id={hintId} className="warning">{hint}</small>}
+  </label>;
 }
 function Editor({ id, scope, call, server, go, onError, publish }) {
   const [value, setValue] = useState(null);
@@ -997,13 +1038,17 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
         setSubmitting(true);
         onError("");
         try {
-          recipeInput(current.current);
+          const draft = current.current;
+          const payload = { ...draft, servings: Number(draft.servings), minutes: Number(draft.minutes),
+            steps: draft.steps.map(step => ({ ...step, seconds: Number(step.seconds || 0) })) };
+          recipeInput(payload);
           if (!current.current.imageData && !current.current.remoteId)
             throw new Error("请添加成品图");
           await queue.current;
           if (!alive.current) return;
-          const r = await publish(current.current);
-          await deleteDraft(key);
+          const r = await publish(payload);
+          try { await deleteDraft(key); }
+          catch { if (alive.current) onError("已发布，旧草稿未能移除，请在草稿列表中删除。"); }
           if (alive.current) go("community/detail/" + r.id);
         } catch (e) {
           if (alive.current) onError(e.message);
@@ -1049,28 +1094,10 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
           />
         )}
         <div className="community-fields">
-          <label>
-            份数 *
-            <input
-              type="number"
-              min={1}
-              max={30}
-              required
-              value={value.servings}
-              onChange={(e) => change("servings", Number(e.target.value))}
-            />
-          </label>
-          <label>
-            预计分钟 *
-            <input
-              type="number"
-              min={1}
-              max={1440}
-              required
-              value={value.minutes}
-              onChange={(e) => change("minutes", Number(e.target.value))}
-            />
-          </label>
+          <DraftNumber label="份数 *" min={1} max={30} required value={value.servings}
+            onChange={next => change("servings", next)} />
+          <DraftNumber label="预计分钟 *" min={1} max={1440} required value={value.minutes}
+            onChange={next => change("minutes", next)} />
         </div>
         <label>
           分类
@@ -1201,18 +1228,8 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
                 />
               </label>
             ))}
-            <label>
-              计时秒数 {n + 1}（0 表示不计时）
-              <input
-                type="number"
-                min={0}
-                max={86400}
-                value={s.seconds}
-                onChange={(e) =>
-                  row("steps", n, "seconds", Number(e.target.value))
-                }
-              />
-            </label>
+            <DraftNumber label={`计时秒数 ${n + 1}（0 表示不计时）`} min={0} max={86400}
+              value={s.seconds} onChange={next => row("steps", n, "seconds", next)} />
             <button
               type="button"
               disabled={value.steps.length === 1}

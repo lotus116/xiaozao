@@ -1,3 +1,4 @@
+import { recipeText } from "./localized-element";
 import React from "react";
 import {
   Carrot,
@@ -75,8 +76,8 @@ export default function Ingredients({ r }) {
                   key={`${i.authorName || i.name}-${index}`}
                 >
                   <FoodIcon name={i.name} />
-                  <strong>{i.authorName || i.name}</strong>
-                  <span className="ingredient-amount">{amountForCard(i)}</span>
+                  <strong>{recipeText(r, i.authorName || i.name)}</strong>
+                  <span className="ingredient-amount">{recipeText(r, amountForCard(i))}</span>
                   {i.optional && <small>可省</small>}
                 </li>
               ))}
@@ -85,7 +86,7 @@ export default function Ingredients({ r }) {
               <details className="amount-notes">
                 <summary>用量与处理提示</summary>
                 {items.filter((i) => amountForCard(i) !== i.amount).map((i, index) =>
-                  <p key={`${i.authorName || i.name}-${index}`}><strong>{i.authorName || i.name}</strong>　{i.amount}</p>
+                  <p key={`${i.authorName || i.name}-${index}`}><strong>{recipeText(r, i.authorName || i.name)}</strong>　{recipeText(r, i.amount)}</p>
                 )}
               </details>
             )}
@@ -94,7 +95,7 @@ export default function Ingredients({ r }) {
                 <summary>为什么可以省？</summary>
                 {items.map((i, index) => (
                   <p key={`${i.authorName || i.name}-${index}`}>
-                    <strong>{i.authorName || i.name}：</strong>
+                    <strong>{recipeText(r, i.authorName || i.name)}：</strong>
                     {i.optionalReason || "辅助增香或点缀，按喜好添加。"}
                   </p>
                 ))}

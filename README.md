@@ -1,10 +1,17 @@
 # 小灶 · 做饭新手助手
 
-当前发布 **1.8.0**（Android versionCode 14）。React + Vite + Capacitor 安卓应用；本版随包提供 300 道菜、931 个步骤和离线照片。饭友圈使用独立 Node.js + SQLite 服务，原离线功能免登录。
+安卓课堂版源码 **1.9.0**（versionCode 15），配套 Windows 服务继续使用 **1.8.0**。React + Vite + Capacitor 安卓应用；本版随包提供 300 道菜、931 个步骤和离线照片。饭友圈使用独立 Node.js + SQLite 服务，原离线功能免登录。
 
 [下载 1.8.0 安卓与 Windows 部署包](https://github.com/lotus116/xiaozao/releases/tag/v1.8.0) · [文档索引](docs/INDEX.md) · [当前 PRD](docs/PRD.md) · [安卓安装](docs/ANDROID.md) · [测试记录](docs/TEST_REPORT.md)
 
 [原有 200 道逐项复查](docs/CATALOG_200_SOURCE_RECHECK.md) · [完整菜谱目录](docs/CATALOG_REVIEW.html)
+
+## 1.9.0 课堂操作
+
+- 安卓直接覆盖安装 `releases/xiaozao-1.9.0-debug.apk`。已运行的 Windows 1.8.0 服务可继续使用原地址。
+- “我的 → 厨房设置”可选择简体或香港繁体，内置食谱和本机搜索可离线使用。社区原文、已有下载和账号数据保留。线上饭友圈搜索仍使用服务器原有匹配。
+- “饭友圈 → 我的菜谱 → 写菜谱”旁可继续草稿。成功发布和修订会保存离线副本；正在使用的旧副本可在结束跟做后更新。本机发布记录可找回已删除下载的公开作品。
+- 顶栏采用 C 扁隶字标；悬浮计时器直接显示倒计时、暂停状态，支持原有拖动与长按隐藏。
 
 ## 当前功能
 

@@ -1,9 +1,10 @@
+import { original } from "./localized-element";
 import photoPages from "./domestic-photo-pages.json";
 import React from "react";
 import { ExternalLink } from "lucide-react";
 
 export default function Source({ r }) {
-  if (r.community) return <aside className="source"><h2>用户分享，未经项目核对</h2><p>作者：{r.community.author} · 第 {r.community.version} 版</p><p>{r.community.attribution}</p></aside>;
+  if (r.community) return <aside className="source"><h2>用户分享，未经项目核对</h2><p>作者：{original(r.community.author)} · 第 {r.community.version} 版</p><p>{original(r.community.attribution)}</p></aside>;
   return (
     <details key={r.id} className="source">
       <summary>菜谱来源与验证说明</summary>
