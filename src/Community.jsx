@@ -245,11 +245,10 @@ export default function Community({
           </button>
         )}
       </div>
-      <div className="community-tabs" aria-label="饭友圈栏目">
+      {!["account", "admin"].includes(section) && <div className="community-tabs" aria-label="饭友圈栏目">
         {[
           ["feed", "发现菜谱"],
           ["mine", "我的菜谱"],
-          ["account", "账号"],
         ].map(([p, label]) => (
           <a
             key={p}
@@ -259,7 +258,7 @@ export default function Community({
             {label}
           </a>
         ))}
-      </div>
+      </div>}
       {error && (
         <p ref={errorSummary} tabIndex={-1} role="alert" className="warning">
           {error}{" "}
@@ -269,13 +268,14 @@ export default function Community({
       <p role="status" className="community-status">
         {busy ? "正在处理…" : loading ? "正在加载…" : notice}
       </p>
-      {!connection.server && section !== "account" && (
-        <p className="warning">
-          还没有连接饭友圈服务。<a href="#community/account">设置服务地址</a>
-          ，原有离线功能可继续使用。
-        </p>
+      {!connection.server && section === "feed" && (
+        <div className="community-connect">
+          <h2>连接饭友圈</h2>
+          <p>连接服务后，可以发现和分享菜谱。</p>
+          <div><a href="#community/account">设置服务地址</a><a href="#community/mine">查看已下载菜谱</a></div>
+        </div>
       )}
-      {section === "feed" && (
+      {section === "feed" && connection.server && (
         <>
           <label>
             搜索分享的菜谱
@@ -308,7 +308,7 @@ export default function Community({
             ))}
           </div>
           {!items.length && connection.server && !error && !loading && (
-            <p>还没有找到菜谱，可以分享第一道家常菜。</p>
+            <p>{query.trim() ? "没有匹配的菜谱，换个菜名或食材试试。" : "还没有人分享菜谱。"}</p>
           )}
           {more && (
             <button

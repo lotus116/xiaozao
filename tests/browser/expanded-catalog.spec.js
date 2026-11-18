@@ -19,7 +19,8 @@ test('steak synonyms rank actual steak first and do not lose the search when ret
   await page.reload();
   await expect(query(page)).toHaveValue('牛扒');
   await page.screenshot({ path: info.outputPath('steak-search-390.png') });
-  await page.getByRole('link', { name: '收藏', exact: true }).tap();
+  await page.getByRole('link', { name: '我的', exact: true }).tap();
+  await page.getByRole('link', { name: /^收藏/ }).tap();
   await query(page).fill('牛排');
   await expect(page.locator('.recipe-row')).toHaveCount(1);
   await query(page).fill('鸡');

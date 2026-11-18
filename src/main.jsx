@@ -1,3 +1,4 @@
+import Profile from "./Profile";
 import Community from "./Community";
 import { getDownloads, putDownload } from "./community-store";
 import { DishThumbnail, DishPreview, PhotoCredit } from "./DishPhoto";
@@ -17,6 +18,7 @@ import {
   Search,
   Flame,
   Users,
+  UserRound,
   Leaf,
   Timer,
   X,
@@ -268,6 +270,7 @@ function App({ initialDownloads = [], downloadError = false }) {
   const focusedFood = pantryFoods.includes(focusIngredient) ? focusIngredient : "";
   const rec = recommend(selectedRecipes.filter(r => !r.community || !r.unknownIngredients?.length), state.pantry, focusedFood);
   const [page, id] = hash.replace("#", "").split("/");
+  const activeTab = ["settings", "favorites"].includes(page) || (page === "community" && ["account", "admin"].includes(id)) ? "profile" : page;
   const recipe = recipes.find((r) => r.id === id);
   const isCooking = page === "cook" && recipe &&
     state.cooking?.id === recipe.id && state.cooking.step >= 0 &&
@@ -334,6 +337,7 @@ function App({ initialDownloads = [], downloadError = false }) {
       </header>
       <main id="main">
         {downloadError && <p role="alert" className="warning">本机下载库暂时打不开。请重新打开应用；本次不写入厨房进度，避免覆盖原记录。</p>}
+        {page === "profile" && <Profile favoriteCount={state.favorites.length} downloadCount={downloads.length} />}
         {page === "community" && <Community hash={hash} go={go} downloads={downloads} onDownload={onDownload} state={state} setState={setState} />}
         {storageError && (
           <p role="alert" className="warning">
@@ -496,7 +500,6 @@ function App({ initialDownloads = [], downloadError = false }) {
           <section className="browse">
             <h1 tabIndex="-1">{page === "search" ? "找一道想吃的菜" : "我的收藏"}</h1>
             {page === "favorites" && state.favorites.filter(id => id.startsWith("community-") && !recipes.some(r => r.id === id)).map(id => <p className="warning" key={id}>社区收藏尚未下载或已不可获取。<a href="#community/feed">去饭友圈查找并下载</a><button onClick={() => fav(id)}>移除此收藏</button></p>)}
-            <CategoryTabs category={category} setCategory={setCategory} includeAll={page === "favorites" || Boolean(query.trim()) || category === "all"} />
             <label className="searchbox">
               <Search size={20} />
               <input
@@ -506,6 +509,7 @@ function App({ initialDownloads = [], downloadError = false }) {
                 onChange={(e) => setBrowse((s) => ({ ...s, query: e.target.value, category: e.target.value.trim() || page === "favorites" ? "all" : "dish" }))}
               />
             </label>
+            <CategoryTabs category={category} setCategory={setCategory} includeAll={page === "favorites" || Boolean(query.trim()) || category === "all"} />
             <details className="browse-filters" key={page}>
               <summary>筛选{[fewIngredients && "少配料", max !== "all" && `${max} 分钟内`, level !== "0" && (level === "1" ? "简单" : "需练习")].filter(Boolean).map((v) => " · " + v).join("")}</summary>
             <div className="filters">
@@ -764,6 +768,7 @@ function App({ initialDownloads = [], downloadError = false }) {
           "settings",
           "basket",
           "community",
+          "profile",
         ].includes(page) ||
         (["recipe", "cook"].includes(page) && !recipe)
           ? empty("没有找到这个页面", "回到找菜谱，重新选一道菜吧。")
@@ -809,14 +814,14 @@ function App({ initialDownloads = [], downloadError = false }) {
           ["pantry", Carrot, "我的食材"],
           ["search", BookOpen, "找菜谱"],
           ["basket", ShoppingBasket, "菜篮"],
-          ["favorites", Heart, "收藏"],
           ["community", Users, "饭友圈"],
+          ["profile", UserRound, "我的"],
         ].map(([p, Icon, label]) => (
           <a
             key={p}
             href={`#${p}`}
-            aria-current={page === p ? "page" : undefined}
-            className={page === p ? "active" : ""}
+            aria-current={activeTab === p ? "page" : undefined}
+            className={activeTab === p ? "active" : ""}
           >
             <Icon size={22} />
             <span>

@@ -200,3 +200,43 @@ nav { padding-left: max(6px, var(--safe-area-inset-left, env(safe-area-inset-lef
   .is-step-cooking .step-actions { justify-content: center; }
   .is-step-cooking .step-actions button { max-width: 320px; }
 }
+
+/* Mobile kitchen work surfaces and personal library. */
+.workspace .pantry-panel { align-self: start; padding: clamp(10px, 3vw, 20px); background: #f8f2e9; border-radius: 14px; }
+.browse .searchbox:focus-within { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.browse .searchbox input:focus { outline: 0; box-shadow: none; }
+.profile-page { max-width: 680px; margin: 0 auto; }
+.profile-page a, .community-connect a { color: var(--ink); text-decoration: none; }
+.profile-account, .profile-links a { display: flex; align-items: center; gap: 14px; }
+.profile-account { padding: 20px 16px; background: #f8eee4; border-radius: 14px; }
+.profile-account span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.profile-account strong, .profile-account small { display: block; }
+.profile-account strong { font-size: 20px; }
+.profile-page small { color: #68584b; }
+.profile-links { margin-top: 20px; border-block: 1px solid var(--line); }
+.profile-links a { min-height: 62px; padding: 8px 12px; }
+.profile-links a + a { border-top: 1px solid var(--line); }
+.profile-links small { margin-left: auto; }
+.community .community-tabs a { justify-content: center; flex: 1; }
+.community-connect { padding: 20px; border-radius: 12px; background: #f8f2e9; }
+.community .community-connect h2 { margin: 0; }
+.community-connect p { margin: 6px 0 12px; }
+.community-connect div { display: flex; flex-wrap: wrap; gap: 8px; }
+.community-connect a { min-height: 48px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 8px; }
+.community-connect a:first-child { color: white; background: var(--accent); }
+.community-connect a + a { border: 1px solid var(--line); background: var(--paper); }
+.community .community-recipe { align-items: center; }
+.profile-page a:active, .community-recipe:active { background: #f1e3d3; }
+@media (prefers-reduced-motion: no-preference) {
+  .profile-page a, .community-recipe, .kitchen-app > nav a, .browse .searchbox { transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease; }
+}
+@media (max-width: 360px) {
+  .browse:has(.searchbox) h1 { margin-bottom: 4px; }
+  .browse .category-tabs { margin-block: 4px; }
+  .browse .searchbox { margin-block: 4px; }
+}
+.profile-page h1 { font-size: 28px; margin: 16px 0; }
+.community-list .community-recipe { gap: 14px; }
+.community-list .community-recipe img { width: clamp(84px, 26vw, 116px); height: auto; aspect-ratio: 1.15; }
+.community-list .community-recipe strong { line-height: 1.35; }
+.community-list .community-recipe small:last-child { color: var(--ink); }

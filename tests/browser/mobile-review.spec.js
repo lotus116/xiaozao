@@ -4,7 +4,13 @@ import AxeBuilder from "@axe-core/playwright";
 test.use({ isMobile: true, hasTouch: true, viewport: { width: 390, height: 844 } });
 
 const button = (page, name) => page.getByRole("button", { name, exact: typeof name === "string" });
-const navigate = (page, hash) => page.locator(`${hash === "settings" ? "header" : "nav"} a[href="#${hash}"]`).tap();
+async function navigate(page, hash) {
+  if (hash === "favorites") {
+    await page.locator('nav a[href="#profile"]').tap();
+    return page.locator('main a[href="#favorites"]').tap();
+  }
+  await page.locator(`${hash === "settings" ? "header" : "nav"} a[href="#${hash}"]`).tap();
+}
 const saved = (page) => page.evaluate(() => JSON.parse(localStorage.getItem("xiaozao-v1")));
 async function onFirstScreen(page, control) {
   const box = await control.boundingBox();

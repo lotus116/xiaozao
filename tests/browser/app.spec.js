@@ -48,7 +48,8 @@ test("tomato eggs uses reminder tiles without checkboxes and cooking progress pe
     page.getByRole("heading", { name: "辛苦啦，开饭吧。" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "回到我的厨房" }).click();
-  await page.getByRole("link", { name: "收藏", exact: true }).click();
+  await page.getByRole("link", { name: "我的", exact: true }).click();
+  await page.getByRole("link", { name: /^收藏/ }).click();
   await expect(
     page.getByRole("button", { name: /番茄炒鸡蛋.*可以做，必需食材齐全/ }),
   ).toBeVisible();

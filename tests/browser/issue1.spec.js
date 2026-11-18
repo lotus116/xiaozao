@@ -115,7 +115,7 @@ test('sound starts once after expiry, survives route changes and hidden icon, an
  await page.clock.fastForward(10000);
  await expect(page.getByRole('complementary',{name:'计时到点提醒'})).toBeVisible();
  await expect.poll(async()=>(await soundCounts(page)).starts).toBe(3);
- await page.getByRole('link',{name:'收藏',exact:true}).tap();
+ await page.getByRole('link',{name:'我的',exact:true}).tap();
  await page.clock.fastForward(3100);
  expect((await soundCounts(page)).starts).toBe(6);expect((await soundCounts(page)).created).toBe(1);
  await page.getByRole('button',{name:'知道了，结束计时',exact:true}).tap();
