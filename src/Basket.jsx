@@ -1,3 +1,4 @@
+import { localize } from "./language";
 import { recipeText } from "./localized-element";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -15,6 +16,7 @@ import {
   mealIngredients,
   mealShoppingText,
   resumeMealRecipe,
+  openMealDish,
   restoreMealRecipe,
 } from "./meal";
 import { allowedRecipe, dietaryWarnings } from "./preferences";
@@ -36,7 +38,7 @@ export default function Basket({ state, setState, recipes, go }) {
   const needed = ingredients.filter((i) => i.missing && !i.water);
   const visibleIngredients = prepView === "missing" ? needed : ingredients;
   const canBegin = canStartMeal(state.basket, recipes, state.preferences);
-  const shoppingText = mealShoppingText(rows, state.pantry, state.preferences);
+  const shoppingText = mealShoppingText(rows, state.pantry, state.preferences, localize);
   const copyStatus = copyResult?.text === shoppingText ? copyResult.status : null;
   const active = state.meal && state.cooking;
   const currentRecipe = active && recipes.find((r) => r.id === state.cooking.id);
@@ -47,7 +49,8 @@ export default function Basket({ state, setState, recipes, go }) {
   const removedMealRows = active ? basketRecipes(state.meal.ids.filter((id) => !state.basket.includes(id)), recipes) : [];
   const statusOf = (r) => !state.meal?.ids.includes(r.id) ? "下一餐"
     : state.meal.done.includes(r.id) ? "已完成"
-    : state.cooking?.id === r.id && state.cooking.step < r.steps.length ? "正在做" : "待做";
+    : state.cooking?.id === r.id && state.cooking.step < r.steps.length ? "正在做"
+    : state.meal.bookmarks?.[r.id] >= 0 ? `已到第 ${state.meal.bookmarks[r.id] + 1} 步` : "待做";
   const progress = (r) => active && (
     <div className="basket-dish-progress">
       <span className={statusOf(r) === "已完成" ? "ready" : "hint"}>
@@ -150,10 +153,7 @@ export default function Basket({ state, setState, recipes, go }) {
               onClick={() => {
                 if (!allowedRecipe(resumeRecipe, state.preferences)) return;
                 if (state.cooking.id !== resumeRecipe.id || state.cooking.step >= resumeRecipe.steps.length)
-                  setState((s) => ({
-                    ...s,
-                    cooking: { id: resumeRecipe.id, step: 0 },
-                  }));
+                  setState((s) => openMealDish(s, resumeRecipe, 0));
                 go("cook/" + resumeRecipe.id);
               }}
             >

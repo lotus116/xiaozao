@@ -592,7 +592,7 @@ export default function Community({
               })
             }
           />
-          {!user ? (
+          {!user && !connection.server ? <p>先连接课堂服务，再登录或注册。</p> : !user ? (
             <AuthForm
               busy={busy}
               submit={(mode, username, password) =>
@@ -962,12 +962,17 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const localId = useRef(id === "new" ? crypto.randomUUID() : id);
-  const key = scope + ":" + localId.current;
+  const [photoError, setPhotoError] = useState("");
+  const photoInput = useRef(null);
+  const key = scope + ":" + id;
   const queue = useRef(Promise.resolve());
   const current = useRef(null);
   const alive = useRef(true);
   useEffect(() => {
+    if (id === "new") {
+      go("community/edit/draft-" + crypto.randomUUID(), { replace: true });
+      return;
+    }
     alive.current = true;
     let valid = true;
     (async () => {
@@ -975,7 +980,7 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
       const saved = drafts.find((d) => d.key === key);
       let data = saved?.value;
       if (!data) {
-        if (id === "new") data = blank();
+        if (id.startsWith("draft-")) data = blank();
         else {
           const r = await call("/api/recipes/" + id);
           data = {
@@ -1000,16 +1005,16 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
     setSaving(true);
     queue.current = queue.current
       .catch(() => {})
-      .then(() => putDraft({ key, scope, id: localId.current, value }));
+      .then(() => putDraft({ key, scope, id, value }));
     queue.current
       .then(() => {
-        if (alive.current) {
+        if (alive.current && current.current === value) {
           setStatus("草稿已保存到本机");
           setSaving(false);
         }
       })
       .catch(() => {
-        if (alive.current) {
+        if (alive.current && current.current === value) {
           setStatus("草稿保存失败，请检查本机空间，暂勿离开");
           setSaving(false);
         }
@@ -1035,15 +1040,19 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
       onSubmit={async (e) => {
         e.preventDefault();
         if (submitting) return;
-        setSubmitting(true);
         onError("");
         try {
           const draft = current.current;
           const payload = { ...draft, servings: Number(draft.servings), minutes: Number(draft.minutes),
             steps: draft.steps.map(step => ({ ...step, seconds: Number(step.seconds || 0) })) };
           recipeInput(payload);
-          if (!current.current.imageData && !current.current.remoteId)
-            throw new Error("请添加成品图");
+          if (!draft.imageData && !draft.remoteId) {
+            setPhotoError("请添加成品图");
+            photoInput.current?.focus();
+            photoInput.current?.scrollIntoView({ block: "center" });
+            return;
+          }
+          setSubmitting(true);
           await queue.current;
           if (!alive.current) return;
           const r = await publish(payload);
@@ -1072,6 +1081,9 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
         <label>
           成品图 *
           <input
+            ref={photoInput}
+            aria-invalid={photoError ? true : undefined}
+            aria-describedby={photoError ? "cover-error" : undefined}
             type="file"
             accept="image/jpeg,image/png,image/webp"
             onChange={async (e) => {
@@ -1079,13 +1091,14 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
               if (!f) return;
               try {
                 const data = await preparePhoto(f);
-                if (alive.current) change("imageData", data);
+                if (alive.current) { setPhotoError(""); change("imageData", data); }
               } catch (e) {
-                onError(e.message);
+                if (alive.current) setPhotoError(e.message);
               }
             }}
           />
         </label>
+        {photoError && <p className="warning" id="cover-error" role="alert">{photoError}</p>}
         {(value.imageData || value.image) && (
           <img
             className="community-cover"

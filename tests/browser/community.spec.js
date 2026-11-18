@@ -21,6 +21,7 @@ test.afterAll(async () => {
 });
 async function connect(page) {
   await page.goto("/#community/account");
+  await expect(page.getByRole("button", { name: "没有账号，去注册" })).toHaveCount(0);
   await page.getByLabel("HTTPS 服务地址").fill(server);
   await page.getByRole("button", { name: "连接服务", exact: true }).click();
   await expect(
@@ -39,9 +40,6 @@ async function register(page, name) {
 async function publish(page, name, beef = false) {
   await page.getByRole("button", { name: "发布菜谱", exact: true }).click();
   await page.getByLabel("菜名 *", { exact: true }).fill(name);
-  await page
-    .getByLabel("成品图 *", { exact: true })
-    .setInputFiles({ name: "dish.png", mimeType: "image/png", buffer: photo });
   await page.getByLabel("食材 1 *", { exact: true }).fill(beef ? "牛肉卷" : "番茄");
   await page.getByLabel("用量 1 *", { exact: true }).fill(beef ? "150 克" : "2 个");
   if (beef) {
@@ -64,6 +62,13 @@ async function publish(page, name, beef = false) {
   await expect(
     page.getByText("草稿已保存到本机", { exact: true }),
   ).toBeVisible();
+  await page.getByRole("button", { name: "发布菜谱", exact: true }).click();
+  await expect(page.getByLabel("成品图 *", { exact:true })).toBeFocused();
+  await expect(page.getByRole("alert")).toHaveText("请添加成品图");
+  await page
+    .getByLabel("成品图 *", { exact: true })
+    .setInputFiles({ name: "dish.png", mimeType: "image/png", buffer: photo });
+  await expect(page.getByRole("alert")).toHaveCount(0);
   await page.getByRole("button", { name: "发布菜谱", exact: true }).click();
   await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
   return page.url().split("/").pop();
@@ -192,6 +197,11 @@ test("account backup restores only configuration, comments/replies and draft sur
   await expect(
     page.getByText("草稿已保存到本机", { exact: true }),
   ).toBeVisible();
+  await page.reload();
+  await expect(page.getByLabel("菜名 *", { exact: true })).toHaveValue("未发布草稿");
+  await page.getByRole("link", { name: "我的菜谱", exact: true }).click();
+  await page.goBack();
+  await expect(page.getByLabel("菜名 *", { exact: true })).toHaveValue("未发布草稿");
   await page.getByRole("link", { name: "我的菜谱", exact: true }).click();
   await expect(page.getByText("未发布草稿", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "继续编辑", exact: true }).click();

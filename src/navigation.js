@@ -82,7 +82,7 @@ export function useKitchenNavigation(filters, setFilters) {
     else window.scrollTo(0, restore.current);
   }, [hash]);
 
-  const go = (path, { resetFilters = false } = {}) => {
+  const go = (path, { resetFilters = false, replace = false } = {}) => {
     const target = path.startsWith("#") ? path : "#" + path;
     if (target === current.current) {
       if (resetFilters) setFilters(initialBrowseState({}, target));
@@ -96,7 +96,7 @@ export function useKitchenNavigation(filters, setFilters) {
       : prior.origin;
     const enteringList = ["#search", "#favorites", "#pantry"].includes(target);
     const nextFilters = enteringList ? initialBrowseState(resetFilters ? {} : listFilters.current[target] || {}, target) : filters;
-    history.pushState({ [key]: { index: prior.index + 1, scroll: 0, origin, filters: nextFilters, lists: listFilters.current } }, "", target);
+    history[replace ? "replaceState" : "pushState"]({ [key]: { index: prior.index + (replace ? 0 : 1), scroll: 0, origin, filters: nextFilters, lists: listFilters.current } }, "", target);
     if (enteringList) setFilters(nextFilters);
     document.querySelectorAll("dialog[open]").forEach((dialog) => dialog.close());
     restore.current = 0;

@@ -53,6 +53,7 @@ import { addPantryInput } from "./pantry-input";
 import { useKitchenNavigation, initialBrowseState } from "./navigation";
 import TimerWidget from "./TimerWidget";
 import Ingredients from "./Ingredients";
+import { openMealDish } from "./meal";
 import Basket from "./Basket";
 import Cooking from "./Cooking";
 import { PreparationNotes, ChefNotes } from "./CookingNotes";
@@ -319,10 +320,11 @@ function App({ initialDownloads = [], downloadError = false }) {
     setState((s) => {
       if (s.cooking?.id === r.id) return s;
       const inMeal = !replace && s.meal?.ids.includes(r.id);
+      if (inMeal) return openMealDish(s, r, -1);
       return {
         ...s,
-        meal: inMeal ? s.meal : null,
-        cooking: { id: r.id, step: inMeal && s.meal.done.includes(r.id) ? r.steps.length : -1 },
+        meal: null,
+        cooking: { id: r.id, step: -1 },
         timer: replace && s.timer?.id ? null : s.timer,
       };
     });

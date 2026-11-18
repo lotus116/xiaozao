@@ -13,7 +13,7 @@ import KeepAwake from "./KeepAwake";
 import { PreparationNotes, CookingNotes, ChefNotes } from "./CookingNotes";
 import { timerLabel, formatTimer } from "./cooking-guidance";
 import { remaining } from "./logic";
-import { nextMealRecipe } from "./meal";
+import { openMealDish, nextMealRecipe } from "./meal";
 import { dietaryWarnings } from "./preferences";
 import { stepGuidance } from "./step-guidance";
 import { scrollCookingHeading } from "./cooking-scroll";
@@ -154,7 +154,7 @@ export default function Cooking({
           <button
             className="primary wide"
             onClick={() => {
-              setState((s) => ({ ...s, cooking: { id: next.id, step: 0 } }));
+              setState((s) => openMealDish(s, next, 0));
               go("cook/" + next.id);
             }}
           >

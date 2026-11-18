@@ -37,3 +37,41 @@ test('the compact dock shows time and pause without overlapping the focused cook
   const dock=await handle.boundingBox(), footer=await page.locator('.step-actions').boundingBox();
   expect(dock.y+dock.height).toBeLessThanOrEqual(footer.y);
 });
+
+test('all 300 visible Hong Kong titles find their own card through the search box', async ({page}) => {
+  test.setTimeout(90000);
+  await page.addInitScript(() => localStorage.setItem('xiaozao-language','zh-HK'));
+  await page.goto('/#search');
+  const input = page.getByRole('textbox',{name:'搜索食譜'});
+  const titles = page.locator('.recipe-open strong');
+  const names = [];
+  const tabs = page.locator('.category-tabs button');
+  await expect(tabs).toHaveCount(3);
+  for (let index = 0; index < 3; index++) {
+    await tabs.nth(index).click();
+    await expect(tabs.nth(index)).toHaveAttribute('aria-pressed','true');
+    names.push(...await titles.allTextContents());
+  }
+  expect(new Set(names).size).toBe(300);
+  for (const name of names) {
+    await input.fill(name);
+    await expect(titles.first()).toHaveText(name);
+  }
+});
+
+test('Hong Kong shopping text uses the same terms for clipboard and manual copy', async ({page}) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('xiaozao-language','zh-HK');
+    localStorage.setItem('xiaozao-v1',JSON.stringify({version:3,basket:['tomato-eggs']}));
+    Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>{window.copied=text;}}});
+  });
+  await page.goto('/#basket');
+  const copy = page.getByRole('button',{name:'複製採購清單'});
+  await copy.click();
+  const text = await page.evaluate(()=>window.copied);
+  expect(text).toContain('採購清單');
+  expect(text).toContain('雞蛋');
+  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{value:undefined}));
+  await copy.click();
+  await expect(page.getByRole('textbox',{name:'採購清單文本'})).toHaveValue(text);
+});

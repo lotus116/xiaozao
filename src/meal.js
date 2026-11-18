@@ -21,7 +21,7 @@ export function mealIngredients(rows, pantry) {
         missing: absent.has(name),
         uses: [],
       };
-      item.uses.push({ recipe: r.name, amount: i.amount });
+      item.uses.push({ recipe: r.name, amount: i.amount, ...(r.community && { authored: true }) });
       grouped.set(name, item);
     }
   }
@@ -29,7 +29,7 @@ export function mealIngredients(rows, pantry) {
 }
 // Keep recipe quantities separate: pantry entries track kinds, not amounts.
 // A restricted basket must be resolved before exporting a shopping list.
-export function mealShoppingText(rows, pantry, preferences) {
+export function mealShoppingText(rows, pantry, preferences, translate = text => text) {
   if (!rows.length || rows.some((r) => !allowedRecipe(r, preferences)))
     return "";
   const needed = mealIngredients(rows, pantry).filter(
@@ -37,10 +37,10 @@ export function mealShoppingText(rows, pantry, preferences) {
   );
   if (!needed.length) return "";
   return [
-    "小灶 · 采购清单",
-    "清单未记的必需食材，请先核对家中用量。",
+    translate("小灶 · 采购清单"),
+    translate("清单未记的必需食材，请先核对家中用量。"),
     ...needed.map((i) =>
-      ["", i.name, ...i.uses.map((u) => `  ${u.recipe}：${u.amount}`)].join("\n"),
+      ["", translate(i.name), ...i.uses.map((u) => u.authored ? `  ${u.recipe}：${u.amount}` : translate(`  ${u.recipe}：${u.amount}`))].join("\n"),
     ),
   ].join("\n");
 }
@@ -59,11 +59,28 @@ export function resumeMealRecipe(state, recipes) {
   return nextMealRecipe(state.meal, recipes, state.preferences);
 }
 
+// The active dish lives in cooking; keep bookmarks for the other dishes at each switch.
+export function openMealDish(state, recipe, initialStep) {
+  const meal = state.meal;
+  const bookmarks = { ...meal.bookmarks };
+  const previous = state.cooking;
+  if (previous && meal.ids.includes(previous.id) && !meal.done.includes(previous.id))
+    bookmarks[previous.id] = previous.step;
+  const step = meal.done.includes(recipe.id) ? recipe.steps.length : bookmarks[recipe.id] ?? initialStep;
+  delete bookmarks[recipe.id];
+  return { ...state, meal: { ...meal, bookmarks }, cooking: { id: recipe.id, step } };
+}
+
 export function restoreMealRecipe(state, recipe) {
   if (!state.meal?.done.includes(recipe.id)) return state;
+  const meal = { ...state.meal, done: state.meal.done.filter(id => id !== recipe.id) };
+  if (meal.bookmarks) {
+    meal.bookmarks = { ...meal.bookmarks };
+    delete meal.bookmarks[recipe.id];
+  }
   return {
     ...state,
-    meal: { ...state.meal, done: state.meal.done.filter((id) => id !== recipe.id) },
+    meal,
     cooking: state.cooking?.id === recipe.id
       ? { id: recipe.id, step: 0 } : state.cooking,
   };

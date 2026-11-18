@@ -195,3 +195,34 @@ test("new completion, interruption and cooking controls remain accessible on a n
   expect(button.height).toBeGreaterThanOrEqual(52);
   await page.screenshot({ path: "test-results/low-touch-cooking-320.png", fullPage: true });
 });
+
+test("two unfinished dishes keep independent steps through switching and restarting", async ({page}) => {
+  const ids = ["tomato-eggs", "steamed-eggs"];
+  await seed(page, {basket:ids, meal:{ids,done:[]}, cooking:{id:ids[0],step:1}, cookView:"step"});
+  async function openFromBasket(name) {
+    await page.getByRole("button", {name:new RegExp("^" + name)}).first().click();
+    await page.getByRole("button", {name:"看备料",exact:true}).click();
+  }
+  const back = () => page.getByRole("button", {name:"返回菜篮（进度保留）"}).click();
+  await openFromBasket("家常蒸蛋");
+  await page.getByRole("button", {name:"开始做这道菜"}).click();
+  await page.getByRole("button", {name:"下一步",exact:true}).click();
+  await page.getByRole("button", {name:"下一步",exact:true}).click();
+  await back();
+  await openFromBasket("番茄炒鸡蛋");
+  await expect.poll(async () => (await readState(page)).cooking).toEqual({id:ids[0],step:1});
+  await page.reload();
+  await back();
+  await openFromBasket("家常蒸蛋");
+  await expect.poll(async () => (await readState(page)).cooking).toEqual({id:ids[1],step:2});
+});
+
+test("basket timer clears the start button on narrow phones", async ({page}) => {
+  for (const width of [320,390]) {
+    await page.setViewportSize({width,height:800});
+    await seed(page,{basket:["tomato-eggs"]});
+    const timer = await page.locator(".timer-handle").boundingBox();
+    const start = await page.locator(".meal-start").boundingBox();
+    expect(timer.y + timer.height).toBeLessThanOrEqual(start.y);
+  }
+});

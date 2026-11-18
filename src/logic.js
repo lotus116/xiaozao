@@ -55,6 +55,7 @@ const searchAliases = {
   西红柿: "番茄", 蕃茄: "番茄", 马铃薯: "土豆", 洋芋: "土豆",
   牛扒: "牛排", 豬扒: "猪排", 猪扒: "猪排", 鸡扒: "鸡排",
   青花菜: "西兰花", 西蓝花: "西兰花", 卷心菜: "包菜", 圆白菜: "包菜",
+  蒜薹: "蒜苔", 番茄炒蛋: "番茄炒鸡蛋",
   大蒜: "蒜", 蒜头: "蒜", 香葱: "葱", 小葱: "葱", 芝士: "奶酪",
   意粉: "意大利面", 意面: "意大利面", 番薯: "红薯", 地瓜: "红薯",
 };
@@ -180,6 +181,12 @@ export function cleanState(raw, recipes) {
             done: knownIds(s.meal?.done).filter((id) => mealIds.includes(id)),
           }
         : null;
+    if (meal && s.meal.bookmarks) {
+      meal.bookmarks = Object.fromEntries(recipes.filter(r => mealIds.includes(r.id) &&
+        r.id !== cooking.id && !meal.done.includes(r.id) && s.version >= (r.stateVersion || 1) &&
+        Number.isInteger(s.meal.bookmarks[r.id]) && s.meal.bookmarks[r.id] >= -1 &&
+        s.meal.bookmarks[r.id] < r.steps.length).map(r => [r.id, s.meal.bookmarks[r.id]]));
+    }
     const position = s.timerDock?.position;
     return {
       pantry,

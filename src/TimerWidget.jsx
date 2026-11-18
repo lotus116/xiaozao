@@ -162,7 +162,7 @@ export default function TimerWidget({
             top:
               "clamp(calc(12px + var(--app-safe-top)), " +
               point.y +
-              "px, calc(100dvh - 142px - var(--app-safe-bottom)))",
+              "px, calc(100dvh - var(--timer-bottom-clearance, 142px) - var(--app-safe-bottom)))",
           }}
         >
           <button

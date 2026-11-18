@@ -109,6 +109,7 @@ main { padding-bottom: calc(110px + var(--app-safe-bottom)); }
 .basket-copy-button { width: 100%; background: transparent; border-color: var(--accent); }
 .basket-start-bar { position: fixed; left: 0; right: 0; bottom: calc(69px + var(--app-safe-bottom)); padding: 8px max(20px, var(--safe-area-inset-right, env(safe-area-inset-right, 0px))) 8px max(20px, var(--safe-area-inset-left, env(safe-area-inset-left, 0px))); background: var(--canvas); border-top: 1px solid var(--line); z-index: 4; }
 .basket-start-bar .meal-start { display: flex; max-width: 720px; margin: auto; min-height: 52px; }
+.kitchen-app:has(.basket-start-bar) { --timer-bottom-clearance: 207px; }
 main:has(.basket-start-bar) { padding-bottom: calc(190px + var(--app-safe-bottom)); }
 .basket-page .meal-planner { padding: 16px 0; margin: 16px 0; border: 0; border-block: 1px solid var(--line); border-radius: 0; background: transparent; }
 .meal-planner-heading { gap: 8px; margin: 0; }

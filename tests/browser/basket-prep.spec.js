@@ -195,7 +195,7 @@ test("changing allergies mid-meal can continue a safe dish without resetting or 
   expect(await page.evaluate((key) => {
     const state = JSON.parse(localStorage.getItem(key));
     return { meal: state.meal, cooking: state.cooking };
-  }, key)).toEqual({ meal: { ids, done: [] }, cooking: { id: "cn-steamed-pumpkin", step: 0 } });
+  }, key)).toEqual({ meal: { ids, done: [], bookmarks: { "tomato-eggs": 1 } }, cooking: { id: "cn-steamed-pumpkin", step: 0 } });
   await page.goto("/#basket");
   await expect(page.locator(".basket-dishes > li")).toHaveCount(2);
   await expect(page.getByRole("button", { name: "继续这顿饭", exact: true })).toBeEnabled();
