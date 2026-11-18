@@ -470,3 +470,36 @@ test("mine starts creation, numeric drafts allow blanks, published edits replace
   await page.goto("/#community/mine");
   await expect(page.locator("article button.community-recipe")).toContainText("作者修订的食谱");
 });
+
+test("phone keyboard flow, ingredient undo and a third step survive returning to the draft", async ({page}) => {
+  await page.setViewportSize({width:320,height:568});
+  await connect(page);
+  await register(page,"fivefoods"+Date.now());
+  await page.getByRole("button",{name:"发布菜谱",exact:true}).click();
+  await page.getByRole("button",{name:"食材",exact:true}).click();
+  const foods=["番茄","鸡蛋","葱","姜","盐"];
+  for (const [index,food] of foods.entries()) {
+    const name=page.getByLabel(`食材 ${index+1} *`,{exact:true});
+    if (index) await expect(name).toBeFocused();
+    await name.fill(food);
+    await name.press("Enter");
+    const amount=page.getByLabel(`用量 ${index+1} *`,{exact:true});
+    await expect(amount).toBeFocused();
+    await amount.fill("1 克");
+    if(index<4) await amount.press("Enter");
+  }
+  await page.getByRole("button",{name:"删除食材 3"}).click();
+  await page.getByRole("button",{name:"撤销删除"}).click();
+  await expect(page.getByLabel("食材 3 *",{exact:true})).toHaveValue("葱");
+  await page.getByRole("button",{name:"下一步：步骤"}).click();
+  for(const i of [1,2,3]){
+    if(i>1) await page.getByRole("button",{name:"添加步骤"}).click();
+    await page.getByLabel(`步骤标题 ${i} *`,{exact:true}).fill("备料"+i);
+  }
+  await expect(page.getByText("草稿已保存到本机",{exact:true})).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("textbox",{name:"步骤标题 3 *",exact:true})).toHaveValue("备料3");
+  await expect(page.getByLabel("步骤标题 1 *",{exact:true})).toBeHidden();
+  await page.getByRole("button",{name:/第 1 步.*备料1/}).click();
+  await expect(page.getByRole("textbox",{name:"步骤标题 1 *",exact:true})).toBeVisible();
+});

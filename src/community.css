@@ -246,3 +246,31 @@
     width: calc(100% - 64px);
   }
 }
+.community-editor [hidden] { display:none; }
+.community-editor > p[role=status] { min-height:1.5em; }
+.community-editor .photo-picker { position:relative; min-height:110px; background:#f4eee4; border-radius:10px; overflow:hidden; align-items:center; justify-content:center; }
+.photo-picker .community-cover { height:144px; }
+.photo-picker span { padding:8px; }
+.community .photo-picker input { position:absolute; inset:0; opacity:0; cursor:pointer; height:100%; }
+.photo-picker:focus-within { outline:3px solid var(--accent); }
+.community-editor .step-summary { width:100%; text-align:left; justify-content:flex-start; font-weight:700; }
+.library-sheet[open] { position:fixed; inset:auto 0 0; margin:0 auto; width:min(100%,480px); max-height:75dvh; overflow:auto; border:0; border-radius:18px 18px 0 0; padding:16px 20px max(16px,env(safe-area-inset-bottom)); background:var(--paper,#fffcf6); }
+.library-sheet button { display:block; width:100%; margin-top:8px; }
+.library-sheet::backdrop { background:rgb(30 22 16 / .42); }
+@media(prefers-reduced-motion:no-preference) {
+ .library-sheet[open], .community-editor [data-step]:not([hidden]), .community-editor [data-panel="食材"] .community-row, .photo-picker img { animation:circle-appear 160ms ease-out; }
+ @keyframes circle-appear { from { opacity:.6; transform:translateY(6px); } }
+}
+.community .draft-open { width:100%; justify-content:space-between; border:0; background:transparent; text-align:left; padding:8px 0; }
+.draft-open span { color:var(--muted); }
+.ingredient-controls { display:flex; align-items:center; justify-content:space-between; gap:6px; }
+.community .ingredient-controls label { margin:0; font-weight:400; }
+.ingredient-controls button { border:0; background:transparent; color:var(--muted); }
+.kitchen-app:has(.floating-timer) .community-editor .primary { width:calc(100% - 64px); }
+.library-sheet .sheet-title { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.sheet-title img { width:52px; height:52px; border-radius:8px; object-fit:cover; }
+.community .sheet-title h2 { margin:0; }
+.community .library-sheet button { margin:0; background:transparent; border:0; border-top:1px solid var(--line); border-radius:0; text-align:left; }
+.library-sheet button[aria-label] { color:var(--accent); }
+.community-editor .step-summary::after { content:"⌄"; margin-inline-start:auto; }
+.community-editor .step-summary[aria-expanded=true]::after { transform:rotate(180deg); }

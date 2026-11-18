@@ -358,11 +358,10 @@ export default function Community({
               {!drafts.length && <p>暂无草稿。</p>}
               {drafts.map((d) => (
                 <div className="community-local" key={d.key}>
-                  <strong>{d.value.name ? original(d.value.name) : "未命名菜谱"}</strong>
+                  <button className="draft-open" aria-label="继续编辑" onClick={() => go("community/edit/" + d.id)}>
+                    <strong>{d.value.name ? original(d.value.name) : "未命名菜谱"}</strong><span>继续编辑</span>
+                  </button>
                   <div className="community-actions">
-                    <button onClick={() => go("community/edit/" + d.id)}>
-                      继续编辑
-                    </button>
                     <button
                       onClick={() =>
                         run(async () => {
@@ -408,7 +407,13 @@ export default function Community({
                   </small>
                 </span>
               </button>
-              <details className="circle-more"><summary aria-label={`更多操作：${r.name}`}>更多</summary>
+              <button aria-label={`更多操作：${r.name}`} onClick={e => e.currentTarget.nextElementSibling.showModal()}>更多</button>
+              <dialog className="library-sheet" aria-label={`管理：${r.name}`} onClick={e => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                if (e.target === e.currentTarget && (e.clientY < rect.top || e.clientY > rect.bottom ||
+                    e.clientX < rect.left || e.clientX > rect.right)) e.currentTarget.close();
+              }}>
+              <div className="sheet-title"><img src={r.imageData} alt="" /><h2>{original(r.name)}</h2></div>
               {r.community.serverId === connection.session?.serverId ||
               r.community.server === connection.server ? (
                 <button
@@ -421,13 +426,15 @@ export default function Community({
               )}
               <button disabled={busy} aria-label={`删除本机下载：${r.name}`} onClick={() => {
                 if (window.confirm(`删除《${r.name}》的本机下载并从菜篮移除？收藏和饭友圈原作会保留。`)) {
+                  document.querySelector(".library-sheet[open]")?.close();
                   run(async alive => {
                     await onDeleteDownload(r);
                     if (alive()) setNotice("已删除本机下载");
                   });
                 }
               }}>删除本机下载</button>
-              </details>
+              <button onClick={e => e.currentTarget.closest("dialog").close()}>取消</button>
+              </dialog>
             </article>
           ))}
           </>}
@@ -974,6 +981,14 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
     try { sessionStorage.setItem(key, next); } catch { /* Draft content is stored separately. */ }
     document.querySelector(".circle-editor-tabs")?.scrollIntoView({ block: "start" });
   }
+  const [editingStep, setEditingStep] = useState(() => {
+    try { return Number(sessionStorage.getItem(key + ":step")) || 0; } catch { return 0; }
+  });
+  const [removed, setRemoved] = useState(null);
+  function openStep(index) {
+    setEditingStep(index);
+    try { sessionStorage.setItem(key + ":step", String(index)); } catch {}
+  }
   const queue = useRef(Promise.resolve());
   const current = useRef(null);
   const alive = useRef(true);
@@ -1042,6 +1057,19 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
         i === index ? { ...v, [name]: next } : v,
       ),
     );
+  function addIngredient() {
+    if (value.ingredients.length >= 50) return;
+    flushSync(() => change("ingredients", [...value.ingredients, { name: "", amount: "", optional: false }]));
+    document.querySelector('[data-panel="食材"] .community-row:last-of-type input')?.focus();
+  }
+  function ingredientEnter(event, index, isAmount) {
+    if (event.key !== "Enter" || event.nativeEvent.isComposing || event.keyCode === 229) return;
+    event.preventDefault();
+    const fields = event.currentTarget.closest("fieldset").querySelectorAll(".community-fields input");
+    const next = fields[index * 2 + (isAmount ? 2 : 1)];
+    if (next) next.focus();
+    else if (event.currentTarget.value.trim()) addIngredient();
+  }
   if (!value) return <p role="status">正在打开草稿…</p>;
   return (
     <form
@@ -1058,6 +1086,7 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
             (!control.validity.valid || (control.required && !control.value.trim())));
           if (invalid) {
             selectPanel(invalid.closest("fieldset").dataset.panel);
+            if (invalid.closest("[data-step]")) flushSync(() => openStep(Number(invalid.closest("[data-step]").dataset.step)));
             invalid.closest("details")?.setAttribute("open", "");
             invalid.focus();
             if (invalid.validity.valid) invalid.setCustomValidity("请填写此项");
@@ -1093,19 +1122,17 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
       <p role="status">{saving ? "正在保存草稿…" : status}</p>
       <fieldset disabled={submitting} data-panel="基本信息" hidden={panel !== "基本信息"}>
         <legend>基本信息</legend>
-        <label>
-          菜名 *
-          <input
-            required
-            maxLength={60}
-            value={value.name}
-            onChange={(e) => change("name", e.target.value)}
+        <label className="photo-picker">
+          {(value.imageData || value.image) && (
+          <img
+            className="community-cover"
+            src={value.imageData || server + value.image}
+            alt="成品图预览"
           />
-        </label>
-        <label>
-          成品图 *
+        )}
+          <span>{value.imageData || value.image ? "更换成品图" : "添加成品图"}</span>
           <input
-            ref={photoInput}
+            aria-label="成品图 *" ref={photoInput}
             aria-invalid={photoError ? true : undefined}
             aria-describedby={photoError ? "cover-error" : undefined}
             type="file"
@@ -1123,13 +1150,15 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
           />
         </label>
         {photoError && <p className="warning" id="cover-error" role="alert">{photoError}</p>}
-        {(value.imageData || value.image) && (
-          <img
-            className="community-cover"
-            src={value.imageData || server + value.image}
-            alt="成品图预览"
+        <label>
+          菜名 *
+          <input
+            required
+            maxLength={60}
+            value={value.name}
+            onChange={(e) => change("name", e.target.value)}
           />
-        )}
+        </label>
         <div className="community-fields">
           <DraftNumber label="份数 *" min={1} max={30} required value={value.servings}
             onChange={next => change("servings", next)} />
@@ -1147,6 +1176,7 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
             <option value="soup">汤羹</option>
           </select>
         </label>
+        <details><summary>简介与厨具（选填）</summary>
         <label>
           简介
           <textarea
@@ -1163,6 +1193,7 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
             onChange={(e) => change("tools", e.target.value)}
           />
         </label>
+        </details>
         <label>
           原创／来源声明 *
           <textarea
@@ -1183,7 +1214,7 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
                 <input
                   required
                   maxLength={30}
-                  value={i.name}
+                  enterKeyHint="next" onKeyDown={e => ingredientEnter(e, n, false)} value={i.name}
                   onChange={(e) =>
                     row("ingredients", n, "name", e.target.value)
                   }
@@ -1194,7 +1225,7 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
                 <input
                   required
                   maxLength={100}
-                  value={i.amount}
+                  enterKeyHint="next" onKeyDown={e => ingredientEnter(e, n, true)} value={i.amount}
                   onChange={(e) =>
                     row("ingredients", n, "amount", e.target.value)
                   }
@@ -1205,7 +1236,7 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
               onClick={() => row("ingredients", n, "name", i.name.trim() === "牛肉卷" ? "肥牛片" : normalize(i.name))}>
               使用食材库名称：{i.name.trim() === "牛肉卷" ? "肥牛片" : normalize(i.name)}
             </button>}
-            <label className="community-checkbox">
+            <div className="ingredient-controls"><label className="community-checkbox">
               <input
                 type="checkbox"
                 checked={i.optional}
@@ -1217,36 +1248,37 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
             </label>
             <button
               type="button"
-              disabled={value.ingredients.length === 1}
-              onClick={() =>
-                change(
-                  "ingredients",
-                  value.ingredients.filter((_, x) => x !== n),
-                )
-              }
+              hidden={value.ingredients.length === 1}
+              onClick={() => { setRemoved({index:n, item:i}); change("ingredients", value.ingredients.filter((_, x) => x !== n)); }}
             >
               删除食材 {n + 1}
-            </button>
+            </button></div>
           </div>
         ))}
         <button
           type="button"
           disabled={value.ingredients.length >= 50}
-          onClick={() =>
-            change("ingredients", [
-              ...value.ingredients,
-              { name: "", amount: "", optional: false },
-            ])
-          }
+          onClick={addIngredient}
         >
           添加食材
         </button>
+        {removed && <button type="button" disabled={value.ingredients.length >= 50} onClick={() => {
+          const rows = [...value.ingredients];
+          rows.splice(removed.index, 0, removed.item);
+          change("ingredients", rows); setRemoved(null);
+        }}>撤销删除</button>}
       </fieldset>
       <fieldset disabled={submitting} data-panel="步骤" hidden={panel !== "步骤"}>
         <legend>步骤</legend>
         {value.steps.map((s, n) => (
           <div className="community-row" key={n}>
-            <h3>第 {n + 1} 步</h3>
+            <button type="button" className="step-summary" aria-expanded={editingStep === n}
+              onClick={e => {
+                const header = e.currentTarget, top = header.getBoundingClientRect().top;
+                flushSync(() => openStep(editingStep === n ? -1 : n));
+                window.scrollBy(0, header.getBoundingClientRect().top - top);
+              }}>第 {n + 1} 步　{original(s.title || "填写步骤")}</button>
+            <div data-step={n} hidden={editingStep !== n}>
             {[
               ["title", "步骤标题", 60, true],
               ["text", "操作说明", 1500, true],
@@ -1274,22 +1306,17 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
             <button
               type="button"
               disabled={value.steps.length === 1}
-              onClick={() =>
-                change(
-                  "steps",
-                  value.steps.filter((_, x) => x !== n),
-                )
-              }
+              onClick={() => { openStep(Math.max(0, n-1)); change("steps", value.steps.filter((_, x) => x !== n)); }}
             >
               删除步骤 {n + 1}
-            </button>
+            </button></div>
           </div>
         ))}
         <button
           type="button"
           disabled={value.steps.length >= 40}
-          onClick={() =>
-            change("steps", [
+          onClick={() => {
+            flushSync(() => { openStep(value.steps.length); change("steps", [
               ...value.steps,
               {
                 title: "",
@@ -1299,8 +1326,9 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
                 cue: "",
                 seconds: 0,
               },
-            ])
-          }
+            ]); });
+            document.querySelector(`[data-step="${value.steps.length}"] textarea`)?.focus();
+          }}
         >
           添加步骤
         </button>
