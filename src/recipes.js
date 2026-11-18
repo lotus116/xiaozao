@@ -1,5 +1,8 @@
+import { normalize } from "./ingredient-names.js";
+import recipeCrossChecks from "./recipe-cross-checks.json" with { type: "json" };
 import { domesticSourcesById } from "./domestic-sources.js";
 import { expandedRecipes } from "./expanded-recipes.js";
+import { homeCatalogRecipes } from "./home-catalog-recipes.js";
 import { expand } from "./extra.js";
 import { chineseRecipes, recipeRefinements } from "./chinese-recipes.js";
 import { easyRecipes, easyRefinements } from "./easy-recipes.js";
@@ -466,6 +469,7 @@ export const recipes = [
   ...chineseRecipes(r, i, s),
   ...easyRecipes(r, i, s),
   ...expandedRecipes,
+  ...homeCatalogRecipes,
 ].map((recipe) => ({
   ...recipe,
   ...(recipeRefinements[recipe.id]
@@ -477,11 +481,17 @@ export const recipes = [
   ...(beginnerRefinements[recipe.id] || {}),
   ...(teachingRefinements[recipe.id] || {}),
   ...(domesticSourcesById[recipe.id] ? { domesticSources: domesticSourcesById[recipe.id] } : {}),
-}));
+})).map((recipe) => {
+  const extra = recipeCrossChecks[recipe.id];
+  if (!extra || recipe.additionalSources?.some((source) => source.url === extra.url)) return recipe;
+  return { ...recipe, additionalSources: [...(recipe.additionalSources || []), extra] };
+});
 export const seasonings = [
+  "咖喱粉", "玛莎曼咖喱酱",
   "食用油",
   "盐",
   "糖",
+  "红糖",
   "生抽",
   "老抽",
   "香油",
@@ -489,6 +499,7 @@ export const seasonings = [
   "白胡椒粉",
   "玉米淀粉",
   "米醋",
+  "香醋",
   "白醋",
   "花椒",
   "干辣椒",
@@ -514,12 +525,13 @@ export const seasonings = [
   "芥末",
   "豆豉",
   "番茄酱",
+  "豌豆淀粉", "十三香", "白芝麻", "糍粑辣椒", "黑麻油", "米酒", "糖桂花", "沙姜粉", "粗海盐", "孜然粒", "五香粉",
   "南乳", "柱侯酱", "八角", "黄豆酱", "桂皮", "土豆淀粉", "甜面酱", "花椒油", "蒜粉", "红甜椒粉", "蒜蓉辣酱", "孜然粉", "椒盐", "芝麻酱", "咖喱块", "味淋", "韩式辣酱", "番茄意面酱", "蛋黄酱", "剁椒", "食用陈皮", "泡打粉", "番茄莎莎酱", "番茄膏", "泰式红咖喱酱", "伍斯特酱", "泰式绿咖喱酱", "印度综合香料", "芫荽籽粉", "哈里萨辣椒酱",
 ];
 export const catalog = [
   ...new Set(
     recipes.flatMap((r) =>
-      r.ingredients.filter((i) => !i.water).map((i) => i.name),
+      r.ingredients.filter((i) => !i.water).map((i) => normalize(i.name)),
     ),
   ),
 ];

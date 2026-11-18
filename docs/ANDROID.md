@@ -1,6 +1,6 @@
 # 小灶安卓安装与构建
 
-当前源码版本为 1.7.0（versionCode 13），应用名“小灶”，包名 `com.xiaozao.kitchen`。测试包为 `releases/xiaozao-1.7.0-debug.apk`，下方命令可以再次构建。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。
+当前源码版本为 1.7.0（versionCode 13），应用名“小灶”，包名 `com.xiaozao.kitchen`。GitHub v1.7.0 发布包为 `releases/xiaozao-1.7.0-debug.apk`，包含 200 道。此后的 300 道开发预览包另存为 `releases/xiaozao-300-debug.apk`，与发布包沿用同一版本号和签名。下方命令构建当前源码。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。
 
 本轮保留 React + Capacitor 架构。项目本地 JDK 与 Android SDK 已就绪，1.6.3 启用确认的轻量顶部工具栏，右侧新增找菜入口并整理设置按钮；保留 1.6.2 的 A「小字蒸汽锅」桌面／圆形／单色图标和启动页。签名沿用原有测试包，覆盖升级不需要先卸载旧版。构建及验证细节见[测试记录](TEST_REPORT.md)，真机安装与体验仍由手机测试确认。
 

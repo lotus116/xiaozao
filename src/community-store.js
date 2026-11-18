@@ -27,9 +27,11 @@ async function transaction(store, mode, operation) {
   });
 }
 export const getDownloads = () =>
-  transaction("downloads", "readonly", (s) => s.getAll());
+  transaction("downloads", "readonly", (s) => s.getAll()).then(rows => rows.map(refreshIngredients));
 export const putDownload = (r) =>
   transaction("downloads", "readwrite", (s) => s.put(r));
+export const deleteDownload = (id) =>
+  transaction("downloads", "readwrite", (s) => s.delete(id));
 export const getDrafts = () =>
   transaction("drafts", "readonly", (s) => s.getAll());
 export const putDraft = (r) =>
@@ -45,14 +47,9 @@ export function toLocalRecipe(remote, imageData, server) {
     !/^[a-f0-9-]{36}$/.test(remote.serverId)
   )
     throw new Error("菜谱编号不正确");
-  const ingredients = value.ingredients.map((i) => ({
-    ...i,
-    name: normalize(i.name),
-  }));
-  return {
+  return refreshIngredients({
     ...value,
     id: localRecipeId(remote),
-    ingredients,
     community: {
       remoteId: remote.id,
       serverId: remote.serverId,
@@ -63,14 +60,20 @@ export function toLocalRecipe(remote, imageData, server) {
       attribution: value.attribution,
     },
     imageData,
-    unknownIngredients: ingredients
-      .filter((i) => !i.water && ingredientStatus(i.name).label)
-      .map((i) => i.name),
     nutrition: null,
     vegetable: true,
     timeNote: "作者填写的预计用时；新手可能更久。",
     servingsNote: "按作者提供的份数与用量。",
-  };
+  });
+}
+
+// Refresh legacy downloads in memory; their IDs, photos and progress stay intact.
+export function refreshIngredients(recipe) {
+  const ingredients = recipe.ingredients.map(i => ({
+    ...i, authorName: i.authorName || i.name, name: normalize(i.name),
+  }));
+  const unknownIngredients = ingredients.filter(i => !i.water && ingredientStatus(i.name).label).map(i => i.name);
+  return { ...recipe, ingredients, unknownIngredients };
 }
 export async function preparePhoto(file) {
   if (

@@ -96,6 +96,8 @@ test("storage handles corrupt JSON, null and schema mismatch", () => {
   for (const raw of ["bad", "null", "[]", "{}", '{"version":99}'])
     assert.deepEqual(cleanState(raw, recipes), {
       pantry: [],
+      customFoods: [],
+      useFattyBeefForRolls: false,
       frequentIngredients: [...defaultFrequentIngredients],
       favorites: [],
       cooking: null,

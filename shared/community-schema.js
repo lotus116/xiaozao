@@ -71,6 +71,8 @@ export function backupInput(v) {
   if (!v || v.version !== 1) fail("不支持的备份格式");
   return {
     version: 1,
+    customFoods: strings(v.customFoods ?? v.pantry, "自定义食材", 500, 30),
+    useFattyBeefForRolls: v.useFattyBeefForRolls === true,
     pantry: strings(v.pantry, "食材", 500, 30),
     frequentIngredients: strings(v.frequentIngredients, "常用食材", 500, 30),
     favorites: strings(v.favorites, "收藏", 1000, 120),

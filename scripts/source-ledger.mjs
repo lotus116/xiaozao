@@ -1,5 +1,7 @@
 import { writeFileSync } from "node:fs";
 import { recipes } from "../src/recipes.js";
+import { homeCatalogRecipes } from "../src/home-catalog-recipes.js";
+import photos from "../src/dish-photos.json" with { type: "json" };
 import photoPages from "../src/domestic-photo-pages.json" with { type: "json" };
 const retested = [
   "tomato-eggs",
@@ -26,11 +28,13 @@ const notes = {
 };
 let text = `# 菜谱来源与内容核对记录
 
-来源记录日期：2026-11-05 至 2026-11-06（Asia/Hong_Kong）。共 ${recipes.length} 道；此前从 53 道增至 99 道，此前一轮为全部 99 道补充新手教学。已为 ${recipes.filter((r) => r.domesticSources?.length).length} 道核读或沿用已核实的国内原站教程，逐菜记录具体采用范围与落到的步骤，见 [国内来源复核](DOMESTIC_RECIPE_REVIEW.md)。原链接本轮是否可读及独立资料的采用范围见分组研究，不把旧 checked 日期当成重新核验成功。
+最近更新于 2026-11-18，共 ${recipes.length} 道。[原有 200 道逐项复查](CATALOG_200_SOURCE_RECHECK.md)记录了访问结果、补充依据和照片。[新增 100 道逐项记录](HOME_RECIPE_ADDITIONS.md)列有逐菜取舍，全部菜谱可在[离线验收页](CATALOG_REVIEW.html)查看。
+
+2026-11-05 至 2026-11-06 期间从 53 道增至 99 道，此前一轮为全部 99 道补充新手教学。已为 ${recipes.filter((r) => r.domesticSources?.length).length} 道核读或沿用已核实的国内原站教程，逐菜记录具体采用范围与落到的步骤，见 [国内来源复核](DOMESTIC_RECIPE_REVIEW.md)。原链接本轮是否可读及独立资料的采用范围见分组研究，不把旧 checked 日期当成重新核验成功。
 
 网页资料核对不等于现场试做。部分平台使用搜索工具返回的内容核对；未绕过访问限制。新增中文菜的份数、耗时与配料简化有编辑判断，逐项区别见 [中文菜谱研究](CHINESE_RECIPE_RESEARCH.md)。用量不明确的项目保留“适量”，不编造精确克数。
 
-本轮简化依据、46 道新增来源及 43 道修改清单见 [99 道精选研究](EASY_99_RESEARCH.md)。97 道的必需用料不超过 5 项（包括油盐，不计水）；不是将全部调料统一忽略。
+早期简化依据、46 道新增来源及 43 道修改清单见 [99 道精选研究](EASY_99_RESEARCH.md)。97 道的必需用料不超过 5 项（包括油盐，不计水）；不是将全部调料统一忽略。
 
 | 菜谱 | 原作者与来源 | 份数 / 参考分钟 | 营养 | 验证与差异 |
 |---|---|---|---|---|
@@ -38,7 +42,9 @@ let text = `# 菜谱来源与内容核对记录
 for (const r of recipes) {
   const chinese =
     r.source.site !== "The Woks of Life" && r.source.site !== "Good Food";
-  const verification = r.teaching
+  const verification = r.methodReviews?.length && (r.id.startsWith("cn-") || r.id.startsWith("asia-")) && r.editorNote?.includes("两份同菜")
+    ? r.teaching.flexibility
+    : r.teaching
     ? "新手教学改写；结合教程技法或食安指引，保留关键比例与食品安全，尚未下厨试做。来源可读性与采用范围见 RECIPE_TEACHING_BATCH.md 及对应分组记录。"
     : r.editorNote
     ? "本项目家常简化版；步骤与可省配料同步调整，不沿用原版营养。详见99道研究记录。"
@@ -54,7 +60,7 @@ for (const r of recipes) {
   const photoPage = photoPages[r.id];
   const photoReference = photoPage && !r.domesticSources?.some((s) => s.url === photoPage.url) ? `；[国内图文：${photoPage.author} · ${photoPage.title}](${photoPage.url})` : "";
   const extra = (r.additionalSources || [])
-    .map((source) => `；[补充方法](${source.url})`)
+    .map((source) => `；[补充资料 · ${source.title || source.site}](${source.url})`)
     .join("");
   text += `| ${r.name} | [${r.source.author} · ${r.source.site}](${r.source.url})${domestic}${photoReference}${extra} | ${r.servings} / ${r.minutes} | ${r.nutrition ? "原作者每份估算 kcal / 蛋白质g / 碳水g / 脂肪g：" + r.nutrition.join(" / ") : "暂无可靠估算"} | ${details} |\n`;
 }
@@ -85,3 +91,25 @@ text += `
 - [太太乐鸡精配料实例](https://www.totole.com.cn/index.php?id=1217&r=node%2Flboxmob)含蛋；[另一鸡味调味料配方](https://www.totole.com.cn/index.php?id=1215&r=node%2Flboxmob)含大豆。应用按可能含蛋/大豆处理未指定品牌的鸡精，不声称所有品牌配方相同。
 `;
 writeFileSync("docs/RECIPE_SOURCES.md", text);
+
+const additions = [
+  "# 新增 100 道家常菜",
+  "",
+  "更新于 2026-11-18。前 75 道为中国家常菜、地方菜与主食点心，另有 25 道中国及其他亚洲风味。菜谱按资料整理，尚未逐道下厨试做。",
+  "",
+  "表中列出每道的两份主要依据、取舍和配图使用条件。全部材料用量与分步提示可在[离线验收页](CATALOG_REVIEW.html)按菜名查找。",
+  "",
+  "| 菜名 | 主要配方 | 同菜补充与改编 | 成品照片 |",
+  "| --- | --- | --- | --- |",
+];
+const link = (label, url) => `[${label}](<${url}>)`;
+for (const recipe of homeCatalogRecipes) {
+  const [reference] = recipe.methodReviews;
+  const photo = photos[recipe.id];
+  const source = link(recipe.source.site + " · " + recipe.source.author, recipe.source.url);
+  const secondary = link(reference.site + " · " + reference.author, reference.url);
+  const image = link(photo.credit, photo.source) + " · " + link(photo.license, photo.licenseUrl);
+  additions.push("| " + [recipe.name, source, secondary + "。" + reference.supports + " " + reference.adaptation, image]
+    .map(cell => cell.replaceAll("|", "&#124;")).join(" | ") + " |");
+}
+writeFileSync(new URL("../docs/HOME_RECIPE_ADDITIONS.md", import.meta.url), additions.join("\n") + "\n");

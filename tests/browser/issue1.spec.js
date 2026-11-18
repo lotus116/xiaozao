@@ -87,10 +87,10 @@ test('food statuses persist, known aliases are recognized, and explicit refineme
  await page.goto('/');const input=page.getByLabel('添加厨房里已有的食材');
  await input.fill('牛肉、火龙果、西红柿、牛腩');await page.getByRole('button',{name:'添加食材',exact:true}).tap();
  await expect(page.getByRole('button',{name:'移除牛肉',exact:true})).toContainText('需细分');
- await expect(page.getByRole('button',{name:'移除火龙果',exact:true})).toContainText('未收录');
- await expect(page.getByRole('button',{name:'移除番茄',exact:true})).not.toContainText('未收录');
+ await expect(page.getByRole('button',{name:'移除火龙果',exact:true})).toContainText('自定义');
+ await expect(page.getByRole('button',{name:'移除番茄',exact:true})).not.toContainText('自定义');
  await page.reload();
- await expect(page.getByRole('button',{name:'移除火龙果',exact:true})).toContainText('未收录');
+ await expect(page.getByRole('button',{name:'移除火龙果',exact:true})).toContainText('自定义');
  await page.setViewportSize({width:320,height:700});
  await page.screenshot({path:info.outputPath('pantry-status-320.png')});
  await page.getByRole('button',{name:'选择牛肉的具体食材',exact:true}).tap();
@@ -199,4 +199,26 @@ test('actual Web Audio context can play the preview after a user gesture',async(
  });
  await page.goto('/#settings');await page.getByRole('button',{name:'试听提示音',exact:true}).tap();
  await expect.poll(()=>page.evaluate(()=>window.actualAudio)).toEqual({starts:3,state:'running'});
+});
+
+test('custom ingredient names remain available after removal and confirmed beef-roll mapping can be reversed', async ({page}) => {
+  await page.goto('/');
+  const input = page.locator('#ingredient');
+  const add = async text => {
+    await input.fill(text);
+    await page.getByRole('button', {name:'添加食材',exact:true}).tap();
+  };
+  await add('肥牛、肥牛卷');
+  await expect(page.getByRole('button', {name:'移除肥牛片',exact:true})).toHaveCount(1);
+  await page.getByRole('button', {name:'撤销本次添加'}).tap();
+  await expect(page.getByRole('button', {name:'移除肥牛片',exact:true})).toHaveCount(0);
+  await add('牛肉卷、青花椒芽');
+  await page.getByRole('button', {name:'选择牛肉卷的具体食材'}).tap();
+  await page.getByRole('button', {name:'将牛肉卷改为肥牛片'}).tap();
+  await page.getByRole('button', {name:'移除青花椒芽',exact:true}).tap();
+  await page.reload();
+  await page.getByRole('button', {name:/取消关联/}).tap();
+  await input.fill('青花椒芽');
+  await page.getByRole('button', {name:'展开食材建议'}).tap();
+  await expect(page.getByRole('option', {name:'青花椒芽',exact:true})).toBeVisible();
 });

@@ -1,8 +1,10 @@
 // Short reminders based on the active recipe instructions and ingredient list.
 // Omitted fields have no step-specific guidance. Keep original recipe steps and timers intact.
 import { expandedStepGuidance } from "./expanded-recipes.js";
+import { homeCatalogGuidance } from "./home-catalog-recipes.js";
 export const stepGuidance = {
   ...expandedStepGuidance,
+  ...homeCatalogGuidance,
   "tomato-eggs": {
     "准备食材": {
       amount: "番茄 2 个、鸡蛋 3 个、盐一小撮。油分为炒蛋和炒番茄两份。",
@@ -30,6 +32,7 @@ export const stepGuidance = {
       cue: "蛋液搅匀，过筛或撇掉大泡。",
     },
     "盖盘蒸蛋": {
+      amount: "已调好的全部蛋液（2 个鸡蛋，水为蛋液体积的 1.5 倍）。",
       heat: "蒸锅水开后转中小火。",
       cue: "水持续轻沸、蒸锅水未烧干。约 10 分钟后检查。",
     },
@@ -604,6 +607,7 @@ export const stepGuidance = {
       cue: "先蒸约 15 分钟检查，留意锅水，厚块可能更久。",
     },
     "检查软度": {
+      amount: "检查已蒸的 300 克南瓜，选最厚的一块。",
       heat: "中心仍硬时确认锅内有水，再蒸 3–5 分钟复查。",
       cue: "筷子能轻松穿透最厚块中心，再关火隔热取盘。",
     },
@@ -676,6 +680,8 @@ export const stepGuidance = {
       cue: "约 5 分钟查看，锅底有湿汁、虾均匀受热；堆叠就摊开。",
     },
     "关火焖": {
+      amount: "沿用锅中 250 克虾和洋葱，不再添料。",
+      cue: "虾应已熟，若仍明显生，须重新加热再检查。",
       heat: "关火盖焖约 5 分钟；之前蒸汽不足或虾明显生，要先重新加热。",
     },
     "检查与蘸料": {
@@ -719,6 +725,7 @@ export const stepGuidance = {
       cue: "按包装泡发，室温一般不超过 2 小时，需更久就冷藏；去硬根并尽快煮，黏滑或有异味就弃用。",
     },
     "煮熟": {
+      amount: "泡发木耳 120 克，沸水足量淹没。",
       heat: "足量水完全沸腾再下木耳。",
       cue: "重新沸腾后先煮约 2 分钟，按包装和厚度继续煮到熟透。",
     },
@@ -819,6 +826,7 @@ export const stepGuidance = {
       cue: "普通或糯玉米约 15–20 分钟起检查，鲜甜玉米可提早看。",
     },
     "检查熟度": {
+      amount: "整根玉米取少量玉米粒检查。",
       cue: "取一粒稍凉后尝，无生硬粉芯；未熟放回续煮。",
     },
   },
@@ -1112,6 +1120,7 @@ export const stepGuidance = {
       cue: "土豆切约 2 毫米薄片；肉切薄片，短腌约 10 分钟时冷藏。",
     },
     "焯土豆": {
+      amount: "全部土豆片 200 克，足量沸水。",
       heat: "水沸下土豆片。",
       cue: "焯到稍软、能弯但夹起完整；中心硬白的还要加热。",
     },
@@ -1204,6 +1213,7 @@ export const stepGuidance = {
       cue: "豆去蒂筋；需加热的腊肠按包装煮熟，测猪肉腊肠中心至少 71°C、禽肉腊肠 74°C，熟后切薄片。",
     },
     "焯荷兰豆": {
+      amount: "摘净的荷兰豆约 50 个，足量沸水。",
       heat: "水沸再下荷兰豆。",
       cue: "豆荚颜色亮、能弯、咬断无生硬芯才捞，充分沥水。",
     },
@@ -1349,6 +1359,7 @@ export const stepGuidance = {
       cue: "约 30 分钟检查，留意锅水别烧干。",
     },
     "检查软度": {
+      amount: "检查已蒸的 1–2 个红薯，从最厚处下筷。",
       cue: "筷子能轻松穿透最厚块中心才熟，仍硬继续蒸；隔热取出。",
     },
   },
@@ -1363,6 +1374,7 @@ export const stepGuidance = {
       cue: "鸡肉外层变色、香菇软香时铺到米上，鸡肉此时未必熟透。",
     },
     "煮饭检查": {
+      amount: "整锅米饭（1 量杯米、约 200 克鸡丁和备好的香菇）。",
       heat: "立即用本机指定的程序开煮，避免含生肉时常温预约。",
       cue: "米饭无硬芯，温度计确认较大鸡丁中心至少 74°C；未达则继续有效加热。",
     },
@@ -1436,6 +1448,7 @@ export const stepGuidance = {
       cue: "确认电饭锅支持含肉煮粥，肉丝拨散、皮蛋切小块。",
     },
     "启动煮粥": {
+      amount: "沿用锅中约 150 毫升米、100 克肉和配方水，按本机煮粥刻度。",
       heat: "立刻启动本机煮粥程序，避免含生肉时常温预约。",
       cue: "按说明盖好，保持排气口通畅。",
     },
@@ -1450,6 +1463,7 @@ export const stepGuidance = {
       cue: "按种类泡发或脱盐，洗净切粗细一致的丝。",
     },
     "煮海带": {
+      amount: "已按包装处理的全部海带丝，足量沸水。",
       heat: "水沸后下海带。",
       cue: "约 5 分钟起查，优先按包装要求；煮到熟、咬得断且有韧性。",
     },

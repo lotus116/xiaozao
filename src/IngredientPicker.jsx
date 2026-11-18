@@ -18,7 +18,8 @@ import {
   X,
 } from "lucide-react";
 import { catalog, seasonings } from "./recipes";
-import { normalize, unique } from "./logic";
+import { ingredientSuggestions } from "./ingredient-suggestions";
+import { unique } from "./logic";
 import {
   defaultFrequentIngredients,
   ingredientGroup,
@@ -39,6 +40,7 @@ const icons = {
 };
 
 export default function IngredientPicker({
+  foodChoices = catalog,
   frequent,
   pantry,
   onChange,
@@ -51,15 +53,14 @@ export default function IngredientPicker({
   const [dragging, setDragging] = useState(null);
   const [dropTarget, setDropTarget] = useState(null);
   const drag = useRef(null);
-  const available = unique([...catalog, ...pantry, ...frequent]).filter(
+  const available = unique([...foodChoices, ...pantry, ...frequent]).filter(
     (n) => !seasonings.includes(n),
   );
-  const candidates = available.filter(
+  const matching = query.trim() ? ingredientSuggestions(available, query.trim()) : available;
+  const candidates = matching.filter(
     (n) =>
       (!editing || !frequent.includes(n)) &&
-      (query.trim()
-        ? n.includes(normalize(query))
-        : ingredientGroup(n) === category),
+      (query.trim() || ingredientGroup(n) === category),
   );
   const update = (next, text) => {
     onChange(next);

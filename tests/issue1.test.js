@@ -30,7 +30,7 @@ test('ingredient labels distinguish exact aliases, broad food names and unknown 
   assert.equal(ingredientStatus('牛肉').label,'需细分');
   assert.ok(ingredientStatus('牛肉').choices.includes('牛腩'));
   assert.ok(!ingredientStatus('牛肉').choices.includes('牛奶'));
-  assert.equal(ingredientStatus('火龙果').label,'未收录');
+  assert.equal(ingredientStatus('火龙果').label,'自定义');
   const list=['牛肉','鸡蛋','牛腩','火龙果'];
   assert.deepEqual(refineIngredient(list,'牛肉','牛腩'),['牛腩','鸡蛋','火龙果']);
   assert.equal(refineIngredient(list,'牛肉','牛奶'),list);

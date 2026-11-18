@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { recipes, catalog } from '../src/recipes.js';
 import { expandedRecipes } from '../src/expanded-recipes.js';
+import { homeCatalogGuidance, homeCatalogRecipes } from '../src/home-catalog-recipes.js';
 import { searchRecipes, cleanState, normalize, recommend } from '../src/logic.js';
 import { addPantryInput } from '../src/pantry-input.js';
 import { dietaryWarnings, defaultPreferences } from '../src/preferences.js';
@@ -32,7 +34,7 @@ test('search synonyms never make incompatible pantry cuts equivalent',()=>{
   assert.deepEqual(result.ready,[]);
   assert.ok(result.near.every(r=>r.missing.includes('牛排')));
 });
-test('all 200 dishes and the expanded food catalog survive storage without truncation',()=>{
+test('all built-in dishes and the expanded food catalog survive storage without truncation',()=>{
   const allIds=recipes.map(r=>r.id);
   const pantry=addPantryInput([],catalog.join('、')).pantry;
   assert.equal(pantry.length,catalog.length);
@@ -40,7 +42,7 @@ test('all 200 dishes and the expanded food catalog survive storage without trunc
   assert.deepEqual(state.basket,allIds);
   assert.deepEqual(state.favorites,allIds);
   assert.deepEqual(state.pantry,pantry);
-  assert.equal(state.meal.ids.length,200);
+  assert.equal(state.meal.ids.length,recipes.length);
   assert.equal(state.cooking.id,'world-52850');
 });
 test('101 additions retain independently scoped method evidence, quantified ingredients and safe cooking endpoints',()=>{
@@ -67,4 +69,26 @@ test('new pantry foods do not bypass allergen exclusions or misclassify mushroom
   assert.ok(warnings(['南乳'],['大豆']).length);
   assert.deepEqual(warnings(['蟹味菇'],['甲壳类']),[]);
   assert.deepEqual(warnings(['椰奶','南乳'],['奶类']),[]);
+});
+
+test('new home recipes retain matching step guidance, two named sources and their offline photo', () => {
+  const manifest = JSON.parse(readFileSync(new URL('../src/dish-photos.json', import.meta.url), 'utf8'));
+  for (const recipe of homeCatalogRecipes) {
+    const [reference] = recipe.methodReviews;
+    const photo = manifest[recipe.id];
+    assert.ok(recipe.steps[reference.step], recipe.id);
+    assert.ok(reference.author && reference.supports && reference.adaptation, recipe.id);
+    assert.notEqual(new URL(recipe.source.url).hostname, new URL(reference.url).hostname, recipe.id);
+    for (const step of recipe.steps) {
+      const { amount, heat, cue } = homeCatalogGuidance[recipe.id][step.title];
+      assert.ok(amount && heat && cue, recipe.id);
+      assert.ok(step.text.includes(amount) && step.text.includes(cue), recipe.id);
+    }
+    assert.ok(photo.credit && photo.license && photo.licenseUrl, recipe.id);
+    const image = readFileSync(new URL(`../public${photo.asset}`, import.meta.url));
+    assert.equal(image.toString('ascii', 8, 12), 'WEBP', recipe.id);
+    assert.ok(image.length <= 22 * 1024, recipe.id);
+  }
+  assert.equal(ids('白斩鸡')[0], 'cn-white-cut-chicken');
+  assert.equal(ids('魚香肉絲')[0], 'cn-yuxiang-shredded-pork');
 });

@@ -16,7 +16,7 @@ import {
   localRecipeId,
 } from "./community-store";
 import { recipeInput, backupInput } from "../shared/community-schema";
-import { KEY } from "./logic";
+import { KEY, normalize, unique } from "./logic";
 import { cleanPreferences } from "./preferences";
 import "./community.css";
 const blank = () => ({
@@ -46,6 +46,7 @@ export default function Community({
   go,
   downloads,
   onDownload,
+  onDeleteDownload,
   state,
   setState,
 }) {
@@ -361,6 +362,14 @@ export default function Community({
               ) : (
                 <small>来自其他服务，离线副本仍可使用</small>
               )}
+              <button disabled={busy} aria-label={`删除本机下载：${r.name}`} onClick={() => {
+                if (window.confirm(`删除《${r.name}》的本机下载并从菜篮移除？收藏和饭友圈原作会保留。`)) {
+                  run(async alive => {
+                    await onDeleteDownload(r);
+                    if (alive()) setNotice("已删除本机下载");
+                  });
+                }
+              }}>删除本机下载</button>
             </article>
           ))}
           <h2>我的草稿</h2>
@@ -451,7 +460,7 @@ export default function Community({
                     })
                   }
                 >
-                  删除菜谱
+                  删除公开菜谱
                 </button>
               </>
             )}
@@ -623,6 +632,8 @@ export default function Community({
                       const data = backupInput({
                         version: 1,
                         pantry: state.pantry,
+                        customFoods: state.customFoods,
+                        useFattyBeefForRolls: state.useFattyBeefForRolls,
                         frequentIngredients: state.frequentIngredients,
                         favorites: state.favorites,
                         preferences: state.preferences,
@@ -655,8 +666,10 @@ export default function Community({
                       )
                         return;
                       const restored = {
-                        pantry: data.pantry,
-                        frequentIngredients: data.frequentIngredients,
+                        pantry: unique(data.pantry),
+                        customFoods: unique(data.customFoods),
+                        useFattyBeefForRolls: data.useFattyBeefForRolls,
+                        frequentIngredients: unique(data.frequentIngredients),
                         favorites: data.favorites,
                         preferences: cleanPreferences(data.preferences),
                       };
@@ -1124,6 +1137,10 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
                 />
               </label>
             </div>
+            {(normalize(i.name) !== i.name.trim() || i.name.trim() === "牛肉卷") && <button type="button"
+              onClick={() => row("ingredients", n, "name", i.name.trim() === "牛肉卷" ? "肥牛片" : normalize(i.name))}>
+              使用食材库名称：{i.name.trim() === "牛肉卷" ? "肥牛片" : normalize(i.name)}
+            </button>}
             <label className="community-checkbox">
               <input
                 type="checkbox"

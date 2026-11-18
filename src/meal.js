@@ -1,5 +1,5 @@
 import { allowedRecipe } from "./preferences.js";
-import { missing } from "./logic.js";
+import { missing, normalize } from "./logic.js";
 export function basketRecipes(ids, recipes) {
   const wanted = Array.isArray(ids) ? [...new Set(ids)] : [];
   return wanted.map((id) => recipes.find((r) => r.id === id)).filter(Boolean);
@@ -14,14 +14,15 @@ export function mealIngredients(rows, pantry) {
     const absent = new Set(missing(r, pantry));
     for (const i of r.ingredients) {
       if (i.optional) continue;
-      const item = grouped.get(i.name) || {
-        name: i.name,
+      const name = normalize(i.name);
+      const item = grouped.get(name) || {
+        name,
         water: i.water,
-        missing: absent.has(i.name),
+        missing: absent.has(name),
         uses: [],
       };
       item.uses.push({ recipe: r.name, amount: i.amount });
-      grouped.set(i.name, item);
+      grouped.set(name, item);
     }
   }
   return [...grouped.values()];

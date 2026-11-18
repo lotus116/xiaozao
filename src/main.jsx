@@ -1,9 +1,9 @@
 import Profile from "./Profile";
 import Community from "./Community";
-import { getDownloads, putDownload } from "./community-store";
+import { getDownloads, putDownload, deleteDownload } from "./community-store";
 import { DishThumbnail, DishPreview, PhotoCredit } from "./DishPhoto";
 import Source from "./RecipeSources";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { createRoot } from "react-dom/client";
 import {
   CookingPot,
@@ -30,6 +30,7 @@ import { recipes as builtInRecipes, catalog, seasonings } from "./recipes";
 import {
   unique,
   missing,
+  normalize,
   requiredCount,
   recommend,
   searchRecipes,
@@ -43,7 +44,7 @@ import IngredientPicker from "./IngredientPicker";
 import IngredientInput from "./IngredientInput";
 import PantryReset from "./PantryReset";
 import PantryLabels from "./PantryLabels";
-import { ingredientStatus } from "./ingredient-status";
+import { ingredientStatus, withPantryAssociation } from "./ingredient-status";
 import { useTimerSound } from "./useTimerSound";
 import { setupNative } from "./native";
 import { addPantryInput } from "./pantry-input";
@@ -92,12 +93,12 @@ function Card({ r, state, go, fav, addToBasket, featured = false }) {
             <span className="meta">用到已有食材：{r.matchedIngredients.join("、")}</span>
           )}
           {r.ingredients.some(
-            (i) => i.optional && !state.pantry.includes(i.name),
+            (i) => i.optional && !state.pantry.includes(normalize(i.name)),
           ) && (
             <span className="meta">
               可省：
               {r.ingredients
-                .filter((i) => i.optional && !state.pantry.includes(i.name))
+                .filter((i) => i.optional && !state.pantry.includes(normalize(i.name)))
                 .map((i) => i.name)
                 .join("、")}
             </span>
@@ -137,11 +138,36 @@ function Card({ r, state, go, fav, addToBasket, featured = false }) {
 }
 function App({ initialDownloads = [], downloadError = false }) {
   const [downloads, setDownloads] = useState(initialDownloads);
-  const recipes = [...builtInRecipes, ...downloads];
+  const localRecipes = useMemo(() => [...builtInRecipes, ...downloads], [downloads]);
   const stateRef = useRef(null);
+  const changingDownloads = useRef(new Set());
+  const changeDownload = async (id, change) => {
+    if (changingDownloads.current.has(id)) throw new Error("此菜谱正在更新本机下载，请稍后再试");
+    changingDownloads.current.add(id);
+    try { return await change(); } finally { changingDownloads.current.delete(id); }
+  };
+  const inUse = (recipe, s) =>
+    (s?.cooking?.id === recipe.id && s.cooking.step < recipe.steps.length) ||
+    (s?.meal?.ids.includes(recipe.id) && !s.meal.ids.every(id => s.meal.done.includes(id))) ||
+    s?.timer?.id === recipe.id;
+  const onDeleteDownload = async recipe => {
+    if (inUse(recipe, stateRef.current)) throw new Error("请先结束正在进行的一餐、跟做或菜谱计时，再删除本机下载");
+    await deleteDownload(recipe.id);
+    if (inUse(recipe, stateRef.current)) {
+      await putDownload(recipe);
+      throw new Error("这道菜刚开始使用，已保留本机下载");
+    }
+    setDownloads(rows => rows.filter(r => r.id !== recipe.id));
+    setState(s => {
+      const ids = s.meal?.ids.filter(id => id !== recipe.id);
+      return { ...s, basket: s.basket.filter(id => id !== recipe.id),
+        cooking: s.cooking?.id === recipe.id ? null : s.cooking,
+        meal: s.meal?.ids.includes(recipe.id) ? (ids.length ? { ...s.meal, ids, done: s.meal.done.filter(id => id !== recipe.id) } : null) : s.meal };
+    });
+  };
   const onDownload = async (recipe) => {
     const previous = downloads.find(r => r.id === recipe.id);
-    const busy = (s) => (s?.cooking?.id === recipe.id && s.cooking.step < (previous || recipe).steps.length) || s?.meal?.ids.includes(recipe.id) || s?.timer?.id === recipe.id;
+    const busy = s => inUse(previous || recipe, s);
     if (busy(stateRef.current)) throw new Error("这道菜正在一餐、跟做或计时中，请先结束当前使用再更新");
     await putDownload(recipe);
     if (previous && busy(stateRef.current)) {
@@ -168,13 +194,21 @@ function App({ initialDownloads = [], downloadError = false }) {
   useEffect(() => {
     if (pendingRecipe) switchDialog.current?.showModal();
   }, [pendingRecipe]);
-  const [state, setState] = useState(() => load(recipes)),
+  const [state, setState] = useState(() => load(localRecipes)),
     [storageError, setStorageError] = useState(false),
     [input, setInput] = useState(""),
     [message, setMessage] = useState(""),
+    [lastAdded, setLastAdded] = useState(null),
     [clearedIngredients, setClearedIngredients] = useState([]),
     [resetMessage, setResetMessage] = useState(null),
     [now, setNow] = useState(Date.now());
+  const recipes = useMemo(() => state.useFattyBeefForRolls
+    ? localRecipes.map(withPantryAssociation)
+    : localRecipes, [localRecipes, state.useFattyBeefForRolls]);
+  const downloadedFoods = useMemo(() => new Set(unique(downloads.flatMap(r =>
+    r.ingredients.filter(i => !i.water).map(i => i.name)))), [downloads]);
+  const foodChoices = useMemo(() => unique([...catalog, ...downloadedFoods, ...state.customFoods]),
+    [downloadedFoods, state.customFoods]);
   stateRef.current = state;
   const sound = useTimerSound(state.timer, state.timerSound, now);
   useEffect(() => {
@@ -210,17 +244,19 @@ function App({ initialDownloads = [], downloadError = false }) {
     e.preventDefault();
     const result = addPantryInput(state.pantry, input);
     if (!result.added.length && !result.duplicate.length && !result.rejected.length) return;
-    const unknown = result.added.filter((name) => ingredientStatus(name).label === "未收录");
-    const general = result.added.filter((name) => ingredientStatus(name).label === "需细分");
+    const unknown = result.added.filter((name) => ingredientStatus(name, downloadedFoods).label === "自定义");
+    const general = result.added.filter((name) => ingredientStatus(name, downloadedFoods).label === "需细分");
     const feedback = [
       result.added.length ? `已添加${result.added.join("、")}` : "",
       result.duplicate.length ? `${result.duplicate.join("、")}已经在清单里了` : "",
-      unknown.length ? "部分食材在当前菜谱库可能暂未收录相关菜" : "",
+      unknown.length ? "已保存为自定义食材" : "",
       general.length ? "请在食材标签旁选择具体部位或种类" : "",
       result.rejected.length ? "部分内容未添加：每样最多 30 字，清单最多 500 样" : "",
     ].filter(Boolean).join("；");
+    setLastAdded(result.added.length ? { pantry: result.pantry, previous: state.pantry,
+      previousAssociation: state.useFattyBeefForRolls } : null);
     setMessage(feedback);
-    setState((s) => ({ ...s, pantry: result.pantry }));
+    setState((s) => ({ ...s, useFattyBeefForRolls: s.useFattyBeefForRolls && !result.added.includes("牛肉卷"), pantry: result.pantry, customFoods: unique([...s.customFoods, ...unknown]).slice(-500) }));
     setInput(result.rejected.join("、"));
   };
   const clearIngredients = () => {
@@ -268,7 +304,7 @@ function App({ initialDownloads = [], downloadError = false }) {
   );
   const pantryFoods = state.pantry.filter((name) => !seasonings.includes(name));
   const focusedFood = pantryFoods.includes(focusIngredient) ? focusIngredient : "";
-  const rec = recommend(selectedRecipes.filter(r => !r.community || !r.unknownIngredients?.length), state.pantry, focusedFood);
+  const rec = recommend(selectedRecipes, state.pantry, focusedFood);
   const [page, id] = hash.replace("#", "").split("/");
   const activeTab = ["settings", "favorites"].includes(page) || (page === "community" && ["account", "admin"].includes(id)) ? "profile" : page;
   const recipe = recipes.find((r) => r.id === id);
@@ -338,7 +374,7 @@ function App({ initialDownloads = [], downloadError = false }) {
       <main id="main">
         {downloadError && <p role="alert" className="warning">本机下载库暂时打不开。请重新打开应用；本次不写入厨房进度，避免覆盖原记录。</p>}
         {page === "profile" && <Profile favoriteCount={state.favorites.length} downloadCount={downloads.length} />}
-        {page === "community" && <Community hash={hash} go={go} downloads={downloads} onDownload={onDownload} state={state} setState={setState} />}
+        {page === "community" && <Community hash={hash} go={go} downloads={downloads} onDownload={recipe => changeDownload(recipe.id, () => onDownload(recipe))} onDeleteDownload={recipe => changeDownload(recipe.id, () => onDeleteDownload(recipe))} state={state} setState={setState} />}
         {storageError && (
           <p role="alert" className="warning">
             浏览器未允许保存。当前仍可使用，但关闭页面后可能丢失清单。
@@ -374,17 +410,23 @@ function App({ initialDownloads = [], downloadError = false }) {
               <section className="pantry-panel">
                 <form onSubmit={add}>
                   <label className="sr-only" htmlFor="ingredient">添加厨房里已有的食材</label>
-                  <IngredientInput value={input} onChange={setInput} catalog={catalog} />
+                  <IngredientInput value={input} onChange={setInput} catalog={foodChoices} />
                 </form>
                 <p className="live-message" role="status">
                   {message || "多样食材可用顿号、逗号或空格隔开。"}
                 </p>
+                {lastAdded?.pantry === state.pantry && <button className="text-button" onClick={() => {
+                  setState(s => ({ ...s, pantry: lastAdded.previous, useFattyBeefForRolls: lastAdded.previousAssociation }));
+                  setMessage("已撤销本次添加");
+                  setLastAdded(null);
+                }}>撤销本次添加</button>}
+                {state.useFattyBeefForRolls && <button className="text-button" onClick={() => setState(s => ({ ...s, useFattyBeefForRolls: false }))}>牛肉卷按肥牛片匹配 · 取消关联</button>}
                 {pantryFoods.length > 0 && (
-                  <PantryLabels names={pantryFoods} toggle={toggle} setState={setState} />
+                  <PantryLabels downloaded={downloadedFoods} names={pantryFoods} toggle={toggle} setState={setState} />
                 )}
                 <details className="pantry-picker">
                   <summary>常用与分类食材</summary>
-                  <IngredientPicker
+                  <IngredientPicker foodChoices={foodChoices}
                     frequent={state.frequentIngredients}
                     pantry={state.pantry}
                     toggle={toggle}
@@ -635,7 +677,7 @@ function App({ initialDownloads = [], downloadError = false }) {
               <div className="dish-heading">
                 <div>
                   <h1 tabIndex="-1">{recipe.name}</h1>
-                  {recipe.community && <p className="warning">用户分享，未经项目核对 · {recipe.community.author} · 第 {recipe.community.version} 版{recipe.unknownIngredients?.length ? `；未识别食材：${recipe.unknownIngredients.join("、")}` : ""}</p>}
+                  {recipe.community && <p className="warning">用户分享，未经项目核对 · {recipe.community.author} · 第 {recipe.community.version} 版{recipe.unknownIngredients?.length ? `；需自行核对过敏原的食材：${recipe.unknownIngredients.join("、")}` : ""}</p>}
                   <p>{recipe.description}</p>
                 </div>
                 <DishPreview key={recipe.id} recipe={recipe} />

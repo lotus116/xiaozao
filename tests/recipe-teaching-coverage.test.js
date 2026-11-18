@@ -19,9 +19,8 @@ test('all 99 recipes preserve their v3 step identities and timers', () => {
 });
 
 test('every teaching recipe has specific guidance, multiple sources, and optional ingredients remain optional', () => {
-  assert.equal(recipes.length, 200);
-  assert.equal(recipes.filter((r) => r.teaching).length, 200);
-  assert.equal(new Set(recipes.map((r) => r.teaching.focus)).size, 200);
+  assert.equal(recipes.filter((r) => r.teaching).length, recipes.length);
+  assert.equal(new Set(recipes.map((r) => r.teaching.focus)).size, recipes.length);
   for (const r of recipes) {
     assert.ok(r.teaching.focus && r.teaching.flexibility, r.id);
     assert.ok(r.teaching.rescue.length >= 2, r.id);

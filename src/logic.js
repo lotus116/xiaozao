@@ -1,37 +1,9 @@
 import { cleanPreferences, defaultPreferences } from "./preferences.js";
 import { defaultFrequentIngredients } from "./ingredient-groups.js";
 import { seasonings } from "./recipes.js";
+import { aliases, normalize } from "./ingredient-names.js";
+export { aliases, normalize };
 const seasoningNames = new Set(seasonings);
-export const aliases = {
-  西红柿: "番茄",
-  蕃茄: "番茄",
-  马铃薯: "土豆",
-  洋芋: "土豆",
-  小葱: "葱",
-  香葱: "葱",
-  大蒜: "蒜",
-  蒜头: "蒜",
-  食盐: "盐",
-  白糖: "糖",
-  植物油: "食用油",
-  油: "食用油",
-  麻油: "香油",
-  芝麻油: "香油",
-  绍兴酒: "料酒",
-  上海青: "小白菜",
-  青江菜: "小白菜",
-  生粉: "玉米淀粉",
-  卷心菜: "包菜",
-  圆白菜: "包菜",
-  青花菜: "西兰花",
-  西蓝花: "西兰花",
-  牛扒: "牛排",
-  芝士: "奶酪",
-  米饭: "熟米饭",
-  北豆腐: "老豆腐",
-  南豆腐: "嫩豆腐",
-};
-export const normalize = (s) => aliases[String(s).trim()] || String(s).trim();
 export const unique = (a) => [
   ...new Set(
     a
@@ -42,23 +14,23 @@ export const unique = (a) => [
 ];
 export function missing(recipe, pantry) {
   const have = new Set(unique(pantry));
-  return recipe.ingredients
-    .filter((i) => !i.optional && !i.water && !have.has(i.name))
-    .map((i) => i.name);
+  return unique(recipe.ingredients
+    .filter((i) => !i.optional && !i.water && !have.has(normalize(i.name)))
+    .map((i) => i.name));
 }
 export const requiredCount = (recipe) =>
-  recipe.ingredients.filter((i) => !i.optional && !i.water).length;
+  unique(recipe.ingredients.filter((i) => !i.optional && !i.water).map(i => i.name)).length;
 export function recommend(recipes, pantry, focusIngredient = "") {
   const available = new Set(unique(pantry));
   const focus = normalize(focusIngredient);
   const rows = [];
   for (const recipe of recipes) {
-    const matchedIngredients = recipe.ingredients
+    const matchedIngredients = unique(recipe.ingredients
       .filter(
-        (i) => !i.optional && !i.water && !seasoningNames.has(i.name) && available.has(i.name),
+        (i) => !i.optional && !i.water && !seasoningNames.has(i.name) && available.has(normalize(i.name)),
       )
-      .map((i) => i.name);
-    if (!matchedIngredients.length || (focus && !matchedIngredients.includes(focus))) continue;
+      .map((i) => i.name));
+    if (!matchedIngredients.length || (focus && !matchedIngredients.some(name => normalize(name) === focus))) continue;
     const absent = missing(recipe, pantry);
     if (absent.length <= 2) {
       rows.push({ ...recipe, missing: absent, matchedIngredients });
@@ -90,14 +62,21 @@ const searchText = (value) => {
   for (const [alias, canonical] of Object.entries(searchAliases)) text = text.replaceAll(alias, canonical);
   return text;
 };
+const searchableIngredients = new Map();
 const ingredientSearchNames = (name) => {
+  if (searchableIngredients.has(name)) return searchableIngredients.get(name);
   const families = [];
   if (/牛排|牛里脊|牛腩|牛腱|肥牛|牛肉/.test(name)) families.push("牛肉", "beef");
   if (/猪|五花肉|排骨/.test(name)) families.push("猪肉", "pork");
   if (/鸡胸|鸡腿|鸡翅/.test(name)) families.push("鸡肉", "chicken");
   if (/羊肉|羊排/.test(name)) families.push("羊肉", "lamb");
-  return [name, ...families].map(searchText);
+  const variants = [name, normalize(name), ...Object.keys(aliases).filter(alias => aliases[alias] === normalize(name)), ...families].map(searchText);
+  if (searchableIngredients.size < 2000) searchableIngredients.set(name, variants);
+  return variants;
 };
+const ingredientMatches = (ingredient, word) =>
+  ingredientSearchNames(ingredient.name).some((name) => name.includes(word)) ||
+  (ingredient.authorName && searchText(ingredient.authorName).includes(word));
 export function searchRecipes(recipes, query, max = Infinity, level = 0) {
   const words = searchText(query).trim().split(/[\s,，、;；]+/u).filter(Boolean);
   const eligible = recipes.filter((r) => r.minutes <= max && (!level || r.level === level));
@@ -107,8 +86,8 @@ export function searchRecipes(recipes, query, max = Infinity, level = 0) {
     const scores = words.map((word) => {
       if (names.some((name) => name === word)) return 4;
       if (names.some((name) => name.includes(word))) return 3;
-      if (r.ingredients.some((i) => !i.optional && ingredientSearchNames(i.name).some((n) => n.includes(word)))) return 2;
-      if (r.ingredients.some((i) => i.optional && ingredientSearchNames(i.name).some((n) => n.includes(word)))) return 1;
+      if (r.ingredients.some((i) => !i.optional && ingredientMatches(i, word))) return 2;
+      if (r.ingredients.some((i) => i.optional && ingredientMatches(i, word))) return 1;
       return 0;
     });
     return { r, index, matches: scores.every(Boolean), score: scores.reduce((a, b) => a + b, 0) };
@@ -122,6 +101,8 @@ export const KEY = "xiaoz ao-v1".replace(" ", "");
 export function cleanState(raw, recipes) {
   const empty = {
     pantry: [],
+    customFoods: [],
+    useFattyBeefForRolls: false,
     frequentIngredients: [...defaultFrequentIngredients],
     favorites: [],
     cooking: null,
@@ -201,6 +182,8 @@ export function cleanState(raw, recipes) {
     const position = s.timerDock?.position;
     return {
       pantry,
+      useFattyBeefForRolls: s.useFattyBeefForRolls === true,
+      customFoods: unique(Array.isArray(s.customFoods) ? s.customFoods : pantry).filter(n => n.length <= 30).slice(-500),
       frequentIngredients: Array.isArray(s.frequentIngredients)
         ? unique(s.frequentIngredients)
             .filter((name) => name.length <= 30)

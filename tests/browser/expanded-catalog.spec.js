@@ -1,3 +1,4 @@
+import { recipes } from '../../src/recipes.js';
 import { test, expect } from '@playwright/test';
 
 test.use({ isMobile: true, hasTouch: true });
@@ -36,9 +37,9 @@ test('search crosses categories, manual category filters persist, and browse all
   await expect(page.locator('.recipe-row')).toHaveCount(0);
   await page.getByRole('button', { name: '浏览全部菜谱', exact: true }).tap();
   await expect(query(page)).toHaveValue('');
-  await expect(page.locator('.recipe-row')).toHaveCount(200);
+  await expect(page.locator('.recipe-row')).toHaveCount(recipes.length);
   await page.reload();
-  await expect(page.locator('.recipe-row')).toHaveCount(200);
+  await expect(page.locator('.recipe-row')).toHaveCount(recipes.length);
 });
 
 test('new steak keeps quantities, cooking progress and active timer through hide and restore', async ({ page }, info) => {

@@ -36,23 +36,28 @@ async function register(page, name) {
     page.getByRole("heading", { name: "饭友圈", exact: true }),
   ).toBeVisible();
 }
-async function publish(page, name) {
+async function publish(page, name, beef = false) {
   await page.getByRole("button", { name: "发布菜谱", exact: true }).click();
   await page.getByLabel("菜名 *", { exact: true }).fill(name);
   await page
     .getByLabel("成品图 *", { exact: true })
     .setInputFiles({ name: "dish.png", mimeType: "image/png", buffer: photo });
-  await page.getByLabel("食材 1 *", { exact: true }).fill("番茄");
-  await page.getByLabel("用量 1 *", { exact: true }).fill("2 个");
-  await page.getByLabel("步骤标题 1 *", { exact: true }).fill("炒番茄");
+  await page.getByLabel("食材 1 *", { exact: true }).fill(beef ? "牛肉卷" : "番茄");
+  await page.getByLabel("用量 1 *", { exact: true }).fill(beef ? "150 克" : "2 个");
+  if (beef) {
+    await page.getByRole("button", { name: "添加食材", exact: true }).click();
+    await page.getByLabel("食材 2 *", { exact: true }).fill("熟米饭");
+    await page.getByLabel("用量 2 *", { exact: true }).fill("1 碗");
+  }
+  await page.getByLabel("步骤标题 1 *", { exact: true }).fill(beef ? "煮牛肉卷" : "炒番茄");
   await page
     .getByLabel("操作说明 1 *", { exact: true })
-    .fill("将番茄切块，放入锅中翻炒至变软。");
-  await page.getByLabel("本步用量 1 *", { exact: true }).fill("番茄 2 个");
+    .fill(beef ? "将牛肉卷煮熟，铺在热米饭上。" : "将番茄切块，放入锅中翻炒至变软。");
+  await page.getByLabel("本步用量 1 *", { exact: true }).fill(beef ? "牛肉卷 150 克、熟米饭 1 碗" : "番茄 2 个");
   await page.getByLabel("火力（有依据才填） 1", { exact: true }).fill("中火");
   await page
     .getByLabel("状态（有依据才填） 1", { exact: true })
-    .fill("番茄变软");
+    .fill(beef ? "肉片熟透" : "番茄变软");
   await page
     .getByLabel("计时秒数 1（0 表示不计时）", { exact: true })
     .fill("60");
@@ -105,7 +110,7 @@ test("two people publish/download; offline reload, basket, steps, quantities and
     reader.getByText("饭友番茄", { exact: true }).first(),
   ).toBeVisible();
   await reader.goto("/#community/mine");
-  await reader.getByRole("button", { name: /饭友番茄/ }).click();
+  await reader.getByRole("button", { name: /^饭友番茄/ }).click();
   await reader.getByRole("button", { name: "看备料", exact: true }).click();
   await reader
     .getByRole("button", { name: /开始做|开始跟做|开始第一步/ })
@@ -267,6 +272,11 @@ test("updates are explicit; active cooking blocks replacement; author deletion k
     .getByRole("button", { name: "更新下载（第 2 版）", exact: true })
     .click();
   await expect(page.getByRole("alert")).toContainText("请先结束当前使用");
+  await page.goto("/#community/mine");
+  page.once("dialog", dialog => dialog.accept());
+  await page.getByRole("button", { name: "删除本机下载：更新前的菜" }).click();
+  await expect(page.getByRole("alert")).toContainText("请先结束");
+  await page.goto("/#community/detail/" + id);
   await page.getByRole("button", { name: "打开离线菜谱", exact: true }).click();
   await page.getByRole("button", { name: "看备料", exact: true }).click();
   await page.getByRole("button", { name: "备好了，开始做", exact: true }).click();
@@ -276,12 +286,12 @@ test("updates are explicit; active cooking blocks replacement; author deletion k
   await expect(page.getByText("已完整下载，可断网跟做", { exact: true })).toBeVisible();
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("xiaozao-v1")).cooking)).toBeNull();
   page.on("dialog", (d) => d.accept());
-  await page.getByRole("button", { name: "删除菜谱", exact: true }).click();
+  await page.getByRole("button", { name: "删除公开菜谱", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "饭友圈", exact: true }),
   ).toBeVisible();
   await page.goto("/#community/mine");
-  await page.getByRole("button", { name: /更新后的菜/ }).click();
+  await page.getByRole("button", { name: /^更新后的菜/ }).click();
   await expect(
     page.getByRole("heading", { name: "更新后的菜", exact: true }),
   ).toBeVisible();
@@ -322,4 +332,58 @@ test("image failure never creates half download; failed comment preserves text; 
   await register(page, "second" + Date.now());
   await page.goto("/#community/mine");
   await expect(page.getByText("私有草稿", { exact: true })).toHaveCount(0);
+});
+
+test("照烧牛肉饭下载后断网，普通牛肉不能替代牛肉卷，按原名添加即可备齐", async ({ page, browser }) => {
+  await connect(page);
+  await register(page, "cook" + Date.now());
+  const id = await publish(page, "照烧牛肉饭", true);
+  const ctx = await browser.newContext();
+  try {
+    const reader = await ctx.newPage();
+    await connect(reader);
+    await reader.goto("/#community/detail/" + id);
+    await reader.getByRole("button", { name: "下载到我的菜谱", exact: true }).click();
+    await reader.getByRole("button", { name: "打开离线菜谱" }).click();
+    await reader.reload();
+    await ctx.setOffline(true);
+    await reader.getByRole("button", { name: "收藏", exact: true }).click();
+    await reader.getByRole("button", { name: "加入今天的菜篮" }).click();
+    const nav = reader.locator('nav');
+    await nav.getByText("我的食材").click();
+    const add = async (value) => {
+      await reader.locator("#ingredient").fill(value);
+      await reader.getByRole("button", { name: "添加食材", exact: true }).click();
+    };
+    await add("牛肉、熟米饭");
+    await nav.getByText("菜篮").click();
+    await expect(reader.locator(".basket-prep-summary")).toContainText("清单未记 1 样");
+    await nav.getByText("我的食材").click();
+    await add("牛肉卷");
+    await expect(reader.getByRole("button", { name: "移除牛肉卷", exact: true })).not.toContainText("自定义");
+    await nav.getByText("菜篮").click();
+    await expect(reader.locator(".basket-prep-summary")).toContainText("必需食材都已记录");
+    await nav.getByText("我的", { exact: true }).click();
+    await reader.locator('main a[href="#community/mine"]').click();
+    const remove = reader.getByRole("button", { name: "删除本机下载：照烧牛肉饭" });
+    reader.once("dialog", dialog => dialog.dismiss());
+    await remove.click();
+    await expect(remove).toBeVisible();
+    reader.once("dialog", dialog => dialog.accept());
+    await remove.click();
+    await expect(remove).toHaveCount(0);
+    await expect(reader.getByText(/尚未下载菜谱/)).toBeVisible();
+    await nav.getByText("菜篮").click();
+    await expect(reader.locator(".basket-dishes")).toHaveCount(0);
+    await nav.getByText("我的", { exact: true }).click();
+    await reader.locator('main a[href="#favorites"]').click();
+    await expect(reader.getByText(/社区收藏尚未下载/)).toBeVisible();
+    await ctx.setOffline(false);
+    await reader.reload();
+    await reader.goto("/#community/mine");
+    await expect(reader.getByText(/尚未下载菜谱/)).toBeVisible();
+    await reader.goto("/#community/detail/" + id);
+    await reader.getByRole("button", { name: "下载到我的菜谱" }).click();
+    await expect(reader.getByRole("button", { name: "打开离线菜谱" })).toBeVisible();
+  } finally { await ctx.close(); }
 });

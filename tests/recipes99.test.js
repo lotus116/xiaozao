@@ -2,9 +2,9 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { recipes } from "../src/recipes.js";
 import { missing, requiredCount, cleanState } from "../src/logic.js";
-test("curated collection contains exactly 200 distinct recipes and 46 new simple dishes", () => {
-  assert.equal(recipes.length, 200);
-  assert.equal(new Set(recipes.map((r) => r.name)).size, 200);
+test("curated collection contains exactly 300 distinct recipes and retains 46 simple dishes", () => {
+  assert.equal(recipes.length, 300);
+  assert.equal(new Set(recipes.map((r) => r.name)).size, recipes.length);
   const added = recipes.filter((r) => r.id.startsWith("easy-"));
   assert.equal(added.length, 46);
   assert.ok(added.every((r) => requiredCount(r) <= 5));

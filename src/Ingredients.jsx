@@ -67,15 +67,15 @@ export default function Ingredients({ r }) {
           <section key={title} className="ingredient-group">
             <h3>{title}</h3>
             <ul className="ingredient-tiles">
-              {items.map((i) => (
+              {items.map((i, index) => (
                 <li
                   className={
                     i.optional ? "ingredient-tile optional" : "ingredient-tile"
                   }
-                  key={i.name}
+                  key={`${i.authorName || i.name}-${index}`}
                 >
                   <FoodIcon name={i.name} />
-                  <strong>{i.name}</strong>
+                  <strong>{i.authorName || i.name}</strong>
                   <span className="ingredient-amount">{amountForCard(i)}</span>
                   {i.optional && <small>可省</small>}
                 </li>
@@ -84,17 +84,17 @@ export default function Ingredients({ r }) {
             {items.some((i) => amountForCard(i) !== i.amount) && (
               <details className="amount-notes">
                 <summary>用量与处理提示</summary>
-                {items.filter((i) => amountForCard(i) !== i.amount).map((i) =>
-                  <p key={i.name}><strong>{i.name}</strong>　{i.amount}</p>
+                {items.filter((i) => amountForCard(i) !== i.amount).map((i, index) =>
+                  <p key={`${i.authorName || i.name}-${index}`}><strong>{i.authorName || i.name}</strong>　{i.amount}</p>
                 )}
               </details>
             )}
             {title === "有就加，没有也能做" && (
               <details className="optional-notes">
                 <summary>为什么可以省？</summary>
-                {items.map((i) => (
-                  <p key={i.name}>
-                    <strong>{i.name}：</strong>
+                {items.map((i, index) => (
+                  <p key={`${i.authorName || i.name}-${index}`}>
+                    <strong>{i.authorName || i.name}：</strong>
                     {i.optionalReason || "辅助增香或点缀，按喜好添加。"}
                   </p>
                 ))}

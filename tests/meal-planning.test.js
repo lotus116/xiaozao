@@ -99,9 +99,9 @@ test("stale and invalid adoption/undo cannot add, drop or resurrect dishes", () 
   assert.equal(applyBasketOrder(manual, ["b", "a", "c"], ["a", "b", "c"]), manual);
 });
 
-test("final 200 recipe integration keeps the complete menu and all published evidence current", () => {
+test("full catalog integration keeps the complete menu and all published evidence current", () => {
   const plan = planMeal(recipes);
-  assert.equal(plan.items.length, 200);
+  assert.equal(plan.items.length, recipes.length);
   assert.deepEqual(new Set(plan.ids), new Set(recipes.map((r) => r.id)));
   assert.equal(plan.reviewed, 10);
   assert.equal(plan.prep.length, 19);

@@ -52,10 +52,10 @@ export default function Source({ r }) {
       <a href={r.source.url} target="_blank" rel="noreferrer">
         查看原作者菜谱 <ExternalLink size={14} />
       </a>
-      {r.additionalSources?.map((source) => (
+      {r.additionalSources?.filter((s) => !r.methodReviews?.some((m) => m.url === s.url) && !r.domesticSources?.some((m) => m.url === s.url)).map((source) => (
         <p key={source.url}>
           <a href={source.url} target="_blank" rel="noreferrer">
-            补充做法来源：{source.site}
+            补充资料：{source.site}{source.title && ` · ${source.title}`}
           </a>
           {source.supports && <small className="hint"> · {source.supports}</small>}
         </p>
