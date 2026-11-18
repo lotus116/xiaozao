@@ -7,7 +7,7 @@ try {
     Start-Sleep -Milliseconds 500
   }
   if (-not $ready) { throw '本机服务没有启动，请查看 Xiaozao Server 窗口。' }
-  Write-Host '正在创建 HTTPS 展示地址。下方出现 https://……trycloudflare.com 后，将完整地址填入 App 的饭友圈 → 账号 → 服务地址。'
+  Write-Host '正在创建 HTTPS 展示地址。下方出现 https://……trycloudflare.com 后，将完整地址填入 App 的我的 → 账号与备份 → 服务地址。'
   Write-Host '本机也可先打开 http://127.0.0.1:8787；关闭本窗口会停止外网连接，数据不会删除。'
   # HTTP/2 is more likely to work on classroom networks that block outbound UDP.
   & "$PSScriptRoot\runtime\cloudflared.exe" tunnel --protocol http2 --url http://127.0.0.1:8787

@@ -1,8 +1,8 @@
 # 小灶 · 做饭新手助手
 
-最近阶段发布 **1.7.0**（Android versionCode 13）。React + Vite + Capacitor 安卓应用；开发版随包提供 300 道菜、931 个步骤和离线照片。饭友圈使用独立 Node.js + SQLite 服务，原离线功能免登录。
+当前发布 **1.8.0**（Android versionCode 14）。React + Vite + Capacitor 安卓应用；本版随包提供 300 道菜、931 个步骤和离线照片。饭友圈使用独立 Node.js + SQLite 服务，原离线功能免登录。
 
-[下载此前的 1.7.0 阶段发布](https://github.com/lotus116/xiaozao/releases/tag/v1.7.0) · [文档索引](docs/INDEX.md) · [当前 PRD](docs/PRD.md) · [安卓安装](docs/ANDROID.md) · [测试记录](docs/TEST_REPORT.md)
+[下载 1.8.0 安卓与 Windows 部署包](https://github.com/lotus116/xiaozao/releases/tag/v1.8.0) · [文档索引](docs/INDEX.md) · [当前 PRD](docs/PRD.md) · [安卓安装](docs/ANDROID.md) · [测试记录](docs/TEST_REPORT.md)
 
 [原有 200 道逐项复查](docs/CATALOG_200_SOURCE_RECHECK.md) · [完整菜谱目录](docs/CATALOG_REVIEW.html)
 
@@ -31,7 +31,7 @@ Windows 一键部署见[教程](docs/WINDOWS_SERVER.md)，页面行为见[交互
 
 ## 安装与运行
 
-附件为 `xiaozao-1.7.0-debug.apk`、Windows 一键部署 ZIP 和 SHA-256 文件，Android 7.0+ 可安装。沿用原测试签名，可覆盖旧测试版本；不要先卸载，以免丢失本地数据。这是课堂演示测试包，非商店正式签名包。
+附件为 `xiaozao-1.8.0-debug.apk`、Windows 一键部署 ZIP 和 SHA-256 文件，Android 7.0+ 可安装。沿用原测试签名，可覆盖旧测试版本；不要先卸载，以免丢失本地数据。这是课堂演示测试包，非商店正式签名包。
 
 开发与服务运行需要 Node.js 24+：
 

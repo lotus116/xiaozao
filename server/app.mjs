@@ -157,7 +157,7 @@ export function createApp({
       const path = url.pathname;
       const method = req.method;
       if (path === "/api/health")
-        return send(200, { ok: true, serverId, version: "1.7.0" });
+        return send(200, { ok: true, serverId, version: "1.8.0" });
       if (path.startsWith("/api/") && method !== "GET") {
         // Do not trust forwarded IP headers supplied by public clients.
         const key =

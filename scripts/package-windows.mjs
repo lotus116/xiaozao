@@ -74,6 +74,7 @@ for (const file of ["Start-Tunnel.ps1", "Backup.ps1"]) {
 const artifact = resolve("releases", name + ".zip");
 mkdirSync("releases", { recursive: true });
 rmSync(artifact, { force: true });
-execFileSync("zip", ["-qr", artifact, name], { cwd: stage });
+// zipfile sets the UTF-8 flag for 使用教程.md so Windows Explorer decodes it correctly.
+execFileSync("python3", ["-m", "zipfile", "-c", artifact, name], { cwd: stage });
 writeFileSync(artifact + ".sha256", `${hash(artifact)}  ${name}.zip\n`);
 console.log(artifact);
