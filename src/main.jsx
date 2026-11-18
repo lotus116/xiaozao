@@ -367,9 +367,9 @@ function App({ initialDownloads = [], downloadError = false }) {
           <img src="/brand/xiaozao-logo.svg" alt="小灶" width="120" height="40" />
         </a>
         <div className="header-actions" role="group" aria-label="快捷入口">
-          <a className="header-action" href="#search" aria-label="打开找菜页" title="找菜" aria-current={page === "search" ? "page" : undefined}>
+          {hash !== "#community/feed" && (<a className="header-action" href="#search" aria-label="打开找菜页" title="找菜" aria-current={page === "search" ? "page" : undefined}>
             <Search size={23} aria-hidden="true" />
-          </a>
+          </a>)}
           <a className="header-action header-settings" href="#settings" aria-label="设置" title="设置" aria-current={page === "settings" ? "page" : undefined}>
             <SettingsIcon size={23} aria-hidden="true" />
           </a>

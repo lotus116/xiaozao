@@ -1,7 +1,8 @@
+import { flushSync } from "react-dom";
 import { localize } from "./language";
 import { original } from "./localized-element";
 import React, { useEffect, useRef, useState } from "react";
-import { Download, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import {
   request,
   fetchImage,
@@ -54,6 +55,7 @@ export default function Community({
   setState,
 }) {
   const [, section = "feed", id] = hash.slice(1).split("/");
+  const library = section === "mine" && ["drafts", "published"].includes(id) ? id : "downloads";
   const [connection, setConnection] = useState(readConnection);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -226,7 +228,7 @@ export default function Community({
     });
   }
   return (
-    <section className="community">
+    <section className={`community community-page-${section}`}>
       <div className="community-heading">
         <h1 tabIndex={-1}>
           {{
@@ -238,6 +240,8 @@ export default function Community({
             admin: "举报管理",
           }[section] || "饭友圈"}
         </h1>
+        {section === "detail" && <a href="#community/feed" className="circle-return">返回发现菜谱</a>}
+        {section === "edit" && <a href="#community/mine" className="circle-return">我的菜谱</a>}
         {(section === "feed" || section === "mine") && (
           <button
             className="primary"
@@ -250,7 +254,7 @@ export default function Community({
           </button>
         )}
       </div>
-      {!["account", "admin"].includes(section) && <div className="community-tabs" aria-label="饭友圈栏目">
+      {["feed", "mine"].includes(section) && <div className="community-tabs" aria-label="饭友圈栏目">
         {[
           ["feed", "发现菜谱"],
           ["mine", "我的菜谱"],
@@ -270,9 +274,10 @@ export default function Community({
           <button onClick={() => setRefresh((x) => x + 1)}>重试加载</button>
         </p>
       )}
-      <p role="status" className="community-status">
+      {section !== "detail" && <p role="status" className="community-status">
         {busy ? "正在处理…" : loading ? "正在加载…" : notice}
-      </p>
+      </p>}
+      {section === "detail" && !remote && loading && <p role="status">正在加载…</p>}
       {!connection.server && section === "feed" && (
         <div className="community-connect">
           <h2>连接饭友圈</h2>
@@ -289,10 +294,10 @@ export default function Community({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               maxLength={100}
-              placeholder="菜名或食材"
+              placeholder="搜饭友分享的菜名或食材"
             />
           </label>
-          <div className="community-list">
+          <div className={query.trim() ? "community-list" : "community-list community-discovery"}>
             {items.map((r) => (
               <button
                 className="community-recipe"
@@ -303,7 +308,7 @@ export default function Community({
                 <span>
                   <strong>{original(r.name)}</strong>
                   <small>
-                    {original(r.author)} · 第 {r.version} 版
+                    {original(r.author)}
                   </small>
                   <small>
                     {r.minutes} 分钟 · {r.servings} 人份
@@ -337,9 +342,15 @@ export default function Community({
       )}
       {section === "mine" && (
         <>
-          <h2>我的草稿</h2>
+          <div className="circle-segments" aria-label="我的菜谱分类">
+            {Object.entries({ downloads: "已下载", drafts: "草稿", published: "我发布的" }).map(([key, label]) =>
+              <a key={key} href={key === "downloads" ? "#community/mine" : "#community/mine/" + key}
+                aria-current={library === key ? "page" : undefined}>{label}</a>)}
+          </div>
+          {library === "drafts" && <>
+          <h2 className="sr-only">我的草稿</h2>
           {!user ? (
-            <button onClick={() => go("community/account")}>
+            <button onClick={() => requireLogin("community/mine/drafts")}>
               登录查看草稿
             </button>
           ) : (
@@ -369,20 +380,22 @@ export default function Community({
               ))}
             </>
           )}
-          {user && <section><h2>我发布的</h2>
+          </>}
+          {library === "published" && !user && <button onClick={() => requireLogin("community/mine/published")}>登录查看发布记录</button>}
+          {library === "published" && user && <section><h2 className="sr-only">我发布的</h2>
             {publications(scope).length === 0 && <p className="hint">这里会记录你用这台设备发布的菜谱。</p>}
             {publications(scope).map(row => <article key={row.id} className="community-local">
               <strong>{original(row.name)}</strong>
               <button onClick={() => go("community/detail/" + row.id)}>查看公开菜谱</button>
             </article>)}
           </section>}
-          <h2>已下载 · 本机可用</h2>
-          <p className="hint">退出账号不会删除本机菜谱。收藏不等于下载。</p>
+          {library === "downloads" && <>
+          <h2 className="sr-only">已下载 · 本机可用</h2>
           {!downloads.length && (
             <p>尚未下载菜谱。去发现页选一道，下载后可以离线跟做。</p>
           )}
           {downloads.map((r) => (
-            <article className="community-local" key={r.id}>
+            <article className="community-local circle-download" key={r.id}>
               <button
                 className="community-recipe"
                 onClick={() => go("recipe/" + r.id)}
@@ -395,6 +408,7 @@ export default function Community({
                   </small>
                 </span>
               </button>
+              <details className="circle-more"><summary aria-label={`更多操作：${r.name}`}>更多</summary>
               {r.community.serverId === connection.session?.serverId ||
               r.community.server === connection.server ? (
                 <button
@@ -413,42 +427,27 @@ export default function Community({
                   });
                 }
               }}>删除本机下载</button>
+              </details>
             </article>
           ))}
+          </>}
         </>
       )}
       {section === "detail" && remote && (
         <>
+          <p className="circle-byline">{original(remote.author)} · {remote.minutes} 分钟 · {remote.servings} 人份</p>
+          <img className="community-cover circle-cover" src={connection.server + remote.image} alt={remote.name + "成品图"} />
+          <button className="primary circle-download-action" disabled={busy}
+            onClick={() => download ? go("recipe/" + download.id) : run(downloadRemote)}>
+            {download ? "打开离线菜谱" : "下载到我的菜谱"}
+          </button>
+          <p role="status" className="community-status">{busy ? "正在处理…" : notice}</p>
           {publishResult?.id === remote.id && <p role="status">{publishResult.message}</p>}
-          <img
-            className="community-cover"
-            src={connection.server + remote.image}
-            alt={remote.name + "成品图"}
-          />
-          <p>
-            {original(remote.author)} · 第 {remote.version} 版 · {remote.servings} 人份 ·{" "}
-            {remote.minutes} 分钟
-          </p>
-          <p className="warning">用户分享，未经项目核对</p>
+          <p className="circle-byline">用户分享，未经项目核对 · 第 {remote.version} 版</p>
           <p>{original(remote.description)}</p>
           <div className="community-actions">
-            <button
-              className="primary"
-              disabled={busy || download?.community.version === remote.version}
-              onClick={() => run(downloadRemote)}
-            >
-              <Download size={18} />
-              {download
-                ? download.community.version < remote.version
-                  ? `更新下载（第 ${remote.version} 版）`
-                  : "已下载"
-                : "下载到我的菜谱"}
-            </button>
-            {download && (
-              <button onClick={() => go("recipe/" + download.id)}>
-                打开离线菜谱
-              </button>
-            )}
+            {download && download.community.version < remote.version &&
+              <button disabled={busy} onClick={() => run(downloadRemote)}>更新下载（第 {remote.version} 版）</button>}
             <button onClick={() => report("recipe", remote.id)}>
               举报菜谱
             </button>
@@ -965,6 +964,16 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
   const [photoError, setPhotoError] = useState("");
   const photoInput = useRef(null);
   const key = scope + ":" + id;
+  const panels = ["基本信息", "食材", "步骤"];
+  const [panel, setPanel] = useState(() => {
+    try { return panels.includes(sessionStorage.getItem(key)) ? sessionStorage.getItem(key) : panels[0]; }
+    catch { return panels[0]; }
+  });
+  function selectPanel(next) {
+    flushSync(() => setPanel(next));
+    try { sessionStorage.setItem(key, next); } catch { /* Draft content is stored separately. */ }
+    document.querySelector(".circle-editor-tabs")?.scrollIntoView({ block: "start" });
+  }
   const queue = useRef(Promise.resolve());
   const current = useRef(null);
   const alive = useRef(true);
@@ -1036,7 +1045,7 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
   if (!value) return <p role="status">正在打开草稿…</p>;
   return (
     <form
-      className="community-editor"
+      className="community-editor" noValidate onInput={e => e.target.setCustomValidity?.("")}
       onSubmit={async (e) => {
         e.preventDefault();
         if (submitting) return;
@@ -1045,13 +1054,24 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
           const draft = current.current;
           const payload = { ...draft, servings: Number(draft.servings), minutes: Number(draft.minutes),
             steps: draft.steps.map(step => ({ ...step, seconds: Number(step.seconds || 0) })) };
-          recipeInput(payload);
+          const invalid = [...e.currentTarget.elements].find(control => control.willValidate &&
+            (!control.validity.valid || (control.required && !control.value.trim())));
+          if (invalid) {
+            selectPanel(invalid.closest("fieldset").dataset.panel);
+            invalid.closest("details")?.setAttribute("open", "");
+            invalid.focus();
+            if (invalid.validity.valid) invalid.setCustomValidity("请填写此项");
+            invalid.reportValidity();
+            return;
+          }
           if (!draft.imageData && !draft.remoteId) {
+            selectPanel("基本信息");
             setPhotoError("请添加成品图");
             photoInput.current?.focus();
             photoInput.current?.scrollIntoView({ block: "center" });
             return;
           }
+          recipeInput(payload);
           setSubmitting(true);
           await queue.current;
           if (!alive.current) return;
@@ -1066,8 +1086,12 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
         }
       }}
     >
+      <div className="circle-segments circle-editor-tabs" aria-label="编辑分段">
+        {panels.map(name => <button type="button" key={name} aria-pressed={panel === name}
+          onClick={() => selectPanel(name)}>{name}</button>)}
+      </div>
       <p role="status">{saving ? "正在保存草稿…" : status}</p>
-      <fieldset disabled={submitting}>
+      <fieldset disabled={submitting} data-panel="基本信息" hidden={panel !== "基本信息"}>
         <legend>基本信息</legend>
         <label>
           菜名 *
@@ -1149,7 +1173,7 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
           />
         </label>
       </fieldset>
-      <fieldset disabled={submitting}>
+      <fieldset disabled={submitting} data-panel="食材" hidden={panel !== "食材"}>
         <legend>食材和用量</legend>
         {value.ingredients.map((i, n) => (
           <div className="community-row" key={n}>
@@ -1218,7 +1242,7 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
           添加食材
         </button>
       </fieldset>
-      <fieldset disabled={submitting}>
+      <fieldset disabled={submitting} data-panel="步骤" hidden={panel !== "步骤"}>
         <legend>步骤</legend>
         {value.steps.map((s, n) => (
           <div className="community-row" key={n}>
@@ -1227,8 +1251,6 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
               ["title", "步骤标题", 60, true],
               ["text", "操作说明", 1500, true],
               ["amount", "本步用量", 300, true],
-              ["heat", "火力（有依据才填）", 100, false],
-              ["cue", "状态（有依据才填）", 300, false],
             ].map(([name, label, max, required]) => (
               <label key={name}>
                 {label} {n + 1}
@@ -1241,8 +1263,14 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
                 />
               </label>
             ))}
+            <details><summary>火力、状态与计时</summary>
+              {[["heat", "火力（有依据才填）", 100], ["cue", "状态（有依据才填）", 300]].map(([name, label, max]) =>
+                <label key={name}>{label} {n + 1}
+                  <textarea maxLength={max} value={s[name]} onChange={e => row("steps", n, name, e.target.value)} />
+                </label>)}
             <DraftNumber label={`计时秒数 ${n + 1}（0 表示不计时）`} min={0} max={86400}
               value={s.seconds} onChange={next => row("steps", n, "seconds", next)} />
+            </details>
             <button
               type="button"
               disabled={value.steps.length === 1}
@@ -1277,6 +1305,10 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
           添加步骤
         </button>
       </fieldset>
+      {panel !== "步骤" ? <button type="button" className="primary circle-editor-next"
+        onClick={() => selectPanel(panel === "基本信息" ? "食材" : "步骤")}>
+        {panel === "基本信息" ? "下一步：食材" : "下一步：步骤"}
+      </button> : <>
       <p className="hint">* 为必填。发布即公开；请使用有权分享的内容与图片。</p>
       <button className="primary" disabled={submitting || saving}>
         {submitting
@@ -1285,6 +1317,7 @@ function Editor({ id, scope, call, server, go, onError, publish }) {
             ? "保存公开修改"
             : "发布菜谱"}
       </button>
+      </>}
     </form>
   );
 }

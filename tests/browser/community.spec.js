@@ -40,6 +40,7 @@ async function register(page, name) {
 async function publish(page, name, beef = false) {
   await page.getByRole("button", { name: "发布菜谱", exact: true }).click();
   await page.getByLabel("菜名 *", { exact: true }).fill(name);
+  await page.getByRole("button", {name:"下一步：食材"}).click();
   await page.getByLabel("食材 1 *", { exact: true }).fill(beef ? "牛肉卷" : "番茄");
   await page.getByLabel("用量 1 *", { exact: true }).fill(beef ? "150 克" : "2 个");
   if (beef) {
@@ -47,11 +48,17 @@ async function publish(page, name, beef = false) {
     await page.getByLabel("食材 2 *", { exact: true }).fill("熟米饭");
     await page.getByLabel("用量 2 *", { exact: true }).fill("1 碗");
   }
+  await expect(page.getByText("草稿已保存到本机",{exact:true})).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("button",{name:"食材",exact:true})).toHaveAttribute("aria-pressed","true");
+  await expect(page.getByLabel("用量 1 *",{exact:true})).toHaveValue(beef ? "150 克" : "2 个");
+  await page.getByRole("button", {name:"下一步：步骤"}).click();
   await page.getByLabel("步骤标题 1 *", { exact: true }).fill(beef ? "煮牛肉卷" : "炒番茄");
   await page
     .getByLabel("操作说明 1 *", { exact: true })
     .fill(beef ? "将牛肉卷煮熟，铺在热米饭上。" : "将番茄切块，放入锅中翻炒至变软。");
   await page.getByLabel("本步用量 1 *", { exact: true }).fill(beef ? "牛肉卷 150 克、熟米饭 1 碗" : "番茄 2 个");
+  await page.getByText("火力、状态与计时", {exact:true}).click();
   await page.getByLabel("火力（有依据才填） 1", { exact: true }).fill("中火");
   await page
     .getByLabel("状态（有依据才填） 1", { exact: true })
@@ -69,6 +76,7 @@ async function publish(page, name, beef = false) {
     .getByLabel("成品图 *", { exact: true })
     .setInputFiles({ name: "dish.png", mimeType: "image/png", buffer: photo });
   await expect(page.getByRole("alert")).toHaveCount(0);
+  await page.getByRole("button",{name:"步骤",exact:true}).click();
   await page.getByRole("button", { name: "发布菜谱", exact: true }).click();
   await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
   return page.url().split("/").pop();
@@ -83,17 +91,37 @@ test("two people publish/download; offline reload, basket, steps, quantities and
   await register(page, "author" + Date.now());
   const id = await publish(page, "饭友番茄");
   const context = await browser.newContext({
-    viewport: { width: 390, height: 844 },
+    viewport: { width: 320, height: 568 },
   });
   const reader = await context.newPage();
   await connect(reader);
-  await reader.goto("/#community/detail/" + id);
+  await reader.goto("/#community/feed");
+  const hero = reader.locator(".community-discovery .community-recipe").first();
+  await expect(hero).toContainText("饭友番茄");
+  const heroImage = await hero.locator("img").boundingBox();
+  await reader.getByRole("searchbox").fill("饭友番茄");
+  const result = reader.locator(".community-list:not(.community-discovery) .community-recipe").first();
+  await expect(result).toContainText("饭友番茄");
+  expect((await result.locator("img").boundingBox()).width).toBeLessThan(heroImage.width);
+  await reader.getByRole("searchbox").fill("");
+  await hero.click();
+  const action = reader.locator(".circle-download-action");
+  await expect(action).toBeVisible();
+  const before = await action.boundingBox();
+  const bottomNav = await reader.locator("nav").boundingBox();
+  expect(before.y + before.height).toBeLessThanOrEqual(bottomNav.y);
+  expect(await action.evaluate(el => {
+    const r = el.getBoundingClientRect();
+    return [r.left + 6, r.right - 6, r.left + r.width / 2].every(x =>
+      el.contains(document.elementFromPoint(x, r.top + r.height / 2)));
+  })).toBe(true);
   await reader
     .getByRole("button", { name: "下载到我的菜谱", exact: true })
     .click();
   await expect(
     reader.getByRole("status").filter({ hasText: "已完整下载" }),
   ).toBeVisible();
+  expect(await action.boundingBox()).toEqual(before);
   await reader.route(server + "/**", (route) => route.abort());
   await reader
     .getByRole("button", { name: "打开离线菜谱", exact: true })
@@ -203,6 +231,7 @@ test("account backup restores only configuration, comments/replies and draft sur
   await page.goBack();
   await expect(page.getByLabel("菜名 *", { exact: true })).toHaveValue("未发布草稿");
   await page.getByRole("link", { name: "我的菜谱", exact: true }).click();
+  await page.getByRole("link",{name:"草稿",exact:true}).click();
   await expect(page.getByText("未发布草稿", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "继续编辑", exact: true }).click();
   await expect(page.getByLabel("菜名 *", { exact: true })).toHaveValue(
@@ -266,6 +295,7 @@ test("updates are explicit; active cooking blocks replacement; author deletion k
   await expect(
     page.getByText("草稿已保存到本机", { exact: true }),
   ).toBeVisible();
+  await page.getByRole("button",{name:"步骤",exact:true}).click();
   await page.getByRole("button", { name: "保存公开修改", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "更新下载（第 2 版）", exact: true }),
@@ -282,6 +312,7 @@ test("updates are explicit; active cooking blocks replacement; author deletion k
   await expect(page.getByRole("alert")).toContainText("请先结束当前使用");
   await page.goto("/#community/mine");
   page.once("dialog", dialog => dialog.accept());
+  await page.getByLabel("更多操作：更新前的菜").click();
   await page.getByRole("button", { name: "删除本机下载：更新前的菜" }).click();
   await expect(page.getByRole("alert")).toContainText("请先结束");
   await page.goto("/#community/detail/" + id);
@@ -316,6 +347,7 @@ test("image failure never creates half download; failed comment preserves text; 
   const id = await publish(page, "失败恢复测试菜");
   await page.goto("/#community/mine");
   page.once("dialog", dialog => dialog.accept());
+  await page.getByLabel("更多操作：失败恢复测试菜").click();
   await page.getByRole("button", {name:"删除本机下载：失败恢复测试菜"}).click();
   await expect(page.getByText(/尚未下载菜谱/)).toBeVisible();
   await page.goto("/#community/detail/" + id);
@@ -344,6 +376,7 @@ test("image failure never creates half download; failed comment preserves text; 
   await page.getByRole("button", { name: "退出登录", exact: true }).click();
   await register(page, "second" + Date.now());
   await page.goto("/#community/mine");
+  await page.getByRole("link",{name:"草稿",exact:true}).click();
   await expect(page.getByText("私有草稿", { exact: true })).toHaveCount(0);
 });
 
@@ -378,6 +411,7 @@ test("照烧牛肉饭下载后断网，普通牛肉不能替代牛肉卷，按�
     await expect(reader.locator(".basket-prep-summary")).toContainText("必需食材都已记录");
     await nav.getByText("我的", { exact: true }).click();
     await reader.locator('main a[href="#community/mine"]').click();
+    await reader.getByLabel("更多操作：照烧牛肉饭").click();
     const remove = reader.getByRole("button", { name: "删除本机下载：照烧牛肉饭" });
     reader.once("dialog", dialog => dialog.dismiss());
     await remove.click();
@@ -407,6 +441,10 @@ test("mine starts creation, numeric drafts allow blanks, published edits replace
   await page.goto("/#community/mine");
   await page.getByRole("button", {name:"写菜谱"}).click();
   for (const [label, number] of [["份数 *","1"], ["预计分钟 *","15"], ["计时秒数 1（0 表示不计时）","5"]]) {
+    if (label.startsWith("计时")) {
+      await page.getByRole("button",{name:"步骤",exact:true}).click();
+      await page.getByText("火力、状态与计时",{exact:true}).click();
+    }
     const field = page.getByLabel(label, {exact:true});
     await field.fill("");
     await expect(field).toHaveValue("");
@@ -418,11 +456,13 @@ test("mine starts creation, numeric drafts allow blanks, published edits replace
   await publish(page, "作者的食谱");
   await page.getByRole("button",{name:"编辑菜谱"}).click();
   await page.getByLabel("菜名 *",{exact:true}).fill("作者修订的食谱");
+  await page.getByRole("button",{name:"步骤",exact:true}).click();
   await page.getByRole("button",{name:"保存公开修改"}).click();
   await expect(page.getByRole("button",{name:"打开离线菜谱"})).toBeVisible();
   await page.goto("/#community/mine");
   await expect(page.locator("article button.community-recipe")).toHaveCount(1);
   await expect(page.locator("article button.community-recipe")).toContainText("作者修订的食谱");
+  await page.getByLabel("更多操作：作者修订的食谱").click();
   await page.getByRole("button",{name:"删除本机下载：作者修订的食谱"}).click({trial:true});
   await page.goto("/#settings");
   await page.getByLabel("界面语言").selectOption("zh-HK");
