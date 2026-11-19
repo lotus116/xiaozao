@@ -4,7 +4,7 @@ import { createKeepAwake } from "./keep-awake";
 
 const messages = {
   off: "可选开启，只在当前做菜页请求屏幕常亮。",
-  unsupported: "当前环境不支持屏幕常亮，请留意自动锁屏。",
+  unsupported: "当前环境不支持常亮。",
   requesting: "正在申请屏幕常亮…",
   active: "屏幕常亮已开启，离开做菜页后释放。系统仍可能中断。",
   paused: "已切到后台，常亮已暂停；回到前台会尝试恢复。",
@@ -39,7 +39,7 @@ export default function KeepAwake() {
           onClick={() => state.wanted ? controller.current?.disable() : controller.current?.enable()}
         >
           <Sun size={18} aria-hidden="true" />
-          {state.wanted ? "关闭常亮" : "保持亮屏"}
+          {state.status === "unsupported" ? "常亮不可用" : state.wanted ? "关闭常亮" : "保持亮屏"}
         </button>
         {state.wanted && ["released", "error"].includes(state.status) && (
           <button type="button" onClick={() => controller.current?.enable()}>重试常亮</button>

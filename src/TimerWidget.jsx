@@ -3,6 +3,7 @@ import { Timer, X, EyeOff } from "lucide-react";
 import { remaining } from "./logic";
 export default function TimerWidget({
   timer,
+  useTimerToolbar,
   setTimer,
   now,
   recipes,
@@ -25,7 +26,8 @@ export default function TimerWidget({
     w: window.innerWidth,
     h: window.innerHeight,
   });
-  const maxX = Math.max(12, viewport.w - 68),
+  // Leave the trailing column of recipe actions clear when the timer is dragged.
+  const maxX = Math.max(12, viewport.w - (useTimerToolbar ? 144 : 68)),
     maxY = Math.max(12, viewport.h - 142);
   const bounded = (x, y) => ({
     x: Math.min(maxX, Math.max(12, x)),
@@ -44,6 +46,7 @@ export default function TimerWidget({
         y: (p.y - 12) / Math.max(1, maxY - 12),
       },
     });
+  const headerDock = useTimerToolbar && !dock.position && !dragPoint;
   const left = timer?.paused ?? (timer ? remaining(timer.deadline, now) : 0);
   const recipe = recipes.find((r) => r.id === timer?.id);
   const title =
@@ -154,10 +157,11 @@ export default function TimerWidget({
         <div
           className={
             "floating-timer icon-timer " +
+            (headerDock ? "header-dock " : "") +
             (timer ? "running " : "") +
             (timer && left === 0 ? "expired" : "")
           }
-          style={{
+          style={headerDock ? undefined : {
             left: "clamp(12px, " + point.x + "px, calc(100vw - 68px))",
             top:
               "clamp(calc(12px + var(--app-safe-top)), " +
@@ -191,7 +195,7 @@ export default function TimerWidget({
               if (dirs[e.key]) {
                 e.preventDefault();
                 savePosition(
-                  bounded(point.x + dirs[e.key][0], point.y + dirs[e.key][1]),
+                  bounded(e.currentTarget.getBoundingClientRect().left + dirs[e.key][0], e.currentTarget.getBoundingClientRect().top + dirs[e.key][1]),
                 );
               }
               if (e.key === "Home") {

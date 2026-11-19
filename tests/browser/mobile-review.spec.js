@@ -19,6 +19,24 @@ async function onFirstScreen(page, control) {
   expect(box.y + box.height).toBeLessThanOrEqual(nav.y);
 }
 
+test("small phone taps the first basket and clears a query inside the selected category", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto("/#search");
+  const add = button(page, "加入菜篮番茄炒鸡蛋");
+  await expect(add).toBeVisible();
+  const box = await add.boundingBox();
+  await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+  await expect(button(page, "移出菜篮番茄炒鸡蛋")).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("dialog[open]")).toHaveCount(0);
+  await button(page, "汤羹").tap();
+  const query = page.getByRole("textbox", { name: "搜索菜谱" });
+  await query.fill("不存在的菜");
+  await button(page, "清空搜索关键词").tap();
+  await expect(query).toBeFocused();
+  await expect(query).toHaveValue("");
+  await expect(button(page, "汤羹")).toHaveAttribute("aria-pressed", "true");
+});
+
 test("touching the second heart saves the dish; search and favorites remember separate filters", async ({ page }) => {
   await page.goto("/#search");
   const favorite = button(page, "收藏家常蒸蛋");
@@ -132,7 +150,8 @@ test("step guidance stays local to the step in both cooking views", async ({ pag
   await expect(guide.locator("dt")).toHaveText(["用量", "火力", "看状态"]);
   await expect(guide).toContainText("中火");
   await expect(guide).toContainText("柔软就先盛出");
-  await onFirstScreen(page, guide);
+  await onFirstScreen(page, guide.locator(".guide-amount"));
+  await onFirstScreen(page, page.locator(".instruction"));
   await button(page, "下一步").tap();
   await expect(guide).toContainText("余油");
   await expect(guide).toContainText("铲子轻压就出汁");

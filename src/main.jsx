@@ -76,6 +76,7 @@ setupNative().catch((error) =>
 );
 function Card({ r, state, go, fav, addToBasket, featured = false }) {
   const miss = missing(r, state.pantry);
+  const visibleMissing = miss.slice(0, 2).join("、");
   return (
     <article className={`recipe-row${featured ? " featured-recipe" : ""}`}>
       <button className="recipe-open" onClick={() => go(`recipe/${r.id}`)}>
@@ -89,13 +90,13 @@ function Card({ r, state, go, fav, addToBasket, featured = false }) {
           </span>
           <span className={miss.length ? "missing" : "ready"}>
             {miss.length
-              ? `还缺 ${miss.length} 样：${miss.join("、")}`
+              ? `还缺 ${miss.length} 样：${visibleMissing}${miss.length > 2 ? " 等" : ""}`
               : "可以做，必需食材齐全"}
           </span>
           {r.matchedIngredients?.length > 0 && (
             <span className="meta">用到已有食材：{r.matchedIngredients.join("、")}</span>
           )}
-          {r.ingredients.some(
+          {featured && r.ingredients.some(
             (i) => i.optional && !state.pantry.includes(normalize(i.name)),
           ) && (
             <span className="meta">
@@ -143,6 +144,7 @@ function App({ initialDownloads = [], downloadError = false }) {
   const [downloads, setDownloads] = useState(initialDownloads);
   const localRecipes = useMemo(() => [...builtInRecipes, ...downloads], [downloads]);
   const stateRef = useRef(null);
+  const searchInput = useRef(null);
   const changingDownloads = useRef(new Set());
   const changeDownload = async (id, change) => {
     if (changingDownloads.current.has(id)) throw new Error("此菜谱正在更新本机下载，请稍后再试");
@@ -309,6 +311,8 @@ function App({ initialDownloads = [], downloadError = false }) {
   const focusedFood = pantryFoods.includes(focusIngredient) ? focusIngredient : "";
   const rec = recommend(selectedRecipes, state.pantry, focusedFood);
   const [page, id] = hash.replace("#", "").split("/");
+  const useTimerToolbar = page === "search" || page === "favorites" || (page === "community" && id === "edit");
+  const communityFeed = page === "community" && (!id || id === "feed");
   const activeTab = ["settings", "favorites"].includes(page) || (page === "community" && ["account", "admin"].includes(id)) ? "profile" : page;
   const recipe = recipes.find((r) => r.id === id);
   const isCooking = page === "cook" && recipe &&
@@ -361,13 +365,13 @@ function App({ initialDownloads = [], downloadError = false }) {
     </button>
   );
   return (
-    <div className={`kitchen-app${isCooking ? " is-cooking" + (state.cookView === "step" ? " is-step-cooking" : "") : ""}`}>
+    <div className={`kitchen-app${useTimerToolbar ? " has-timer-toolbar" : ""}${isCooking ? " is-cooking" + (state.cookView === "step" ? " is-step-cooking" : "") : ""}`}>
       <header>
         <a className="brand" href="#pantry">
           <img src="/brand/xiaozao-logo.svg" alt="小灶" width="120" height="40" />
         </a>
         <div className="header-actions" role="group" aria-label="快捷入口">
-          {hash !== "#community/feed" && (<a className="header-action" href="#search" aria-label="打开找菜页" title="找菜" aria-current={page === "search" ? "page" : undefined}>
+          {!communityFeed && (<a className="header-action" href="#search" aria-label="打开找菜页" title="找菜" aria-current={page === "search" ? "page" : undefined}>
             <Search size={23} aria-hidden="true" />
           </a>)}
           <a className="header-action header-settings" href="#settings" aria-label="设置" title="设置" aria-current={page === "settings" ? "page" : undefined}>
@@ -546,15 +550,22 @@ function App({ initialDownloads = [], downloadError = false }) {
           <section className="browse">
             <h1 tabIndex="-1">{page === "search" ? "找一道想吃的菜" : "我的收藏"}</h1>
             {page === "favorites" && state.favorites.filter(id => id.startsWith("community-") && !recipes.some(r => r.id === id)).map(id => <p className="warning" key={id}>社区收藏尚未下载或已不可获取。<a href="#community/feed">去饭友圈查找并下载</a><button onClick={() => fav(id)}>移除此收藏</button></p>)}
-            <label className="searchbox">
-              <Search size={20} />
+            <div className="searchbox" onClick={event => {
+              if (event.target === event.currentTarget) searchInput.current?.focus();
+            }}>
+              <label htmlFor="recipe-query"><Search size={20} aria-hidden="true" /><span className="sr-only">搜索菜谱</span></label>
               <input
+                id="recipe-query" ref={searchInput}
                 aria-label="搜索菜谱"
                 placeholder="搜索菜名或食材，如西红柿"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
-            </label>
+              {query && <button type="button" className="clear-query" aria-label="清空搜索关键词" onClick={() => {
+                setQuery("");
+                searchInput.current?.focus();
+              }}><X size={18} aria-hidden="true" /></button>}
+            </div>
             <CategoryTabs category={category} setCategory={setCategory} includeAll />
             <details className="browse-filters" key={page}>
               <summary>筛选{[fewIngredients && "少配料", max !== "all" && `${max} 分钟内`, level !== "0" && (level === "1" ? "简单" : "需练习")].filter(Boolean).map((v) => " · " + v).join("")}</summary>
@@ -843,6 +854,7 @@ function App({ initialDownloads = [], downloadError = false }) {
         </div>
       </dialog>
       <TimerWidget
+        useTimerToolbar={useTimerToolbar}
         sound={sound}
         dialogRef={timerDialog}
         timer={state.timer}

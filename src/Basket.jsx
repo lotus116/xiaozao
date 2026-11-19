@@ -186,6 +186,7 @@ export default function Basket({ state, setState, recipes, go }) {
         </div>
       ) : (
         <>
+          <MealPlanner rows={rows} state={state} setState={setState} go={go} canBegin={canBegin} />
           <ol className="basket-dishes">
             {rows.map((r, index) => (
               <li key={r.id}>
@@ -287,7 +288,6 @@ export default function Basket({ state, setState, recipes, go }) {
               </div>
             )}
           </section>
-          <MealPlanner rows={rows} state={state} setState={setState} go={go} canBegin={canBegin} />
 
           {!active && (
             <div className="basket-start-bar">

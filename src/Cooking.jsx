@@ -258,12 +258,14 @@ export default function Cooking({
         </>
       ) : (
         <>
-          <p className="eyebrow">
-            第 {c.step + 1} / {r.steps.length} 步
-          </p>
-          <h2 className="focused-step" tabIndex="-1">{recipeText(r, r.steps[c.step].title)}</h2>
-          <StepGuidance recipeId={r.id} title={r.steps[c.step].title} step={r.community ? r.steps[c.step] : undefined} />
-          <p className="instruction">{recipeText(r, r.steps[c.step].text)}</p>
+          <div className="step-heading">
+            <p className="eyebrow">第 {c.step + 1} / {r.steps.length} 步</p>
+            <h2 className="focused-step" tabIndex="-1">{recipeText(r, r.steps[c.step].title)}</h2>
+          </div>
+          <div className="step-reading">
+            <p className="instruction">{recipeText(r, r.steps[c.step].text)}</p>
+            <StepGuidance recipeId={r.id} title={r.steps[c.step].title} step={r.community ? r.steps[c.step] : undefined} />
+          </div>
           {timerButton(c.step)}
           <DomesticStepNote recipe={r} index={c.step} />
           <div className="step-actions">
