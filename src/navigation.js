@@ -7,9 +7,10 @@ const metadata = () => history.state?.[key];
 const write = (value) => history.replaceState({ ...history.state, [key]: value }, "");
 
 export function initialBrowseState(value = metadata()?.filters, target = route()) {
+  const defaultCategory = target === "#search" || target === "#favorites" ? "all" : "dish";
   return {
     query: typeof value?.query === "string" ? value.query.slice(0, 200) : "",
-    category: ["dish", "staple", "soup", "all"].includes(value?.category) ? value.category : target === "#favorites" ? "all" : "dish",
+    category: ["dish", "staple", "soup", "all"].includes(value?.category) ? value.category : defaultCategory,
     max: ["all", "15", "30"].includes(value?.max) ? value.max : "all",
     level: ["0", "1", "2"].includes(value?.level) ? value.level : "0",
     fewIngredients: value?.fewIngredients === true,

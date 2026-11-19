@@ -42,6 +42,28 @@ test('search crosses categories, manual category filters persist, and browse all
   await expect(page.locator('.recipe-row')).toHaveCount(recipes.length);
 });
 
+test('search keeps the chosen category when the keyword changes or is cleared', async ({ page }) => {
+  await page.goto('/#search');
+  const soups = page.getByRole('button', { name: '汤羹', exact: true });
+  const all = page.getByRole('button', { name: '全部', exact: true });
+  await query(page).fill('tomato');
+  await soups.tap();
+  await query(page).press('End');
+  await query(page).press('s');
+  await expect(query(page)).toHaveValue('tomatos');
+  await expect(soups).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('heading', { name: '暂时没找到这道菜' })).toBeVisible();
+  await query(page).fill('番茄');
+  await expect(page.locator('.recipe-row').filter({ hasText: '番茄蛋花汤' })).toBeVisible();
+  await expect(page.locator('.recipe-row').filter({ hasText: '番茄炒鸡蛋' })).toHaveCount(0);
+  await query(page).clear();
+  await expect(soups).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.recipe-row').filter({ hasText: '番茄炒鸡蛋' })).toHaveCount(0);
+  await all.tap();
+  await expect(all).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.recipe-row')).toHaveCount(recipes.length);
+});
+
 test('new steak keeps quantities, cooking progress and active timer through hide and restore', async ({ page }, info) => {
   await page.goto('/#recipe/home-01');
   await page.getByRole('button', { name: '看备料', exact: true }).tap();

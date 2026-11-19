@@ -552,10 +552,10 @@ function App({ initialDownloads = [], downloadError = false }) {
                 aria-label="搜索菜谱"
                 placeholder="搜索菜名或食材，如西红柿"
                 value={query}
-                onChange={(e) => setBrowse((s) => ({ ...s, query: e.target.value, category: e.target.value.trim() || page === "favorites" ? "all" : "dish" }))}
+                onChange={(e) => setQuery(e.target.value)}
               />
             </label>
-            <CategoryTabs category={category} setCategory={setCategory} includeAll={page === "favorites" || Boolean(query.trim()) || category === "all"} />
+            <CategoryTabs category={category} setCategory={setCategory} includeAll />
             <details className="browse-filters" key={page}>
               <summary>筛选{[fewIngredients && "少配料", max !== "all" && `${max} 分钟内`, level !== "0" && (level === "1" ? "简单" : "需练习")].filter(Boolean).map((v) => " · " + v).join("")}</summary>
             <div className="filters">
@@ -641,10 +641,7 @@ function App({ initialDownloads = [], downloadError = false }) {
                     </button>)}
                   </div> : <p>试试“鸡蛋”或清除筛选。</p>}
                   <button
-                    onClick={() => {
-                      go("search", { resetFilters: true });
-                      setBrowse(initialBrowseState({ category: "all" }, "#search"));
-                    }}
+                    onClick={() => go("search", { resetFilters: true })}
                   >
                     浏览全部菜谱
                   </button>
