@@ -1,6 +1,6 @@
 # 小灶安卓安装与构建
 
-1.9.3（versionCode 18）课堂版包含 300 道菜，应用名“小灶”，包名 `com.xiaozao.kitchen`。本地测试包为 `releases/xiaozao-1.9.3-debug.apk`，沿用原测试签名，已验证可直接覆盖 1.9.2，Windows 服务继续使用 1.8.0。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。
+1.9.4（versionCode 19）课堂版包含 300 道菜，应用名“小灶”，包名 `com.xiaozao.kitchen`。本地测试包为 `releases/xiaozao-1.9.4-debug.apk`，沿用原测试签名，支持从使用相同签名的 1.9.3 覆盖升级，Windows 服务继续使用 1.8.0。最低 Android 7.0 / API 24，目标 API 36；系统 Android WebView 需保持更新。
 
 本轮保留 React + Capacitor 架构。项目本地 JDK 与 Android SDK 已就绪，1.6.3 启用确认的轻量顶部工具栏，右侧新增找菜入口并整理设置按钮；保留 1.6.2 的 A「小字蒸汽锅」桌面／圆形／单色图标和启动页。签名沿用原有测试包，覆盖升级不需要先卸载旧版。构建及验证细节见[测试记录](TEST_REPORT.md)，真机安装与体验仍由手机测试确认。
 

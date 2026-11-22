@@ -1,14 +1,14 @@
 # 小灶 · 做饭新手助手
 
-安卓课堂版源码 **1.9.3**（versionCode 18），配套 Windows 服务继续使用 **1.8.0**。React + Vite + Capacitor 安卓应用；本版随包提供 300 道菜、931 个步骤和离线照片。饭友圈使用独立 Node.js + SQLite 服务，原离线功能免登录。
+安卓课堂版源码 **1.9.4**（versionCode 19），配套 Windows 服务继续使用 **1.8.0**。React + Vite + Capacitor 安卓应用；本版随包提供 300 道菜、931 个步骤和离线照片。饭友圈使用独立 Node.js + SQLite 服务，原离线功能免登录。
 
-[下载 1.9.3 安卓 APK](https://github.com/lotus116/xiaozao/releases/download/v1.9.3/xiaozao-1.9.3-debug.apk) · [Windows 1.8.0 部署包](https://github.com/lotus116/xiaozao/releases/tag/v1.8.0) · [文档索引](docs/INDEX.md) · [当前 PRD](docs/PRD.md) · [安卓安装](docs/ANDROID.md) · [测试记录](docs/TEST_REPORT.md)
+[下载 1.9.4 安卓 APK](https://github.com/lotus116/xiaozao/releases/download/v1.9.4/xiaozao-1.9.4-debug.apk) · [Windows 1.8.0 部署包](https://github.com/lotus116/xiaozao/releases/tag/v1.8.0) · [文档索引](docs/INDEX.md) · [当前 PRD](docs/PRD.md) · [安卓安装](docs/ANDROID.md) · [测试记录](docs/TEST_REPORT.md)
 
 [原有 200 道逐项复查](docs/CATALOG_200_SOURCE_RECHECK.md) · [完整菜谱目录](docs/CATALOG_REVIEW.html)
 
-## 1.9.3 课堂操作
+## 1.9.4 课堂操作
 
-- 安卓直接覆盖安装 `releases/xiaozao-1.9.3-debug.apk`。已运行的 Windows 1.8.0 服务可继续使用原地址。
+- 安卓直接覆盖安装 `releases/xiaozao-1.9.4-debug.apk`。已运行的 Windows 1.8.0 服务可继续使用原地址。
 - 同一餐切菜会分别保存步骤。新建饭友圈草稿后，刷新或返回编辑页可继续填写。香港繁体下可直接搜索菜谱显示名，采购清单也可按当前语言复制。
 - “我的 → 厨房设置”可选择简体或香港繁体，内置食谱和本机搜索可离线使用。社区原文、已有下载和账号数据保留。线上饭友圈搜索仍使用服务器原有匹配。
 - 饭友圈发现页首道菜展示上传原图，输入关键词切换为紧凑结果。下载后原位打开离线菜谱。“我的菜谱”默认显示已下载，可切换草稿与发布记录。编辑分基本信息、食材和步骤三段。成功发布和修订会保存离线副本；正在使用的旧副本可在结束跟做后更新。本机发布记录可找回已删除下载的公开作品。
