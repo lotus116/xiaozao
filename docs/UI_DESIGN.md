@@ -169,3 +169,15 @@
 [320px 小屏](design/header-1.6.3/pantry-320.png) · [412px 手机](design/header-1.6.3/pantry-412.png) · [844px 横屏](design/header-1.6.3/pantry-844.png)
 
 以上来自本地生产构建的浏览器手机模拟，非生图或安卓真机截图。完整验证结果见[测试记录](TEST_REPORT.md)。
+
+## 全页面优化分支审查
+
+以下对照来自 390 × 844 的手机尺寸浏览器。审查时可以沿同一份菜谱走完搜索、阅读、下载和离线跟做，再从计时器返回菜谱。
+
+| 界面 | 审查重点 |
+| --- | --- |
+| [饭友圈与详情](design/opus-kitchen/all-pages/community.webp) | 清空搜索后可以直接继续输入。详情能快速找到食材、步骤和下载入口。 |
+| [下载与编辑](design/opus-kitchen/all-pages/library.webp) | 下载结果在按钮附近反馈。离线打开后仍可阅读步骤。 |
+| [计时器](design/opus-kitchen/all-pages/timer.webp) | 各状态都能读清剩余时间，暂停和继续时操作位置稳定。 |
+| [我的与设置](design/opus-kitchen/all-pages/profile.webp) | 当前身份、收藏和设置入口容易辨认，小屏文字可换行。 |
+| [账号与备份](design/opus-kitchen/all-pages/account.webp) | 切换密码可见性保留输入。备份状态与恢复操作容易区分。 |

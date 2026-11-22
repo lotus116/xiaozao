@@ -51,7 +51,13 @@ export function DishPreview({ recipe }) {
         <span><Expand size={14} aria-hidden="true" /> 看实拍</span>
       </button>
     </div>
-    <dialog ref={dialog} className="dish-photo-dialog" aria-label={recipe.name + "成品实拍"} onClose={() => setOpen(false)}>
+    <dialog ref={dialog} className="dish-photo-dialog" aria-label={recipe.name + "成品实拍"} onClose={() => setOpen(false)}
+      onClick={event => {
+        const panel = event.currentTarget;
+        if (event.target !== panel) return;
+        const { left, top, right, bottom } = panel.getBoundingClientRect();
+        if (event.clientX < left || event.clientX > right || event.clientY < top || event.clientY > bottom) panel.close();
+      }}>
       {open && <>
         <div className="photo-bar"><strong>{recipe.name}</strong><button aria-label="关闭实拍" autoFocus onClick={() => dialog.current.close()}><X size={22}/></button></div>
         {unavailable ? <p role="status">图片未能打开，可通过图片来源查看原图。</p> :

@@ -464,7 +464,12 @@ export function createApp({
             "Content-Type":
               mime[extname(filename)] || "application/octet-stream",
           });
-          res.end(readFileSync(filename));
+          if (filename === resolve(root, "index.html")) {
+            const html = readFileSync(filename, "utf8");
+            res.end(html.replace("</head>", '<meta name="xiaozao-community" content="same-origin"></head>'));
+          } else {
+            res.end(readFileSync(filename));
+          }
           return;
         }
       }

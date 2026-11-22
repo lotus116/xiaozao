@@ -2,7 +2,12 @@ const KEY = "xiaozao-community-connection";
 export function readConnection() {
   try {
     return (
-      JSON.parse(localStorage.getItem(KEY)) || { server: "", session: null }
+      JSON.parse(localStorage.getItem(KEY)) || {
+        server: document.querySelector('meta[name="xiaozao-community"][content="same-origin"]')
+          ? serverAddress(location.origin)
+          : "",
+        session: null,
+      }
     );
   } catch {
     return { server: "", session: null };

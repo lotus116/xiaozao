@@ -159,6 +159,7 @@ export default function TimerWidget({
             "floating-timer icon-timer " +
             (headerDock ? "header-dock " : "") +
             (timer ? "running " : "") +
+            (timer?.paused != null ? "paused " : "") +
             (timer && left === 0 ? "expired" : "")
           }
           style={headerDock ? undefined : {
@@ -232,7 +233,10 @@ export default function TimerWidget({
       )}
       <dialog
         ref={dialog}
-        className="timer-dialog"
+        className={
+          "timer-dialog " +
+          (!timer ? "is-new" : !left ? "is-expired" : timer.paused != null ? "is-paused" : "is-running")
+        }
         aria-labelledby="timer-title"
       >
         <div className="section-title">
@@ -246,12 +250,13 @@ export default function TimerWidget({
         </div>
         {timer ? (
           <>
-            <p>{title}</p>
+            <p className="timer-title">{title}</p>
             <p className="timer-digits">{display}</p>
-            <p role="status">{status}</p>
-            <div className="chips">
+            <p role="status" className="timer-status">{status}</p>
+            <div className="chips timer-controls">
               {left > 0 && (
                 <button
+                  className="timer-toggle"
                   onClick={() =>
                     setTimer(
                       timer.paused != null
@@ -284,7 +289,7 @@ export default function TimerWidget({
               >
                 加 1 分钟
               </button>
-              <button onClick={stop}>结束当前计时</button>
+              <button className="timer-stop" onClick={stop}>结束当前计时</button>
             </div>
           </>
         ) : (
@@ -295,24 +300,29 @@ export default function TimerWidget({
                 start(Math.round(Number(minutes) * 60));
             }}
           >
-            <label htmlFor="timer-label">计时名称</label>
-            <input
-              id="timer-label"
-              maxLength={30}
-              value={label}
-              onChange={(e) => setLabel(e.target.value)}
-            />
-            <label htmlFor="timer-minutes">时长（分钟，最多 180）</label>
-            <input
-              id="timer-minutes"
-              type="number"
-              min="0.1"
-              max="180"
-              step="0.1"
-              value={minutes}
-              onChange={(e) => setMinutes(e.target.value)}
-            />
-            <div className="chips">
+            <div className="timer-field">
+              <label htmlFor="timer-label">计时名称</label>
+              <input
+                id="timer-label"
+                maxLength={30}
+                value={label}
+                onChange={(e) => setLabel(e.target.value)}
+              />
+            </div>
+            <div className="timer-field">
+              <label htmlFor="timer-minutes">时长（分钟，最多 180）</label>
+              <input
+                id="timer-minutes"
+                type="number"
+                inputMode="decimal"
+                min="0.1"
+                max="180"
+                step="0.1"
+                value={minutes}
+                onChange={(e) => setMinutes(e.target.value)}
+              />
+            </div>
+            <div className="chips timer-presets">
               {[1, 3, 5, 10, 15].map((n) => (
                 <button key={n} type="button" onClick={() => start(n * 60)}>
                   {n} 分钟

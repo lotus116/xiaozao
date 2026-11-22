@@ -4,12 +4,16 @@ import { readConnection } from './community-api';
 
 export default function Profile({ favoriteCount, downloadCount }) {
   const [connection] = useState(readConnection);
+  const username = connection?.session?.user?.username;
   return <section className="profile-page">
     <h1 tabIndex={-1}>我的</h1>
-    <a href="#community/account" className="profile-account">
-      <UserRound size={30} aria-hidden="true" />
-      <span><strong>{connection?.session?.user?.username || '账号与备份'}</strong>
-        <small>{connection?.session?.user ? '管理账号与配置备份' : '登录、注册与服务连接'}</small></span>
+    <a href="#community/account" className={'profile-account' + (username ? ' is-signed-in' : '')}>
+      {/* Decorative: the name is read from the text beside it. */}
+      <span className="profile-avatar" aria-hidden="true">
+        {username ? [...username.trim()][0] || '·' : <UserRound size={28} />}
+      </span>
+      <span><strong>{username || '账号与备份'}</strong>
+        <small>{username ? '管理账号与配置备份' : '登录、注册与服务连接'}</small></span>
       <ChevronRight size={18} aria-hidden="true" />
     </a>
     <div className="profile-links">

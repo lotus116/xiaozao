@@ -28,3 +28,12 @@
 .photo-credit-footer { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
 .photo-credit-footer h2 { margin: 0 0 6px; font: inherit; font-weight: 650; }
 .photo-credit-footer p { margin: 0; font-size: .88rem; line-height: 1.6; }
+
+.dish-photo-dialog { overscroll-behavior: contain; background: var(--paper); }
+.photo-bar { gap: 12px; }
+.photo-bar strong { min-width: 0; overflow-wrap: anywhere; }
+.photo-bar button { flex: none; min-width: 48px; min-height: 48px; }
+@media (prefers-reduced-motion: no-preference) {
+  .dish-photo-dialog[open] { animation: reveal-photo 160ms ease-out; }
+  @keyframes reveal-photo { from { transform: translateY(4px); } }
+}

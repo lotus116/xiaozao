@@ -2,7 +2,35 @@ import { flushSync } from "react-dom";
 import { localize } from "./language";
 import { original } from "./localized-element";
 import React, { useEffect, useRef, useState } from "react";
-import { Plus } from "lucide-react";
+import {
+  Plus,
+  ArrowLeft,
+  Search,
+  X,
+  Download,
+  Check,
+  Clock,
+  Users,
+  MoreHorizontal,
+  Flag,
+  Pencil,
+  Trash2,
+  MessageCircle,
+  Reply,
+  ChevronDown,
+  ChevronRight,
+  Eye,
+  EyeOff,
+  LogOut,
+  Upload,
+  RotateCcw,
+  Server,
+  RefreshCw,
+  WifiOff,
+  Send,
+  AlertCircle,
+  Shield,
+} from "lucide-react";
 import {
   request,
   fetchImage,
@@ -38,6 +66,16 @@ const blank = () => ({
   steps: [{ title: "", text: "", amount: "", heat: "", cue: "", seconds: 0 }],
 });
 const date = (s) => new Date(s).toLocaleString("zh-CN");
+const hostOf = (server) => {
+  try { return new URL(server).host; } catch { return server; }
+};
+// First visible character of a name, used only as a decorative avatar.
+const initial = (name) => [...String(name || "").trim()][0] || "·";
+function Skeleton({ rows = 3 }) {
+  return <div className="circle-skeleton" aria-hidden="true">
+    {Array.from({ length: rows }, (_, n) => <span key={n}><i /><b /><b /></span>)}
+  </div>;
+}
 function reportContent(report) {
   if (report.kind !== "recipe") return report.content || "内容已不可用";
   try {
@@ -58,7 +96,9 @@ export default function Community({
   const library = section === "mine" && ["drafts", "published"].includes(id) ? id : "downloads";
   const [connection, setConnection] = useState(readConnection);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [actionError, setError] = useState("");
+  const [loadError, setLoadError] = useState("");
+  const error = actionError || loadError;
   const errorSummary = useRef(null);
   useEffect(() => {
     if (error) errorSummary.current?.focus();
@@ -151,6 +191,7 @@ export default function Community({
     const abort = new AbortController();
     let valid = true;
     setError("");
+    setLoadError("");
     setLoading(true);
     const read = (path) => request(connection, path, { signal: abort.signal });
     const load = async () => {
@@ -189,7 +230,7 @@ export default function Community({
     };
     load()
       .catch((e) => {
-        if (valid) setError(e.message);
+        if (valid) setLoadError(e.message);
       })
       .finally(() => {
         if (valid) setLoading(false);
@@ -240,11 +281,12 @@ export default function Community({
             admin: "举报管理",
           }[section] || "饭友圈"}
         </h1>
-        {section === "detail" && <a href="#community/feed" className="circle-return">返回发现菜谱</a>}
-        {section === "edit" && <a href="#community/mine" className="circle-return">我的菜谱</a>}
+        {section === "detail" && <a href="#community/feed" className="circle-return"><ArrowLeft size={18} aria-hidden="true" />返回发现菜谱</a>}
+        {section === "edit" && <a href="#community/mine" className="circle-return"><ArrowLeft size={18} aria-hidden="true" />我的菜谱</a>}
+        {section === "admin" && <a href="#community/account" className="circle-return"><ArrowLeft size={18} aria-hidden="true" />账号与备份</a>}
         {(section === "feed" || section === "mine") && (
           <button
-            className="primary"
+            className="primary circle-compose"
             onClick={() => {
               if (requireLogin("community/edit/new")) go("community/edit/new");
             }}
@@ -269,34 +311,46 @@ export default function Community({
         ))}
       </div>}
       {error && (
-        <p ref={errorSummary} tabIndex={-1} role="alert" className="warning">
-          {error}{" "}
-          <button onClick={() => setRefresh((x) => x + 1)}>重试加载</button>
-        </p>
+        <div ref={errorSummary} tabIndex={-1} role="alert" className="warning circle-alert">
+          <AlertCircle size={20} aria-hidden="true" />
+          <span>{error}</span>
+          {loadError && !actionError && <button onClick={() => setRefresh((x) => x + 1)}><RefreshCw size={16} aria-hidden="true" />重试加载</button>}
+        </div>
       )}
       {section !== "detail" && <p role="status" className="community-status">
         {busy ? "正在处理…" : loading ? "正在加载…" : notice}
       </p>}
-      {section === "detail" && !remote && loading && <p role="status">正在加载…</p>}
+      {section === "detail" && !remote && loading && <><p role="status" className="community-status">正在加载…</p><div className="circle-skeleton circle-skeleton-cover" aria-hidden="true" /></>}
       {!connection.server && section === "feed" && (
         <div className="community-connect">
+          <WifiOff size={26} aria-hidden="true" />
           <h2>连接饭友圈</h2>
           <p>连接服务后，可以发现和分享菜谱。</p>
-          <div><a href="#community/account">设置服务地址</a><a href="#community/mine">查看已下载菜谱</a></div>
+          <div><a href="#community/account"><Server size={18} aria-hidden="true" />设置服务地址</a><a href="#community/mine">查看已下载菜谱</a></div>
         </div>
       )}
       {section === "feed" && connection.server && (
         <>
-          <label>
-            搜索分享的菜谱
+          <div className="circle-search">
+            <label htmlFor="circle-query">
+              <Search size={20} aria-hidden="true" />
+              <span className="sr-only">搜索分享的菜谱</span>
+            </label>
             <input
+              id="circle-query"
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               maxLength={100}
+              enterKeyHint="search"
               placeholder="搜饭友分享的菜名或食材"
             />
-          </label>
+            {query && <button type="button" className="circle-search-clear" aria-label="清空饭友圈搜索"
+              onClick={(e) => { setQuery(""); e.currentTarget.parentElement.querySelector("input")?.focus(); }}>
+              <X size={18} aria-hidden="true" />
+            </button>}
+          </div>
+          {loading && !items.length && !error && <Skeleton />}
           <div className={query.trim() ? "community-list" : "community-list community-discovery"}>
             {items.map((r) => (
               <button
@@ -307,21 +361,28 @@ export default function Community({
                 <img src={connection.server + r.image} alt="" loading="lazy" />
                 <span>
                   <strong>{original(r.name)}</strong>
-                  <small>
+                  <small className="circle-author">
+                    <i aria-hidden="true">{original(initial(r.author))}</i>
                     {original(r.author)}
                   </small>
                   <small>
                     {r.minutes} 分钟 · {r.servings} 人份
                   </small>
                 </span>
+                <ChevronRight className="circle-row-arrow" size={18} aria-hidden="true" />
               </button>
             ))}
           </div>
           {!items.length && connection.server && !error && !loading && (
-            <p>{query.trim() ? "没有匹配的菜谱，换个菜名或食材试试。" : "还没有人分享菜谱。"}</p>
+            <div className="empty circle-empty">
+              {query.trim() ? <Search size={30} aria-hidden="true" /> : <Users size={30} aria-hidden="true" />}
+              <p>{query.trim() ? "没有匹配的菜谱，换个菜名或食材试试。" : "还没有人分享菜谱。"}</p>
+              {query.trim() && <button type="button" onClick={() => setQuery("")}>清空搜索</button>}
+            </div>
           )}
           {more && (
             <button
+              className="circle-more-button"
               disabled={busy}
               onClick={() =>
                 run(async (alive) => {
@@ -350,48 +411,68 @@ export default function Community({
           {library === "drafts" && <>
           <h2 className="sr-only">我的草稿</h2>
           {!user ? (
-            <button onClick={() => requireLogin("community/mine/drafts")}>
-              登录查看草稿
-            </button>
+            <div className="empty circle-empty">
+              <Pencil size={28} aria-hidden="true" />
+              <p>草稿按账号保存在这台设备上。</p>
+              <button className="primary" onClick={() => requireLogin("community/mine/drafts")}>
+                登录查看草稿
+              </button>
+            </div>
           ) : (
             <>
-              {!drafts.length && <p>暂无草稿。</p>}
+              {!drafts.length && !loading && <div className="empty circle-empty"><Pencil size={28} aria-hidden="true" /><p>暂无草稿。</p></div>}
               {drafts.map((d) => (
-                <div className="community-local" key={d.key}>
+                <div className="community-local circle-draft" key={d.key}>
                   <button className="draft-open" aria-label="继续编辑" onClick={() => go("community/edit/" + d.id)}>
-                    <strong>{d.value.name ? original(d.value.name) : "未命名菜谱"}</strong><span>继续编辑</span>
+                    <span className="circle-draft-copy">
+                      <strong>{d.value.name ? original(d.value.name) : "未命名菜谱"}</strong>
+                      <small>
+                        {d.value.remoteId ? "修改已发布菜谱 · " : ""}
+                        {(d.value.ingredients || []).filter(i => i.name?.trim()).length} 样食材 · {(d.value.steps || []).filter(s => s.title?.trim()).length} 步
+                      </small>
+                    </span>
+                    <span className="circle-draft-go">继续编辑<ChevronRight size={16} aria-hidden="true" /></span>
                   </button>
-                  <div className="community-actions">
-                    <button
-                      onClick={() =>
-                        run(async () => {
-                          if (window.confirm("删除这份本机草稿？")) {
-                            await deleteDraft(d.key);
-                            setRefresh((v) => v + 1);
-                          }
-                        })
-                      }
-                    >
-                      删除草稿
-                    </button>
-                  </div>
+                  <button
+                    className="circle-icon-button circle-danger"
+                    aria-label="删除草稿"
+                    title="删除草稿"
+                    onClick={() =>
+                      run(async () => {
+                        if (window.confirm("删除这份本机草稿？")) {
+                          await deleteDraft(d.key);
+                          setRefresh((v) => v + 1);
+                        }
+                      })
+                    }
+                  >
+                    <Trash2 size={18} aria-hidden="true" />
+                  </button>
                 </div>
               ))}
             </>
           )}
           </>}
-          {library === "published" && !user && <button onClick={() => requireLogin("community/mine/published")}>登录查看发布记录</button>}
+          {library === "published" && !user && <div className="empty circle-empty">
+            <Upload size={28} aria-hidden="true" />
+            <p>登录后查看这台设备发布过的菜谱。</p>
+            <button className="primary" onClick={() => requireLogin("community/mine/published")}>登录查看发布记录</button>
+          </div>}
           {library === "published" && user && <section><h2 className="sr-only">我发布的</h2>
-            {publications(scope).length === 0 && <p className="hint">这里会记录你用这台设备发布的菜谱。</p>}
-            {publications(scope).map(row => <article key={row.id} className="community-local">
+            {publications(scope).length === 0 && <div className="empty circle-empty"><Upload size={28} aria-hidden="true" /><p className="hint">这里会记录你用这台设备发布的菜谱。</p></div>}
+            {publications(scope).map(row => <article key={row.id} className="community-local circle-published">
               <strong>{original(row.name)}</strong>
-              <button onClick={() => go("community/detail/" + row.id)}>查看公开菜谱</button>
+              <button onClick={() => go("community/detail/" + row.id)}>查看公开菜谱<ChevronRight size={16} aria-hidden="true" /></button>
             </article>)}
           </section>}
           {library === "downloads" && <>
           <h2 className="sr-only">已下载 · 本机可用</h2>
           {!downloads.length && (
-            <p>尚未下载菜谱。去发现页选一道，下载后可以离线跟做。</p>
+            <div className="empty circle-empty">
+              <Download size={28} aria-hidden="true" />
+              <p>尚未下载菜谱。去发现页选一道，下载后可以离线跟做。</p>
+              <a className="circle-empty-link" href="#community/feed">看看饭友分享</a>
+            </div>
           )}
           {downloads.map((r) => (
             <article className="community-local circle-download" key={r.id}>
@@ -405,24 +486,27 @@ export default function Community({
                   <small>
                     {original(r.community.author)} · 已下载第 {r.community.version} 版
                   </small>
+                  <small className="circle-offline"><Check size={14} aria-hidden="true" />可离线跟做</small>
                 </span>
               </button>
-              <button aria-label={`更多操作：${r.name}`} onClick={e => e.currentTarget.nextElementSibling.showModal()}>更多</button>
+              <button className="circle-icon-button" aria-label={`更多操作：${r.name}`} title="更多" onClick={e => e.currentTarget.nextElementSibling.showModal()}><MoreHorizontal size={20} aria-hidden="true" /></button>
               <dialog className="library-sheet" aria-label={`管理：${r.name}`} onClick={e => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 if (e.target === e.currentTarget && (e.clientY < rect.top || e.clientY > rect.bottom ||
                     e.clientX < rect.left || e.clientX > rect.right)) e.currentTarget.close();
               }}>
-              <div className="sheet-title"><img src={r.imageData} alt="" /><h2>{original(r.name)}</h2></div>
+              <span className="sheet-grabber" aria-hidden="true" />
+              <div className="sheet-title"><img src={r.imageData} alt="" /><span><h2>{original(r.name)}</h2><small>第 {r.community.version} 版 · 本机副本</small></span></div>
               {r.community.serverId === connection.session?.serverId ||
               r.community.server === connection.server ? (
                 <button
                   onClick={() => go("community/detail/" + r.community.remoteId)}
                 >
+                  <RefreshCw size={18} aria-hidden="true" />
                   查看在线版本／更新
                 </button>
               ) : (
-                <small>来自其他服务，离线副本仍可使用</small>
+                <small className="sheet-note">来自其他服务，离线副本仍可使用</small>
               )}
               <button disabled={busy} aria-label={`删除本机下载：${r.name}`} onClick={() => {
                 if (window.confirm(`删除《${r.name}》的本机下载并从菜篮移除？收藏和饭友圈原作会保留。`)) {
@@ -432,8 +516,8 @@ export default function Community({
                     if (alive()) setNotice("已删除本机下载");
                   });
                 }
-              }}>删除本机下载</button>
-              <button onClick={e => e.currentTarget.closest("dialog").close()}>取消</button>
+              }}><Trash2 size={18} aria-hidden="true" />删除本机下载</button>
+              <button className="sheet-cancel" onClick={e => e.currentTarget.closest("dialog").close()}>取消</button>
               </dialog>
             </article>
           ))}
@@ -442,28 +526,37 @@ export default function Community({
       )}
       {section === "detail" && remote && (
         <>
-          <p className="circle-byline">{original(remote.author)} · {remote.minutes} 分钟 · {remote.servings} 人份</p>
+          <p className="circle-byline circle-detail-meta">
+            <span className="circle-author"><i aria-hidden="true">{original(initial(remote.author))}</i>{original(remote.author)}</span> · <span><Clock size={15} aria-hidden="true" />{remote.minutes} 分钟</span> · <span><Users size={15} aria-hidden="true" />{remote.servings} 人份</span>
+          </p>
           <img className="community-cover circle-cover" src={connection.server + remote.image} alt={remote.name + "成品图"} />
-          <button className="primary circle-download-action" disabled={busy}
+          <button className={"primary circle-download-action" + (download ? " is-downloaded" : "")} disabled={busy}
             onClick={() => download ? go("recipe/" + download.id) : run(downloadRemote)}>
+            {download ? <Check size={18} aria-hidden="true" /> : <Download size={18} aria-hidden="true" />}
             {download ? "打开离线菜谱" : "下载到我的菜谱"}
           </button>
           <p role="status" className="community-status">{busy ? "正在处理…" : notice}</p>
-          {publishResult?.id === remote.id && <p role="status">{publishResult.message}</p>}
-          <p className="circle-byline">用户分享，未经项目核对 · 第 {remote.version} 版</p>
-          <p>{original(remote.description)}</p>
-          <div className="community-actions">
-            {download && download.community.version < remote.version &&
-              <button disabled={busy} onClick={() => run(downloadRemote)}>更新下载（第 {remote.version} 版）</button>}
-            <button onClick={() => report("recipe", remote.id)}>
+          {publishResult?.id === remote.id && <p role="status" className="circle-publish-result">{publishResult.message}</p>}
+          {download && download.community.version < remote.version &&
+            <div className="circle-update">
+              <span>本机是第 {download.community.version} 版，在线已更新到第 {remote.version} 版。</span>
+              <button disabled={busy} onClick={() => run(downloadRemote)}><RefreshCw size={16} aria-hidden="true" />更新下载（第 {remote.version} 版）</button>
+            </div>}
+          <p className="circle-byline circle-unverified"><Shield size={15} aria-hidden="true" />用户分享，未经项目核对 · 第 {remote.version} 版</p>
+          {remote.description && <p className="circle-description">{original(remote.description)}</p>}
+          <div className="community-actions circle-detail-tools">
+            <button className="circle-quiet" onClick={() => report("recipe", remote.id)}>
+              <Flag size={16} aria-hidden="true" />
               举报菜谱
             </button>
             {user?.id === remote.authorId && (
               <>
                 <button onClick={() => go("community/edit/" + remote.id)}>
+                  <Pencil size={16} aria-hidden="true" />
                   编辑菜谱
                 </button>
                 <button
+                  className="circle-danger"
                   disabled={busy}
                   onClick={() =>
                     run(async () => {
@@ -479,33 +572,35 @@ export default function Community({
                     })
                   }
                 >
+                  <Trash2 size={16} aria-hidden="true" />
                   删除公开菜谱
                 </button>
               </>
             )}
           </div>
-          <h2>食材与用量</h2>
-          <ul>
+          <div className="circle-section-head"><h2>食材与用量</h2><small>{remote.ingredients.length} 样</small></div>
+          <ul className="circle-ingredients">
             {remote.ingredients.map((i, n) => (
-              <li key={n}>
-                {original(i.name)}：{original(i.amount)}
-                {i.optional ? "（可省）" : ""}
+              <li key={n} className={i.optional ? "optional" : undefined}>
+                <span>{original(i.name)}</span><span className="circle-sep">：</span><b>{original(i.amount)}</b>
+                {i.optional ? <small>（可省）</small> : ""}
               </li>
             ))}
           </ul>
-          <h2>做法</h2>
-          <ol>
+          <div className="circle-section-head"><h2>做法</h2><small>{remote.steps.length} 步</small></div>
+          <ol className="circle-steps">
             {remote.steps.map((s, n) => (
               <li key={n}>
                 <strong>{original(s.title)}</strong>
                 <p>{original(s.text)}</p>
-                <p>用量：{original(s.amount)}</p>
-                {s.heat && <p>火力：{original(s.heat)}</p>}
-                {s.cue && <p>状态：{original(s.cue)}</p>}
+                <p className="circle-guide circle-guide-amount"><b>用量：</b>{original(s.amount)}</p>
+                {s.heat && <p className="circle-guide"><b>火力：</b>{original(s.heat)}</p>}
+                {s.cue && <p className="circle-guide circle-guide-cue"><b>状态：</b>{original(s.cue)}</p>}
+                {s.seconds > 0 && <p className="circle-guide"><b>计时：</b>{s.seconds >= 60 ? `${Math.floor(s.seconds / 60)} 分${s.seconds % 60 ? ` ${s.seconds % 60} 秒` : "钟"}` : `${s.seconds} 秒`}</p>}
               </li>
             ))}
           </ol>
-          <p>来源／原创声明：{original(remote.attribution)}</p>
+          <p className="circle-attribution">来源／原创声明：{original(remote.attribution)}</p>
           <Comments
             key={remote.id + scope}
             rows={comments}
@@ -568,9 +663,13 @@ export default function Community({
             }}
           />
         ) : (
-          <button onClick={() => requireLogin(hash.slice(1))}>
-            登录后编辑菜谱
-          </button>
+          <div className="empty circle-empty">
+            <Pencil size={28} aria-hidden="true" />
+            <p>发布和编辑需要账号；草稿只保存在这台设备。</p>
+            <button className="primary" onClick={() => requireLogin(hash.slice(1))}>
+              登录后编辑菜谱
+            </button>
+          </div>
         ))}
       {section === "account" && (
         <>
@@ -598,7 +697,7 @@ export default function Community({
               })
             }
           />
-          {!user && !connection.server ? <p>先连接课堂服务，再登录或注册。</p> : !user ? (
+          {!user && !connection.server ? <p className="hint circle-step-hint">先连接课堂服务，再登录或注册。</p> : !user ? (
             <AuthForm
               busy={busy}
               submit={(mode, username, password) =>
@@ -617,11 +716,18 @@ export default function Community({
             />
           ) : (
             <>
-              <h2>{user.username}</h2>
-              <p>
+              <div className="circle-account-card">
+                <span className="circle-avatar" aria-hidden="true">{initial(user.username)}</span>
+                <span className="circle-account-copy">
+                  <h2>{user.username}</h2>
+                  <small>{hostOf(connection.server)}{user.admin ? " · 管理员" : ""}</small>
+                </span>
+              </div>
+              <p className="hint">
                 登录不自动上传或恢复配置。退出后，本机食材和下载保留，账号草稿隐藏。
               </p>
               <button
+                className="circle-logout"
                 disabled={busy}
                 onClick={() =>
                   run(async () => {
@@ -636,18 +742,21 @@ export default function Community({
                   })
                 }
               >
+                <LogOut size={18} aria-hidden="true" />
                 退出登录
               </button>
-              <h2>手动配置备份</h2>
+              <section className="circle-backup" aria-labelledby="circle-backup-title">
+              <h2 id="circle-backup-title">手动配置备份</h2>
               <p>
                 范围：食材、常备调料、常用顺序、收藏、饮食偏好。不包含下载文件、当前一餐和计时器。
               </p>
-              <p>
+              <p className={"circle-backup-time" + (backup?.updated ? " has-backup" : "")}>
+                {backup?.updated ? <Check size={16} aria-hidden="true" /> : <AlertCircle size={16} aria-hidden="true" />}
                 {backup?.updated
                   ? "云端备份：" + date(backup.updated)
                   : "尚未读取到云端备份"}
               </p>
-              <div className="community-actions">
+              <div className="community-actions circle-backup-actions">
                 <button
                   disabled={busy}
                   onClick={() =>
@@ -678,6 +787,7 @@ export default function Community({
                     })
                   }
                 >
+                  <Upload size={18} aria-hidden="true" />
                   备份本机配置
                 </button>
                 <button
@@ -713,13 +823,17 @@ export default function Community({
                     })
                   }
                 >
+                  <RotateCcw size={18} aria-hidden="true" />
                   恢复到本机
                 </button>
               </div>
+              </section>
               {user.admin && (
-                <p>
-                  <a href="#community/admin">查看举报管理</a>
-                </p>
+                <a className="circle-admin-link" href="#community/admin">
+                  <Flag size={18} aria-hidden="true" />
+                  <span>查看举报管理</span>
+                  <ChevronRight size={18} aria-hidden="true" />
+                </a>
               )}
             </>
           )}
@@ -727,17 +841,18 @@ export default function Community({
       )}
       {section === "admin" && user?.admin && (
         <>
-          {!reports.length && <p>暂无未处理举报。</p>}
+          {!reports.length && !loading && <div className="empty circle-empty"><Check size={28} aria-hidden="true" /><p>暂无未处理举报。</p></div>}
           {reports.map((r) => (
-            <article className="community-local" key={r.id}>
+            <article className="community-local circle-report" key={r.id}>
               <h2>{r.kind === "recipe" ? "菜谱举报" : "评论举报"}</h2>
-              <p>{r.reason}</p>
+              <p className="circle-report-reason">{r.reason}</p>
               <details>
                 <summary>查看被举报内容</summary>
                 <p className="report-content">{reportContent(r)}</p>
               </details>
               <div className="community-actions">
                 <button
+                  className="circle-danger"
                   disabled={busy}
                   onClick={() =>
                     run(async () => {
@@ -779,8 +894,15 @@ function ConnectionForm({ connection, busy, onSave }) {
   const [value, setValue] = useState(connection.server);
   useEffect(() => setValue(connection.server), [connection.server]);
   return (
-    <details open={!connection.server}>
-      <summary>服务地址</summary>
+    <details className="circle-connection" open={!connection.server}>
+      <summary>
+        <Server size={20} aria-hidden="true" />
+        <span>服务地址</span>
+        <small className={connection.server ? "is-connected" : undefined}>
+          {connection.server ? hostOf(connection.server) : "未连接"}
+        </small>
+        <ChevronDown className="circle-summary-chevron" size={18} aria-hidden="true" />
+      </summary>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -791,13 +913,17 @@ function ConnectionForm({ connection, busy, onSave }) {
           HTTPS 服务地址
           <input
             type="url"
+            inputMode="url"
+            autoCapitalize="off"
+            autoCorrect="off"
+            spellCheck={false}
             required
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="https://你的服务地址"
           />
         </label>
-        <button disabled={busy}>连接服务</button>
+        <button className="primary" disabled={busy}>连接服务</button>
       </form>
     </details>
   );
@@ -806,8 +932,10 @@ function AuthForm({ busy, submit }) {
   const [mode, setMode] = useState("login");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [reveal, setReveal] = useState(false);
   return (
     <form
+      className="circle-auth"
       onSubmit={(e) => {
         e.preventDefault();
         submit(mode, username, password);
@@ -821,22 +949,32 @@ function AuthForm({ busy, submit }) {
           minLength={3}
           maxLength={30}
           autoComplete="username"
+          autoCapitalize="none"
+          spellCheck={false}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
       </label>
-      <label>
-        密码
-        <input
-          required
-          minLength={8}
-          maxLength={128}
-          type="password"
-          autoComplete={mode === "login" ? "current-password" : "new-password"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
+      <div className="circle-password">
+        <label>
+          密码
+          <input
+            required
+            minLength={8}
+            maxLength={128}
+            type={reveal ? "text" : "password"}
+            autoComplete={mode === "login" ? "current-password" : "new-password"}
+            autoCapitalize="none"
+            spellCheck={false}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <button type="button" className="circle-reveal" aria-pressed={reveal}
+          aria-label={reveal ? "隐藏密码" : "显示密码"} onClick={() => setReveal(v => !v)}>
+          {reveal ? <EyeOff size={20} aria-hidden="true" /> : <Eye size={20} aria-hidden="true" />}
+        </button>
+      </div>
       <p className="hint">用户名 3–30 位；密码至少 8 位。</p>
       <div className="community-actions">
         <button className="primary" disabled={busy}>
@@ -858,36 +996,46 @@ function Comments({ rows, user, send, onError, login, report, remove }) {
   const [sending, setSending] = useState(false);
   const sendingRef = useRef(false);
   const requestId = useRef(crypto.randomUUID());
+  const field = useRef(null);
   const render = (c) => (
     <div
-      className={"community-comment" + (c.parentId ? " reply" : "")}
+      className={"community-comment" + (c.parentId ? " reply" : "") + (c.deleted ? " deleted" : "") + (parent?.id === c.id ? " replying" : "")}
       key={c.id}
     >
+      <span className="circle-avatar" aria-hidden="true">{c.deleted ? "·" : original(initial(c.author))}</span>
+      <div className="circle-comment-body">
       <strong>{original(c.author)}</strong>
       <p>{original(c.text)}</p>
       {!c.deleted && (
         <div className="community-actions">
           {!c.parentId && (
             <button
+              aria-pressed={parent?.id === c.id}
               onClick={() => {
-                if (login()) setParent(c);
+                if (login()) {
+                  flushSync(() => setParent(c));
+                  field.current?.focus({ preventScroll: true });
+                  field.current?.scrollIntoView({ block: "center" });
+                }
               }}
             >
+              <Reply size={16} aria-hidden="true" />
               回复
             </button>
           )}
           {user?.id === c.authorId && (
-            <button onClick={() => remove(c.id)}>删除评论</button>
+            <button onClick={() => remove(c.id)}><Trash2 size={16} aria-hidden="true" />删除评论</button>
           )}
-          <button onClick={() => report("comment", c.id)}>举报评论</button>
+          <button onClick={() => report("comment", c.id)}><Flag size={16} aria-hidden="true" />举报评论</button>
         </div>
       )}
+      </div>
     </div>
   );
   return (
-    <section>
-      <h2>讨论</h2>
-      {!rows.length && <p>暂无评论。</p>}
+    <section className="circle-discussion">
+      <div className="circle-section-head"><h2>讨论</h2>{rows.length > 0 && <small>{rows.filter(c => !c.deleted).length} 条</small>}</div>
+      {!rows.length && <p className="circle-no-comments"><MessageCircle size={18} aria-hidden="true" />暂无评论。</p>}
       {rows
         .filter((c) => !c.parentId)
         .map((c) => (
@@ -897,9 +1045,10 @@ function Comments({ rows, user, send, onError, login, report, remove }) {
           </React.Fragment>
         ))}
       {!user ? (
-        <button onClick={login}>登录参与讨论</button>
+        <button className="circle-join" onClick={login}><MessageCircle size={18} aria-hidden="true" />登录参与讨论</button>
       ) : (
         <form
+          className="circle-composer"
           onSubmit={async (e) => {
             e.preventDefault();
             if (sendingRef.current) return;
@@ -923,9 +1072,11 @@ function Comments({ rows, user, send, onError, login, report, remove }) {
           }}
         >
           {parent && (
-            <p>
-              回复 {parent.author}{" "}
-              <button type="button" onClick={() => setParent(null)}>
+            <p className="circle-reply-target">
+              <Reply size={16} aria-hidden="true" />
+              <span>回复 {parent.author}</span>{" "}
+              <button type="button" onClick={() => { setParent(null); field.current?.focus(); }}>
+                <X size={16} aria-hidden="true" />
                 取消回复
               </button>
             </p>
@@ -933,13 +1084,18 @@ function Comments({ rows, user, send, onError, login, report, remove }) {
           <label>
             评论内容
             <textarea
+              ref={field}
               required
               maxLength={1000}
+              rows={3}
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
           </label>
-          <button disabled={sending}>{sending ? "发送中…" : "发送评论"}</button>
+          <div className="circle-composer-foot">
+            <small aria-hidden="true" className={value.length > 900 ? "near-limit" : undefined}>{value.length} / 1000</small>
+            <button className="primary" disabled={sending || !value.trim()}><Send size={16} aria-hidden="true" />{sending ? "发送中…" : "发送评论"}</button>
+          </div>
         </form>
       )}
     </section>

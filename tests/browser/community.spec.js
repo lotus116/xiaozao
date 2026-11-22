@@ -11,7 +11,7 @@ const photo = Buffer.from(
 );
 test.beforeAll(async () => {
   dir = await mkdtemp(join(tmpdir(), "xiaozao-browser-"));
-  app = createApp({ dataDir: dir });
+  app = createApp({ dataDir: dir, webDir: join(process.cwd(), "dist"), adminUser: "reviewmoderator" });
   await new Promise((r) => app.server.listen(0, "127.0.0.1", r));
   server = "http://127.0.0.1:" + app.server.address().port;
 });
@@ -19,6 +19,27 @@ test.afterAll(async () => {
   await app.close();
   await rm(dir, { recursive: true, force: true });
 });
+test("the community server opens its own feed for a first-time visitor", async ({ page }) => {
+  const response = page.waitForResponse(r => r.url().startsWith(server + "/api/recipes?"));
+  await page.goto(server + "/#community/feed");
+  expect((await response).ok()).toBe(true);
+  const search = page.getByRole("searchbox");
+  await search.fill("没有这道菜");
+  await page.getByRole("button", { name: "清空饭友圈搜索" }).click();
+  await expect(search).toBeFocused();
+  await expect(search).toHaveValue("");
+  await page.goto(server + "/#community/account");
+  await expect(page.getByLabel("HTTPS 服务地址")).toHaveValue(server);
+  await expect(page.getByRole("button", { name: "没有账号，去注册" })).toBeVisible();
+  const password = page.getByLabel("密码", { exact: true });
+  await password.fill("display-check");
+  await page.getByRole("button", { name: "显示密码" }).click();
+  await expect(password).toHaveAttribute("type", "text");
+  await page.getByRole("button", { name: "隐藏密码" }).click();
+  await expect(password).toHaveValue("display-check");
+  await expect(password).toHaveAttribute("type", "password");
+});
+
 async function connect(page) {
   await page.goto("/#community/account");
   await expect(page.getByRole("button", { name: "没有账号，去注册" })).toHaveCount(0);
@@ -502,4 +523,37 @@ test("phone keyboard flow, ingredient undo and a third step survive returning to
   await expect(page.getByLabel("步骤标题 1 *",{exact:true})).toBeHidden();
   await page.getByRole("button",{name:/第 1 步.*备料1/}).click();
   await expect(page.getByRole("textbox",{name:"步骤标题 1 *",exact:true})).toBeVisible();
+});
+
+test("the moderator can inspect a reported recipe and keep it in the feed", async ({ page, request }) => {
+  await connect(page);
+  await register(page, "poster" + Date.now());
+  const id = await publish(page, "举报核查用番茄");
+  const { session } = await page.evaluate(() => JSON.parse(localStorage.getItem("xiaozao-community-connection")));
+  const report = await request.post(server + "/api/reports", {
+    headers: { Authorization: "Bearer " + session.token },
+    data: { kind: "recipe", target: id, reason: "请核对这份做法" },
+  });
+  expect(report.ok()).toBe(true);
+  const password = "test-moderator";
+  const created = await request.post(server + "/api/auth/register", {
+    data: { username: "moderatorSetup", password },
+  });
+  expect(created.ok()).toBe(true);
+  const { user } = await created.json();
+  app.db.prepare("UPDATE users SET username=? WHERE id=?").run("reviewmoderator", user.id);
+  const login = await request.post(server + "/api/auth/login", {
+    data: { username: "reviewmoderator", password },
+  });
+  expect(login.ok()).toBe(true);
+  await page.goto(server + "/#community/admin");
+  // The admin page uses the saved session on the same frontend origin.
+  await page.evaluate(connection => localStorage.setItem("xiaozao-community-connection", JSON.stringify(connection)),
+    { server, session: await login.json() });
+  await page.reload();
+  await page.getByText("查看被举报内容", { exact: true }).click();
+  await expect(page.locator(".report-content")).toContainText("举报核查用番茄");
+  await page.getByRole("button", { name: "保留内容，结案" }).click();
+  await expect(page.getByText("暂无未处理举报。")).toBeVisible();
+  expect((await request.get(server + "/api/recipes/" + id)).ok()).toBe(true);
 });
