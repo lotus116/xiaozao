@@ -138,6 +138,9 @@ export default function Basket({ state, setState, recipes, go }) {
           <p role="status" aria-atomic="true">
             已完成 {state.meal.done.length} / 共 {state.meal.ids.length} 道 · 剩余 {state.meal.ids.length - state.meal.done.length} 道
           </p>
+          <div className="meal-progress-bar" aria-hidden="true">
+            <span style={{ width: `${(state.meal.done.length / Math.max(state.meal.ids.length, 1)) * 100}%` }} />
+          </div>
           <p className="hint">调整菜篮只影响下一餐，本餐顺序保持不变。</p>
           {completed && <p>本餐已完成。可以恢复待做，或开始新的一餐。</p>}
           {!completed && (currentBlocked || !resumeRecipe) && (

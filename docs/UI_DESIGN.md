@@ -4,6 +4,14 @@
 
 [改版前实测、设计方案与实装截图](design/mobile-refresh/README.md)
 
+## 从今晚选菜到开火跟做（独立分支审查）
+
+选完食材后，已选标签下直接给出当前分类与筛选下的一道菜。必需食材齐全时显示可做数量，缺料时列出实际要补的食材；点菜名进入详情。列表用文字和底色区分可做、缺料，加入菜篮有选中反馈。
+
+菜篮的顺序入口、未记食材和本餐进度各有明确位置。分步页用分段进度条和步数定位当前动作，保留火力、用量和可观察状态；“接下来”取自同一道菜的下一步或本餐可继续的下一道。底部“下一步”占较宽的触控区域，文字在切换时保持清晰，减少动态效果时直接切换。
+
+390 × 844 触控视口实测，左侧改前、右侧改后：[食材齐全](design/opus-kitchen/ready.webp) · [缺料和选菜](design/opus-kitchen/selection.webp) · [菜篮和顺序](design/opus-kitchen/basket.webp) · [分步跟做](design/opus-kitchen/cooking.webp)。
+
 ## 窄屏浏览与跟做
 
 [运行验收与前后对照](design/kitchen-ui/implemented/verification.md)

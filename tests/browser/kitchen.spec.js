@@ -58,13 +58,13 @@ test("timer is icon only, draggable, persistent, and long press hides without ca
   const before = await handle.boundingBox();
   await page.mouse.move(before.x + 28, before.y + 28);
   await page.mouse.down();
-  await page.mouse.move(before.x - 120, before.y - 150, { steps: 10 });
+  await page.mouse.move(before.x - 120, before.y + 150, { steps: 10 });
   await page.mouse.up();
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await page.reload();
   let moved = await handle.boundingBox();
   expect(moved.x).toBeLessThan(before.x - 70);
-  expect(moved.y).toBeLessThan(before.y - 70);
+  expect(moved.y).toBeGreaterThan(before.y + 70);
   await handle.click();
   await page.getByRole("button", { name: "3 分钟", exact: true }).click();
   handle = page.getByRole("button", { name: /打开厨房计时器/ });

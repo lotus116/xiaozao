@@ -46,13 +46,14 @@ test('all 300 visible Hong Kong titles find their own card through the search bo
   const titles = page.locator('.recipe-open strong');
   const names = [];
   const tabs = page.locator('.category-tabs button');
-  await expect(tabs).toHaveCount(3);
-  for (let index = 0; index < 3; index++) {
+  await expect(tabs).toHaveCount(4);
+  for (let index = 1; index < 4; index++) {
     await tabs.nth(index).click();
     await expect(tabs.nth(index)).toHaveAttribute('aria-pressed','true');
     names.push(...await titles.allTextContents());
   }
   expect(new Set(names).size).toBe(300);
+  await tabs.first().click();
   for (const name of names) {
     await input.fill(name);
     await expect(titles.first()).toHaveText(name);

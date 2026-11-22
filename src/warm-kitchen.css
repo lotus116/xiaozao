@@ -328,8 +328,8 @@ main:has(.workspace) { max-width: 1100px; padding-inline: var(--page-gutter); }
   .detail { animation: open-recipe 170ms ease-out; }
   .library-sheet[open] { animation: open-panel 200ms ease-out; }
   .primary, .header-action { transition: background-color 100ms ease; }
-  @keyframes open-recipe { from { opacity: .75; transform: translateY(5px); } }
-  @keyframes open-panel { from { opacity: .8; transform: translateY(12px); } }
+  @keyframes open-recipe { from { transform: translateY(5px); } }
+  @keyframes open-panel { from { transform: translateY(12px); } }
 }
 
 .is-step-cooking .step-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
@@ -345,3 +345,264 @@ main:has(.workspace) { max-width: 1100px; padding-inline: var(--page-gutter); }
 }
 
 .kitchen-app:has(.header-dock) .community-editor .primary { width: 100%; }
+
+/* ==========================================================================
+   Tonight's path: what can I cook → basket → prep & order → step-by-step.
+   Same palette as docs/UI_DESIGN.md; tints below are derived from it and keep
+   ≥4.5:1 text contrast. All movement lives in the no-preference block at the end.
+   ========================================================================== */
+:root {
+  --accent-soft: #fae5dc;
+  --accent-press: #90271e;
+  --ready: #3f6a3a;
+  --ready-soft: #e9f0e2;
+  --amber: #7a5520;
+  --amber-soft: #fbf0d0;
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+}
+
+/* — Home: resume is the most important thing once the stove is on — */
+.resume {
+  min-height: 64px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  gap: 12px;
+  border: 1px solid #efc6b7;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 700;
+}
+.resume > svg { color: var(--accent); }
+.resume small { color: var(--accent-press); font-size: 13px; font-weight: 500; }
+.resume:active { background: #f5d6ca; }
+
+/* Pantry → results bridge reads as an action, not a footnote. */
+.pantry-tools { flex-wrap: wrap; align-items: center; }
+.pantry-tools .find-button {
+  margin-left: auto;
+  min-height: 48px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: .9375rem;
+}
+.pantry-tools .find-button:active { background: #f5d6ca; }
+.recommendations { scroll-margin-top: calc(12px + var(--app-safe-top)); }
+
+/* — Results: clear "can cook / nearly" groups — */
+.recommendations .section-title h2 { font-size: 1.375rem; font-weight: 750; }
+.group-title { font-size: 1rem; font-weight: 700; margin-top: 24px; }
+.group-title .dot { background: var(--ready); }
+.group-title > span:last-child {
+  min-width: 28px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.group-title:not(.near) > span:last-child { background: var(--ready-soft); color: var(--ready); }
+
+/* Status lines become labelled tags; the words carry the meaning, colour only supports it. */
+.recipe-copy .ready, .recipe-copy .missing {
+  position: relative;
+  align-self: flex-start;
+  max-width: 100%;
+  padding: 2px 8px 2px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.recipe-copy .ready { background: var(--ready-soft); color: var(--ready); }
+.recipe-copy .missing { background: var(--amber-soft); color: var(--amber); }
+.recipe-copy .ready::before, .recipe-copy .missing::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: calc(.725em - 1px); /* half a 1.45 line, plus 2px padding, minus half the dot */
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Basket button: visible as a control even before it is pressed. */
+.recipe-row:not(.featured-recipe) .recipe-actions .basket-add { position: relative; border: 1px solid var(--line); background: var(--paper); border-radius: 12px; }
+.recipe-row:not(.featured-recipe) .recipe-actions .basket-add.selected { border-color: var(--accent); background: var(--accent-soft); }
+.recipe-row:not(.featured-recipe) .recipe-actions .basket-add.selected::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+/* The first dish you can cook gets the one strong "add" action on the page. */
+.featured-recipe { padding-top: 12px; }
+.featured-recipe .recipe-copy strong { font-size: clamp(1.375rem, 6vw, 1.5rem); line-height: 1.3; }
+.featured-recipe .recipe-actions { gap: 8px; }
+.featured-recipe .recipe-actions .favorite { border: 1px solid var(--line); border-radius: 12px; }
+.featured-recipe .recipe-actions .basket-add {
+  flex: 1 1 auto;
+  width: auto;
+  min-height: 48px;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+.featured-recipe .recipe-actions .basket-add:not(.selected):active { background: var(--accent-press); }
+.featured-recipe .recipe-actions .basket-add.selected { background: var(--accent-soft); color: var(--accent); }
+
+/* Detail page pressed states match the list. */
+.detail-actions button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 650; }
+
+/* — Basket: progress, order, then what to prep — */
+.basket-page .meal-progress { border: 0; border-radius: 16px; padding: 16px; margin: 16px 0; background: var(--surface); }
+.meal-progress p[role="status"] { margin: 0 0 8px; color: var(--ink); font-size: 1rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.meal-progress-bar { height: 6px; margin: 0 0 12px; border-radius: 3px; background: #e9ddcf; overflow: hidden; }
+.meal-progress-bar > span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+.meal-progress .primary { width: 100%; margin-right: 0; min-height: 52px; font-weight: 700; }
+
+.meal-plan-trigger { border: 1px solid var(--accent); border-radius: 999px; padding-inline: 14px; font-weight: 650; }
+.meal-plan-trigger:active { background: var(--accent-soft); }
+.meal-plan-number { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.basket-order > span {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--yellow);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.basket-order button { border-radius: 10px; }
+
+.basket-page .basket-prep-summary {
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--ready-soft);
+}
+.basket-page .basket-prep-summary h2 { margin-bottom: 4px; font-size: 1.125rem; color: var(--ready); }
+.basket-page .basket-prep-summary:has(.basket-prep-names) { background: var(--amber-soft); }
+.basket-page .basket-prep-summary:has(.basket-prep-names) h2 { color: var(--amber); }
+.basket-prep-names { color: var(--ink); font-weight: 600; }
+.basket-copy-button { background: var(--paper); }
+
+.meal-ingredients > li:has(> div > .missing) { border-color: #e2c98a; background: #fffaf0; }
+.meal-ingredients small.missing { padding: 1px 6px; border-radius: 6px; background: var(--amber-soft); color: var(--amber); font-weight: 600; }
+.meal-ingredients ul b { color: var(--ink); font-weight: 650; }
+
+.basket-start-bar { box-shadow: 0 -8px 16px -14px #38251d55; }
+.basket-start-bar .meal-start { font-size: 1.0625rem; font-weight: 700; }
+
+/* — Cooking — */
+.meal-position {
+  width: fit-content;
+  max-width: 100%;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.meal-position > svg { color: var(--accent); }
+
+/* Where am I: thin segmented progress. The "第 x / y 步" text remains the accessible source. */
+.step-progress { display: flex; gap: 3px; list-style: none; margin: 6px 0 10px; padding: 0; }
+.step-progress > li { flex: 1 1 0; height: 4px; border-radius: 2px; background: var(--line); }
+.step-progress > li.done { background: #dba297; }
+.step-progress > li.current { background: var(--accent); }
+
+.is-step-cooking .step-heading .eyebrow { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+.is-step-cooking .focused-step { font-size: clamp(1.5rem, 6.4vw, 1.875rem); line-height: 1.3; font-weight: 750; }
+.is-step-cooking .instruction { max-width: 34em; }
+.step-guidance .guide-heat { border-left: 3px solid var(--line); }
+.step-guidance .guide-cue { border-left: 3px solid var(--accent); }
+.is-step-cooking .step-timer { width: 100%; background: var(--paper); font-weight: 650; }
+
+/* What comes after this step, so the next pan or bowl can be ready in time. */
+.step-next {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 16px 0 8px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.step-next > span {
+  flex: none;
+  padding: 1px 8px;
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Thumb zone: back is secondary, next is the bigger target. */
+.is-step-cooking .step-actions { box-shadow: 0 -8px 16px -14px #38251d55; }
+.is-step-cooking .step-actions button:first-child { flex: 1 1 0; }
+.is-step-cooking .step-actions .primary { flex: 1.6 1 0; font-weight: 700; }
+
+/* Overview: the bookmarked step stands out without a coloured panel. */
+.cooking-overview > li[aria-current="step"] {
+  margin-inline: -10px;
+  padding-inline: 10px;
+  border-radius: 12px;
+  background: #fff6ea;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+@media (max-width: 360px) {
+  .step-next { font-size: 14px; }
+  .pantry-tools .find-button { padding-inline: 12px; }
+  .featured-recipe .recipe-actions .basket-add { padding-inline: 10px; }
+}
+
+/* Restrained motion; disabled entirely with reduced motion (no rules apply then). */
+@media (prefers-reduced-motion: no-preference) {
+  .recipe-actions button, .detail-actions button, .resume, .find-button, .meal-plan-trigger, .step-actions button {
+    transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease, transform 120ms var(--ease-out);
+  }
+  .recipe-actions button:active, .step-actions button:active { transform: scale(.96); }
+  .basket-count { animation: count-pop 280ms var(--ease-out); }
+  .meal-progress-bar > span { transition: width 320ms var(--ease-out); }
+  .step-progress > li { transition: background-color 200ms ease; }
+  @keyframes count-pop { 0% { transform: scale(.6); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+}
+
+
+.pantry-match {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  margin: 8px 0;
+  padding: 8px 14px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+}
+.pantry-match span { min-width: 0; overflow-wrap: anywhere; }
+.pantry-match small, .pantry-match strong { display: block; }
+.pantry-match small { color: var(--muted); }
+.pantry-match svg { flex: none; color: var(--accent); }

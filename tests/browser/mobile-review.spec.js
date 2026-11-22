@@ -169,3 +169,19 @@ test("step guidance stays local to the step in both cooking views", async ({ pag
   const access = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
   expect(access.violations).toEqual([]);
 });
+
+test("pantry previews a real match above the fold and distinguishes missing ingredients", async ({ page }) => {
+  await page.goto("/");
+  const input = page.getByLabel("添加厨房里已有的食材");
+  const match = page.locator(".pantry-match");
+  await input.fill("番茄、鸡蛋");
+  await button(page, "添加食材").tap();
+  await expect(match).toContainText("还差");
+  await input.fill("食用油、盐");
+  await button(page, "添加食材").tap();
+  await expect(match).toContainText("2 道可以做");
+  await expect(match).toContainText("番茄炒鸡蛋");
+  await onFirstScreen(page, match);
+  await match.tap();
+  await expect(page).toHaveURL(/#recipe\/tomato-eggs$/);
+});

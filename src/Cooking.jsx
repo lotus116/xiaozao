@@ -70,6 +70,10 @@ export default function Cooking({
   const next = inMeal
     ? nextMealRecipe(state.meal, recipes, state.preferences)
     : null;
+  // While still on this dish, preview the dish that follows it (same rule as the finish screen).
+  const followingDish = inMeal
+    ? nextMealRecipe({ ...state.meal, done: [...state.meal.done, r.id] }, recipes, state.preferences)
+    : null;
   const startTimer = (index) =>
     setState((s) =>
       s.timer
@@ -258,6 +262,11 @@ export default function Cooking({
         </>
       ) : (
         <>
+          <ol className="step-progress" aria-hidden="true">
+            {r.steps.map((_, index) => (
+              <li key={index} className={index < c.step ? "done" : index === c.step ? "current" : undefined} />
+            ))}
+          </ol>
           <div className="step-heading">
             <p className="eyebrow">第 {c.step + 1} / {r.steps.length} 步</p>
             <h2 className="focused-step" tabIndex="-1">{recipeText(r, r.steps[c.step].title)}</h2>
@@ -268,6 +277,14 @@ export default function Cooking({
           </div>
           {timerButton(c.step)}
           <DomesticStepNote recipe={r} index={c.step} />
+          <p className="step-next">
+            <span>接下来</span>
+            {c.step < r.steps.length - 1
+              ? recipeText(r, r.steps[c.step + 1].title)
+              : followingDish
+                ? <>这是最后一步，之后做 {recipeText(followingDish, followingDish.name)}</>
+                : "这是最后一步"}
+          </p>
           <div className="step-actions">
             <button onClick={() => stepTo(c.step - 1)}>
               <ArrowLeft size={18} />

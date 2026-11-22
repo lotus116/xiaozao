@@ -30,6 +30,8 @@ test("remember pantry seasonings independently of fresh ingredients", async ({
 });
 test("category tabs separate dishes staples and soup", async ({ page }) => {
   await page.goto("/#search");
+  await expect(page.getByRole("button", {name: "全部", exact: true})).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", {name: "菜肴", exact: true}).click();
   await expect(
     page.getByRole("button", { name: /家常蛋炒饭.*分钟/ }),
   ).toHaveCount(0);

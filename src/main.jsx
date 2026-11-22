@@ -310,6 +310,7 @@ function App({ initialDownloads = [], downloadError = false }) {
   const pantryFoods = state.pantry.filter((name) => !seasonings.includes(name));
   const focusedFood = pantryFoods.includes(focusIngredient) ? focusIngredient : "";
   const rec = recommend(selectedRecipes, state.pantry, focusedFood);
+  const firstMatch = rec.ready[0] ?? rec.near[0];
   const [page, id] = hash.replace("#", "").split("/");
   const useTimerToolbar = page === "search" || page === "favorites" || (page === "community" && id === "edit");
   const communityFeed = page === "community" && (!id || id === "feed");
@@ -431,6 +432,17 @@ function App({ initialDownloads = [], downloadError = false }) {
                 {state.useFattyBeefForRolls && <button className="text-button" onClick={() => setState(s => ({ ...s, useFattyBeefForRolls: false }))}>牛肉卷按肥牛片匹配 · 取消关联</button>}
                 {pantryFoods.length > 0 && (
                   <PantryLabels downloaded={downloadedFoods} names={pantryFoods} toggle={toggle} setState={setState} />
+                )}
+                {firstMatch && (
+                  <a className="pantry-match" href={`#recipe/${firstMatch.id}`}>
+                    <span>
+                      <small>{firstMatch.missing.length
+                        ? `还差${firstMatch.missing.join("、")}`
+                        : `${categories[category]} · ${rec.ready.length} 道可以做`}</small>
+                      <strong>{recipeText(firstMatch, firstMatch.name)}</strong>
+                    </span>
+                    <ArrowRight size={18} aria-hidden="true" />
+                  </a>
                 )}
                 <details className="pantry-picker">
                   <summary>常用与分类食材</summary>
@@ -882,7 +894,7 @@ function App({ initialDownloads = [], downloadError = false }) {
             <span>
               {label}
               {p === "basket" && state.basket.length > 0 && (
-                <b className="basket-count">{state.basket.length}</b>
+                <b className="basket-count" key={state.basket.length}>{state.basket.length}</b>
               )}
             </span>
           </a>
